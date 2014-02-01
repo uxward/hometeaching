@@ -1,0 +1,45 @@
+/* Random css fixes
+-------------------------------------------------- */
+.hidden {
+	display: none;
+}
+
+/* Fix datepicker for modals */
+.datepicker {
+	z-index: 1151 !important;
+}
+
+/* Fix active class for home link in navbar*/
+.navbar-brand.active {
+	color: #fff;
+}
+
+/* Set max widths for inputs inside of forms */
+.form-group {
+	max-width: 250px;
+}
+
+/* Center elements */
+.center {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+/* display active/inactive companions */
+option.alreadyCompanion {
+	color: #FF0000;
+}
+
+option.notCompanion {
+	color: #47a447;
+}
+
+.button-medium {
+	min-width: 78px;
+}
+
+/* notification navbar */
+.notification-navbar {
+	margin-top: 60px;
+}

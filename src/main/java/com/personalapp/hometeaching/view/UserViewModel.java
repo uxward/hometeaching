@@ -1,0 +1,87 @@
+package com.personalapp.hometeaching.view;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static com.personalapp.hometeaching.model.Organization.fromId;
+import static com.personalapp.hometeaching.model.Role.fromRole;
+
+import java.util.List;
+
+import org.joda.time.DateTime;
+
+import com.personalapp.hometeaching.model.HometeachingUser;
+import com.personalapp.hometeaching.model.UserOrganization;
+import com.personalapp.hometeaching.model.UserRole;
+
+public class UserViewModel {
+	private Long id;
+
+	private Long personId;
+
+	private String name;
+
+	private String username;
+
+	private Boolean reset;
+
+	private DateTime lastLogin;
+
+	private Boolean enabled;
+
+	private List<RoleViewModel> roles = newArrayList();
+
+	private List<OrganizationViewModel> organizations = newArrayList();
+
+	public UserViewModel(HometeachingUser user) {
+		this.id = user.getId();
+		this.personId = user.getPerson().getId();
+		this.name = user.getPerson().getFirstName() + " " + user.getPerson().getFamily().getFamilyName();
+		this.username = user.getUsername();
+		this.reset = user.getReset();
+		this.lastLogin = user.getLastLogin();
+		this.enabled = user.getEnabled();
+
+		for (UserRole userRole : user.getUserRoles()) {
+			this.roles.add(new RoleViewModel(fromRole(userRole.getRole())));
+		}
+
+		for (UserOrganization userOrg : user.getUserOrganizations()) {
+			this.organizations.add(new OrganizationViewModel(fromId(userOrg.getOrganizationId())));
+		}
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public Long getPersonId() {
+		return personId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public Boolean getReset() {
+		return reset;
+	}
+
+	public DateTime getLastLogin() {
+		return lastLogin;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public List<RoleViewModel> getRoles() {
+		return roles;
+	}
+
+	public List<OrganizationViewModel> getOrganizations() {
+		return organizations;
+	}
+}
