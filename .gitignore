@@ -3,8 +3,6 @@
 #################
 
 /target
-*app-local.properties
-*app-prod.properties
 
 #################
 ## Eclipse
