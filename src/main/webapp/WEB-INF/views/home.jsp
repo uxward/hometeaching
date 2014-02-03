@@ -13,7 +13,7 @@
 	<fmt:formatDate value="${now}" pattern="D" />
 </c:set>
 <c:set var="dayMod">
-	${day % 3}
+	${day % 4}
 </c:set>
 
 <t:base activeMenu="home" pageTitle="Home">
@@ -22,7 +22,8 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-3 visible-md visible-lg">
-					<img src="<spring:url value="/resources/img" />/<spring:message code="${dayMod}.image" />.jpg" class="img-thumbnail base-popover" data-content="<spring:message code='${dayMod}.image.title' />" data-trigger="hover" data-container="body"/>
+					<img src="<spring:url value="/resources/img" />/<spring:message code="${dayMod}.image" />.jpg" class="img-thumbnail base-popover" data-content="<spring:message code='${dayMod}.image.title' />"
+						data-trigger="hover" data-container="body" />
 				</div>
 
 				<div class="col-md-9">
@@ -43,7 +44,8 @@
 								<spring:message code="${dayMod}.hero" />
 							</p>
 							<p class="">
-								- <spring:message code="${dayMod}.hero.quote" />
+								-
+								<spring:message code="${dayMod}.hero.quote" />
 							</p>
 
 						</c:otherwise>
