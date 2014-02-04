@@ -23,6 +23,8 @@ By the side of a river both deep and great.</p>
 <dd style="margin-left: 1.6em;">Many summers, many Winters--</dd>
 <dd style="margin-left: 1.6em;">I can't tell half his adventures.</dd>
 </dl>
+</div>
+<div style="font-size: 14px;" class="col-md-6">
 <p>At length he came back, and with him a She<br>
 And the acorn was grown to a tall oak tree.<br>
 They built them a nest in the topmost bough,<br>
@@ -34,8 +36,6 @@ But with many a hem! and a sturdy stroke,<br>
 At length he brought down the poor Raven's own oak.<br>
 His young ones were killed; for they could not depart,<br>
 And their mother did die of a broken heart.</p>
-</div>
-<div style="font-size: 14px;" class="col-md-6">
 <p><br>
 The boughs from the trunk the woodman did sever;<br>
 And they floated it down on the course of the river.<br>
