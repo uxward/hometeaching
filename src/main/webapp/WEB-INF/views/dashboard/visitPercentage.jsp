@@ -134,7 +134,7 @@ circle {
 			var html = '';
 			var totalFamilies = 0;
 			var totalVisited = 0;
-			for ( var i = 0; i < data.length; i++) {
+			for (var i = 0; i < data.length; i++) {
 				html += '<label><strong>' + data[i].familyStatus + '</strong>:  ' + data[i].totalVisited + ' of ' + data[i].totalFamilies + '  -  ' + getPercentage(data[i].percentVisited) + '</label><br/>';
 				totalFamilies += data[i].totalFamilies;
 				totalVisited += data[i].totalVisited;
