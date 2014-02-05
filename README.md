@@ -1,5 +1,5 @@
-hometeaching java web application
-a website for tracking ward home and visiting teaching
+a java webapp for tracking home teaching
 ============
 
-update the app-local and app-prod .properties files with your db connection info to get started!
+-update the app-local and app-prod .properties files with your db connection info
+-use the tables.sql file under the db folder for the necessary tables
