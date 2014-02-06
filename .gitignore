@@ -220,4 +220,4 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 src/main/resources/config/app-local.properties
-*.properties
+src/main/resources/config/app-prod.properties
