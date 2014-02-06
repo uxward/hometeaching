@@ -27,8 +27,7 @@ public class PersonViewModel {
 
 	private Boolean activeCompanion;
 
-	public PersonViewModel(Person person, Boolean populateFamily,
-			Boolean populateCompanion) {
+	public PersonViewModel(Person person, Boolean populateFamily, Boolean populateCompanion) {
 		this.id = person.getId();
 		this.firstName = person.getFirstName();
 		this.age = person.getAge();
@@ -39,12 +38,11 @@ public class PersonViewModel {
 		this.hometeacher = person.getHometeacher();
 
 		if (person.getOrganization() != null) {
-			this.organization = new OrganizationViewModel(
-					person.getOrganization());
+			this.organization = new OrganizationViewModel(person.getOrganization());
 		}
 
 		if (populateFamily) {
-			this.family = new FamilyViewModel(person.getFamily(), false, false);
+			this.family = new FamilyViewModel(person.getFamily(), false, false, false);
 		}
 
 		if (populateCompanion) {

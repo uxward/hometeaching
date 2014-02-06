@@ -27,7 +27,7 @@ public class FamilyServiceImpl implements FamilyService {
 		family.setUpdated(new Date());
 		setFamilyOrganizations(family);
 		repo.update(family);
-		return new FamilyViewModel(family, false, false);
+		return new FamilyViewModel(family, false, false, true);
 	}
 
 	@Override
@@ -35,14 +35,14 @@ public class FamilyServiceImpl implements FamilyService {
 		family.setCreated(new Date());
 		setFamilyOrganizations(family);
 		repo.save(family);
-		return new FamilyViewModel(family, false, false);
+		return new FamilyViewModel(family, false, false, true);
 	}
 
 	@Override
 	public List<FamilyViewModel> getAllFamilies() {
 		List<FamilyViewModel> families = newArrayList();
 		for (Family family : repo.getAllFamilies()) {
-			families.add(new FamilyViewModel(family, true, true));
+			families.add(new FamilyViewModel(family, true, true, true));
 		}
 		return families;
 	}
@@ -54,19 +54,19 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	public FamilyViewModel findDetailedFamilyViewModelById(Long id) {
-		return new FamilyViewModel(repo.findDetailedById(id), true, true);
+		return new FamilyViewModel(repo.findDetailedById(id), true, true, true);
 	}
 
 	@Override
 	public FamilyViewModel getDetailedViewModelForFamily(Family family) {
-		return new FamilyViewModel(family, true, true);
+		return new FamilyViewModel(family, true, true, true);
 	}
 
 	@Override
 	public List<FamilyViewModel> getByCompanionId(Long companionId) {
 		List<FamilyViewModel> families = newArrayList();
 		for (Family family : repo.getByCompanionId(companionId)) {
-			families.add(new FamilyViewModel(family, true, false));
+			families.add(new FamilyViewModel(family, true, false, true));
 		}
 		return families;
 	}
@@ -75,7 +75,7 @@ public class FamilyServiceImpl implements FamilyService {
 	public List<FamilyViewModel> getAllFamiliesWithoutCompanion() {
 		List<FamilyViewModel> families = newArrayList();
 		for (Family family : repo.getAllFamiliesWithoutCompanion()) {
-			families.add(new FamilyViewModel(family, true, false));
+			families.add(new FamilyViewModel(family, true, false, true));
 		}
 		return families;
 	}

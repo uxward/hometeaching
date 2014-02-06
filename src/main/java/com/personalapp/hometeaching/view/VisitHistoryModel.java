@@ -17,7 +17,7 @@ public class VisitHistoryModel {
 			this.visits.add(new VisitViewModel(visit));
 		}
 
-		this.familyViewModel = new FamilyViewModel(family, true, true);
+		this.familyViewModel = new FamilyViewModel(family, true, true, true);
 	}
 
 	public FamilyViewModel getFamilyViewModel() {

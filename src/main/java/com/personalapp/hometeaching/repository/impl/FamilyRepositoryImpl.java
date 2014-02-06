@@ -106,6 +106,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 		query.leftJoin(assignment.companion, companion).fetch();
 		query.leftJoin(companion.companions, personCompanion).fetch();
 		query.leftJoin(personCompanion.person, compPerson).fetch();
+		query.leftJoin(compPerson.family).fetch();
 		query.where(familyOrganization.organizationId.in(getCurrentUserOrganizationIds()));
 		query.distinct();
 		return query;

@@ -31,7 +31,7 @@ public class CompanionViewModel {
 			if (populateAssignments) {
 				for (Assignment assignment : companion.getAssignments()) {
 					if (assignment.getActive()) {
-						FamilyViewModel family = new FamilyViewModel(assignment.getFamily(), true, false);
+						FamilyViewModel family = new FamilyViewModel(assignment.getFamily(), true, false, true);
 						family.setAssignmentId(assignment.getId());
 						assignments.add(family);
 					}

@@ -8,7 +8,7 @@
 	<fmt:formatDate value="${now}" pattern="D" />
 </c:set>
 <c:set var="dayMod">
-	${day % 4}
+	${day % 3}
 </c:set>
 
 <t:base activeMenu="home" pageTitle="Home">

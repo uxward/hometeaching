@@ -29,7 +29,7 @@ public class FamilyViewModel {
 
 	private CompanionViewModel companions;
 
-	public FamilyViewModel(Family family, Boolean populatePeople, Boolean populateHometeachers) {
+	public FamilyViewModel(Family family, Boolean populatePeople, Boolean populateHometeachers, Boolean populateOrganizations) {
 		this.id = family.getId();
 		this.familyName = family.getFamilyName();
 		this.address = family.getAddress();
@@ -38,12 +38,14 @@ public class FamilyViewModel {
 			this.familyStatus = family.getFamilyStatus().getStatus();
 		}
 
-		for (FamilyOrganization organization : family.getFamilyOrganizations()) {
-			this.organizations.add(new OrganizationViewModel(organization.getOrganization()));
-		}
-
 		if (family.getPhoneNumber() != null && family.getPhoneNumber().trim().length() > 0) {
 			this.phoneNumbers.add(new PhoneViewModel(family));
+		}
+
+		if (populateOrganizations) {
+			for (FamilyOrganization organization : family.getFamilyOrganizations()) {
+				this.organizations.add(new OrganizationViewModel(organization.getOrganization()));
+			}
 		}
 
 		if (populatePeople) {

@@ -68,7 +68,7 @@ public class CompanionServiceImpl implements CompanionService {
 		List<FamilyViewModel> families = newArrayList();
 		for (FamilyViewModel family : viewModel.getAssignments()) {
 			saveAssignment(viewModel.getId(), family.getId());
-			families.add(new FamilyViewModel(familyRepo.findDetailedById(family.getId()), true, false));
+			families.add(new FamilyViewModel(familyRepo.findDetailedById(family.getId()), true, false, true));
 		}
 
 		return families;

@@ -24,8 +24,8 @@
 		<context:property-placeholder
 			properties-ref="applicationProperties" />
 	</beans>
-	
-	<beans profile="production">
+
+	<beans profile="!local">
 		<bean id="applicationProperties"
 			class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 			<property name="locations">
