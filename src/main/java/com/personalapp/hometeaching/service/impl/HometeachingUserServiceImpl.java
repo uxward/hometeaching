@@ -81,6 +81,7 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 				user.setPassword(passwordUtils.getPassword(updatedUser.getPassword()));
 				user.setReset(true);
 			}
+			
 			// set user roles
 			setUserRoles(user, updatedUser.getUserRoleIds());
 

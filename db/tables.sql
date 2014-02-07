@@ -23,7 +23,7 @@ create table person(
 	,familyid int
 	,organizationid int
 	,phonenumber varchar(20)
-	,email varchar(30)
+	,email varchar(50)
 	,hometeacher bit
 	,created datetime
 	,updated datetime
@@ -102,7 +102,8 @@ create table users (
   password varchar(100),
   enabled bit,
   reset bit,
-  lastlogin datetime
+  lastlogin datetime,
+  email varchar(50)
   unique (username)
 );
 

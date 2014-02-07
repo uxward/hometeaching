@@ -25,6 +25,8 @@ public class UserViewModel {
 
 	private DateTime lastLogin;
 
+	private String email;
+
 	private Boolean enabled;
 
 	private List<RoleViewModel> roles = newArrayList();
@@ -38,6 +40,7 @@ public class UserViewModel {
 		this.username = user.getUsername();
 		this.reset = user.getReset();
 		this.lastLogin = user.getLastLogin();
+		this.email = user.getEmail();
 		this.enabled = user.getEnabled();
 
 		for (UserRole userRole : user.getUserRoles()) {
@@ -71,6 +74,10 @@ public class UserViewModel {
 
 	public DateTime getLastLogin() {
 		return lastLogin;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 
 	public Boolean getEnabled() {

@@ -6,28 +6,33 @@
 
 <spring:url var="image" value="/resources/img" />
 
-<t:mainPage activeMenu="users" pageTitle="Users - Home" pageHeader="Users" pageSubheader="Home">
+<t:mainPage activeMenu="users" pageTitle="Users - Home"
+	pageHeader="Users" pageSubheader="Home">
 
-	<table id="userTable" class="table table-striped table-hover table-bordered" width="100%">
+	<table id="userTable"
+		class="table table-striped table-hover table-bordered" width="100%">
 	</table>
 
-	<a href="#addUser" class="btn btn-primary" data-toggle="modal">Add User</a>
+	<a href="#addUser" class="btn btn-primary" data-toggle="modal">Add
+		User</a>
 
 	<!-- Add User Modal -->
-	<div id="addUser" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addUserLabel" aria-hidden="true">
+	<div id="addUser" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="addUserLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
 					<h3 id="addUserLabel">Add User</h3>
 				</div>
 
 				<div class="modal-body">
 					<form id="userForm">
 						<div class="form-group">
-							<label class="sr-only" for="person">Person</label>
-							<select name="personId" class="form-control" id="person">
+							<label class="sr-only" for="person">Person</label> <select
+								name="personId" class="form-control" id="person">
 								<option value="">Select Person</option>
 								<c:forEach items="${unassigned}" var="person">
 									<option value="${person.id}">${person.firstName }&nbsp;${person.family.familyName}</option>
@@ -36,23 +41,33 @@
 						</div>
 
 						<div class="form-group">
-							<label class="sr-only" for="username">Username</label>
-							<input class="form-control" type="text" id="username" name="username" placeholder="Username" maxlength="30" />
+							<label class="sr-only" for="username">Username</label> <input
+								class="form-control" type="text" id="username" name="username"
+								placeholder="Username" maxlength="30" />
 						</div>
 
 						<div class="form-group">
-							<label class="sr-only" for="password">Password</label>
-							<input class="form-control" type="password" id="password" name="password" placeholder="Password" maxlength="100" />
+							<label class="sr-only" for="email">Email</label> <input
+								class="form-control" type="email" id="email" name="email"
+								placeholder="Email" maxlength="30" />
 						</div>
 
 						<div class="form-group">
-							<label class="sr-only" for="password">Confirm Password</label>
-							<input class="form-control" type="password" id="confirmPassword" placeholder="Password" maxlength="100" />
+							<label class="sr-only" for="password">Password</label> <input
+								class="form-control" type="password" id="password"
+								name="password" placeholder="Password" maxlength="100" />
 						</div>
 
 						<div class="form-group">
-							<label class="sr-only" for="role">Role</label>
-							<select name="userRoleIds" class="form-control" id="role" multiple="multiple">
+							<label class="sr-only" for="password">Confirm Password</label> <input
+								class="form-control" type="password" id="confirmPassword"
+								placeholder="Password" maxlength="100" />
+						</div>
+
+						<div class="form-group">
+							<label class="sr-only" for="role">Role</label> <select
+								name="userRoleIds" class="form-control" id="role"
+								multiple="multiple">
 								<option value="">Select Role</option>
 								<c:forEach items="${roles}" var="role">
 									<option value="${role.role}">${role.display}</option>
@@ -61,8 +76,9 @@
 						</div>
 
 						<div class="form-group">
-							<label class="sr-only" for="organization">Organization</label>
-							<select name="userOrganizationIds" class="form-control" id="organization" multiple="multiple">
+							<label class="sr-only" for="organization">Organization</label> <select
+								name="userOrganizationIds" class="form-control"
+								id="organization" multiple="multiple">
 								<option value="">Select Organization</option>
 								<c:forEach items="${organizations}" var="organization">
 									<option value="${organization.id}">${organization.organization}</option>
@@ -74,7 +90,8 @@
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary" id="saveUser">Save User</button>
+					<button type="button" class="btn btn-primary" id="saveUser">Save
+						User</button>
 				</div>
 
 			</div>
@@ -82,12 +99,14 @@
 	</div>
 
 	<!-- Edit User Modal -->
-	<div id="editUserModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editUserLabel" aria-hidden="true">
+	<div id="editUserModal" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="editUserLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
 					<h3 id="editUserLabel">Edit User</h3>
 				</div>
 
@@ -95,29 +114,39 @@
 					<form id="editUserForm">
 
 						<div class="form-group">
-							<label class="sr-only" for="username">Username</label>
-							<input class="form-control" type="text" id="editUsername" name="username" placeholder="Username" maxlength="30" />
+							<label class="sr-only" for="username">Username</label> <input
+								class="form-control" type="text" id="editUsername"
+								name="username" placeholder="Username" maxlength="30" />
 						</div>
 
 						<div class="form-group">
-							<label class="sr-only" for="password">Password</label>
-							<input class="form-control" type="password" id="editPassword" name="password" placeholder="Password" maxlength="100" />
+							<label class="sr-only" for="email">Email</label> <input
+								class="form-control" type="email" id="editEmail" name="email"
+								placeholder="Email" maxlength="30" />
 						</div>
 
 						<div class="form-group">
-							<label class="sr-only" for="password">Confirm Password</label>
-							<input class="form-control" type="password" id="editConfirmPassword" placeholder="Confirm Password" maxlength="100" />
+							<label class="sr-only" for="password">Password</label> <input
+								class="form-control" type="password" id="editPassword"
+								name="password" placeholder="Password" maxlength="100" />
 						</div>
 
 						<div class="form-group">
-							<label class="checkbox">
-								<input type="checkbox" name="reset" id="reset"> Require Password Reset
+							<label class="sr-only" for="password">Confirm Password</label> <input
+								class="form-control" type="password" id="editConfirmPassword"
+								placeholder="Confirm Password" maxlength="100" />
+						</div>
+
+						<div class="form-group">
+							<label class="checkbox"> <input type="checkbox"
+								name="reset" id="reset"> Require Password Reset
 							</label>
 						</div>
 
 						<div class="form-group">
-							<label class="sr-only" for="role">Role</label>
-							<select name="userRoleIds" class="form-control" id="editRole" multiple="multiple">
+							<label class="sr-only" for="role">Role</label> <select
+								name="userRoleIds" class="form-control" id="editRole"
+								multiple="multiple">
 								<option value="">Select Role</option>
 								<c:forEach items="${roles}" var="role">
 									<option value="${role.role}">${role.display}</option>
@@ -126,8 +155,9 @@
 						</div>
 
 						<div class="form-group">
-							<label class="sr-only" for="organization">Organization</label>
-							<select name="userOrganizationIds" class="form-control" id="editOrganization" multiple="multiple">
+							<label class="sr-only" for="organization">Organization</label> <select
+								name="userOrganizationIds" class="form-control"
+								id="editOrganization" multiple="multiple">
 								<option value="">Select Organization</option>
 								<c:forEach items="${organizations}" var="organization">
 									<option value="${organization.id}">${organization.organization}</option>
@@ -141,7 +171,8 @@
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary" id="editUser">Update User</button>
+					<button type="button" class="btn btn-primary" id="editUser">Update
+						User</button>
 				</div>
 
 			</div>
@@ -259,6 +290,14 @@
 					$password.parent().removeClass('has-error');
 					$confirm.parent().removeClass('has-error');
 				}
+
+				var $email = $('#email');
+				if (!isValidEmail($.trim($email.val()))) {
+					valid = false;
+					$email.parent().addClass('has-error');
+				} else {
+					$email.parent().removeClass('has-error');
+				}
 			}
 
 			return valid;
@@ -291,7 +330,7 @@
 
 		function setupRoles(data, type, full) {
 			var roles = '';
-			for ( var i = 0; i < data.length; i++) {
+			for (var i = 0; i < data.length; i++) {
 				if (i > 0) {
 					roles += ', ';
 				}
@@ -302,7 +341,7 @@
 
 		function setupOrganizations(data, type, full) {
 			var organizations = '';
-			for ( var i = 0; i < data.length; i++) {
+			for (var i = 0; i < data.length; i++) {
 				if (i > 0) {
 					organizations += ', ';
 				}
@@ -332,20 +371,21 @@
 		function setupEditUser(data, $this) {
 			$('#editUserLabel').text('Update ' + data.name);
 			$('#editUsername').val(data.username);
+			$('#editEmail').val(data.email);
 			$('#editReset').attr('checked', data.reset);
 			$('#editUserId').val(data.id);
 			$('#editUserPersonId').val(data.personId);
 
 			//setup roles
 			var roles = new Array();
-			for ( var i = 0; i < data.roles.length; i++) {
+			for (var i = 0; i < data.roles.length; i++) {
 				roles.push(data.roles[i].role);
 			}
 			$('#editRole').val(roles);
 
 			//setup orgs
 			var orgs = new Array();
-			for ( var i = 0; i < data.organizations.length; i++) {
+			for (var i = 0; i < data.organizations.length; i++) {
 				orgs.push(data.organizations[i].id);
 			}
 			$('#editOrganization').val(orgs);

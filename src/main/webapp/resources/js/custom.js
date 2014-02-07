@@ -28,7 +28,7 @@ function addressRender(address) {
 
 function getFamilyAndHeadNames(familyName, people) {
 	var first = true;
-	for ( var i = 0; i < people.length; i++) {
+	for (var i = 0; i < people.length; i++) {
 		if (people[i].headOfHousehold) {
 			if (first) {
 				familyName += ', ';
@@ -46,7 +46,7 @@ function getFamilyAndHeadNames(familyName, people) {
 function getChildrenNames(people) {
 	var names = '';
 	var first = true;
-	for ( var i = 0; i < people.length; i++) {
+	for (var i = 0; i < people.length; i++) {
 		if (!people[i].headOfHousehold) {
 			if (!first) {
 				names += ', ';
@@ -88,7 +88,7 @@ function setupPersonFullName(person, type, full) {
 
 function setupPhoneNumbers(data, type, full) {
 	var html = '';
-	for ( var i = 0; i < data.length; i++) {
+	for (var i = 0; i < data.length; i++) {
 		html += '<span class="hidden-xs hidden-sm pull-left">' + data[i].firstName + ': ' + getPhoneNumber(data[i].phoneNumber);
 		if (i != data.length - 1) {
 			html += ',</span> ';
@@ -103,6 +103,15 @@ function setupPhoneNumbers(data, type, full) {
 		}
 	}
 	return html;
+}
+
+function isValidEmail(email) {
+	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+	if (emailReg.test(email)) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 function getPercentage(number) {

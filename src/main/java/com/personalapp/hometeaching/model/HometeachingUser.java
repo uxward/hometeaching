@@ -49,6 +49,9 @@ public class HometeachingUser {
 	@Column(name = "lastlogin")
 	private Date lastLogin;
 
+	@Column(name = "email")
+	private String email;
+
 	@OneToOne(fetch = LAZY)
 	@JoinColumn(name = "personid", insertable = false, updatable = false)
 	private Person person;
@@ -125,6 +128,14 @@ public class HometeachingUser {
 
 	public void setLastLogin(Date lastLogin) {
 		this.lastLogin = lastLogin;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Person getPerson() {
