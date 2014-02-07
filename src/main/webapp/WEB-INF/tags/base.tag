@@ -24,11 +24,19 @@
 	</sec:authorize>
 </c:set>
 
+<jsp:useBean id="now" class="java.util.Date" />
+<c:set var="day">
+	<fmt:formatDate value="${now}" pattern="D" />
+</c:set>
+<c:set var="dayMod">
+	${day % 3}
+</c:set>
+
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>${pageTitle}</title>
-<link rel="shortcut icon" href="${image}/star.ico">
+<link rel="shortcut icon" href="${image}/<spring:message code="${dayMod}.icon" />.png">
 
 <!--  Bootstrap 3
 --------------------------------------------------->
@@ -206,12 +214,12 @@
 			$('.modal').on('hidden.bs.modal', function() {
 				resetModalAlerts();
 			});
-			
+
 			$('.modal').each(function(i) {
-		        $(this).draggable({
-		            handle: '.modal-header'
-		        });
-		    });
+				$(this).draggable({
+					handle : '.modal-header'
+				});
+			});
 
 			$('.base-popover').popover();
 		}
