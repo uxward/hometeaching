@@ -2,7 +2,9 @@ package com.personalapp.hometeaching.controller;
 
 import static com.personalapp.hometeaching.security.SecurityUtils.currentUserIsAdmin;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
+import static org.slf4j.LoggerFactory.getLogger;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +28,7 @@ import com.personalapp.hometeaching.view.UserViewModel;
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
+	private final Logger logger = getLogger(getClass());
 
 	@Autowired
 	private HometeachingUserRepository userRepo;

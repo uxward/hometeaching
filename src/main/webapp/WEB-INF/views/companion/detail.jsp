@@ -129,11 +129,11 @@
 								<input type="checkbox" name="visited" id="visited"> Visited
 							</label>
 						</div>
-						<div class="form-group">
-							<label class="checkbox">
-								<input type="checkbox" name="hometeaching" id="hometeaching"> Home Teaching
-							</label>
-						</div>
+						<!-- 						<div class="form-group"> -->
+						<!-- 							<label class="checkbox"> -->
+						<!-- 								<input type="checkbox" name="hometeaching" id="hometeaching"> Home Teaching -->
+						<!-- 							</label> -->
+						<!-- 						</div> -->
 						<div class="form-group">
 							<textarea class="form-control" name="notes" id="notes" placeholder="Notes" maxlength="400"></textarea>
 						</div>

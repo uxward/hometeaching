@@ -36,6 +36,7 @@
 		<guava.version>14.0.1</guava.version>
 		<commons-collections.version>3.2.1</commons-collections.version>
 		<apache-commons.version>1.5</apache-commons.version>
+		<apache-email.version>1.2</apache-email.version>
 		<jackson-mapper.version>1.8.5</jackson-mapper.version>
 		<joda-time.version>2.3</joda-time.version>
 		<joda-time-jsp.version>1.1.1</joda-time-jsp.version>
@@ -194,6 +195,13 @@
 			<artifactId>commons-compress</artifactId>
 			<version>${apache-commons.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+			<version>${apache-email.version}</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
