@@ -23,7 +23,7 @@ public class FamilyStatusViewModel {
 		this.familyPercent = (double) totalFamilies / (double) familyCount;
 		if (arrayStatus.length > 2 && arrayStatus[2] != null) {
 			this.percentVisited = (double) arrayStatus[2];
-			this.totalVisited = (long) (percentVisited * totalFamilies);
+			this.totalVisited = Math.round(percentVisited * totalFamilies);
 		}
 	}
 

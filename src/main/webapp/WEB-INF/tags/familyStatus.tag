@@ -1,13 +1,15 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ attribute name="pageHeader" required="true"%>
 <%@ attribute name="pageTitle" required="true"%>
 <%@ attribute name="activeMenu" required="true"%>
 <%@ attribute name="pageSubheader" required="false"%>
 
-<t:mainPage activeMenu="${activeMenu}" pageTitle="${pageTitle}" pageHeader="${pageHeader}" pageSubheader="${pageSubheader}">
+<t:mainPage activeMenu="${activeMenu}" pageTitle="${pageTitle}"
+	pageHeader="${pageHeader}" pageSubheader="${pageSubheader}">
 
 	<div class="center">
 		<div id="familyStatusPie"></div>
@@ -32,12 +34,22 @@
 
 		function setupFamilyStatus(data) {
 
-			var width = 320, height = width, radius = 100, margin = (height - (2 * radius)) / 2;
+			var width = 400, height = 250, radius = 100, margin = {
+				x : 80,
+				y : 20
+			};
 
-			var color = d3.scale.ordinal().range([ "#5cb85c", "#f0ad4e", "#d9534f", "#5bc0de", "#999" ]);
+			var color = {
+				'Active' : '#5cb85c',
+				'Recent Convert' : '#f0ad4e',
+				'Inactive' : '#d9534f',
+				'Unknown' : '#5bc0de',
+				'Moved' : '#999',
+				'Do Not Contact' : '#333'
+			};
 
 			var vis = d3.select('#familyStatusPie').append('svg:svg').data([ data ]).attr('width', width).attr('height', height).attr('class', '').append('svg:g').attr('transform',
-					'translate(' + (radius + margin) + ',' + (radius + margin) + ')');
+					'translate(' + (radius + margin.x) + ',' + (radius + margin.y) + ')');
 
 			var arc = d3.svg.arc().outerRadius(radius).innerRadius(radius - 70);
 
@@ -57,7 +69,7 @@
 			});
 
 			arcs.append('svg:path').attr('fill', function(d, i) {
-				return color(i);
+				return color[d.data.familyStatus];
 			}).attr('d', arc);
 
 			arcs.append('svg:text').attr('transform', function(d, i) {
