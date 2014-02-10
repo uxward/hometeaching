@@ -6,7 +6,7 @@ webapp for home and visiting teaching
 - edit login credentials
 - view and edit own family information (contact info, family members & contact info)
 - view own companionship and home teaching families
-- record and edit visits for families by month
+- record and edit visits for assigned families by month
 - provide feedback
 
 ###### admin functionality (in addition to user functionality)
