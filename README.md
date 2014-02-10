@@ -1,4 +1,4 @@
-java webapp for home and visiting teaching
+webapp for home and visiting teaching
 ============
 
 ###### user functionality
