@@ -15,22 +15,22 @@ public class EmailController {
 	private final Logger logger = getLogger(getClass());
 
 	@Value("#{email.hostname}")
-	private final static String hostname;
+	private static String hostname;
 
 	@Value("#{email.smtpPort}")
-	private final static Integer smtpPort;
+	private static Integer smtpPort;
 
 	@Value("#{email.username}")
-	private final static String d4elders;
+	private static String username;
 
 	@Value("#{email.password}")
-	private final static String hometeaching;
+	private static String password;
 
 	@Value("#{email.fromEmail}")
-	private final static String fromEmail;
+	private static String fromEmail;
 
 	@Value("#{email.fromName}")
-	private final static String fromName;
+	private static String fromName;
 
 	@RequestMapping()
 	public void sendEmail() {
