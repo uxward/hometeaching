@@ -35,4 +35,4 @@ webapp for home and visiting teaching
 
 ###### setup
 - if using mysql db, use the tables.sql file under the db folder for the necessary tables
-- regardless of db type, update the app-local and app-prod .properties files with your db connection info
+- regardless of db type, update the app-common, app-local, and app-prod .properties(.changeme) files with your application info
