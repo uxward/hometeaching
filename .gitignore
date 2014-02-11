@@ -1,8 +1,10 @@
 #################
-## Maven
+## Project
 #################
 
 /target
+src/main/resources/config/app-local.properties
+src/main/resources/config/app-prod.properties
 
 #################
 ## Eclipse
@@ -219,5 +221,3 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-src/main/resources/config/app-local.properties
-src/main/resources/config/app-prod.properties
