@@ -3,6 +3,7 @@
 #################
 
 /target
+src/main/resources/config/app-common.properties
 src/main/resources/config/app-local.properties
 src/main/resources/config/app-prod.properties
 
