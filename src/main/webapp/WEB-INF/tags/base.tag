@@ -46,7 +46,6 @@
 <link rel="stylesheet" href="${resources}/css/custom.css" />
 
 <script src="${resources}/js/jquery-2.0.3.min.js"></script>
-<script src="${resources}/js/jquery-ui.min.js"></script>
 <script src="${resources}/js/bootstrap.min.js"></script>
 <script src="${resources}/js/jquery.dataTables.min.js"></script>
 <script src="${resources}/js/bootstrap-datatable.js"></script>
@@ -55,8 +54,6 @@
 <script src="${resources}/js/custom.js"></script>
 <script src="${resources}/js/browser-detect.js"></script>
 <script src="${resources}/js/d3.min.js"></script>
-<!-- <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
-<script src="${resources}/js/d3-bootstrap.min.js"></script>
 <script src="${resources}/js/google-analytics.js"></script>
 </head>
 
@@ -213,12 +210,6 @@
 
 			$('.modal').on('hidden.bs.modal', function() {
 				resetModalAlerts();
-			});
-
-			$('.modal').each(function(i) {
-				$(this).draggable({
-					handle : '.modal-header'
-				});
 			});
 
 			$('.base-popover').popover();

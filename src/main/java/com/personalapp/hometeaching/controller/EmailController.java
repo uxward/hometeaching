@@ -47,7 +47,7 @@ public class EmailController {
 			email.addTo("", "");
 			email.send();
 		} catch (Exception e) {
-			logger.error("Exception sending email", e);
+			logger.error("Exception sending email {}", e);
 		}
 	}
 }
