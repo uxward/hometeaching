@@ -5,3 +5,11 @@ jpa.database=MYSQL
 db.driverClassName=com.mysql.jdbc.Driver
 db.validationQuery=SELECT 1
 db.testOnBorrow=true
+
+#Email config
+email.hostname=HOSTNAME
+email.smtpPort=PORT
+email.username=USERNAME
+email.password=PASSWORD
+email.fromEmail=EMAIL FROM
+email.fromName=NAME FROM

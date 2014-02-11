@@ -5,6 +5,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.HtmlEmail;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -13,19 +14,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class EmailController {
 	private final Logger logger = getLogger(getClass());
 
+	@Value("#{email.hostname}")
+	private final static String hostname;
+
+	@Value("#{email.smtpPort}")
+	private final static Integer smtpPort;
+
+	@Value("#{email.username}")
+	private final static String d4elders;
+
+	@Value("#{email.password}")
+	private final static String hometeaching;
+
+	@Value("#{email.fromEmail}")
+	private final static String fromEmail;
+
+	@Value("#{email.fromName}")
+	private final static String fromName;
+
 	@RequestMapping()
 	public void sendEmail() {
 		try {
 			HtmlEmail email = new HtmlEmail();
-			email.setHostName("smtp.googlemail.com");
-			email.setSmtpPort(465);
-			email.setAuthenticator(new DefaultAuthenticator("d4elders", "hometeaching"));
+			email.setHostName(hostname);
+			email.setSmtpPort(smtpPort);
+			email.setAuthenticator(new DefaultAuthenticator(username, password));
 			email.setSSL(true);
-			email.setFrom("d4elders@gmail.com", "D4 Elders");
+			email.setFrom(fromEmail, fromName);
 			email.setSubject("TestMail");
 			email.setHtmlMsg("<html><p>DUDE<i>DUDE</i></p></html>");
 			email.setTextMsg("This is a test mail ... :-)");
-			email.addTo("philman311@gmail.com", "Phillip");
+			email.addTo("", "");
 			email.send();
 		} catch (Exception e) {
 			logger.error("Exception sending email", e);
