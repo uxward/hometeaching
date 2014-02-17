@@ -40,7 +40,7 @@ public class CompanionController {
 	@RequestMapping("all")
 	public ModelAndView viewAll() {
 		ModelAndView view = new ModelAndView("companion/companions");
-		view.addObject("hometeachers", personService.getAllHometeachers());
+		view.addObject("hometeachers", personService.getAllNotMovedHometeachers());
 		return view;
 	}
 

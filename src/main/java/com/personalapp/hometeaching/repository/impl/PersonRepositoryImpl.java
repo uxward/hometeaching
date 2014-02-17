@@ -19,8 +19,7 @@ import com.personalapp.hometeaching.model.Person;
 import com.personalapp.hometeaching.repository.PersonRepository;
 
 @Repository
-public class PersonRepositoryImpl extends RepositoryImpl<Person, Long>
-		implements PersonRepository {
+public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implements PersonRepository {
 	private final Logger logger = getLogger(getClass());
 
 	@Override
@@ -40,7 +39,7 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long>
 	}
 
 	@Override
-	public List<Person> getAllHometeachers() {
+	public List<Person> getAllNotMovedHometeachers() {
 		logger.info("entering the get all hometeachers method");
 		JPAQuery query = getPersonQuery();
 		query.where(person.organizationId.in(getCurrentUserOrganizationIds()));
@@ -65,6 +64,7 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long>
 		query.leftJoin(person.family, family).fetch();
 		query.leftJoin(family.familyOrganizations).fetch();
 		query.leftJoin(person.personCompanion, personCompanion).fetch();
+		query.where(family.familyMoved.isNull().or(family.familyMoved.eq(false)));
 		query.distinct();
 		return query;
 	}

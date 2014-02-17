@@ -62,9 +62,9 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	@Override
-	public List<PersonViewModel> getAllHometeachers() {
+	public List<PersonViewModel> getAllNotMovedHometeachers() {
 		List<PersonViewModel> hometeachers = newArrayList();
-		for (Person person : repo.getAllHometeachers()) {
+		for (Person person : repo.getAllNotMovedHometeachers()) {
 			hometeachers.add(new PersonViewModel(person, true, true));
 		}
 		return hometeachers;

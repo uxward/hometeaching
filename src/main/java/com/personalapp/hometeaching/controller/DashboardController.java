@@ -47,7 +47,7 @@ public class DashboardController {
 	@RequestMapping("getFamilyStatusPercentageByOrganization")
 	@ResponseBody
 	public List<FamilyStatusViewModel> getFamilyStatusPercentageByOrganization() {
-		//TODO get ward and organization charts of family status
+		// TODO get ward and organization charts of family status
 		return service.getFamilyStatusPercentage();
 	}
 }
