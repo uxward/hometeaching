@@ -29,7 +29,6 @@ public class DashboardController {
 	@RequestMapping("getVisitPercentage")
 	@ResponseBody
 	public List<VisitPercentageViewModel> getVisitPercentage() {
-
 		return service.getVisitPercentage();
 	}
 

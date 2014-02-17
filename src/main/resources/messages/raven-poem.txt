@@ -1,5 +1,5 @@
 <div style="font-size: 14px;" class="col-md-6">
-<p><br>
+<p>
 <strong>The Raven</strong><br>
 <strong>A Christmas Tale, told by a school-boy to his little brothers and sisters.</strong><br><br>
 Underneath an old oak tree<br>
@@ -27,7 +27,7 @@ By the side of a river both deep and great.</p>
 </dl>
 </div>
 <div style="font-size: 14px;" class="col-md-6">
-<p><br>
+<p>
 At length he came back, and with him a She<br>
 And the acorn was grown to a tall oak tree.<br>
 They built them a nest in the topmost bough,<br>

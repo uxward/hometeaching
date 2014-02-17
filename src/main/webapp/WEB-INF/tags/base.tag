@@ -99,6 +99,7 @@
 									</a>
 									<ul class="dropdown-menu">
 										<li class="${activeMenu ==  'allFamilies' ? 'active' : '' }"><a href="${family}/all">All Families</a></li>
+										<li class="${activeMenu ==  'moved' ? 'active' : '' }"><a href="${family}/moved">Moved Families</a></li>
 										<li class="${activeMenu ==  'yourFamily' ? 'active' : '' }"><a href="${family}/you">Your Family</a></li>
 									</ul></li>
 

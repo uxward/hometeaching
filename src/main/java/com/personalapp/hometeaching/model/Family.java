@@ -34,6 +34,15 @@ public class Family extends BaseEntity {
 	@Column(name = "phonenumber")
 	private String phoneNumber;
 
+	@Column(name = "familyMoved")
+	private Boolean familyMoved;
+
+	@Column(name = "recordsMoved")
+	private Boolean recordsMoved;
+
+	@Column(name = "partmember")
+	private Boolean partMember;
+
 	@Column(name = "familystatusid")
 	private Long familyStatusId;
 
@@ -84,6 +93,30 @@ public class Family extends BaseEntity {
 		this.phoneNumber = phoneNumber;
 	}
 
+	public Boolean getFamilyMoved() {
+		return familyMoved;
+	}
+
+	public void setFamilyMoved(Boolean familyMoved) {
+		this.familyMoved = familyMoved;
+	}
+
+	public Boolean getRecordsMoved() {
+		return recordsMoved;
+	}
+
+	public void setRecordsMoved(Boolean recordsMoved) {
+		this.recordsMoved = recordsMoved;
+	}
+
+	public Boolean getPartMember() {
+		return partMember;
+	}
+
+	public void setPartMember(Boolean partMember) {
+		this.partMember = partMember;
+	}
+
 	public Set<Person> getPeople() {
 		return people;
 	}
@@ -120,8 +153,7 @@ public class Family extends BaseEntity {
 		return familyOrganizations;
 	}
 
-	public void setFamilyOrganizations(
-			Set<FamilyOrganization> familyOrganizations) {
+	public void setFamilyOrganizations(Set<FamilyOrganization> familyOrganizations) {
 		this.familyOrganizations = familyOrganizations;
 	}
 

@@ -39,7 +39,6 @@
 
 						</c:when>
 						<c:otherwise>
-
 							<p>
 								<spring:message code="${dayMod}.hero" />
 							</p>

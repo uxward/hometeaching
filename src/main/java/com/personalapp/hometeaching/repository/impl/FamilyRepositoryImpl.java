@@ -27,9 +27,17 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 	private final Logger logger = getLogger(getClass());
 
 	@Override
-	public List<Family> getAllFamilies() {
-		logger.info("entering the getAllFamilies method");
-		JPAQuery query = getFamilyQuery();
+	public List<Family> getAllNotMovedFamilies() {
+		logger.info("entering the get all not moved families method");
+		JPAQuery query = getNotMovedFamilyQuery();
+		query.orderBy(family.familyName.asc());
+		return query.list(family);
+	}
+
+	@Override
+	public List<Family> getAllMovedFamilies() {
+		logger.info("entering the get all moved families method");
+		JPAQuery query = getMovedFamilyQuery();
 		query.orderBy(family.familyName.asc());
 		return query.list(family);
 	}
@@ -45,7 +53,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 	@Override
 	public List<Family> getAllFamiliesWithoutCompanion() {
 		logger.info("entering the get all families without companion method");
-		JPAQuery query = getFamilyQuery();
+		JPAQuery query = getNotMovedFamilyQuery();
 		// TODO make this not bad and ugly
 		List<Long> assignedFamilyIds = getAllFamilyIdsWithCompanion();
 		if (!assignedFamilyIds.isEmpty()) {
@@ -61,12 +69,13 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 		logger.info("Entering the get all family statuse percentages method");
 		JPAQuery query = jpaFrom(family);
 		query.where(getFamiliesMatchingUserOrganizationsSubQuery().exists());
+		query.where(family.familyMoved.isNull().or(family.familyMoved.eq(false)));
 		return query.groupBy(family.familyStatusId).list(family.id.count(), family.familyStatusId);
 	}
 
 	@Override
 	public List<Family> getByCompanionId(Long companionId) {
-		JPAQuery query = getFamilyQuery();
+		JPAQuery query = getNotMovedFamilyQuery();
 		query.where(assignment.active.eq(true), assignment.companionId.eq(companionId));
 		return query.list(family);
 	}
@@ -97,6 +106,18 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 		return query.list(family.id);
 	}
 
+	private JPAQuery getNotMovedFamilyQuery() {
+		JPAQuery query = getFamilyQuery();
+		query.where(family.familyMoved.isNull().or(family.familyMoved.eq(false)));
+		return query;
+	}
+
+	private JPAQuery getMovedFamilyQuery() {
+		JPAQuery query = getFamilyQuery();
+		query.where(family.familyMoved.isNotNull().and(family.familyMoved.eq(true)));
+		return query;
+	}
+
 	private JPAQuery getFamilyQuery() {
 		JPAQuery query = jpaFrom(family);
 		QPerson compPerson = QPerson.person;
@@ -117,12 +138,4 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 		q.where(familyOrganization.family.eq(family), familyOrganization.organizationId.in(getCurrentUserOrganizationIds()));
 		return q;
 	}
-
-	// private List<Long> getFamilyIdsWithHometeacher() {
-	// JPAQuery query = jpaFrom(family);
-	// query.leftJoin(family.assignment, assignment).fetch();
-	// query.where;
-	// query.distinct();
-	// return query.list(family.id);
-	// }
 }

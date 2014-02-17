@@ -36,25 +36,20 @@ public class VisitController {
 
 	@RequestMapping("view")
 	@ResponseBody
-	public DatatableResponse<VisitViewModel> viewVisits(
-			@RequestParam("familyId") Long familyId) {
-		return new DatatableResponse<VisitViewModel>(
-				visitService.getByFamilyId(familyId));
+	public DatatableResponse<VisitViewModel> viewVisits(@RequestParam("familyId") Long familyId) {
+		return new DatatableResponse<VisitViewModel>(visitService.getByFamilyId(familyId));
 	}
 
 	@RequestMapping("getHistory")
 	@ResponseBody
-	public DatatableResponse<VisitHistoryModel> getHistory(
-			@RequestParam("n") Integer n) {
-		return new DatatableResponse<VisitHistoryModel>(
-				visitService.getVisitHistory(n));
+	public DatatableResponse<VisitHistoryModel> getHistory(@RequestParam("n") Integer n) {
+		return new DatatableResponse<VisitHistoryModel>(visitService.getVisitHistory(n));
 	}
 
 	@RequestMapping(value = "/saveVisit")
 	@ResponseBody
 	public VisitViewModel saveVisit(Visit visit) {
-		logger.info("User {} is saving a visit for family id {}.",
-				getCurrentUser().getUsername(), visit.getFamilyId());
+		logger.info("User {} is saving a visit for family id {} and assignment id {}.", getCurrentUser().getUsername(), visit.getFamilyId(), visit.getAssignmentId());
 		return visitService.save(visit);
 	}
 

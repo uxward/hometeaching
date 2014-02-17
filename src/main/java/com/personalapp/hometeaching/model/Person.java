@@ -27,9 +27,6 @@ public class Person extends BaseEntity {
 	@Column(name = "firstname")
 	private String firstName;
 
-	@Column(name = "age")
-	private Integer age;
-
 	@Column(name = "female")
 	private Boolean female;
 
@@ -72,14 +69,6 @@ public class Person extends BaseEntity {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
-	}
-
-	public Integer getAge() {
-		return age;
-	}
-
-	public void setAge(Integer age) {
-		this.age = age;
 	}
 
 	public Boolean getFemale() {

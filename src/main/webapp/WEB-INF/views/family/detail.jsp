@@ -1,9 +1,12 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
-<t:mainPage activeMenu="yourFamily" pageTitle="${family.familyName} Family" pageHeader="${family.familyName}" pageSubheader="Family">
+<t:mainPage activeMenu="yourFamily"
+	pageTitle="${family.familyName} Family"
+	pageHeader="${family.familyName}" pageSubheader="Family">
 
 	<div class="well" id="viewInfo">
 		<p id="viewAddress">
@@ -12,17 +15,31 @@
 		<p id="viewPhone">
 			<strong>Phone Number:</strong> ${family.phoneNumber}
 		</p>
-		<p id="viewStatus" class="<sec:authorize access="!hasRole('admin')">hidden</sec:authorize>">
+		<p id="viewStatus"
+			class="<sec:authorize access="!hasRole('admin')">hidden</sec:authorize>">
 			<strong>Status:</strong> ${family.familyStatus}
 		</p>
 		<p id="viewOrganization">
 			<strong>Organization:</strong>
-			<c:forEach items="${family.organizations}" var="organization" varStatus="status">${organization.organization}<c:if test="${!status.last}">, </c:if>
+			<c:forEach items="${family.organizations}" var="organization"
+				varStatus="status">${organization.organization}<c:if
+					test="${!status.last}">, </c:if>
 			</c:forEach>
+		</p>
+		<p id="viewHometeachers">
+			<strong>Home teachers:</strong>
+			<c:if test="${not empty family.companions}">
+				<c:forEach items="${family.companions.hometeachers}" var="person"
+					varStatus="status">${person.firstName}&nbsp;${person.family.familyName}<c:if
+						test="${!status.last}">, </c:if>
+				</c:forEach>
+			</c:if>
 		</p>
 	</div>
 
-	<a href="#editFamilyModal" id="openFamilyModal" role="button" class="btn btn-primary" data-family-id="${family.id}" data-toggle="modal">Edit Family</a>
+	<a href="#editFamilyModal" id="openFamilyModal" role="button"
+		class="btn btn-primary" data-family-id="${family.id}"
+		data-toggle="modal">Edit Family</a>
 
 	<br />
 	<br />
@@ -30,107 +47,140 @@
 	<fieldset>
 		<legend>Family Members</legend>
 
-		<table id="personTable" class="table table-striped table-hover table-bordered">
+		<table id="personTable"
+			class="table table-striped table-hover table-bordered">
 		</table>
 
-		<br />
-
-		<a href="#addPerson" role="button" class="btn btn-primary" data-toggle="modal">Add Family Member</a>
+		<br /> <a href="#addPerson" role="button" class="btn btn-primary"
+			data-toggle="modal">Add Family Member</a>
 
 	</fieldset>
 
 	<!-- Add Person Modal -->
-	<div id="addPerson" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addPersonLabel" aria-hidden="true">
+	<div id="addPerson" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="addPersonLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
 					<h3 id="addPersonLabel">Add Family Member</h3>
 				</div>
 
 				<div class="modal-body">
 					<form id="personForm">
 						<div class="form-group">
-							<label class="sr-only" for="firstName">First Name</label>
-							<input class="form-control" type="text" name="firstName" id="firstName" placeholder="First Name" maxlength="30" />
+							<label class="sr-only" for="firstName">First Name</label> <input
+								class="form-control" type="text" name="firstName" id="firstName"
+								placeholder="First Name" maxlength="30" />
 						</div>
 						<div class="form-group">
-							<label class="sr-only" for="firstName">Email</label>
-							<input class="form-control" type="text" name="email" id="email" placeholder="Email" maxlength="30" />
+							<label class="sr-only" for="firstName">Email</label> <input
+								class="form-control" type="text" name="email" id="email"
+								placeholder="Email" maxlength="30" />
 						</div>
 						<div class="form-group">
-							<label class="sr-only" for="firstName">Phone Number</label>
-							<input class="form-control" type="text" name="phoneNumber" id="phoneNumber" placeholder="Phone Number" maxlength="20" />
+							<label class="sr-only" for="firstName">Phone Number</label> <input
+								class="form-control" type="text" name="phoneNumber"
+								id="phoneNumber" placeholder="Phone Number" maxlength="20" />
 						</div>
 						<div class="form-group">
-							<label class="sr-only" for="firstName">Age</label>
-							<input class="form-control" type="number" name="age" class="input-small" id="age" placeholder="Age" maxlength="3" />
-						</div>
-						<div class="form-group">
-							<label class="checkbox">
-								<input type="checkbox" name="female" id="female"> Female
+							<label class="checkbox"> <input type="checkbox"
+								name="female" id="female"> Female
 							</label>
 						</div>
 						<div class="form-group">
-							<label class="checkbox">
-								<input type="checkbox" name="headOfHousehold" id="headOfHousehold"> Head of Household
+							<label class="checkbox"> <input type="checkbox"
+								name="headOfHousehold" id="headOfHousehold"> Head of
+								Household
 							</label>
 						</div>
-						<div class="form-group <sec:authorize access="!hasRole('admin')">hidden</sec:authorize>">
-							<label class="checkbox">
-								<input type="checkbox" name="hometeacher" id="hometeacher"> Home Teacher
+						<div
+							class="form-group <sec:authorize access="!hasRole('admin')">hidden</sec:authorize>">
+							<label class="checkbox"> <input type="checkbox"
+								name="hometeacher" id="hometeacher"> Home Teacher
 							</label>
 						</div>
-						<div class="form-group <sec:authorize access="!hasRole('admin')">hidden</sec:authorize>">
-							<label class="sr-only" for="organization">Organization</label>
-							<select name="organizationId" class="form-control" id="personOrganization">
+						<div
+							class="form-group <sec:authorize access="!hasRole('admin')">hidden</sec:authorize>">
+							<label class="sr-only" for="organization">Organization</label> <select
+								name="organizationId" class="form-control"
+								id="personOrganization">
 								<option value="">Select Organization</option>
 								<c:forEach items="${organizations}" var="organization">
 									<option value="${organization.id}">${organization.organization}</option>
 								</c:forEach>
 							</select>
 						</div>
-						<input type="hidden" value="${family.id}" name="familyId" /> <input type="hidden" id="personId" name="id" />
+						<input type="hidden" value="${family.id}" name="familyId" /> <input
+							type="hidden" id="personId" name="id" />
 					</form>
 				</div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-					<button type="button" class="btn btn-primary" id="savePerson" data-action="save">Save Family Member</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						aria-hidden="true">Cancel</button>
+					<button type="button" class="btn btn-primary" id="savePerson"
+						data-action="save">Save Family Member</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Edit Family Modal -->
-	<div id="editFamilyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editFamilyLabel" aria-hidden="true">
+	<div id="editFamilyModal" class="modal fade" tabindex="-1"
+		role="dialog" aria-labelledby="editFamilyLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
 					<h3 id="editFamilyLabel">Edit Family</h3>
 				</div>
 
 				<div class="modal-body">
 					<form id="familyForm">
 						<div class="form-group">
-							<label class="sr-only" for="familyName">Family Name</label>
-							<input class="form-control" type="text" name="familyName" placeholder="Family Name" id="familyName" />
+							<label class="sr-only" for="familyName">Family Name</label> <input
+								class="form-control" type="text" name="familyName"
+								placeholder="Family Name" id="familyName" />
 						</div>
 						<div class="form-group">
-							<label class="sr-only" for="address">Address</label>
-							<input class="form-control" type="text" name="address" placeholder="Address" id="address" />
+							<label class="sr-only" for="address">Address</label> <input
+								class="form-control" type="text" name="address"
+								placeholder="Address" id="address" />
 						</div>
 						<div class="form-group">
-							<label class="sr-only" for="phoneNumber">Phone Number</label>
-							<input class="form-control" type="text" name="phoneNumber" placeholder="Phone Number" id="familyPhoneNumber" />
+							<label class="sr-only" for="phoneNumber">Phone Number</label> <input
+								class="form-control" type="text" name="phoneNumber"
+								placeholder="Phone Number" id="familyPhoneNumber" />
+						</div>
+						<div
+							class="form-group <sec:authorize access="!hasRole('leader')">hidden</sec:authorize>">
+							<label class="checkbox"> <input type="checkbox"
+								name="familyMoved" id="familyMoved"> Family Moved
+							</label>
 						</div>
 
-						<div class="form-group <sec:authorize access="!hasRole('admin')">hidden</sec:authorize>">
-							<label class="sr-only" for="familyStatus">Family Status</label>
-							<select name="familyStatusId" class="form-control" id="familyStatus">
+						<div
+							class="form-group <sec:authorize access="!hasRole('leader')">hidden</sec:authorize> <c:if test="${!family.familyMoved}">hidden</c:if>">
+							<label class="checkbox"> <input type="checkbox"
+								name="recordsMoved" id="recordsMoved"> Records Moved
+							</label>
+						</div>
+						<div
+							class="form-group <sec:authorize access="!hasRole('leader')">hidden</sec:authorize>">
+							<label class="checkbox"> <input type="checkbox"
+								name="partMember" id="partMember"> Part Member
+							</label>
+						</div>
+
+						<div
+							class="form-group <sec:authorize access="!hasRole('leader')">hidden</sec:authorize>">
+							<label class="sr-only" for="familyStatus">Family Status</label> <select
+								name="familyStatusId" class="form-control" id="familyStatus">
 								<option value="">Select Status</option>
 								<c:forEach items="${statuses}" var="status">
 									<option value="${status.id}">${status.status}</option>
@@ -138,9 +188,11 @@
 							</select>
 						</div>
 
-						<div class="form-group <sec:authorize access="!hasRole('admin')">hidden</sec:authorize>">
-							<label class="sr-only" for="organization">Organization</label>
-							<select name="familyOrganizationIds" class="form-control" id="familyOrganization" multiple="multiple">
+						<div
+							class="form-group <sec:authorize access="!hasRole('leader')">hidden</sec:authorize>">
+							<label class="sr-only" for="organization">Organization</label> <select
+								name="familyOrganizationIds" class="form-control"
+								id="familyOrganization" multiple="multiple">
 								<option value="">Select Organization</option>
 								<c:forEach items="${organizations}" var="organization">
 									<option value="${organization.id}">${organization.organization}</option>
@@ -152,8 +204,10 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-					<button type="button" class="btn btn-primary" id="editFamily">Save Family</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						aria-hidden="true">Cancel</button>
+					<button type="button" class="btn btn-primary" id="editFamily">Save
+						Family</button>
 				</div>
 
 			</div>
@@ -204,9 +258,6 @@
 					'mData' : 'firstName',
 					'mRender' : setupFirstNameLink
 				}, {
-					'sTitle' : 'Age',
-					'mData' : 'age'
-				}, {
 					'sTitle' : 'Email',
 					'mData' : 'email'
 				}, {
@@ -255,7 +306,6 @@
 		}
 
 		function setupViewInfo() {
-			//TODO setup address and phone number links
 			$('#viewAddress').html('<strong>Address:</strong> ' + addressRender('${family.address}'));
 			$('#viewPhone').html('<strong>Phone Number:</strong> ' + getPhoneNumber('${family.phoneNumber}'));
 		}
@@ -298,7 +348,6 @@
 			$('#firstName').val(data.firstName);
 			$('#email').val(data.email);
 			$('#phoneNumber').val(data.phoneNumber);
-			$('#age').val(data.age);
 			$('#personId').val(data.id);
 			if (data.organization != null) {
 				$('#personOrganization').val(data.organization.id);
@@ -391,6 +440,16 @@
 			$('#address').val(data.address);
 			$('#familyPhoneNumber').val(data.phoneNumber);
 
+			if (data.familyMoved) {
+				$('#familyMoved').prop('checked', true);
+			}
+			if (data.recordsMoved) {
+				$('#recordsMoved').prop('checked', true);
+			}
+			if (data.partMember) {
+				$('#partMember').prop('checked', true);
+			}
+
 			$("#familyStatus option").each(function() {
 				if ($(this).text() == data.familyStatus) {
 					$(this).attr('selected', true);
@@ -399,7 +458,7 @@
 
 			//setup orgs
 			var orgs = new Array();
-			for ( var i = 0; i < data.organizations.length; i++) {
+			for (var i = 0; i < data.organizations.length; i++) {
 				orgs.push(data.organizations[i].id);
 			}
 			$('#familyOrganization').val(orgs);
@@ -415,7 +474,7 @@
 			$('#viewStatus').html('<strong>Status: </strong>' + data.familyStatus);
 
 			var organizations = '';
-			for ( var i = 0; i < data.organizations.length; i++) {
+			for (var i = 0; i < data.organizations.length; i++) {
 				if (i != 0) {
 					organizations += ', ';
 				}

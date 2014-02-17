@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.personalapp.hometeaching.model.Family;
 import com.personalapp.hometeaching.model.FamilyOrganization;
 import com.personalapp.hometeaching.model.Organization;
+import com.personalapp.hometeaching.model.Person;
 import com.personalapp.hometeaching.repository.FamilyRepository;
 import com.personalapp.hometeaching.service.FamilyService;
 import com.personalapp.hometeaching.view.FamilyViewModel;
@@ -26,6 +27,7 @@ public class FamilyServiceImpl implements FamilyService {
 	public FamilyViewModel edit(Family family) {
 		family.setUpdated(new Date());
 		setFamilyOrganizations(family);
+		setNullAsFalse(family);
 		repo.update(family);
 		return new FamilyViewModel(family, false, false, true);
 	}
@@ -34,14 +36,24 @@ public class FamilyServiceImpl implements FamilyService {
 	public FamilyViewModel save(Family family) {
 		family.setCreated(new Date());
 		setFamilyOrganizations(family);
+		setNullAsFalse(family);
 		repo.save(family);
 		return new FamilyViewModel(family, false, false, true);
 	}
 
 	@Override
-	public List<FamilyViewModel> getAllFamilies() {
+	public List<FamilyViewModel> getAllNotMovedFamilies() {
 		List<FamilyViewModel> families = newArrayList();
-		for (Family family : repo.getAllFamilies()) {
+		for (Family family : repo.getAllNotMovedFamilies()) {
+			families.add(new FamilyViewModel(family, true, true, true));
+		}
+		return families;
+	}
+
+	@Override
+	public List<FamilyViewModel> getAllMovedFamilies() {
+		List<FamilyViewModel> families = newArrayList();
+		for (Family family : repo.getAllMovedFamilies()) {
 			families.add(new FamilyViewModel(family, true, true, true));
 		}
 		return families;
@@ -87,6 +99,15 @@ public class FamilyServiceImpl implements FamilyService {
 			org.setFamily(family);
 			org.setOrganization(Organization.fromId(id));
 			family.getFamilyOrganizations().add(org);
+		}
+	}
+	
+	private void setNullAsFalse(Family family) {
+		if (family.getFamilyMoved() == null) {
+			family.setFamilyMoved(false);
+		}
+		if (family.getRecordsMoved() == null) {
+			family.setRecordsMoved(false);
 		}
 	}
 }

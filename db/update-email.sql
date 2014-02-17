@@ -1,4 +1,6 @@
-alter table person modify email varchar(50);
+alter table family add familymoved bit;
+alter table family add recordsmoved bit;
 
-alter table users add email varchar(50);
+update family set familymoved = false where familymoved is null;
+update family set recordsmoved = false where recordsmoved is null;
 commit;

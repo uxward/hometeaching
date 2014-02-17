@@ -37,13 +37,12 @@ public class FamilyController {
 	@RequestMapping(value = "getAllFamilies")
 	@ResponseBody
 	public DatatableResponse<FamilyViewModel> getAllFamilies() {
-		return new DatatableResponse<FamilyViewModel>(service.getAllFamilies());
+		return new DatatableResponse<FamilyViewModel>(service.getAllNotMovedFamilies());
 	}
 
 	@RequestMapping("/you")
 	public ModelAndView viewYou() {
-		ModelAndView view = getFamilyViewModel(getCurrentUser().getFamily().getId());
-		return view;
+		return getFamilyViewModel(getCurrentUser().getFamily().getId());
 	}
 
 	@RequestMapping(value = "/get")
@@ -66,9 +65,18 @@ public class FamilyController {
 
 	@RequestMapping(value = "/detail/{id}")
 	public ModelAndView detail(@PathVariable Long id) {
-		ModelAndView view = getFamilyViewModel(id);
+		return getFamilyViewModel(id);
+	}
 
-		return view;
+	@RequestMapping(value = "/moved")
+	public ModelAndView moved() {
+		return new ModelAndView("family/moved");
+	}
+
+	@RequestMapping(value = "/getAllMovedFamilies")
+	@ResponseBody
+	public DatatableResponse<FamilyViewModel> getAllMovedFamilies() {
+		return new DatatableResponse<FamilyViewModel>(service.getAllMovedFamilies());
 	}
 
 	private ModelAndView getFamilyViewModel(Long id) {

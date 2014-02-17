@@ -40,7 +40,7 @@
 				</div>
 
 				<div class="col-md-5">
-					<h1>Login Page</h1>
+					<h1>Home Teaching</h1>
 
 					<form action="<spring:url value="/login-execute" />" method="POST">
 						<div class="form-group">

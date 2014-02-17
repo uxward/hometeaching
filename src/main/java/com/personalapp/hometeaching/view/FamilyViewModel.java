@@ -19,6 +19,12 @@ public class FamilyViewModel {
 
 	private String phoneNumber;
 
+	private Boolean familyMoved;
+
+	private Boolean recordsMoved;
+
+	private Boolean partMember;
+
 	private String familyStatus;
 
 	private List<OrganizationViewModel> organizations = newArrayList();
@@ -34,6 +40,10 @@ public class FamilyViewModel {
 		this.familyName = family.getFamilyName();
 		this.address = family.getAddress();
 		this.phoneNumber = family.getPhoneNumber();
+		this.familyMoved = family.getFamilyMoved();
+		this.recordsMoved = family.getRecordsMoved();
+		this.partMember = family.getPartMember();
+
 		if (family.getFamilyStatus() != null) {
 			this.familyStatus = family.getFamilyStatus().getStatus();
 		}
@@ -70,10 +80,6 @@ public class FamilyViewModel {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public Long getAssignmentId() {
 		return assignmentId;
 	}
@@ -82,24 +88,24 @@ public class FamilyViewModel {
 		return familyName;
 	}
 
-	public void setFamilyName(String familyName) {
-		this.familyName = familyName;
-	}
-
 	public String getAddress() {
 		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public Boolean getFamilyMoved() {
+		return familyMoved;
+	}
+
+	public Boolean getRecordsMoved() {
+		return recordsMoved;
+	}
+
+	public Boolean getPartMember() {
+		return partMember;
 	}
 
 	public String getFamilyStatus() {
@@ -116,10 +122,6 @@ public class FamilyViewModel {
 
 	public List<PersonViewModel> getPeople() {
 		return people;
-	}
-
-	public void setPeople(List<PersonViewModel> people) {
-		this.people = people;
 	}
 
 	public String getPeopleNames() {
@@ -148,10 +150,6 @@ public class FamilyViewModel {
 
 	public CompanionViewModel getCompanions() {
 		return companions;
-	}
-
-	public void setCompanions(CompanionViewModel hometeachers) {
-		this.companions = hometeachers;
 	}
 
 	public void setAssignmentId(Long assignmentId) {

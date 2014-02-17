@@ -11,7 +11,7 @@ public interface FamilyService {
 
 	FamilyViewModel save(Family family);
 
-	List<FamilyViewModel> getAllFamilies();
+	List<FamilyViewModel> getAllNotMovedFamilies();
 
 	Family findDetailedFamilyById(Long id);
 
@@ -22,4 +22,6 @@ public interface FamilyService {
 	List<FamilyViewModel> getByCompanionId(Long companionId);
 
 	List<FamilyViewModel> getAllFamiliesWithoutCompanion();
+
+	List<FamilyViewModel> getAllMovedFamilies();
 }

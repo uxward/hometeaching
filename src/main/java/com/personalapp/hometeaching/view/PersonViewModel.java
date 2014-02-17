@@ -9,8 +9,6 @@ public class PersonViewModel {
 
 	private String firstName;
 
-	private Integer age;
-
 	private Boolean female;
 
 	private Boolean headOfHousehold;
@@ -30,7 +28,6 @@ public class PersonViewModel {
 	public PersonViewModel(Person person, Boolean populateFamily, Boolean populateCompanion) {
 		this.id = person.getId();
 		this.firstName = person.getFirstName();
-		this.age = person.getAge();
 		this.email = person.getEmail();
 		this.female = person.getFemale();
 		this.headOfHousehold = person.getHeadOfHousehold();
@@ -48,7 +45,7 @@ public class PersonViewModel {
 		if (populateCompanion) {
 			for (PersonCompanion personCompanion : person.getPersonCompanion()) {
 				if (personCompanion.getActive()) {
-					setActiveCompanion(true);
+					this.activeCompanion = true;
 					break;
 				}
 			}
@@ -63,32 +60,12 @@ public class PersonViewModel {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getFirstName() {
 		return firstName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public Integer getAge() {
-		return age;
-	}
-
-	public void setAge(Integer age) {
-		this.age = age;
-	}
-
 	public Boolean getFemale() {
 		return female;
-	}
-
-	public void setFemale(Boolean female) {
-		this.female = female;
 	}
 
 	public Boolean getHeadOfHousehold() {
@@ -99,24 +76,12 @@ public class PersonViewModel {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
 	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public Boolean getHometeacher() {
 		return hometeacher;
-	}
-
-	public void setHometeacher(Boolean hometeacher) {
-		this.hometeacher = hometeacher;
 	}
 
 	public OrganizationViewModel getOrganization() {
@@ -125,10 +90,6 @@ public class PersonViewModel {
 
 	public FamilyViewModel getFamily() {
 		return family;
-	}
-
-	public void setFamily(FamilyViewModel family) {
-		this.family = family;
 	}
 
 	public String getFullName() {
@@ -142,9 +103,4 @@ public class PersonViewModel {
 	public Boolean getActiveCompanion() {
 		return activeCompanion;
 	}
-
-	public void setActiveCompanion(Boolean activeCompanion) {
-		this.activeCompanion = activeCompanion;
-	}
-
 }

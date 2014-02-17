@@ -67,10 +67,12 @@ public class CompanionViewModel {
 	public String getAllHometeachers() {
 		String hometeachers = "";
 		for (PersonViewModel person : this.hometeachers) {
-			if (hometeachers.equals("")) {
-				hometeachers += person.getFirstName();
-			} else {
-				hometeachers += " and " + person.getFirstName();
+			if (!hometeachers.equals("")) {
+				hometeachers += ", ";
+			}
+			hometeachers += person.getFirstName();
+			if (person.getFamily() != null) {
+				hometeachers += " " + person.getFamily().getFamilyName();
 			}
 		}
 		return hometeachers;

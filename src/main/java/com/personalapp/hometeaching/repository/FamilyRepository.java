@@ -7,7 +7,9 @@ import com.personalapp.hometeaching.model.Family;
 
 public interface FamilyRepository extends Repository<Family, Long> {
 
-	List<Family> getAllFamilies();
+	List<Family> getAllNotMovedFamilies();
+
+	List<Family> getAllMovedFamilies();
 
 	Family findDetailedById(Long id);
 
