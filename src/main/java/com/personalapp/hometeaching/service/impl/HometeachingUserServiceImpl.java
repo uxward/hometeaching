@@ -60,6 +60,11 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 	}
 
 	@Override
+	public List<HometeachingUser> getAllUsersToEmail() {
+		return repo.getAllUsersToEmail();
+	}
+
+	@Override
 	public UserViewModel getUserDetails(Long userId) {
 		return new UserViewModel(repo.findDetailedById(userId));
 	}
@@ -74,6 +79,8 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 
 	@Override
 	public UserViewModel update(HometeachingUser updatedUser) {
+		// TODO catch when constraint exception violated (same username/same
+		// password)
 		HometeachingUser user = repo.findDetailedById(updatedUser.getId());
 		if (securityUtils.usernameNotUsed(user.getUsername(), user)) {
 			user.setUsername(updatedUser.getUsername());

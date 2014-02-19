@@ -1,7 +1,11 @@
 package com.personalapp.hometeaching.repository.impl;
 
+import static com.personalapp.hometeaching.model.QAssignment.assignment;
+import static com.personalapp.hometeaching.model.QCompanion.companion;
+import static com.personalapp.hometeaching.model.QFamily.family;
 import static com.personalapp.hometeaching.model.QHometeachingUser.hometeachingUser;
 import static com.personalapp.hometeaching.model.QPerson.person;
+import static com.personalapp.hometeaching.model.QPersonCompanion.personCompanion;
 import static com.personalapp.hometeaching.model.QUserOrganization.userOrganization;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserOrganizationIds;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -16,9 +20,7 @@ import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.repository.HometeachingUserRepository;
 
 @Repository
-public class HometeachingUserRepositoryImpl extends
-		RepositoryImpl<HometeachingUser, Long> implements
-		HometeachingUserRepository {
+public class HometeachingUserRepositoryImpl extends RepositoryImpl<HometeachingUser, Long> implements HometeachingUserRepository {
 	private final Logger logger = getLogger(getClass());
 
 	@Override
@@ -44,10 +46,22 @@ public class HometeachingUserRepositoryImpl extends
 		return query.list(hometeachingUser);
 	}
 
+	@Override
+	public List<HometeachingUser> getAllUsersToEmail() {
+		logger.info("entering the get all users to email method");
+		JPAQuery query = getDetailed();
+		query.leftJoin(person.personCompanion, personCompanion).fetch();
+		query.leftJoin(personCompanion.companion, companion).fetch();
+		query.leftJoin(companion.assignments, assignment).fetch();
+		query.leftJoin(assignment.family, family).fetch();
+		query.leftJoin(family.people).fetch();
+		query.where(companion.active.eq(true));
+		return query.list(hometeachingUser);
+	}
+
 	private JPAQuery getDetailed() {
 		JPAQuery query = getDetailedForLogin();
-		query.where(userOrganization.organizationId
-				.in(getCurrentUserOrganizationIds()));
+		query.where(userOrganization.organizationId.in(getCurrentUserOrganizationIds()));
 		return query;
 	}
 
@@ -56,8 +70,7 @@ public class HometeachingUserRepositoryImpl extends
 		query.leftJoin(hometeachingUser.userRoles).fetch();
 		query.leftJoin(hometeachingUser.person, person).fetch();
 		query.leftJoin(person.family).fetch();
-		query.leftJoin(hometeachingUser.userOrganizations, userOrganization)
-				.fetch();
+		query.leftJoin(hometeachingUser.userOrganizations, userOrganization).fetch();
 		query.distinct();
 		return query;
 	}

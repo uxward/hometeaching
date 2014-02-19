@@ -47,7 +47,7 @@ public class CompanionController {
 	@RequestMapping("getCompanions")
 	@ResponseBody
 	public DatatableResponse<CompanionViewModel> getCompanions() {
-		return new DatatableResponse<CompanionViewModel>(service.getAllCompanionsAndActiveFamilies());
+		return new DatatableResponse<CompanionViewModel>(service.getViewModelAllCompanionsAndActiveFamilies());
 	}
 
 	@RequestMapping("you")

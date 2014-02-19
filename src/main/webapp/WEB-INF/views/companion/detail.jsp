@@ -32,7 +32,7 @@
 
 	<br />
 
-	<sec:authorize access="hasRole('admin')">
+	<sec:authorize access="hasRole('leader')">
 		<a href="#addFamily" class="btn btn-primary" data-toggle="modal">Add Family</a>
 	</sec:authorize>
 
@@ -374,7 +374,7 @@
 									'mData' : 'phoneNumbers',
 									'mRender' : setupPhoneNumbers
 								}
-								<sec:authorize access="hasRole('admin')">
+								<sec:authorize access="hasRole('leader')">
 								, {
 									'sTitle' : 'Actions',
 									'mData' : 'id'

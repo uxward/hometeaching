@@ -106,13 +106,18 @@ public class CompanionServiceImpl implements CompanionService {
 	}
 
 	@Override
-	public List<CompanionViewModel> getAllCompanionsAndActiveFamilies() {
+	public List<CompanionViewModel> getViewModelAllCompanionsAndActiveFamilies() {
 		List<CompanionViewModel> companions = newArrayList();
 		for (Companion companion : repo.getAllCompanionsAndActiveFamilies()) {
 			companions.add(new CompanionViewModel(companion, true));
 		}
 
 		return companions;
+	}
+	
+	@Override
+	public List<Companion> getAllCompanionsAndActiveFamilies() {
+		return repo.getAllCompanionsAndActiveFamilies();
 	}
 
 	@Override

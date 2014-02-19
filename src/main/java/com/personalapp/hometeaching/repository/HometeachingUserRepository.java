@@ -11,4 +11,6 @@ public interface HometeachingUserRepository extends
 	HometeachingUser findDetailedById(Long id);
 
 	List<HometeachingUser> getAllUsers();
+
+	List<HometeachingUser> getAllUsersToEmail();
 }
