@@ -15,7 +15,7 @@ public interface FamilyRepository extends Repository<Family, Long> {
 
 	List<Family> getAllFamiliesWithoutCompanion();
 
-	List<Tuple> getFamilyStatusPercentage();
+	List<Tuple> getFamilyStatusPercentage(List<Long> organizationIds);
 
 	List<Family> getByCompanionId(Long companionId);
 

@@ -41,9 +41,9 @@ public class DashboardServiceImpl implements DashboardService {
 	}
 
 	@Override
-	public List<FamilyStatusViewModel> getFamilyStatusPercentage() {
+	public List<FamilyStatusViewModel> getFamilyStatusPercentage(List<Long> organizationIds) {
 
-		List<Tuple> tupleStatuses = familyRepo.getFamilyStatusPercentage();
+		List<Tuple> tupleStatuses = familyRepo.getFamilyStatusPercentage(organizationIds);
 
 		return getFamilyStatusFromTuple(tupleStatuses);
 	}

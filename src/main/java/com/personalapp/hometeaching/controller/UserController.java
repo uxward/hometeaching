@@ -2,6 +2,8 @@ package com.personalapp.hometeaching.controller;
 
 import static com.personalapp.hometeaching.security.SecurityUtils.currentUserIsAdmin;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
+import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserOrganizations;
+import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserRoles;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import org.slf4j.Logger;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.personalapp.hometeaching.model.HometeachingUser;
-import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.model.Role;
 import com.personalapp.hometeaching.repository.HometeachingUserRepository;
 import com.personalapp.hometeaching.repository.PersonRepository;
@@ -47,9 +48,10 @@ public class UserController {
 
 	@RequestMapping("/all")
 	public ModelAndView viewAll(Model model) {
+		logger.info("User " + getCurrentUser().getPerson().getFullName() + " is viewing all users");
 		ModelAndView view = new ModelAndView("user/users");
-		view.addObject("organizations", Organization.values());
-		view.addObject("roles", Role.values());
+		view.addObject("organizations", getCurrentUserOrganizations());
+		view.addObject("roles", getCurrentUserRoles());
 		view.addObject("unassigned", personRepo.getUnassignedHometeachingUsers());
 		return view;
 	}

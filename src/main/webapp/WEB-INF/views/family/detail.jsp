@@ -97,13 +97,13 @@
 							</label>
 						</div>
 						<div
-							class="form-group <sec:authorize access="!hasRole('admin')">hidden</sec:authorize>">
+							class="form-group <sec:authorize access="!hasRole('leader')">hidden</sec:authorize>">
 							<label class="checkbox"> <input type="checkbox"
 								name="hometeacher" id="hometeacher"> Home Teacher
 							</label>
 						</div>
 						<div
-							class="form-group <sec:authorize access="!hasRole('admin')">hidden</sec:authorize>">
+							class="form-group <sec:authorize access="!hasRole('leader')">hidden</sec:authorize>">
 							<label class="sr-only" for="organization">Organization</label> <select
 								name="organizationId" class="form-control"
 								id="personOrganization">

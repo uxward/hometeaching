@@ -65,10 +65,10 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 	}
 
 	@Override
-	public List<Tuple> getFamilyStatusPercentage() {
+	public List<Tuple> getFamilyStatusPercentage(List<Long> organizationIds) {
 		logger.info("Entering the get all family statuse percentages method");
 		JPAQuery query = jpaFrom(family);
-		query.where(getFamiliesMatchingUserOrganizationsSubQuery().exists());
+		query.where(getFamiliesMatchingOrganizationsSubQuery(organizationIds).exists());
 		query.where(family.familyMoved.isNull().or(family.familyMoved.eq(false)));
 		return query.groupBy(family.familyStatusId).list(family.id.count(), family.familyStatusId);
 	}
@@ -93,7 +93,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 		JPAQuery query = jpaFrom(family);
 		query.leftJoin(family.visits, visit);
 		query.where(visit.isNotNull(), visit.month.eq(month), visit.year.eq(year));
-		query.where(getFamiliesMatchingUserOrganizationsSubQuery().exists());
+		query.where(getFamiliesMatchingOrganizationsSubQuery(getCurrentUserOrganizationIds()).exists());
 		return query.groupBy(family.familyStatusId).list(family.id.count(), family.familyStatusId, visit.visited.castToNum(Integer.class).avg());
 	}
 
@@ -133,9 +133,9 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 		return query;
 	}
 
-	private JPASubQuery getFamiliesMatchingUserOrganizationsSubQuery() {
+	private JPASubQuery getFamiliesMatchingOrganizationsSubQuery(List<Long> organizationIds) {
 		JPASubQuery q = new JPASubQuery().from(familyOrganization);
-		q.where(familyOrganization.family.eq(family), familyOrganization.organizationId.in(getCurrentUserOrganizationIds()));
+		q.where(familyOrganization.family.eq(family), familyOrganization.organizationId.in(organizationIds));
 		return q;
 	}
 }

@@ -1,6 +1,9 @@
 package com.personalapp.hometeaching.security;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.personalapp.hometeaching.model.Organization.ELDERS;
+import static com.personalapp.hometeaching.model.Organization.HIGH_PRIEST;
+import static com.personalapp.hometeaching.model.Organization.RELIEF_SOCIETY;
 import static com.personalapp.hometeaching.model.Role.ADMIN;
 import static com.personalapp.hometeaching.model.Role.HOMETEACHER;
 import static com.personalapp.hometeaching.model.Role.LEADER;
@@ -18,6 +21,7 @@ import com.google.common.base.Objects;
 import com.personalapp.hometeaching.model.Family;
 import com.personalapp.hometeaching.model.FamilyOrganization;
 import com.personalapp.hometeaching.model.HometeachingUser;
+import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.model.Role;
 import com.personalapp.hometeaching.model.UserOrganization;
 import com.personalapp.hometeaching.repository.HometeachingUserRepository;
@@ -56,6 +60,17 @@ public class SecurityUtils {
 		return currentUserHasRole(LEADER);
 	}
 
+	public static List<Role> getCurrentUserRoles() {
+		List<Role> roles = newArrayList();
+		if (currentUserIsLeader()) {
+			roles = newArrayList(LEADER, HOMETEACHER);
+		}
+		if (currentUserIsAdmin()) {
+			roles = newArrayList(ADMIN, LEADER, HOMETEACHER);
+		}
+		return roles;
+	}
+
 	public static boolean hasFamilyAccess(Family family) {
 		return Objects.equal(family.getId(), getCurrentUser().getFamily().getId()) || (currentUserIsLeader() && familyInCurrentUserOrganizations(family));
 	}
@@ -82,6 +97,19 @@ public class SecurityUtils {
 			organizationIds.add(organization.getOrganizationId());
 		}
 		return organizationIds;
+	}
+
+	public static List<Organization> getCurrentUserOrganizations() {
+		List<Organization> organizations = newArrayList();
+		if (currentUserIsAdmin()) {
+			organizations = newArrayList(RELIEF_SOCIETY, HIGH_PRIEST, ELDERS);
+		}
+		if (currentUserIsLeader()) {
+			for (UserOrganization organization : getCurrentUser().getHometeachingUser().getUserOrganizations()) {
+				organizations.add(Organization.fromId(organization.getOrganizationId()));
+			}
+		}
+		return organizations;
 	}
 
 	public boolean usernameNotUsed(String username) {

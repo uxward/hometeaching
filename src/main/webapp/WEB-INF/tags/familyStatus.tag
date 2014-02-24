@@ -1,7 +1,8 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ attribute name="pageHeader" required="true"%>
 <%@ attribute name="pageTitle" required="true"%>
 <%@ attribute name="activeMenu" required="true"%>
@@ -26,16 +27,49 @@
 				type : 'GET',
 				url : '<spring:url value="/dashboard/getFamilyStatusPercentage"/>',
 				success : function(data) {
-					setupFamilyStatus(data);
+					setupFamilyStatus(data, 'Aggregate');
+				}
+			});
+
+			$.ajax({
+				type : 'GET',
+				url : '<spring:url value="/dashboard/getFamilyStatusPercentageByOrganization"/>',
+				data : {
+					'organizationId' : 1
+				},
+				success : function(data) {
+					setupFamilyStatus(data.familyStatus, data.organization);
+				}
+			});
+
+			$.ajax({
+				type : 'GET',
+				url : '<spring:url value="/dashboard/getFamilyStatusPercentageByOrganization"/>',
+				data : {
+					'organizationId' : 2
+				},
+				success : function(data) {
+					setupFamilyStatus(data.familyStatus, data.organization);
+				}
+			});
+
+			$.ajax({
+				type : 'GET',
+				url : '<spring:url value="/dashboard/getFamilyStatusPercentageByOrganization"/>',
+				data : {
+					'organizationId' : 3
+				},
+				success : function(data) {
+					setupFamilyStatus(data.familyStatus, data.organization);
 				}
 			});
 		}
 
-		function setupFamilyStatus(data) {
+		function setupFamilyStatus(data, display) {
 
-			var width = 400, height = 250, radius = 100, margin = {
-				x : 80,
-				y : 20
+			var width = 280, height = 280, radius = 100, margin = {
+				x : 0,
+				y : 10
 			};
 
 			var color = {
@@ -43,12 +77,12 @@
 				'Recent Convert' : '#f0ad4e',
 				'Inactive' : '#d9534f',
 				'Unknown' : '#5bc0de',
-				'Moved' : '#999',
 				'Do Not Contact' : '#333'
 			};
 
-			var vis = d3.select('#familyStatusPie').append('svg:svg').data([ data ]).attr('width', width).attr('height', height).attr('class', '').append('svg:g').attr('transform',
-					'translate(' + (radius + margin.x) + ',' + (radius + margin.y) + ')');
+			var svg = d3.select('#familyStatusPie').append('svg').data([ data ]).attr('width', width).attr('height', height).attr('class', '')
+
+			var vis = svg.append('g').attr('transform', 'translate(' + width / 2 + ',' + (height / 2 + margin.y) + ')');
 
 			var arc = d3.svg.arc().outerRadius(radius).innerRadius(radius - 70);
 
@@ -60,32 +94,41 @@
 				return d.totalFamilies;
 			});
 
-			var arcs = vis.selectAll('g.slice').data(pie).enter().append('svg:g').attr('class', 'slice').on('click', function(d) {
+			var arcs = vis.selectAll('g.slice').data(pie).enter().append('g').attr('class', 'slice').on('click', function(d) {
 				d3.selectAll('.slice').select('path').transition().duration(500).attr('d', arc);
 				d3.select(this).select('path').transition().duration(500).attr('d', arcOver);
 				var status = d.data.familyStatus;
 				$('#familyTable').dataTable().fnFilter(status, 1, false, true, true, false);
 			});
 
-			arcs.append('svg:path').attr('fill', function(d, i) {
+			arcs.append('path').attr('fill', function(d, i) {
 				return color[d.data.familyStatus];
 			}).attr('d', arc);
 
-			arcs.append('svg:text').attr('transform', function(d, i) {
-				var labelr = radius - 12;
+			arcs.append('text').attr('transform', function(d, i) {
+				var labelr = radius - 50;
+
 				if (d.data.familyStatus == 'Recent Convert') {
-					labelr = radius;
+					labelr = radius - 25;
 				}
 				var c = arc.centroid(d), x = c[0], y = c[1],
 				// pythagorean theorem for hypotenuse
 				h = Math.sqrt(x * x + y * y);
-				return "translate(" + (x / h * labelr) + ',' + (y / h * labelr) + ")";
-
+				return 'translate(' + (x / h * labelr) + ',' + (y / h * labelr) + ')';
 			}).attr('text-anchor', function(d) {
 				// are we past the center?
-				return d.data.familyStatus == 'Recent Convert' ? 'start' : d.data.familyStatus == 'Moved' ? 'middle' : (d.endAngle + d.startAngle) / 2 > Math.PI ? "end" : "start";
+				return d.data.familyStatus == 'Recent Convert' ? 'middle' : (d.endAngle + d.startAngle) / 2 > Math.PI ? 'end' : 'start';
 			}).text(function(d, i) {
 				return data[i].familyStatus + ' ' + getPercentage($.trim(data[i].familyPercent));
+			});
+
+			var legend = svg.selectAll('.legend').data([ {
+				'display' : 'display'
+			} ]).enter().append('g').attr('class', 'legend').attr('transform', function(d, i) {
+				return 'translate(' + width / 2 + ',' + margin.y + ')';
+			});
+			legend.append('text').attr('text-anchor', 'middle').style('font-weight', 'bold').text(function(d) {
+				return display;
 			});
 		}
 	</script>

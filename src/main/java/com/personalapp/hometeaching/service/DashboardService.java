@@ -9,7 +9,7 @@ public interface DashboardService {
 
 	List<VisitPercentageViewModel> getVisitPercentage();
 
-	List<FamilyStatusViewModel> getFamilyStatusPercentage();
+	List<FamilyStatusViewModel> getFamilyStatusPercentage(List<Long> organizationIds);
 
 	List<FamilyStatusViewModel> getVisitPercentageDetails(Integer month, Integer year);
 }

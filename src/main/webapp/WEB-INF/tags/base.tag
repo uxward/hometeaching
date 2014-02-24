@@ -112,7 +112,7 @@
 									</ul></li>
 
 							</sec:authorize>
-							<sec:authorize access="!hasRole('admin')">
+							<sec:authorize access="!hasRole('leader')">
 								<li class="${activeMenu ==  'yourFamily' ? 'active' : '' }"><a href="${family}/you">Family</a></li>
 								<li class="${activeMenu ==  'yourCompanion' ? 'active' : '' }"><a href="${companion}/you">Companionship</a></li>
 							</sec:authorize>
