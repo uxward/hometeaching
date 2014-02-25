@@ -1,8 +1,8 @@
 package com.personalapp.hometeaching.view;
 
-import java.util.List;
+import static com.google.common.collect.Lists.newArrayList;
 
-import org.springframework.util.AutoPopulatingList;
+import java.util.List;
 
 import com.personalapp.hometeaching.model.Assignment;
 import com.personalapp.hometeaching.model.Companion;
@@ -12,9 +12,9 @@ public class CompanionViewModel {
 
 	private Long id;
 
-	private List<PersonViewModel> hometeachers = new AutoPopulatingList<PersonViewModel>(PersonViewModel.class);
+	private List<PersonViewModel> hometeachers = newArrayList();
 
-	private List<FamilyViewModel> assignments = new AutoPopulatingList<FamilyViewModel>(FamilyViewModel.class);
+	private List<FamilyViewModel> assignments = newArrayList();
 
 	public CompanionViewModel() {
 

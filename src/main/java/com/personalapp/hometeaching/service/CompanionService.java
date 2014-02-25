@@ -7,15 +7,15 @@ import com.personalapp.hometeaching.view.CompanionViewModel;
 import com.personalapp.hometeaching.view.FamilyViewModel;
 
 public interface CompanionService {
-	CompanionViewModel addCompanion(CompanionViewModel viewModel);
+	CompanionViewModel addCompanion(Companion companion);
 
-	List<FamilyViewModel> addAssignment(CompanionViewModel viewModel);
+	List<FamilyViewModel> addAssignment(Companion viewModel);
 
 	Boolean removeAssignment(Long companionId, Long familyId);
 
 	Boolean removeCompanion(Long companionId);
 
-	CompanionViewModel editAssignment(CompanionViewModel viewModel);
+	CompanionViewModel editAssignment(Companion viewModel);
 
 	List<CompanionViewModel> getViewModelAllCompanionsAndActiveFamilies();
 

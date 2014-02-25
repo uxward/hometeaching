@@ -1,26 +1,30 @@
 package com.personalapp.hometeaching.view;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 import java.util.List;
 
 import com.personalapp.hometeaching.model.Organization;
 
 public class WardFamilyStatusViewModel {
 
-	private List<FamilyStatusViewModel> familyStatus;
+	private List<FamilyStatusViewModel> familyStatus = newArrayList();
 
-	private String organization;
+	private List<OrganizationViewModel> organizations = newArrayList();
 
-	public WardFamilyStatusViewModel(List<FamilyStatusViewModel> familyStatus, Organization organization) {
+	public WardFamilyStatusViewModel(List<FamilyStatusViewModel> familyStatus, List<Organization> organizations) {
 		this.familyStatus = familyStatus;
-		this.organization = organization.getOrganization();
+		for (Organization organization : organizations) {
+			this.organizations.add(new OrganizationViewModel(organization));
+		}
 	}
 
 	public List<FamilyStatusViewModel> getFamilyStatus() {
 		return familyStatus;
 	}
 
-	public String getOrganization() {
-		return organization;
+	public List<OrganizationViewModel> getOrganizations() {
+		return organizations;
 	}
 
 }

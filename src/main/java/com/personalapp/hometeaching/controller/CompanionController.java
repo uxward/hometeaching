@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.service.CompanionService;
 import com.personalapp.hometeaching.service.FamilyService;
 import com.personalapp.hometeaching.service.PersonService;
@@ -83,7 +84,7 @@ public class CompanionController {
 
 	@RequestMapping("/save")
 	@ResponseBody
-	public CompanionViewModel save(CompanionViewModel companion) {
+	public CompanionViewModel save(Companion companion) {
 		return service.addCompanion(companion);
 	}
 
@@ -95,13 +96,13 @@ public class CompanionController {
 
 	@RequestMapping(value = "/edit")
 	@ResponseBody
-	public CompanionViewModel edit(CompanionViewModel companion) {
+	public CompanionViewModel edit(Companion companion) {
 		return service.editAssignment(companion);
 	}
 
 	@RequestMapping(value = "/addAssignment")
 	@ResponseBody
-	public List<FamilyViewModel> addAssignment(CompanionViewModel companion) {
+	public List<FamilyViewModel> addAssignment(Companion companion) {
 		return service.addAssignment(companion);
 	}
 

@@ -109,16 +109,21 @@
 				'aoColumns' : [ {
 					'sTitle' : 'Family Name',
 					'mData' : 'familyName',
-					'sWidth' : '30%',
+					'sWidth' : '20%',
 					'mRender' : familyNameRender
 				}, {
 					'sTitle' : 'Status',
 					'mData' : 'familyStatus',
 					'sWidth' : '10%'
 				}, {
+					'sTitle' : 'Organization',
+					'mData' : 'organizations',
+					'mRender' : setupOrganizations,
+					'sWidth' : '15%'
+				}, {
 					'sTitle' : 'Address',
 					'mData' : 'address',
-					'sWidth' : '25%',
+					'sWidth' : '20%',
 					'mRender' : addressRender,
 					'sClass' : 'hidden-xs'
 				}, {
@@ -144,10 +149,21 @@
 			return '<a href="<spring:url value="/family/detail/"/>' + full.id + '">' + getFamilyAndHeadNames(data, full.people) + '</a>';
 		}
 
+		function setupOrganizations(data, type, full) {
+			var html = '';
+			for(var i = 0; i < data.length; i++){
+				if(i != 0){
+					html += ', ';
+				}
+				html += data[i].organization;
+			}
+			return html;
+		}
+
 		function setupCompanions(data, type, full) {
 			var html = '';
 			if (data != null) {
-				html = '<a href="<spring:url value="/companion/detail/"/>' + data.id + '">' + data.allHometeachers + '</a>'
+				html = '<a href="<spring:url value="/companion/detail/"/>' + data.id + '">' + data.allHometeachers + '</a>';
 			}
 			return html;
 		}

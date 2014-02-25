@@ -1,6 +1,10 @@
 package com.personalapp.hometeaching.controller;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.personalapp.hometeaching.model.Organization.ELDERS;
+import static com.personalapp.hometeaching.model.Organization.HIGH_PRIEST;
+import static com.personalapp.hometeaching.model.Organization.RELIEF_SOCIETY;
+import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserOrganizationIds;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -15,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.personalapp.hometeaching.model.Organization;
-import com.personalapp.hometeaching.security.SecurityUtils;
 import com.personalapp.hometeaching.service.DashboardService;
 import com.personalapp.hometeaching.view.FamilyStatusViewModel;
 import com.personalapp.hometeaching.view.VisitPercentageViewModel;
@@ -49,15 +52,15 @@ public class DashboardController {
 
 	@RequestMapping("getFamilyStatusPercentage")
 	@ResponseBody
-	public List<FamilyStatusViewModel> getFamilyStatusPercentage() {
-		return service.getFamilyStatusPercentage(getCurrentUserOrganizationIds());
+	public WardFamilyStatusViewModel getFamilyStatusPercentage() {
+		return new WardFamilyStatusViewModel(service.getFamilyStatusPercentage(getCurrentUserOrganizationIds()), newArrayList(ELDERS, HIGH_PRIEST, RELIEF_SOCIETY));
 	}
 
 	@RequestMapping("getFamilyStatusPercentageByOrganization")
 	@ResponseBody
 	public WardFamilyStatusViewModel getFamilyStatusPercentageByOrganization(@RequestParam("organizationId") Long organizationId) {
-		logger.info("User " + SecurityUtils.getCurrentUser().getPerson().getFullName() + " is getting family status percentages for organization with id " + organizationId);
+		logger.info("User " + getCurrentUser().getPerson().getFullName() + " is getting family status percentages for organization with id " + organizationId);
 		List<FamilyStatusViewModel> statuses = service.getFamilyStatusPercentage(newArrayList(organizationId));
-		return new WardFamilyStatusViewModel(statuses, Organization.fromId(organizationId));
+		return new WardFamilyStatusViewModel(statuses, newArrayList(Organization.fromId(organizationId)));
 	}
 }

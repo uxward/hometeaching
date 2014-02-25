@@ -2,51 +2,41 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<t:mainPage activeMenu="allCompanions" pageTitle="Companion - Home"
-	pageHeader="Companion" pageSubheader="Home">
+<t:mainPage activeMenu="allCompanions" pageTitle="Companion - Home" pageHeader="Companion" pageSubheader="Home">
 
-	<table id="companionTable"
-		class="table table-striped table-hover table-bordered">
+	<table id="companionTable" class="table table-striped table-hover table-bordered">
 	</table>
 
-	<a href="#addCompanion" role="button" class="btn btn-primary"
-		data-toggle="modal">Add Companion</a>
-	<a href="#" class="btn btn-primary" id="emailAssignments">Email
-		Assignments</a>
+	<a href="#addCompanion" role="button" class="btn btn-primary" data-toggle="modal">Add Companion</a>
+	<a href="#" class="btn btn-primary" id="emailAssignments">Email Assignments</a>
 
 	<!-- Add companion modal -->
-	<div id="addCompanion" class="modal fade" tabindex="-1" role="dialog"
-		aria-labelledby="addFamilyLabel" aria-hidden="true">
+	<div id="addCompanion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addFamilyLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					<h3 id="addFamilyLabel">Add Companion</h3>
 				</div>
 
 				<div class="modal-body">
 					<form id="companionForm">
 						<div class="form-group">
-							<label class="sr-only" for="companion0">1st Companion</label> <select
-								name="hometeachers[0].id" class="companionSelect form-control"
-								id="companion0">
+							<label class="sr-only" for="companion0">1st Companion</label>
+							<select name="autopopulatingPersonCompanions[0].personId" class="companionSelect form-control" id="companion0">
 								<option value="">Select Home Teacher</option>
 								<c:forEach items="${hometeachers}" var="hometeacher">
-									<option value="${hometeacher.id}"
-										class="${empty hometeacher.activeCompanion ? 'notCompanion' : 'alreadyCompanion'}">${hometeacher.firstName}&nbsp;${hometeacher.family.familyName}</option>
+									<option value="${hometeacher.id}" class="${empty hometeacher.activeCompanion ? 'notCompanion' : 'alreadyCompanion'}">${hometeacher.firstName}&nbsp;${hometeacher.family.familyName}</option>
 								</c:forEach>
 							</select>
 						</div>
 						<div class="form-group">
-							<label class="sr-only" for="companion1">2nd Companion</label> <select
-								name="hometeachers[1].id" class="companionSelect form-control"
-								id="companion1">
+							<label class="sr-only" for="companion1">2nd Companion</label>
+							<select name="autopopulatingPersonCompanions[1].personId" class="companionSelect form-control" id="companion1">
 								<option value="">Select Home Teacher</option>
 								<c:forEach items="${hometeachers}" var="hometeacher">
-									<option value="${hometeacher.id}"
-										class="${empty hometeacher.activeCompanion ? 'notCompanion' : 'alreadyCompanion'}">${hometeacher.firstName}&nbsp;${hometeacher.family.familyName}</option>
+									<option value="${hometeacher.id}" class="${empty hometeacher.activeCompanion ? 'notCompanion' : 'alreadyCompanion'}">${hometeacher.firstName}&nbsp;${hometeacher.family.familyName}</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -54,10 +44,8 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal"
-						aria-hidden="true">Cancel</button>
-					<button type="button" class="btn btn-primary" id="saveCompanion">Save
-						Companion</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+					<button type="button" class="btn btn-primary" id="saveCompanion">Save Companion</button>
 				</div>
 
 			</div>
@@ -65,39 +53,32 @@
 	</div>
 
 	<!-- Edit companion modal -->
-	<div id="editCompanionModal" class="modal fade" tabindex="-1"
-		role="dialog" aria-labelledby="editCompanionLabel" aria-hidden="true"
-		data-show="false">
+	<div id="editCompanionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editCompanionLabel" aria-hidden="true" data-show="false">
 		<div class="modal-dialog">
 			<div class="modal-content">
 
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">×</button>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 					<h3 id="editCompanionLabel">Edit Companion</h3>
 				</div>
 
 				<div class="modal-body">
 					<form id="editCompanionForm">
 						<div class="form-group">
-							<label class="sr-only" for="editFirstCompanion">1st
-								Companion</label> <select name="hometeachers[0].id"
-								class="companionSelect form-control" id="editFirstCompanion">
+							<label class="sr-only" for="editFirstCompanion">1st Companion</label>
+							<select name="autopopulatingPersonCompanions[0].personId" class="companionSelect form-control" id="editFirstCompanion">
 								<option value="">Select Home Teacher</option>
 								<c:forEach items="${hometeachers}" var="hometeacher">
-									<option value="${hometeacher.id}"
-										class="${hometeacher.activeCompanion ? 'alreadyCompanion' : 'notCompanion'}">${hometeacher.firstName}&nbsp;${hometeacher.family.familyName}</option>
+									<option value="${hometeacher.id}" class="${hometeacher.activeCompanion ? 'alreadyCompanion' : 'notCompanion'}">${hometeacher.firstName}&nbsp;${hometeacher.family.familyName}</option>
 								</c:forEach>
 							</select>
 						</div>
 						<div class="form-group">
-							<label class="sr-only" for="editSecondCompanion">2nd
-								Companion</label> <select name="hometeachers[1].id"
-								class="companionSelect form-control" id="editSecondCompanion">
+							<label class="sr-only" for="editSecondCompanion">2nd Companion</label>
+							<select name="autopopulatingPersonCompanions[1].personId" class="companionSelect form-control" id="editSecondCompanion">
 								<option value="">Select Home Teacher</option>
 								<c:forEach items="${hometeachers}" var="hometeacher">
-									<option value="${hometeacher.id}"
-										class="${hometeacher.activeCompanion ? 'alreadyCompanion' : 'notCompanion'}">${hometeacher.firstName}&nbsp;${hometeacher.family.familyName}</option>
+									<option value="${hometeacher.id}" class="${hometeacher.activeCompanion ? 'alreadyCompanion' : 'notCompanion'}">${hometeacher.firstName}&nbsp;${hometeacher.family.familyName}</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -106,10 +87,8 @@
 				</div>
 
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal"
-						aria-hidden="true">Cancel</button>
-					<button type="button" class="btn btn-primary" id="editCompanion">Edit
-						Companion</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+					<button type="button" class="btn btn-primary" id="editCompanion">Edit Companion</button>
 				</div>
 
 			</div>
@@ -138,12 +117,13 @@
 				$('#editFirstCompanion').val($(this).data('firstPersonId'));
 				$('#editSecondCompanion').val($(this).data('secondPersonId'));
 				$('#editCompanionId').val($(this).data('companionId'));
+				$('#editCompanion').data('tr', $(this).closest('tr'));
 				$('#editCompanionModal').modal('show');
 			});
 
 			$('#editCompanion').click(function() {
 				if (editCompanionValid()) {
-					var tr = $(this).closest('tr');
+					var tr = $(this).data('tr');
 					editCompanion(tr[0]);
 				}
 			})
@@ -271,8 +251,8 @@
 				success : function(data) {
 					console.log(data);
 					//clear form and hide modal
-					$('#addCompanion').modal('hide');
-					$('#companionForm')[0].reset();
+					$('#editCompanionModal').modal('hide');
+					$('#editCompanionForm')[0].reset();
 
 					//remove old companion row from table
 					$('#companionTable').dataTable().fnDeleteRow(tr);

@@ -49,7 +49,7 @@
 				<div class="modal-body">
 					<form id="familyForm">
 						<div class="form-group">
-							<select name="assignments[0].id" id="familySelect" class="form-control">
+							<select name="autopopulatingAssignments[0].familyId" id="familySelect" class="form-control">
 								<option value="">Select Family</option>
 								<c:forEach items="${families}" var="family">
 									<option value="${family.id}">${family.familyName},&nbsp;${family.headOfHousehold}&nbsp;</option>

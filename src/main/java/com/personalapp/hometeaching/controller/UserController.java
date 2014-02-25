@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.personalapp.hometeaching.model.HometeachingUser;
-import com.personalapp.hometeaching.model.Role;
 import com.personalapp.hometeaching.repository.HometeachingUserRepository;
 import com.personalapp.hometeaching.repository.PersonRepository;
 import com.personalapp.hometeaching.security.PasswordUtils;

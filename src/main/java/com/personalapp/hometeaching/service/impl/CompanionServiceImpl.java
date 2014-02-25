@@ -21,7 +21,6 @@ import com.personalapp.hometeaching.repository.PersonRepository;
 import com.personalapp.hometeaching.service.CompanionService;
 import com.personalapp.hometeaching.view.CompanionViewModel;
 import com.personalapp.hometeaching.view.FamilyViewModel;
-import com.personalapp.hometeaching.view.PersonViewModel;
 
 @Service
 public class CompanionServiceImpl implements CompanionService {
@@ -42,33 +41,17 @@ public class CompanionServiceImpl implements CompanionService {
 	private PersonCompanionRepository personCompanionRepo;
 
 	@Override
-	public CompanionViewModel addCompanion(CompanionViewModel viewModel) {
-		Companion companion = new Companion();
-		companion.setActive(true);
-		List<PersonViewModel> hometeachers = newArrayList();
-		Set<PersonCompanion> companions = newHashSet();
-		for (PersonViewModel person : viewModel.getHometeachers()) {
-			PersonCompanion personCompanion = new PersonCompanion();
-			personCompanion.setActive(true);
-			personCompanion.setPersonId(person.getId());
-			personCompanion.setCompanion(companion);
-			companions.add(personCompanion);
-			hometeachers.add(new PersonViewModel(personRepo.findById(person.getId()), false, false));
-		}
-		companion.setCompanions(companions);
-		companion.setCreated(new Date());
-		repo.save(companion);
-		viewModel.setId(companion.getId());
-		viewModel.setHometeachers(hometeachers);
-		return viewModel;
+	public CompanionViewModel addCompanion(Companion toCreate) {
+		Companion companion = createNewCompanion(toCreate);
+		return new CompanionViewModel(repo.findDetailedById(companion.getId()), true);
 	}
 
 	@Override
-	public List<FamilyViewModel> addAssignment(CompanionViewModel viewModel) {
+	public List<FamilyViewModel> addAssignment(Companion companion) {
 		List<FamilyViewModel> families = newArrayList();
-		for (FamilyViewModel family : viewModel.getAssignments()) {
-			saveAssignment(viewModel.getId(), family.getId());
-			families.add(new FamilyViewModel(familyRepo.findDetailedById(family.getId()), true, false, true));
+		for (Assignment assignment : companion.getAutopopulatingAssignments()) {
+			saveAssignment(companion.getId(), assignment.getFamilyId());
+			families.add(new FamilyViewModel(familyRepo.findDetailedById(assignment.getFamilyId()), true, false, true));
 		}
 
 		return families;
@@ -91,18 +74,33 @@ public class CompanionServiceImpl implements CompanionService {
 	}
 
 	@Override
-	public CompanionViewModel editAssignment(CompanionViewModel viewModel) {
-		Companion oldCompanion = repo.findDetailedById(viewModel.getId());
+	public CompanionViewModel editAssignment(Companion toCreate) {
+		Companion oldCompanion = repo.findDetailedById(toCreate.getId());
 		// setup new companion with same families
-		viewModel = addCompanion(viewModel);
+		Companion companion = createNewCompanion(toCreate);
 
 		for (Assignment assignment : oldCompanion.getAssignments()) {
-			saveAssignment(viewModel.getId(), assignment.getFamilyId());
+			saveAssignment(companion.getId(), assignment.getFamilyId());
 		}
 
 		// mark old companion inactive
 		markAllInactive(oldCompanion);
-		return viewModel;
+		return new CompanionViewModel(repo.findDetailedById(companion.getId()), true);
+	}
+
+	private Companion createNewCompanion(Companion toCreate) {
+		Companion companion = new Companion();
+		companion.setActive(true);
+		Set<PersonCompanion> companions = newHashSet();
+		for (PersonCompanion personCompanion : toCreate.getAutopopulatingPersonCompanions()) {
+			personCompanion.setActive(true);
+			personCompanion.setCompanion(companion);
+			companions.add(personCompanion);
+		}
+		companion.setCompanions(companions);
+		companion.setCreated(new Date());
+		repo.save(companion);
+		return companion;
 	}
 
 	@Override
@@ -114,7 +112,7 @@ public class CompanionServiceImpl implements CompanionService {
 
 		return companions;
 	}
-	
+
 	@Override
 	public List<Companion> getAllCompanionsAndActiveFamilies() {
 		return repo.getAllCompanionsAndActiveFamilies();

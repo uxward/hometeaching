@@ -5,7 +5,7 @@ import static com.google.common.collect.Maps.newHashMap;
 import java.util.Map;
 
 public enum Organization {
-	ELDERS(1L, "Elders quorum"), HIGH_PRIEST(2L, "High priests group"), RELIEF_SOCIETY(3L, "Relief society");
+	ELDERS(1L, "Elders quorum"), HIGH_PRIEST(2L, "High priests"), RELIEF_SOCIETY(3L, "Relief society");
 
 	private final static Map<Long, Organization> ORGANIZATION = newHashMap();
 	static {

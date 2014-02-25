@@ -5,8 +5,7 @@ import static com.google.common.collect.Maps.newHashMap;
 import java.util.Map;
 
 public enum FamilyStatus {
-	ACTIVE(1L, "Active"), RECENT_CONVERT(2L, "Recent Convert"), INACTIVE(3L,
-			"Inactive"), UNKNOWN(4L, "Unknown"), MOVED(5L, "Moved"), DO_NOT_CONTACT(6L, "Do Not Contact");
+	ACTIVE(1L, "Active"), RECENT_CONVERT(2L, "Recent Convert"), INACTIVE(3L, "Inactive"), UNKNOWN(4L, "Unknown"), DO_NOT_CONTACT(6L, "Do Not Contact");
 
 	private final static Map<Long, FamilyStatus> FAMILY_STATUS = newHashMap();
 	static {

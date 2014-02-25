@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.personalapp.hometeaching.model.Family;
 import com.personalapp.hometeaching.model.FamilyOrganization;
 import com.personalapp.hometeaching.model.Organization;
-import com.personalapp.hometeaching.model.Person;
 import com.personalapp.hometeaching.repository.FamilyRepository;
 import com.personalapp.hometeaching.service.FamilyService;
 import com.personalapp.hometeaching.view.FamilyViewModel;
@@ -101,7 +100,7 @@ public class FamilyServiceImpl implements FamilyService {
 			family.getFamilyOrganizations().add(org);
 		}
 	}
-	
+
 	private void setNullAsFalse(Family family) {
 		if (family.getFamilyMoved() == null) {
 			family.setFamilyMoved(false);
