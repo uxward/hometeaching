@@ -1,6 +1,8 @@
 package com.personalapp.hometeaching.service.impl;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.personalapp.hometeaching.model.Organization.AGGREGATE;
+import static com.personalapp.hometeaching.model.Organization.fromId;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import com.personalapp.hometeaching.repository.VisitRepository;
 import com.personalapp.hometeaching.service.DashboardService;
 import com.personalapp.hometeaching.view.FamilyStatusViewModel;
 import com.personalapp.hometeaching.view.VisitPercentageViewModel;
+import com.personalapp.hometeaching.view.WardFamilyStatusViewModel;
 
 @Service
 public class DashboardServiceImpl implements DashboardService {
@@ -41,11 +44,19 @@ public class DashboardServiceImpl implements DashboardService {
 	}
 
 	@Override
-	public List<FamilyStatusViewModel> getFamilyStatusPercentage(List<Long> organizationIds) {
-
-		List<Tuple> tupleStatuses = familyRepo.getFamilyStatusPercentage(organizationIds);
-
-		return getFamilyStatusFromTuple(tupleStatuses);
+	public List<WardFamilyStatusViewModel> getFamilyStatusPercentage(List<Long> organizationIds) {
+		List<WardFamilyStatusViewModel> familyStatuses = newArrayList();
+		// add aggregate family status if have more than one organization
+		if (organizationIds.size() > 1) {
+			List<Tuple> tupleStatuses = familyRepo.getFamilyStatusPercentage(organizationIds);
+			familyStatuses.add(new WardFamilyStatusViewModel(getFamilyStatusFromTuple(tupleStatuses), newArrayList(AGGREGATE)));
+		}
+		// add family status for each organization
+		for (Long organizationId : organizationIds) {
+			List<Tuple> tupleStatuses = familyRepo.getFamilyStatusPercentage(newArrayList(organizationId));
+			familyStatuses.add(new WardFamilyStatusViewModel(getFamilyStatusFromTuple(tupleStatuses), newArrayList(fromId(organizationId))));
+		}
+		return familyStatuses;
 	}
 
 	private List<FamilyStatusViewModel> getFamilyStatusFromTuple(List<Tuple> tupleStatuses) {

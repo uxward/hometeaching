@@ -10,6 +10,9 @@ create table family (
 	,hometeach bit
 	,created datetime
 	,updated datetime
+	,partmember bit
+	,familymoved bit
+	,recordsmoved bit
 );
 
 ##Person

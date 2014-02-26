@@ -1,13 +1,15 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ attribute name="pageHeader" required="true"%>
 <%@ attribute name="pageTitle" required="true"%>
 <%@ attribute name="activeMenu" required="true"%>
 <%@ attribute name="pageSubheader" required="false"%>
 
-<t:mainPage activeMenu="${activeMenu}" pageTitle="${pageTitle}" pageHeader="${pageHeader}" pageSubheader="${pageSubheader}">
+<t:mainPage activeMenu="${activeMenu}" pageTitle="${pageTitle}"
+	pageHeader="${pageHeader}" pageSubheader="${pageSubheader}">
 
 	<div class="center">
 		<div id="familyStatusPie"></div>
@@ -21,51 +23,21 @@
 		});
 
 		function getDashboards() {
+
 			$.ajax({
 				type : 'GET',
 				url : '<spring:url value="/dashboard/getFamilyStatusPercentage"/>',
 				success : function(data) {
-					setupFamilyStatus(data.familyStatus, data.organizations);
-				}
-			});
-
-			$.ajax({
-				type : 'GET',
-				url : '<spring:url value="/dashboard/getFamilyStatusPercentageByOrganization"/>',
-				data : {
-					'organizationId' : 1
-				},
-				success : function(data) {
-					setupFamilyStatus(data.familyStatus, data.organizations);
-				}
-			});
-
-			$.ajax({
-				type : 'GET',
-				url : '<spring:url value="/dashboard/getFamilyStatusPercentageByOrganization"/>',
-				data : {
-					'organizationId' : 2
-				},
-				success : function(data) {
-					setupFamilyStatus(data.familyStatus, data.organizations);
-				}
-			});
-
-			$.ajax({
-				type : 'GET',
-				url : '<spring:url value="/dashboard/getFamilyStatusPercentageByOrganization"/>',
-				data : {
-					'organizationId' : 3
-				},
-				success : function(data) {
-					setupFamilyStatus(data.familyStatus, data.organizations);
+					for (var i = 0; i < data.length; i++) {
+						setupFamilyStatus(data[i].familyStatus, data[i].organizations);
+					}
 				}
 			});
 		}
 
 		function setupFamilyStatus(data, organizations) {
 
-			var display = organizations.length > 1 ? 'Aggregate' : organizations[0].organization;
+			var display = organizations[0].organization;
 
 			var width = 280, height = 280, radius = 100, margin = {
 				x : 0,
@@ -110,17 +82,13 @@
 
 			arcs.append('text').attr('transform', function(d, i) {
 				var labelr = radius - 50;
-
-				if (d.data.familyStatus == 'Recent Convert') {
-					labelr = radius - 25;
-				}
 				var c = arc.centroid(d), x = c[0], y = c[1],
 				// pythagorean theorem for hypotenuse
 				h = Math.sqrt(x * x + y * y);
 				return 'translate(' + (x / h * labelr) + ',' + (y / h * labelr) + ')';
 			}).attr('text-anchor', function(d) {
 				// are we past the center?
-				return d.data.familyStatus == 'Recent Convert' ? 'middle' : (d.endAngle + d.startAngle) / 2 > Math.PI ? 'end' : 'start';
+				return (d.endAngle + d.startAngle) / 2 > Math.PI ? 'end' : 'start';
 			}).text(function(d, i) {
 				return data[i].familyStatus + ' ' + getPercentage($.trim(data[i].familyPercent));
 			});

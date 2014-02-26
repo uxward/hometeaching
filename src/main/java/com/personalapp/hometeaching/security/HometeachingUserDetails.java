@@ -44,9 +44,7 @@ public class HometeachingUserDetails implements UserDetails {
 	}
 
 	public Companion getActiveCompanion() {
-		return hometeachingUser.getPerson().getActiveCompanion() != null ? hometeachingUser
-				.getPerson().getActiveCompanion().getCompanion()
-				: null;
+		return hometeachingUser.getPerson().getActiveCompanion() != null ? hometeachingUser.getPerson().getActiveCompanion().getCompanion() : null;
 	}
 
 	public Long getId() {
