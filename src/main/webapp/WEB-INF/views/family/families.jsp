@@ -104,7 +104,7 @@
 
 			$('#familyTable').dataTable({
 				'sAjaxSource' : '<spring:url value="/family/getAllFamilies/"/>',
-				'aaSorting' : [ [ 1, 'asc' ] ],
+				'aaSorting' : [ [ 0, 'asc' ] ],
 				'aaData' : [],
 				'aoColumns' : [ {
 					'sTitle' : 'Family Name',

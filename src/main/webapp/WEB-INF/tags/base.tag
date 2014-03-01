@@ -38,8 +38,6 @@
 <title>${pageTitle}</title>
 <link rel="shortcut icon" href="${image}/<spring:message code="${dayMod}.icon" />.png">
 
-<!--  Bootstrap 3
---------------------------------------------------->
 <link rel="stylesheet" href="${resources}/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${resources}/css/datatable.css" />
 <link rel="stylesheet" href="${resources}/css/datepicker.css" />
@@ -53,7 +51,6 @@
 <script src="${resources}/js/dateformatter.js"></script>
 <script src="${resources}/js/custom.js"></script>
 <script src="${resources}/js/browser-detect.js"></script>
-<script src="${resources}/js/d3.min.js"></script>
 <script src="${resources}/js/google-analytics.js"></script>
 </head>
 
@@ -89,9 +86,7 @@
 										<li class="${activeMenu ==  'visitPercentage' ? 'active' : '' }"><a href="${dashboard}/visitPercentage">Visit Percentage</a></li>
 										<li class="${activeMenu ==  'users' ? 'active' : '' }"><a href="${user}/all">Users</a></li>
 										<li class="${activeMenu ==  'visitHistory' ? 'active' : '' }"><a href="${visit}/history/3">Visit History</a></li>
-										<sec:authorize access="hasRole('admin')">
-											<li class="${activeMenu ==  'feedback' ? 'active' : '' }"><a href="${feedback}">Feedback</a></li>
-										</sec:authorize>
+										<li class="${activeMenu ==  'feedback' ? 'active' : '' }"><a href="${feedback}">Feedback</a></li>
 									</ul></li>
 
 								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -99,8 +94,8 @@
 									</a>
 									<ul class="dropdown-menu">
 										<li class="${activeMenu ==  'allFamilies' ? 'active' : '' }"><a href="${family}/all">All Families</a></li>
-										<li class="${activeMenu ==  'moved' ? 'active' : '' }"><a href="${family}/moved">Moved Families</a></li>
 										<li class="${activeMenu ==  'yourFamily' ? 'active' : '' }"><a href="${family}/you">Your Family</a></li>
+										<li class="${activeMenu ==  'moved' ? 'active' : '' }"><a href="${family}/moved">Moved Families</a></li>
 									</ul></li>
 
 								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -113,7 +108,7 @@
 
 							</sec:authorize>
 							<sec:authorize access="!hasRole('leader')">
-								<li class="${activeMenu ==  'visitPercentage' ? 'active' : '' }"><a href="${dashboard}/visitPercentage">Visit Percentages</a></li>
+								<li class="${activeMenu ==  'visitPercentage' ? 'active' : '' }"><a href="${dashboard}/visitPercentage">Total Visit Percentages</a></li>
 								<li class="${activeMenu ==  'yourFamily' ? 'active' : '' }"><a href="${family}/you">Family</a></li>
 								<li class="${activeMenu ==  'yourCompanion' ? 'active' : '' }"><a href="${companion}/you">Companionship</a></li>
 							</sec:authorize>

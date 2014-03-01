@@ -8,6 +8,8 @@
 <%@ attribute name="activeMenu" required="true"%>
 <%@ attribute name="pageSubheader" required="false"%>
 
+<spring:url var="resources" value="/resources" />
+
 <t:mainPage activeMenu="${activeMenu}" pageTitle="${pageTitle}"
 	pageHeader="${pageHeader}" pageSubheader="${pageSubheader}">
 
@@ -17,6 +19,8 @@
 
 	<jsp:doBody />
 
+
+	<script src="${resources}/js/d3.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			getDashboards();
@@ -82,6 +86,9 @@
 
 			arcs.append('text').attr('transform', function(d, i) {
 				var labelr = radius - 50;
+				if (d.data.familyStatus == 'Recent Convert') {
+					labelr = radius - 25;
+				}
 				var c = arc.centroid(d), x = c[0], y = c[1],
 				// pythagorean theorem for hypotenuse
 				h = Math.sqrt(x * x + y * y);

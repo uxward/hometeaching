@@ -4,6 +4,8 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 
+<spring:url var="resources" value="/resources" />
+
 <t:mainPage activeMenu="visitPercentage" pageTitle="Visit Percentage"
 	pageHeader="Dashboard" pageSubheader="Visit Percentage">
 
@@ -23,14 +25,12 @@
 	stroke: steelblue;
 	stroke-width: 1.5px;
 }
-
-circle {
-	
-}
 </style>
 
 	<div class="d3"></div>
 
+
+	<script src="${resources}/js/d3.min.js"></script>
 	<script type="text/javascript">
 		var svg, x, y, color;
 		$(document).ready(function() {
@@ -180,7 +180,7 @@ circle {
 			}).each('end', function() {
 				$('.circle-label').show();
 			});
-			
+
 			//TODO move if in same space as another circle - move left/right
 
 			wrappers.append('text').attr('x', function(d) {

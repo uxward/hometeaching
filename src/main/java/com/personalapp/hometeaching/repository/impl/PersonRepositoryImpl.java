@@ -41,7 +41,7 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 	@Override
 	public List<Person> getAllNotMovedHometeachers() {
 		logger.info("entering the get all hometeachers method");
-		JPAQuery query = getPersonQuery();
+		JPAQuery query = getPersonNotMovedQuery();
 		query.where(person.organizationId.in(getCurrentUserOrganizationIds()));
 		query.where(person.hometeacher.eq(true));
 		query.orderBy(person.firstName.asc(), family.familyName.asc());
@@ -51,12 +51,18 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 	@Override
 	public List<Person> getUnassignedHometeachingUsers() {
 		logger.info("entering the get all unassigned hometeachers method");
-		JPAQuery query = getPersonQuery();
+		JPAQuery query = getPersonNotMovedQuery();
 		query.where(person.hometeacher.eq(true));
 		query.where(person.notIn(getAssignedHometeachingUsers()));
 		query.where(person.organizationId.in(getCurrentUserOrganizationIds()));
 		query.orderBy(family.familyName.asc());
 		return query.list(person);
+	}
+	
+	private JPAQuery getPersonNotMovedQuery(){
+		JPAQuery query = getPersonQuery();
+		query.where(family.familyMoved.isNull().or(family.familyMoved.eq(false)));
+		return query;
 	}
 
 	private JPAQuery getPersonQuery() {
@@ -64,7 +70,6 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 		query.leftJoin(person.family, family).fetch();
 		query.leftJoin(family.familyOrganizations).fetch();
 		query.leftJoin(person.personCompanion, personCompanion).fetch();
-		query.where(family.familyMoved.isNull().or(family.familyMoved.eq(false)));
 		query.distinct();
 		return query;
 	}

@@ -39,7 +39,6 @@ public class PersonController {
 	@RequestMapping(value = "/getByFamily/{id}")
 	@ResponseBody
 	public DatatableResponse<PersonViewModel> getByFamily(@PathVariable Long id) {
-		return new DatatableResponse<PersonViewModel>(
-				personService.getByFamilyId(id));
+		return new DatatableResponse<PersonViewModel>(personService.getByFamilyId(id));
 	}
 }
