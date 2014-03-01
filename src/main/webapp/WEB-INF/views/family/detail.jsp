@@ -48,7 +48,7 @@
 		<legend>Family Members</legend>
 
 		<table id="personTable"
-			class="table table-striped table-hover table-bordered">
+			class="table table-striped table-hover table-bordered" width="100%">
 		</table>
 
 		<br /> <a href="#addPerson" role="button" class="btn btn-primary"

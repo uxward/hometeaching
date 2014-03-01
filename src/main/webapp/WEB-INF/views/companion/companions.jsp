@@ -4,7 +4,7 @@
 
 <t:mainPage activeMenu="allCompanions" pageTitle="Companion - Home" pageHeader="Companion" pageSubheader="Home">
 
-	<table id="companionTable" class="table table-striped table-hover table-bordered">
+	<table id="companionTable" class="table table-striped table-hover table-bordered" width="100%">
 	</table>
 
 	<a href="#addCompanion" role="button" class="btn btn-primary" data-toggle="modal">Add Companion</a>

@@ -27,7 +27,7 @@
 
 	<!--  Family Assignment Table
 	---------------------------------------------------->
-	<table id="assignmentTable" class="table table-striped table-hover table-bordered" data-companion-id="${companion.id}">
+	<table id="assignmentTable" class="table table-striped table-hover table-bordered" data-companion-id="${companion.id}" width="100%">
 	</table>
 
 	<br />
@@ -91,7 +91,7 @@
 				<div class="tab-pane ${status.first ? 'active' : ''}" id="${family.id}_tab">
 					<br />
 
-					<table class="table table-striped table-hover table-bordered visitHistory" data-family-id="${family.id}">
+					<table class="table table-striped table-hover table-bordered visitHistory" data-family-id="${family.id}" width="100%">
 					</table>
 					<a href="#recordVisit" role="button" class="btn btn-primary recordVisit" data-assignment-id="${family.assignmentId}" data-family-id="${family.id}" data-toggle="modal">Record Visit for the
 						${family.familyName} family</a>
