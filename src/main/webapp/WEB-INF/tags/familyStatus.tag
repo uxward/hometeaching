@@ -87,7 +87,7 @@
 			arcs.append('text').attr('transform', function(d, i) {
 				var labelr = radius - 50;
 				if (d.data.familyStatus == 'Recent Convert') {
-					labelr = radius - 25;
+					labelr = radius;
 				}
 				var c = arc.centroid(d), x = c[0], y = c[1],
 				// pythagorean theorem for hypotenuse
