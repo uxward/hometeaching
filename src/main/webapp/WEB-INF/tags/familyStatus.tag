@@ -14,7 +14,7 @@
 	pageHeader="${pageHeader}" pageSubheader="${pageSubheader}">
 
 	<div class="center">
-		<div id="familyStatusPie"></div>
+		<div id="familyStatusPie" class="row"></div>
 	</div>
 
 	<jsp:doBody />
@@ -56,7 +56,7 @@
 				'Do Not Contact' : '#999'
 			};
 
-			var svg = d3.select('#familyStatusPie').append('svg').data([ data ]).attr('width', width).attr('height', height).attr('class', '')
+			var svg = d3.select('#familyStatusPie').append('svg').data([ data ]).attr('width', width).attr('height', height).attr('class', 'col-md-3 col-sm-6 ' + (display != 'Aggregate' ? 'hidden-xs' : ''));
 
 			var vis = svg.append('g').attr('transform', 'translate(' + width / 2 + ',' + (height / 2 + margin.y) + ')');
 

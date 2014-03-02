@@ -19,8 +19,9 @@
 			<c:if test="${param.logout}">
 				<div class="row">
 					<div class="alert alert-success">
-						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-						<strong>Success!</strong> You have successfully logged out.
+						<button type="button" class="close" data-dismiss="alert"
+							aria-hidden="true">&times;</button>
+						You have successfully logged out.
 					</div>
 				</div>
 			</c:if>
@@ -28,26 +29,34 @@
 			<c:if test="${param.error}">
 				<div class="row">
 					<div class="alert alert-danger">
-						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-						<strong>Warning!</strong> Invalid login credentials.
+						<button type="button" class="close" data-dismiss="alert"
+							aria-hidden="true">&times;</button>
+						Invalid login credentials.
 					</div>
 				</div>
 			</c:if>
 
 			<div class="row">
-				<div class="col-md-3 visible-md visible-lg">
-					<img src="<spring:url value="/resources/img" />/<spring:message code="${dayMod}.image" />.jpg" class="img-thumbnail base-popover" data-content="<spring:message code='${dayMod}.image.title' />" data-trigger="hover" data-container="body"/>
+				<div class="col-md-3 col-sm-4 visible-sm visible-md visible-lg">
+					<img
+						src="<spring:url value="/resources/img" />/<spring:message code="${dayMod}.image" />.jpg"
+						class="img-thumbnail base-popover"
+						data-content="<spring:message code='${dayMod}.image.title' />"
+						data-trigger="hover" data-container="body" />
 				</div>
 
-				<div class="col-md-5">
-					<h1>Home Teaching</h1>
+				<div class="col-md-5 col-sm-8">
+					<!-- 					<h1>Home Teaching</h1> -->
+					<br />
 
 					<form action="<spring:url value="/login-execute" />" method="POST">
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Username" name="j_username" maxlength="50" />
+							<input type="text" class="form-control" placeholder="Username"
+								name="j_username" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<input type="password" class="form-control" placeholder="Password" name="j_password" maxlength="50" />
+							<input type="password" class="form-control"
+								placeholder="Password" name="j_password" maxlength="50" />
 						</div>
 						<button type="submit" class="btn btn-primary">
 							<i class="glyphicon glyphicon-log-in"></i> Login

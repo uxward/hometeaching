@@ -1,14 +1,23 @@
 package com.personalapp.hometeaching.service.impl;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.personalapp.hometeaching.model.ActionStatus.DUPLICATE;
+import static com.personalapp.hometeaching.model.ActionStatus.ERROR;
+import static com.personalapp.hometeaching.model.ActionStatus.SUCCESS;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import com.personalapp.hometeaching.model.ActionStatus;
 import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.model.UserOrganization;
@@ -21,6 +30,7 @@ import com.personalapp.hometeaching.view.UserViewModel;
 
 @Service
 public class HometeachingUserServiceImpl implements HometeachingUserService {
+	private final Logger logger = getLogger(getClass());
 
 	@Autowired
 	private HometeachingUserRepository repo;
@@ -33,21 +43,23 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 
 	@Override
 	public UserViewModel save(HometeachingUser user) {
-		// TODO catch when constraint exception violated (same username/same
-		// password)
-		user.setEnabled(true);
-		user.setReset(true);
-		user.setPassword(passwordUtils.getPassword(user.getPassword()));
+		UserViewModel model = new UserViewModel();
+		ActionStatus status = SUCCESS;
+		try {
+			doSave(user);
+			model.createViewModelFromUser(repo.findDetailedById(user.getId()));
+		} catch (Exception e) {
+			if (e instanceof DataIntegrityViolationException) {
+				logger.info("Attempted to create a user with the same username as an existing user: {}", user.getUsername());
+				status = DUPLICATE;
+			} else {
+				logger.error("An unexpected error occurred while trying to save a new user: {}", e);
+				status = ERROR;
+			}
+		}
 
-		// set roles
-		setUserRoles(user, user.getUserRoleIds());
-
-		// set organization
-		setUserOrganizations(user, user.getUserOrganizationIds());
-
-		repo.save(user);
-
-		return new UserViewModel(repo.findDetailedById(user.getId()));
+		model.setActionStatus(status);
+		return model;
 	}
 
 	@Override
@@ -79,27 +91,60 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 
 	@Override
 	public UserViewModel update(HometeachingUser updatedUser) {
-		// TODO catch when constraint exception violated (same username/same
-		// password)
-		HometeachingUser user = repo.findDetailedById(updatedUser.getId());
-		if (securityUtils.usernameNotUsed(user.getUsername(), user)) {
-			user.setUsername(updatedUser.getUsername());
-			if (updatedUser.getReset() != null && updatedUser.getReset()) {
-				user.setPassword(passwordUtils.getPassword(updatedUser.getPassword()));
-				user.setReset(true);
+		UserViewModel model = new UserViewModel();
+		ActionStatus status = SUCCESS;
+		try {
+			HometeachingUser user = doUpdate(updatedUser);
+			model.createViewModelFromUser(repo.findDetailedById(user.getId()));
+		} catch (Exception e) {
+			if (e instanceof DataIntegrityViolationException) {
+				logger.info("Attempted to create a user with the same username as an existing user: {}", updatedUser.getUsername());
+				status = DUPLICATE;
+			} else {
+				logger.error("An unexpected error occurred while trying to save a new user: {}", e);
+				status = ERROR;
 			}
-
-			user.setEmail(updatedUser.getEmail());
-
-			// set user roles
-			setUserRoles(user, updatedUser.getUserRoleIds());
-
-			// set user organizations
-			setUserOrganizations(user, updatedUser.getUserOrganizationIds());
-
-			repo.update(user);
 		}
-		return new UserViewModel(user);
+
+		model.setActionStatus(status);
+		return model;
+	}
+
+	private HometeachingUser doUpdate(HometeachingUser updatedUser) {
+		HometeachingUser user = repo.findDetailedById(updatedUser.getId());
+		user.setUsername(updatedUser.getUsername());
+		if (updatedUser.getReset() != null && updatedUser.getReset()) {
+			user.setReset(true);
+		}
+
+		if (isNotBlank(updatedUser.getPassword())) {
+			user.setPassword(passwordUtils.getPassword(updatedUser.getPassword()));
+		}
+
+		user.setEmail(updatedUser.getEmail());
+
+		// set user roles
+		setUserRoles(user, updatedUser.getUserRoleIds());
+
+		// set user organizations
+		setUserOrganizations(user, updatedUser.getUserOrganizationIds());
+
+		repo.update(user);
+		return user;
+	}
+
+	private void doSave(HometeachingUser user) {
+		user.setEnabled(true);
+		user.setReset(true);
+		user.setPassword(passwordUtils.getPassword(user.getPassword()));
+
+		// set roles
+		setUserRoles(user, user.getUserRoleIds());
+
+		// set organization
+		setUserOrganizations(user, user.getUserOrganizationIds());
+
+		repo.save(user);
 	}
 
 	private void setUserRoles(HometeachingUser user, List<String> roles) {
@@ -110,7 +155,9 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 			userRole.setHometeachingUser(user);
 			user.getUserRoles().add(userRole);
 		}
-		getCurrentUser().getHometeachingUser().setUserRoles(user.getUserRoles());
+		if (Objects.equals(getCurrentUser().getId(), user.getId())) {
+			getCurrentUser().getHometeachingUser().setUserRoles(user.getUserRoles());
+		}
 	}
 
 	private void setUserOrganizations(HometeachingUser user, List<Long> ids) {
@@ -121,6 +168,8 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 			org.setOrganization(Organization.fromId(id));
 			user.getUserOrganizations().add(org);
 		}
-		getCurrentUser().getHometeachingUser().setUserOrganizations(user.getUserOrganizations());
+		if (Objects.equals(getCurrentUser().getId(), user.getId())) {
+			getCurrentUser().getHometeachingUser().setUserOrganizations(user.getUserOrganizations());
+		}
 	}
 }

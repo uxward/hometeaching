@@ -31,15 +31,12 @@ public class FeedbackServiceImpl implements FeedbackService {
 	public ActionViewModel createFeedback(Feedback feedback) {
 		ActionStatus status = SUCCESS;
 		try {
-			feedback.setCreated(new Date());
-			feedback.setUserId(getCurrentUser().getId());
-			feedback.setPriority(HIGH);
-			feedback.setResolved(false);
-			repo.save(feedback);
+			doCreateFeedback(feedback);
 		} catch (Exception e) {
 			logger.error("There was an unexpected error while saving the feedback");
 		}
-		return new ActionViewModel(status);
+
+		return createActionViewModel(status);
 	}
 
 	@Override
@@ -49,5 +46,19 @@ public class FeedbackServiceImpl implements FeedbackService {
 			feedbacks.add(new FeedbackViewModel(feedback));
 		}
 		return feedbacks;
+	}
+
+	private void doCreateFeedback(Feedback feedback) {
+		feedback.setCreated(new Date());
+		feedback.setUserId(getCurrentUser().getId());
+		feedback.setPriority(HIGH);
+		feedback.setResolved(false);
+		repo.save(feedback);
+	}
+
+	private ActionViewModel createActionViewModel(ActionStatus status) {
+		ActionViewModel model = new ActionViewModel();
+		model.setActionStatus(status);
+		return model;
 	}
 }

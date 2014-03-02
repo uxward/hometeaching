@@ -12,7 +12,7 @@ import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.model.UserOrganization;
 import com.personalapp.hometeaching.model.UserRole;
 
-public class UserViewModel {
+public class UserViewModel extends ActionViewModel {
 	private Long id;
 
 	private Long personId;
@@ -33,7 +33,15 @@ public class UserViewModel {
 
 	private List<OrganizationViewModel> organizations = newArrayList();
 
+	public UserViewModel() {
+
+	}
+
 	public UserViewModel(HometeachingUser user) {
+		createViewModelFromUser(user);
+	}
+
+	public void createViewModelFromUser(HometeachingUser user) {
 		this.id = user.getId();
 		this.personId = user.getPerson().getId();
 		this.name = user.getPerson().getFirstName() + " " + user.getPerson().getFamily().getFamilyName();

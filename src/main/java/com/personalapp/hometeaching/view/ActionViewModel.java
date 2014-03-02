@@ -10,14 +10,6 @@ public class ActionViewModel {
 
 	private ActionStatus actionStatus;
 
-	public ActionViewModel() {
-
-	}
-
-	public ActionViewModel(ActionStatus actionStatus) {
-		this.actionStatus = actionStatus;
-	}
-
 	public ActionStatus getActionStatus() {
 		return actionStatus;
 	}

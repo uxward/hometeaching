@@ -5,7 +5,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 
 <t:familyStatus activeMenu="allFamilies" pageTitle="Family - Home"
-	pageHeader="Family" pageSubheader="Home">
+	pageHeader="All" pageSubheader="Families">
 
 	<table id="familyTable"
 		class="table table-striped table-hover table-bordered" width="100%"></table>
@@ -151,8 +151,8 @@
 
 		function setupOrganizations(data, type, full) {
 			var html = '';
-			for(var i = 0; i < data.length; i++){
-				if(i != 0){
+			for (var i = 0; i < data.length; i++) {
+				if (i != 0) {
 					html += ', ';
 				}
 				html += data[i].organization;

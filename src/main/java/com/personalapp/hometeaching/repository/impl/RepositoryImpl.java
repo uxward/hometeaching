@@ -13,9 +13,8 @@ import com.mysema.query.types.EntityPath;
 import com.personalapp.hometeaching.repository.Repository;
 
 @Transactional
-public abstract class RepositoryImpl<ENTITY, ID extends Serializable>
-		implements Repository<ENTITY, ID> {
-	
+public abstract class RepositoryImpl<ENTITY, ID extends Serializable> implements Repository<ENTITY, ID> {
+
 	/**
 	 * Defines the batch size for executing batch insert operations. This is the
 	 * interval at which to flush results to the database (make a round trip).
@@ -36,8 +35,7 @@ public abstract class RepositoryImpl<ENTITY, ID extends Serializable>
 			while (!(clazz.getGenericSuperclass() instanceof ParameterizedType)) {
 				clazz = clazz.getSuperclass();
 			}
-			entityClass = (Class<ENTITY>) ((ParameterizedType) clazz
-					.getGenericSuperclass()).getActualTypeArguments()[0];
+			entityClass = (Class<ENTITY>) ((ParameterizedType) clazz.getGenericSuperclass()).getActualTypeArguments()[0];
 		} else {
 			entityClass = (Class<ENTITY>) Object.class;
 		}
@@ -81,8 +79,7 @@ public abstract class RepositoryImpl<ENTITY, ID extends Serializable>
 	 * @param clazz
 	 * @param batchEntities
 	 */
-	public static <T extends Object> void batchAdd(EntityManager em,
-			Class<T> clazz, Iterable<T> batchEntities) {
+	public static <T extends Object> void batchAdd(EntityManager em, Class<T> clazz, Iterable<T> batchEntities) {
 		BatchExecutor<T> addExector = new BatchExecutor<T>() {
 			public void execute(EntityManager em, T entity) {
 				em.persist(entity);
@@ -101,9 +98,7 @@ public abstract class RepositoryImpl<ENTITY, ID extends Serializable>
 	 * @param clazz
 	 * @param batchEntities
 	 */
-	public static <T extends Object> void batchOperation(EntityManager em,
-			Class<T> clazz, Iterable<T> batchEntities,
-			BatchExecutor<T> batchOperation) {
+	public static <T extends Object> void batchOperation(EntityManager em, Class<T> clazz, Iterable<T> batchEntities, BatchExecutor<T> batchOperation) {
 		int batchCount = 1;
 
 		for (T entity : batchEntities) {

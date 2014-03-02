@@ -16,18 +16,18 @@
 	${day % 3}
 </c:set>
 
-<t:base activeMenu="home" pageTitle="Home">
+<t:base activeMenu="home" pageTitle="Home Teaching">
 
 	<div class="jumbotron">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-3 visible-md visible-lg">
+				<div class="col-md-3 col-sm-4 visible-sm visible-md visible-lg">
 					<img src="<spring:url value="/resources/img" />/<spring:message code="${dayMod}.image" />.jpg" class="img-thumbnail base-popover" data-content="<spring:message code='${dayMod}.image.title' />"
 						data-trigger="hover" data-container="body" />
 				</div>
 
-				<div class="col-md-9">
-					<h1>Home Teaching</h1>
+				<div class="col-md-9 col-sm-8">
+<!-- 					<h1>Home Teaching</h1> -->
 
 					<c:choose>
 						<c:when test="${reset}">

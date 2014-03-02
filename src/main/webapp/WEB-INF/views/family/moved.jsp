@@ -5,7 +5,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 
 <t:mainPage activeMenu="moved" pageTitle="Family - Moved"
-	pageHeader="Family" pageSubheader="Moved">
+	pageHeader="Moved" pageSubheader="Families">
 
 	<table id="familyTable"
 		class="table table-striped table-hover table-bordered" width="100%"></table>

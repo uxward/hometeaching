@@ -69,7 +69,7 @@
 				</sec:authorize>
 				<a class="navbar-brand ${activeMenu ==  'home' ? 'active' : '' }" href="${home}">
 					<span class="glyphicon glyphicon-asterisk"></span>
-					Home Teaching
+					<sec:authorize access="!isAuthenticated()">Home Teaching</sec:authorize>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">

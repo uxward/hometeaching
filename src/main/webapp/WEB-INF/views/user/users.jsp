@@ -7,7 +7,7 @@
 <spring:url var="image" value="/resources/img" />
 
 <t:mainPage activeMenu="users" pageTitle="Users - Home"
-	pageHeader="Users" pageSubheader="Home">
+	pageHeader="All" pageSubheader="users">
 
 	<table id="userTable"
 		class="table table-striped table-hover table-bordered" width="100%">
@@ -309,19 +309,29 @@
 				url : '<spring:url value="/user/save"/>',
 				data : $('#userForm').serialize(),
 				success : function(data) {
-					//clear form and hide modal
-					$('#addUser').modal('hide');
-					resetFormElements('userForm');
-
-					//remove user from dropdown
-					$('#person option').filter(function() {
-						return $(this).val() == data.personId;
-					}).remove();
-
-					//add family row to table
-					addUserToTable(data);
+					handleSaveUser(data);
 				}
 			});
+		}
+
+		function handleSaveUser(data) {
+			if (data.success) {
+				//clear form and hide modal
+				$('#addUser').modal('hide');
+				resetFormElements('userForm');
+
+				//remove user from dropdown
+				$('#person option').filter(function() {
+					return $(this).val() == data.personId;
+				}).remove();
+
+				//add family row to table
+				addUserToTable(data);
+			} else if (data.duplicate) {
+				showModalError('This username is not available, please choose a different one.');
+			} else if (data.error) {
+				showModalError('There was an unexpected error while creating this user.  If the problem continues please submit feedback with a description of the problem.');
+			}
 		}
 
 		function addUserToTable(data) {
@@ -436,12 +446,22 @@
 				url : '<spring:url value="/user/updateUserDetails"/>',
 				data : $('#editUserForm').serialize(),
 				success : function(data) {
-					//clear form and hide modal
-					$('#editUserModal').modal('hide');
-					resetFormElements('editUserForm');
-					$('#userTable').dataTable().fnUpdate(data, tr);
+					handleEditUser(data, tr);
 				}
 			});
+		}
+
+		function handleEditUser(data, tr) {
+			if (data.success) {
+				//clear form and hide modal
+				$('#editUserModal').modal('hide');
+				resetFormElements('editUserForm');
+				$('#userTable').dataTable().fnUpdate(data, tr);
+			} else if (data.duplicate) {
+				showModalError('This username is not available, please choose a different one.');
+			} else if (data.error) {
+				showModalError('There was an unexpected error while updating this user.  If the problem continues please submit feedback with a description of the problem.');
+			}
 		}
 
 		function toggleEnableUser($this, tr) {
