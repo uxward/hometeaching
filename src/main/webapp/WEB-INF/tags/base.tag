@@ -113,14 +113,14 @@
 								<li class="${activeMenu ==  'yourCompanion' ? 'active' : '' }"><a href="${companion}/you">Companionship</a></li>
 							</sec:authorize>
 						</c:if>
-						<li class="visible-xs visible-sm"><a href="${user}/you">
+						<li class="visible-xs"><a href="${user}/you">
 								Welcome,
 								<sec:authentication property="principal.person.firstName" />
 							</a></li>
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right">
-						<li class="visible-md visible-lg">
+						<li class="visible-sm visible-md visible-lg">
 							<p class="navbar-text">
 								Welcome,
 								<a href="${user}/you">
