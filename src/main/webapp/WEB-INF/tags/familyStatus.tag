@@ -13,9 +13,7 @@
 <t:mainPage activeMenu="${activeMenu}" pageTitle="${pageTitle}"
 	pageHeader="${pageHeader}" pageSubheader="${pageSubheader}">
 
-	<div class="center">
-		<div id="familyStatusPie" class="row"></div>
-	</div>
+	<div id="familyStatusPie" class="row"></div>
 
 	<jsp:doBody />
 
@@ -33,13 +31,13 @@
 				url : '<spring:url value="/dashboard/getFamilyStatusPercentage"/>',
 				success : function(data) {
 					for (var i = 0; i < data.length; i++) {
-						setupFamilyStatus(data[i].familyStatus, data[i].organizations);
+						setupFamilyStatus(data[i].familyStatus, data[i].organizations, data.length);
 					}
 				}
 			});
 		}
 
-		function setupFamilyStatus(data, organizations) {
+		function setupFamilyStatus(data, organizations, numOrgs) {
 
 			var display = organizations[0].organization;
 
@@ -56,7 +54,7 @@
 				'Do Not Contact' : '#999'
 			};
 
-			var svg = d3.select('#familyStatusPie').append('svg').data([ data ]).attr('width', width).attr('height', height).attr('class', 'col-md-3 col-sm-6 ' + (display != 'Aggregate' ? 'hidden-xs' : ''));
+			var svg = d3.select('#familyStatusPie').append('svg').data([ data ]).attr('width', width).attr('height', height).attr('class', 'center col-md-3 col-sm-6 ' + (display != 'Aggregate' && numOrgs > 1 ? 'hidden-xs' : ''));
 
 			var vis = svg.append('g').attr('transform', 'translate(' + width / 2 + ',' + (height / 2 + margin.y) + ')');
 

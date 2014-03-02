@@ -174,20 +174,25 @@
 			$('#companionTable').dataTable({
 				'sAjaxSource' : '<spring:url value="/companion/getCompanions"/>',
 				'aaData' : [],
-				'aaSorting' : [ [ 0, 'desc' ] ],
+				'aaSorting' : [ [ 0, 'asc' ] ],
 				'aoColumns' : [ {
-					'bVisible' : false,
-					'mData' : 'id'
-				}, {
 					'sTitle' : 'Home Teachers',
+					'sWidth' : '25%',
 					'mData' : 'hometeachers',
 					'mRender' : setupHometeachers
 				}, {
+					'sTitle' : '# Families',
+					'sWidth' : '10%',
+					'mData' : 'assignments',
+					'mRender' : setupNumFamilies
+				}, {
 					'sTitle' : 'Assigned Families',
+					'sWidth' : '45%',
 					'mData' : 'assignments',
 					'mRender' : setupAssignments
 				}, {
 					'sTitle' : 'Actions',
+					'sWidth' : '20%',
 					'mData' : 'id',
 					'mRender' : setupActions
 				} ]
@@ -206,7 +211,6 @@
 		}
 
 		function setupAssignments(data, type, full) {
-			console.log(data);
 			var html = '';
 			for (var i = 0; i < data.length; i++) {
 				if (i != 0) {
@@ -215,6 +219,10 @@
 				html += data[i].familyName + ', ' + data[i].headOfHousehold;
 			}
 			return html;
+		}
+		
+		function setupNumFamilies(data, type, full){
+			return data.length;
 		}
 
 		function setupActions(data, type, full) {

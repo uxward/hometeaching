@@ -75,7 +75,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 
 	@Override
 	public List<Family> getByCompanionId(Long companionId) {
-		JPAQuery query = getNotMovedFamilyQuery();
+		JPAQuery query = getFamilyQuery();
 		query.where(assignment.active.eq(true), assignment.companionId.eq(companionId));
 		return query.list(family);
 	}
