@@ -106,6 +106,7 @@
 				'sAjaxSource' : '<spring:url value="/family/getAllFamilies/"/>',
 				'aaSorting' : [ [ 0, 'asc' ] ],
 				'aaData' : [],
+				'aLengthMenu': [[10, 25, 50, 100, -1], [10, 25, 50, 100, 'All']],
 				'aoColumns' : [ {
 					'sTitle' : 'Family Name',
 					'mData' : 'familyName',
