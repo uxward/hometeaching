@@ -18,4 +18,6 @@ public interface HometeachingUserService {
 	List<UserViewModel> getAllUsers();
 
 	List<HometeachingUser> getAllUsersToEmail();
+	
+	List<HometeachingUser> getCompanionsToEmail(Long companionId);
 }

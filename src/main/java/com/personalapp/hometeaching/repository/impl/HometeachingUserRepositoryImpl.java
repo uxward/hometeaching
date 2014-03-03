@@ -59,6 +59,19 @@ public class HometeachingUserRepositoryImpl extends RepositoryImpl<HometeachingU
 		return query.list(hometeachingUser);
 	}
 
+	@Override
+	public List<HometeachingUser> getCompanionsToEmail(Long companionId) {
+		logger.info("entering the get companions to email method for companion id: {}", companionId);
+		JPAQuery query = getDetailed();
+		query.leftJoin(person.personCompanion, personCompanion).fetch();
+		query.leftJoin(personCompanion.companion, companion).fetch();
+		query.leftJoin(companion.assignments, assignment).fetch();
+		query.leftJoin(assignment.family, family).fetch();
+		query.leftJoin(family.people).fetch();
+		query.where(companion.active.eq(true), companion.id.eq(companionId));
+		return query.list(hometeachingUser);
+	}
+
 	private JPAQuery getDetailed() {
 		JPAQuery query = getDetailedForLogin();
 		query.where(userOrganization.organizationId.in(getCurrentUserOrganizationIds()));

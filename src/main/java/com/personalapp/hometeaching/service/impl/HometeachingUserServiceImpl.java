@@ -82,6 +82,11 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 	}
 
 	@Override
+	public List<HometeachingUser> getCompanionsToEmail(Long companionId) {
+		return repo.getCompanionsToEmail(companionId);
+	}
+
+	@Override
 	public UserViewModel toggleEnabled(Long id) {
 		HometeachingUser user = repo.findDetailedById(id);
 		user.setEnabled(!user.getEnabled());

@@ -12,4 +12,6 @@ public interface HometeachingUserRepository extends Repository<HometeachingUser,
 	List<HometeachingUser> getAllUsers();
 
 	List<HometeachingUser> getAllUsersToEmail();
+
+	List<HometeachingUser> getCompanionsToEmail(Long companionId);
 }
