@@ -22,4 +22,6 @@ public interface CompanionService {
 	CompanionViewModel findDetailedById(Long id);
 
 	List<Companion> getAllCompanionsAndActiveFamilies();
+
+	Companion getCompanionAndActiveFamilies(Long companionId);
 }

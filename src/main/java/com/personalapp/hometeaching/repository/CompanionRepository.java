@@ -10,4 +10,6 @@ public interface CompanionRepository extends Repository<Companion, Long> {
 
 	List<Companion> getAllCompanionsAndActiveFamilies();
 
+	Companion getCompanionAndActiveFamilies(Long companionId);
+
 }

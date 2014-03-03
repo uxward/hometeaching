@@ -88,21 +88,6 @@ public class CompanionServiceImpl implements CompanionService {
 		return new CompanionViewModel(repo.findDetailedById(companion.getId()), true);
 	}
 
-	private Companion createNewCompanion(Companion toCreate) {
-		Companion companion = new Companion();
-		companion.setActive(true);
-		Set<PersonCompanion> companions = newHashSet();
-		for (PersonCompanion personCompanion : toCreate.getAutopopulatingPersonCompanions()) {
-			personCompanion.setActive(true);
-			personCompanion.setCompanion(companion);
-			companions.add(personCompanion);
-		}
-		companion.setCompanions(companions);
-		companion.setCreated(new Date());
-		repo.save(companion);
-		return companion;
-	}
-
 	@Override
 	public List<CompanionViewModel> getViewModelAllCompanionsAndActiveFamilies() {
 		List<CompanionViewModel> companions = newArrayList();
@@ -116,6 +101,11 @@ public class CompanionServiceImpl implements CompanionService {
 	@Override
 	public List<Companion> getAllCompanionsAndActiveFamilies() {
 		return repo.getAllCompanionsAndActiveFamilies();
+	}
+
+	@Override
+	public Companion getCompanionAndActiveFamilies(Long companionId) {
+		return repo.getCompanionAndActiveFamilies(companionId);
 	}
 
 	@Override
@@ -150,5 +140,20 @@ public class CompanionServiceImpl implements CompanionService {
 			assignment.setActive(false);
 		}
 		repo.update(companion);
+	}
+
+	private Companion createNewCompanion(Companion toCreate) {
+		Companion companion = new Companion();
+		companion.setActive(true);
+		Set<PersonCompanion> companions = newHashSet();
+		for (PersonCompanion personCompanion : toCreate.getAutopopulatingPersonCompanions()) {
+			personCompanion.setActive(true);
+			personCompanion.setCompanion(companion);
+			companions.add(personCompanion);
+		}
+		companion.setCompanions(companions);
+		companion.setCreated(new Date());
+		repo.save(companion);
+		return companion;
 	}
 }

@@ -3,7 +3,6 @@ package com.personalapp.hometeaching.controller;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.slf4j.LoggerFactory.getLogger;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
@@ -15,13 +14,16 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.mustachejava.DefaultMustacheFactory;
-import com.github.mustachejava.Mustache;
-import com.github.mustachejava.MustacheFactory;
+import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.Helper;
+import com.github.jknack.handlebars.Options;
+import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
+import com.github.jknack.handlebars.io.TemplateLoader;
 import com.personalapp.hometeaching.model.Assignment;
 import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.model.HometeachingUser;
@@ -61,17 +63,29 @@ public class EmailController {
 	@RequestMapping()
 	@ResponseBody()
 	public Boolean sendEmail() {
-
 		for (Companion companion : companionService.getAllCompanionsAndActiveFamilies()) {
 			try {
-				List<HometeachingUser> users = userService.getCompanionsToEmail(companion.getId());
-
-				doSendEmail(companion, users);
+				doSendEmail(companion, userService.getCompanionsToEmail(companion.getId()));
 			} catch (Exception e) {
 				StringBuilder exception = new StringBuilder();
 				exception.append("Exception sending email to companion with id ").append(companion.getId()).append(":");
 				logger.error(exception.toString(), e);
 			}
+		}
+
+		return true;
+	}
+
+	@RequestMapping("byCompanion")
+	@ResponseBody()
+	public Boolean sendEmailForCompanion(@RequestParam Long companionId) {
+		Companion companion = companionService.getCompanionAndActiveFamilies(companionId);
+		try {
+			doSendEmail(companion, userService.getCompanionsToEmail(companionId));
+		} catch (Exception e) {
+			StringBuilder exception = new StringBuilder();
+			exception.append("Exception sending email to companion with id ").append(companion.getId()).append(":");
+			logger.error(exception.toString(), e);
 		}
 
 		return true;
@@ -85,7 +99,7 @@ public class EmailController {
 		email.setSSL(true);
 		email.setFrom(fromEmail, fromName);
 		email.setSubject("Updated home teaching assignment");
-		email.setHtmlMsg(getMustache(companion));
+		email.setHtmlMsg(getHandlebars(companion));
 		email.setTextMsg(getTextMessage(companion));
 
 		for (HometeachingUser user : users) {
@@ -105,18 +119,23 @@ public class EmailController {
 			}
 			htmlMessage.append(personCompanion.getPerson().getFirstName());
 		}
-		htmlMessage.append(",\r\nHere are your most up to date home teaching assignments:\r\n");
+		htmlMessage
+				.append(",\r\nHere are your most up to date home teaching assignments. To see more information about these families and record visits with them you can use the home teaching website at http://hometeaching.philman.cloudbees.net/companion/you\r\n");
+		appendAssignment(companion, htmlMessage);
+		htmlMessage.append("\r\nThanks for all you do to help out, and let me know if you have any questions or concerns.\r\n\r\nPhillip\r\n214-470-5695");
+		return htmlMessage.toString();
+	}
+
+	private void appendAssignment(Companion companion, StringBuilder htmlMessage) {
 		for (Assignment assignment : companion.getAssignments()) {
 			if (assignment.getActive()) {
 				htmlMessage.append("\r\n");
 				String assignedFamily = null;
-				for (Person person : assignment.getFamily().getPeople()) {
-					if (person.getHeadOfHousehold()) {
-						if (assignedFamily == null) {
-							assignedFamily = person.getFirstName();
-						} else {
-							assignedFamily += " and " + person.getFirstName();
-						}
+				for (Person person : assignment.getFamily().getHeadOfHousehold()) {
+					if (assignedFamily == null) {
+						assignedFamily = person.getFirstName();
+					} else {
+						assignedFamily += " and " + person.getFirstName();
 					}
 				}
 				assignedFamily += " " + assignment.getFamily().getFamilyName();
@@ -124,64 +143,43 @@ public class EmailController {
 				htmlMessage.append("\r\n");
 			}
 		}
-		htmlMessage
-				.append("\r\nTo see more information about these families and record visits with them you can use the home teaching website at http://hometeaching.philman.cloudbees.net/companion/you.  Thanks for all you do to help out, and let me know if you have any questions or concerns.\r\n\r\nPhillip\r\n214-470-5695");
-		return htmlMessage.toString();
 	}
 
-	private String getHtmlMessage(Companion companion) {
-		StringBuilder htmlMessage = new StringBuilder();
-		for (PersonCompanion personCompanion : companion.getCompanions()) {
-			if (htmlMessage.length() != 0) {
-				htmlMessage.append(" and ");
-			}
-			htmlMessage.append(personCompanion.getPerson().getFirstName());
-		}
-		htmlMessage.append(",<br/>Here are your most up to date home teaching assignments:<br/>");
-		for (Assignment assignment : companion.getAssignments()) {
-			if (assignment.getActive()) {
-				htmlMessage.append("<br/>");
-				String assignedFamily = null;
-				for (Person person : assignment.getFamily().getPeople()) {
-					if (person.getHeadOfHousehold()) {
-						if (assignedFamily == null) {
-							assignedFamily = person.getFirstName();
-						} else {
-							assignedFamily += " and " + person.getFirstName();
-						}
-					}
-				}
-				assignedFamily += " " + assignment.getFamily().getFamilyName();
-				htmlMessage.append(assignedFamily);
-			}
-		}
-		htmlMessage
-				.append("<br/><br/>To see more information about these families and record visits with them you can use the <a href=\"http://hometeaching.philman.cloudbees.net/companion/you\">home teaching website</a>.  Thanks for all you do to help out, and let me know if you have any questions or concerns.<br/><br/>Phillip<br/>214-470-5695</p></body></html>");
-
-		htmlMessage = new StringBuilder();
-		htmlMessage
-				.append("</p><table class=\"table table-striped table-hover table-bordered dataTable\"> <thead> <tr> <throwspan=\"1\" colspan=\"1\"> Family </th> <th rowspan=\"1\" colspan=\"1\"> Status </th> <th rowspan=\"1\" colspan=\"1\"> Children </th> <th rowspan=\"1\" colspan=\"1\"> Address </th> <th rowspan=\"1\" colspan=\"1\"> Phone Numbers </th> </tr> </thead> <tbody> <tr class=\"odd\"> <td> Admin, wife and husband </td> <td> Active </td> <td> guest </td> <td> <a href=\"http://maps.google.com/maps?daddr=14501 Montfort Dr Apt 1511\">14501 Montfort Dr Apt 1511</a> </td> <td> wife: <a href=\"tel:801-358-7280\">801-358-7280</a>, husband: <a href=\"tel:214-470-5695\">214-470-5695</a> </td> </tr> <tr class=\"even\"> <td> Do not contact, man </td> <td> Do Not Contact </td> <td> </td> <td> <a href=\"http://maps.google.com/maps?daddr=\"></a> </td> <td> </td> </tr> </tbody> </table></body></html>");
-		htmlMessage
-				.insert(0,
-						"<html><head><style>table { border: 1px solid #ddd; background-color: transparent; border-collapse: collapse; border-spacing: 0; display: table; font-family: \"Helvetica Neue\",Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.428571429; color: #333; }  thead{ display: table-header-group; vertical-align: middle; border-color: inherit; border-spacing: 2px; border-color: gray; }  tr{ display: table-row; vertical-align: inherit; border-color: inherit; }  th{ border-bottom-width: 2px; border: 1px solid #ddd; vertical-align: bottom; border-bottom: 2px solid #ddd; padding: 8px; line-height: 1.428571429; text-align: left; font-weight: bold; display: table-cell; }  tbody{ display: table-row-group; vertical-align: middle; border-color: inherit; } tr:nth-child(odd)>td{ background-color: #f9f9f9; }  td{ display: table-cell; padding: 8px; line-height: 1.428571429; vertical-align: top; border-top: 1px solid #ddd; }</style></head><body><p>");
-		return htmlMessage.toString();
-	}
-
-	private String getMustache(Companion companion) {
+	private String getHandlebars(Companion companion) {
 		StringWriter writer = new StringWriter();
 		try {
-			File templatePath = ResourceUtils.getFile("classpath:templates/");
-			MustacheFactory mf = new DefaultMustacheFactory(templatePath);
-			Mustache mustache;
+			TemplateLoader loader = new ClassPathTemplateLoader("/templates", ".html");
+			Handlebars handlebars = new Handlebars(loader);
+			handlebars.registerHelper("stripeRows", new Helper<Integer>() {
+				@Override
+				public CharSequence apply(final Integer value, final Options options) throws IOException {
+					return isEven(value + 1) ? "" : "background-color: #f9f9f9;";
+				}
 
-			mustache = mf.compile("companionEmail.mustache.html");
+				protected boolean isEven(final Integer value) {
+					return value % 2 == 0;
+				}
+			});
+			handlebars.registerHelper("firstNoAnd", new Helper<Integer>() {
+				@Override
+				public CharSequence apply(final Integer value, final Options options) throws IOException {
+					return value == 0 ? "" : " and ";
+				}
+			});
+			handlebars.registerHelper("firstNoComma", new Helper<Integer>() {
+				@Override
+				public CharSequence apply(final Integer value, final Options options) throws IOException {
+					return value == 0 ? "" : ", ";
+				}
+			});
 
-			mustache.execute(writer, companion).flush();
+			Template template = handlebars.compile("companionEmail.mustache");
+
+			template.apply(companion, writer);
 		} catch (IOException e) {
 			logger.error("An unknown error occurred while trying to create the companion email template for companion with id " + companion.getId() + ": {}", e);
 		}
 
 		return writer.toString();
 	}
-
 }

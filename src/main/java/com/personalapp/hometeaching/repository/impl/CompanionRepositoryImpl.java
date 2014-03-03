@@ -38,6 +38,14 @@ public class CompanionRepositoryImpl extends RepositoryImpl<Companion, Long> imp
 		return query.list(companion);
 	}
 
+	@Override
+	public Companion getCompanionAndActiveFamilies(Long companionId) {
+		JPAQuery query = getCompanionDetailQuery();
+		query.where(companion.active.eq(true));
+		query.where(companion.id.eq(companionId));
+		return query.singleResult(companion);
+	}
+
 	private JPAQuery getCompanionDetailQuery() {
 		JPAQuery query = jpaFrom(companion);
 		query.leftJoin(companion.companions, personCompanion).fetch();

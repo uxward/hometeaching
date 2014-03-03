@@ -34,6 +34,7 @@
 
 	<sec:authorize access="hasRole('leader')">
 		<a href="#addFamily" class="btn btn-primary" data-toggle="modal">Add Family</a>
+		<a href="#" class="btn btn-primary" id="emailAssignments">Email Assignments</a>
 	</sec:authorize>
 
 	<!--  Add Family Modal
@@ -194,6 +195,12 @@
 			
 			$('.visitHistory').on('click', '.editVisit', function() {
 				showEditVisit($(this));
+			});
+
+			$('#emailAssignments').click(function() {
+				if (confirm('Are you sure you want to email these assignments?')) {
+					emailAssignments();
+				}
 			});
 		}
 		
@@ -460,6 +467,19 @@
 		
 		function setupActions(data, type, full){
 			return '<input type="button" class="btn btn-primary removeFamily" value="Remove" data-companion-id="' + '${companion.id}' + '" data-family-id="' + data + '" />';
+		}
+		
+		function emailAssignments() {
+			$.ajax({
+				type : 'POST',
+				url : '<spring:url value="/email/byCompanion"/>',
+				data : {
+					'companionId' : '${companion.id}'
+				},
+				success : function(data) {
+					console.log(data);
+				}
+			});
 		}
 	</script>
 </t:mainPage>

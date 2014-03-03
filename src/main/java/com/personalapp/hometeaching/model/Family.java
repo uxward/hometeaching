@@ -189,4 +189,14 @@ public class Family extends BaseEntity {
 		}
 		return headOfHousehold;
 	}
+
+	public Set<Person> getChildren() {
+		Set<Person> children = newHashSet();
+		for (Person person : people) {
+			if (!person.getHeadOfHousehold()) {
+				children.add(person);
+			}
+		}
+		return children;
+	}
 }
