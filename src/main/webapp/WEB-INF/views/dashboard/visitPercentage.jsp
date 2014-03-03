@@ -89,7 +89,7 @@
 
 			var xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(d3.time.months, 1);
 
-			var yAxis = d3.svg.axis().scale(y).orient('left');
+			var yAxis = d3.svg.axis().scale(y).orient('left').tickFormat(d3.format('.0%'));
 
 			var line = d3.svg.line().interpolate('basis').x(function(d) {
 				return x(d.date);
