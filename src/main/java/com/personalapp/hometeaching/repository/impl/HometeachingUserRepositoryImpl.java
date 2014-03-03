@@ -25,7 +25,7 @@ public class HometeachingUserRepositoryImpl extends RepositoryImpl<HometeachingU
 
 	@Override
 	public HometeachingUser findDetailedByUsername(String username) {
-		logger.info("entering the find detailed user by username method");
+		logger.info("entering the find detailed user by username method with username {}", username);
 		JPAQuery query = getDetailedForLogin();
 		query.where(hometeachingUser.username.eq(username));
 		return query.singleResult(hometeachingUser);
@@ -33,7 +33,7 @@ public class HometeachingUserRepositoryImpl extends RepositoryImpl<HometeachingU
 
 	@Override
 	public HometeachingUser findDetailedById(Long id) {
-		logger.info("entering the find detailed user by id method");
+		logger.info("entering the find detailed user by id method with id {}", id);
 		JPAQuery query = getDetailed();
 		query.where(hometeachingUser.id.eq(id));
 		return query.singleResult(hometeachingUser);
@@ -61,7 +61,7 @@ public class HometeachingUserRepositoryImpl extends RepositoryImpl<HometeachingU
 
 	@Override
 	public List<HometeachingUser> getCompanionsToEmail(Long companionId) {
-		logger.info("entering the get companions to email method for companion id: {}", companionId);
+		logger.info("entering the get companions to email method for companion id {}", companionId);
 		JPAQuery query = getDetailed();
 		query.leftJoin(person.personCompanion, personCompanion).fetch();
 		query.leftJoin(personCompanion.companion, companion).fetch();
