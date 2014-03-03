@@ -19,7 +19,7 @@
 			</tr>
 		</thead>
 		<tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
-			{{#assignments}} {{#with family}}
+			{{#assignments}} {{#if active}}{{#with family}}
 			<tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
 				<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top;">{{familyName}}, {{#headOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/headOfHousehold}}</td>
 				<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top;">{{familyStatus.status}}</td>
@@ -35,7 +35,7 @@
 						&nbsp;&nbsp; {{/if}}
 					</span> {{/headOfHousehold}}</td>
 			</tr>
-			{{/with}} {{/assignments}}
+			{{/with}} {{/if}}{{/assignments}}
 		</tbody>
 	</table>
 	<br />

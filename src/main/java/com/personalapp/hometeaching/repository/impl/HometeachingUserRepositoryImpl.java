@@ -68,7 +68,7 @@ public class HometeachingUserRepositoryImpl extends RepositoryImpl<HometeachingU
 		query.leftJoin(companion.assignments, assignment).fetch();
 		query.leftJoin(assignment.family, family).fetch();
 		query.leftJoin(family.people).fetch();
-		query.where(companion.active.eq(true), companion.id.eq(companionId));
+		query.where(companion.active.eq(true), companion.id.eq(companionId), assignment.active.eq(true));
 		return query.list(hometeachingUser);
 	}
 
