@@ -31,7 +31,6 @@
 				</div>
 
 				<div class="col-md-9 col-sm-8">
-					<!-- 					<h1>Home Teaching</h1> -->
 					<br />
 
 					<c:choose>

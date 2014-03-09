@@ -46,7 +46,6 @@
 				</div>
 
 				<div class="col-md-5 col-sm-8">
-					<!-- 					<h1>Home Teaching</h1> -->
 					<br />
 
 					<form action="<spring:url value="/login-execute" />" method="POST">

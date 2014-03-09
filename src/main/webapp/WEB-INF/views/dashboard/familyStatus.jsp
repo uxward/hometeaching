@@ -69,7 +69,7 @@
 				'Do Not Contact' : '#999'
 			};
 
-			var svg = d3.select('#familyStatusPie').append('svg').data([ data ]).attr('width', width).attr('height', height).attr('class', 'center col-md-3 col-sm-6 ' + (display != 'Aggregate' && numOrgs > 1 ? 'hidden-xs' : ''));
+			var svg = d3.select('#familyStatusPie').append('svg').data([ data ]).attr('width', width).attr('height', height).attr('class', 'center col-md-3 col-sm-6 ' + (display != 'Ward' && numOrgs > 1 ? 'hidden-xs' : ''));
 
 			var vis = svg.append('g').attr('transform', 'translate(' + width / 2 + ',' + (height / 2 + margin.y) + ')');
 
