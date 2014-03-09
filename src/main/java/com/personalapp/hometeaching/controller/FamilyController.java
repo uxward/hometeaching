@@ -79,6 +79,17 @@ public class FamilyController {
 		return new DatatableResponse<FamilyViewModel>(service.getAllMovedFamilies());
 	}
 
+	@RequestMapping(value = "/unknown")
+	public ModelAndView unknown() {
+		return new ModelAndView("family/unknown");
+	}
+
+	@RequestMapping(value = "/getAllUnknownFamilies")
+	@ResponseBody
+	public DatatableResponse<FamilyViewModel> getAllUnknownFamilies() {
+		return new DatatableResponse<FamilyViewModel>(service.getAllUnknownFamilies());
+	}
+
 	private ModelAndView getFamilyViewModel(Long id) {
 		ModelAndView view = new ModelAndView("family/detail");
 		Family family = service.findDetailedFamilyById(id);

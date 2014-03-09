@@ -24,4 +24,6 @@ public interface FamilyService {
 	List<FamilyViewModel> getAllFamiliesWithoutCompanion();
 
 	List<FamilyViewModel> getAllMovedFamilies();
+
+	List<FamilyViewModel> getAllUnknownFamilies();
 }

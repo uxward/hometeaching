@@ -1,5 +1,6 @@
 package com.personalapp.hometeaching.controller;
 
+import static com.personalapp.hometeaching.security.SecurityUtils.getAllOrganizationIds;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserOrganizationIds;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -29,8 +30,12 @@ public class DashboardController {
 
 	@RequestMapping("visitPercentage")
 	public ModelAndView viewVisitPercentage() {
-		ModelAndView view = new ModelAndView("dashboard/visitPercentage");
-		return view;
+		return new ModelAndView("dashboard/visitPercentage");
+	}
+
+	@RequestMapping("familyStatus")
+	public ModelAndView viewFamilyStatus() {
+		return new ModelAndView("dashboard/familyStatus");
 	}
 
 	@RequestMapping("getVisitPercentage")
@@ -50,5 +55,12 @@ public class DashboardController {
 	public List<WardFamilyStatusViewModel> getFamilyStatusPercentage() {
 		logger.info("User {} is getting family status percentages", getCurrentUser().getPerson().getFullName());
 		return service.getFamilyStatusPercentage(getCurrentUserOrganizationIds());
+	}
+
+	@RequestMapping("getFamilyStatus")
+	@ResponseBody
+	public List<WardFamilyStatusViewModel> getFamilyStatus() {
+		logger.info("User {} is getting family status percentages", getCurrentUser().getPerson().getFullName());
+		return service.getFamilyStatusPercentage(getAllOrganizationIds());
 	}
 }

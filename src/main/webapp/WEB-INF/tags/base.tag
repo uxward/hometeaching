@@ -77,41 +77,47 @@
 
 					<ul class="nav navbar-nav">
 						<c:if test="${!reset}">
+							
 							<sec:authorize access="hasRole('leader')">
-
 								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-										Admin <b class="caret"></b>
+										Leaders <b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
-										<li class="${activeMenu ==  'visitPercentage' ? 'active' : '' }"><a href="${dashboard}/visitPercentage">Visit Percentage</a></li>
+										<li class="${activeMenu ==  'allFamilies' ? 'active' : '' }"><a href="${family}/all">All Families</a></li>
+										<li class="${activeMenu ==  'allCompanions' ? 'active' : '' }"><a href="${companion}/all">All Companions</a></li>
 										<li class="${activeMenu ==  'users' ? 'active' : '' }"><a href="${user}/all">Users</a></li>
 										<li class="${activeMenu ==  'visitHistory' ? 'active' : '' }"><a href="${visit}/history/3">Visit History</a></li>
 										<li class="${activeMenu ==  'feedback' ? 'active' : '' }"><a href="${feedback}">Feedback</a></li>
 									</ul></li>
-
-								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-										Families <b class="caret"></b>
-									</a>
-									<ul class="dropdown-menu">
-										<li class="${activeMenu ==  'allFamilies' ? 'active' : '' }"><a href="${family}/all">All Families</a></li>
-										<li class="${activeMenu ==  'yourFamily' ? 'active' : '' }"><a href="${family}/you">Your Family</a></li>
-										<li class="${activeMenu ==  'moved' ? 'active' : '' }"><a href="${family}/moved">Moved Families</a></li>
-									</ul></li>
-
-								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-										Companions <b class="caret"></b>
-									</a>
-									<ul class="dropdown-menu">
-										<li class="${activeMenu ==  'allCompanions' ? 'active' : '' }"><a href="${companion}/all">All Companions</a></li>
-										<li class="${activeMenu ==  'yourCompanion' ? 'active' : '' }"><a href="${companion}/you">Your Companionship</a></li>
-									</ul></li>
-
+										
 							</sec:authorize>
-							<sec:authorize access="!hasRole('leader')">
-								<li class="${activeMenu ==  'visitPercentage' ? 'active' : '' }"><a href="${dashboard}/visitPercentage">Total Visit Percentages</a></li>
-								<li class="${activeMenu ==  'yourFamily' ? 'active' : '' }"><a href="${family}/you">Family</a></li>
+							
+							<sec:authorize access="hasRole('membership')">
+							
+								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									Membership <b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu">
+									<li class="${activeMenu ==  'moved' ? 'active' : '' }"><a href="${family}/moved">Moved Families</a></li>
+									<li class="${activeMenu ==  'unknown' ? 'active' : '' }"><a href="${family}/unknown">Unknown Families</a></li>
+								</ul></li>
+							
+							</sec:authorize>
+						
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								Visualize <b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li class="${activeMenu ==  'visitPercentage' ? 'active' : '' }"><a href="${dashboard}/visitPercentage">Visit Percentage</a></li>
+								<li class="${activeMenu ==  'familyStatus' ? 'active' : '' }"><a href="${dashboard}/familyStatus">Family Status</a></li>
+							</ul></li>
+								
+							<li class="${activeMenu ==  'yourFamily' ? 'active' : '' }"><a href="${family}/you">Family</a></li>
+							
+							<sec:authorize access="hasRole('hometeacher')">
 								<li class="${activeMenu ==  'yourCompanion' ? 'active' : '' }"><a href="${companion}/you">Companionship</a></li>
 							</sec:authorize>
+							
 						</c:if>
 						<li class="visible-xs"><a href="${user}/you">
 								Welcome,
@@ -147,13 +153,13 @@
 	<div class="navbar navbar-fixed-top notification-navbar alert alert-danger col-md-4 col-md-offset-4" style="display: none;">
 		<button type="button" class="close alert-close" aria-hidden="true">&times;</button>
 		<p class="text">
-			<strong>Warning!</strong> Best check yo self, youre not looking too good.
+			<strong>Warning!</strong>
 		</p>
 	</div>
 	<div class="navbar navbar-fixed-top notification-navbar alert alert-success col-md-4 col-md-offset-4" style="display: none;">
 		<button type="button" class="close alert-close" aria-hidden="true">&times;</button>
 		<p class="text">
-			<strong>Warning!</strong> Best check yo self, youre not looking too good.
+			<strong>Success!</strong> 
 		</p>
 	</div>
 	<!-- 	</div> -->
@@ -210,6 +216,10 @@
 			});
 
 			$('.base-popover').popover();
+			
+			$.each($('.phone-number'), function(){
+				$(this).html(getPhoneNumber($(this).text()));
+			});
 		}
 
 		function canSubmitFeedback() {

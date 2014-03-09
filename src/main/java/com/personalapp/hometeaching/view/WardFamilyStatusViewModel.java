@@ -4,19 +4,15 @@ import static com.google.common.collect.Lists.newArrayList;
 
 import java.util.List;
 
-import com.personalapp.hometeaching.model.Organization;
-
 public class WardFamilyStatusViewModel {
 
 	private List<FamilyStatusViewModel> familyStatus = newArrayList();
 
 	private List<OrganizationViewModel> organizations = newArrayList();
 
-	public WardFamilyStatusViewModel(List<FamilyStatusViewModel> familyStatus, List<Organization> organizations) {
+	public WardFamilyStatusViewModel(List<FamilyStatusViewModel> familyStatus, List<OrganizationViewModel> organizations) {
 		this.familyStatus = familyStatus;
-		for (Organization organization : organizations) {
-			this.organizations.add(new OrganizationViewModel(organization));
-		}
+		this.organizations = organizations;
 	}
 
 	public List<FamilyStatusViewModel> getFamilyStatus() {

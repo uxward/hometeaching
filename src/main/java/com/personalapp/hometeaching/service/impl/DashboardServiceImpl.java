@@ -12,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.Tuple;
+import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.repository.FamilyRepository;
 import com.personalapp.hometeaching.repository.VisitRepository;
 import com.personalapp.hometeaching.service.DashboardService;
 import com.personalapp.hometeaching.view.FamilyStatusViewModel;
+import com.personalapp.hometeaching.view.OrganizationViewModel;
 import com.personalapp.hometeaching.view.VisitPercentageViewModel;
 import com.personalapp.hometeaching.view.WardFamilyStatusViewModel;
 
@@ -49,12 +51,14 @@ public class DashboardServiceImpl implements DashboardService {
 		// add aggregate family status if have more than one organization
 		if (organizationIds.size() > 1) {
 			List<Tuple> tupleStatuses = familyRepo.getFamilyStatusPercentage(organizationIds);
-			familyStatuses.add(new WardFamilyStatusViewModel(getFamilyStatusFromTuple(tupleStatuses), newArrayList(AGGREGATE)));
+			OrganizationViewModel organization = new OrganizationViewModel(AGGREGATE, getTotalFamiliesFromTuple(tupleStatuses));
+			familyStatuses.add(new WardFamilyStatusViewModel(getFamilyStatusFromTuple(tupleStatuses), newArrayList(organization)));
 		}
 		// add family status for each organization
 		for (Long organizationId : organizationIds) {
 			List<Tuple> tupleStatuses = familyRepo.getFamilyStatusPercentage(newArrayList(organizationId));
-			familyStatuses.add(new WardFamilyStatusViewModel(getFamilyStatusFromTuple(tupleStatuses), newArrayList(fromId(organizationId))));
+			OrganizationViewModel organization = new OrganizationViewModel(fromId(organizationId), getTotalFamiliesFromTuple(tupleStatuses));
+			familyStatuses.add(new WardFamilyStatusViewModel(getFamilyStatusFromTuple(tupleStatuses), newArrayList(organization)));
 		}
 		return familyStatuses;
 	}
@@ -62,17 +66,20 @@ public class DashboardServiceImpl implements DashboardService {
 	private List<FamilyStatusViewModel> getFamilyStatusFromTuple(List<Tuple> tupleStatuses) {
 		List<FamilyStatusViewModel> statuses = newArrayList();
 
-		Long familyCount = 0L;
 		for (Tuple tupleStatus : tupleStatuses) {
-			familyCount += (Long) tupleStatus.toArray()[0];
-		}
-
-		for (Tuple tupleStatus : tupleStatuses) {
-			FamilyStatusViewModel status = new FamilyStatusViewModel(tupleStatus, familyCount);
+			FamilyStatusViewModel status = new FamilyStatusViewModel(tupleStatus, getTotalFamiliesFromTuple(tupleStatuses));
 			statuses.add(status);
 		}
 
 		return statuses;
+	}
+
+	private Long getTotalFamiliesFromTuple(List<Tuple> tupleStatuses) {
+		Long totalFamilies = 0L;
+		for (Tuple tupleStatus : tupleStatuses) {
+			totalFamilies += (Long) tupleStatus.toArray()[0];
+		}
+		return totalFamilies;
 	}
 
 	@Override

@@ -150,17 +150,6 @@
 			return '<a href="<spring:url value="/family/detail/"/>' + full.id + '">' + getFamilyAndHeadNames(data, full.people) + '</a>';
 		}
 
-		function setupOrganizations(data, type, full) {
-			var html = '';
-			for (var i = 0; i < data.length; i++) {
-				if (i != 0) {
-					html += ', ';
-				}
-				html += data[i].organization;
-			}
-			return html;
-		}
-
 		function setupCompanions(data, type, full) {
 			var html = '';
 			if (data != null) {

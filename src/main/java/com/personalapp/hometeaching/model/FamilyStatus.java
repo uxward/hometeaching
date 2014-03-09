@@ -1,7 +1,9 @@
 package com.personalapp.hometeaching.model;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newHashMap;
 
+import java.util.List;
 import java.util.Map;
 
 public enum FamilyStatus {
@@ -32,6 +34,14 @@ public enum FamilyStatus {
 
 	public static FamilyStatus fromId(Long familyStatusId) {
 		return FAMILY_STATUS.get(familyStatusId);
+	}
+
+	public static List<Long> getIdsFromList(List<FamilyStatus> statuses) {
+		List<Long> ids = newArrayList();
+		for (FamilyStatus status : statuses) {
+			ids.add(status.getId());
+		}
+		return ids;
 	}
 
 }

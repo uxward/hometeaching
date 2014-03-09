@@ -1,12 +1,14 @@
 package com.personalapp.hometeaching.security;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.personalapp.hometeaching.model.FamilyStatus.UNKNOWN;
 import static com.personalapp.hometeaching.model.Organization.ELDERS;
 import static com.personalapp.hometeaching.model.Organization.HIGH_PRIEST;
 import static com.personalapp.hometeaching.model.Organization.RELIEF_SOCIETY;
 import static com.personalapp.hometeaching.model.Role.ADMIN;
 import static com.personalapp.hometeaching.model.Role.HOMETEACHER;
 import static com.personalapp.hometeaching.model.Role.LEADER;
+import static com.personalapp.hometeaching.model.Role.MEMBERSHIP;
 
 import java.util.List;
 
@@ -60,19 +62,24 @@ public class SecurityUtils {
 		return currentUserHasRole(LEADER);
 	}
 
+	public static boolean currentUserIsMembership() {
+		return currentUserHasRole(MEMBERSHIP);
+	}
+
 	public static List<Role> getCurrentUserRoles() {
 		List<Role> roles = newArrayList();
 		if (currentUserIsLeader()) {
 			roles = newArrayList(LEADER, HOMETEACHER);
 		}
 		if (currentUserIsAdmin()) {
-			roles = newArrayList(ADMIN, LEADER, HOMETEACHER);
+			roles = newArrayList(ADMIN, LEADER, HOMETEACHER, MEMBERSHIP);
 		}
 		return roles;
 	}
 
 	public static boolean hasFamilyAccess(Family family) {
-		return Objects.equal(family.getId(), getCurrentUser().getFamily().getId()) || (currentUserIsLeader() && familyInCurrentUserOrganizations(family));
+		return Objects.equal(family.getId(), getCurrentUser().getFamily().getId())
+				|| (currentUserIsLeader() && familyInCurrentUserOrganizations(family) || currentUserIsMembership() && familyIsMovedOrUnknown(family));
 	}
 
 	private static boolean familyInCurrentUserOrganizations(Family family) {
@@ -81,6 +88,10 @@ public class SecurityUtils {
 			organizationIds.add(organization.getOrganizationId());
 		}
 		return CollectionUtils.containsAny(organizationIds, getCurrentUserOrganizationIds());
+	}
+
+	private static boolean familyIsMovedOrUnknown(Family family) {
+		return family.getFamilyMoved() || UNKNOWN.equals(family.getFamilyStatus());
 	}
 
 	public static boolean hasUserAccess(Long id) {
@@ -97,6 +108,10 @@ public class SecurityUtils {
 			organizationIds.add(organization.getOrganizationId());
 		}
 		return organizationIds;
+	}
+
+	public static List<Long> getAllOrganizationIds() {
+		return newArrayList(ELDERS.getId(), HIGH_PRIEST.getId(), RELIEF_SOCIETY.getId());
 	}
 
 	public static List<Organization> getCurrentUserOrganizations() {

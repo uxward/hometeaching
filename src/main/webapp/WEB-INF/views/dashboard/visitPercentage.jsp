@@ -7,7 +7,7 @@
 <spring:url var="resources" value="/resources" />
 
 <t:mainPage activeMenu="visitPercentage" pageTitle="Visit Percentage"
-	pageHeader="Dashboard" pageSubheader="Visit Percentage">
+	pageHeader="Visualize" pageSubheader="Visit Percentage">
 
 	<style>
 .axis path,.axis line {
@@ -26,6 +26,19 @@
 	stroke-width: 1.5px;
 }
 </style>
+
+	<div class="row">
+		<div class="alert alert-info">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-hidden="true">&times;</button>
+			<strong>Welcome to the visit percentage page!</strong><br /> This
+			graph shows the home teaching visit percentage trends over past
+			several months. If you click on the data point for a particular month
+			you can see how well we did for the different family groupings -
+			active, inactive, recent convert, unknown, and do not contact. Go
+			ahead - give it a try!
+		</div>
+	</div>
 
 	<div class="d3"></div>
 

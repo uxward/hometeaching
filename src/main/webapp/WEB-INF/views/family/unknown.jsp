@@ -4,8 +4,8 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 
-<t:mainPage activeMenu="moved" pageTitle="Family - Moved"
-	pageHeader="Moved" pageSubheader="Families">
+<t:mainPage activeMenu="unknown" pageTitle="Family - Unknown"
+	pageHeader="Unknown" pageSubheader="Families">
 
 	<table id="familyTable"
 		class="table table-striped table-hover table-bordered" width="100%"></table>
@@ -20,32 +20,23 @@
 		function setupFamilyTable() {
 
 			$('#familyTable').dataTable({
-				'sAjaxSource' : '<spring:url value="/family/getAllMovedFamilies/"/>',
-				'aaSorting' : [ [ 1, 'asc' ] ],
+				'sAjaxSource' : '<spring:url value="/family/getAllUnknownFamilies/"/>',
+				'aaSorting' : [ [ 0, 'asc' ] ],
 				'aaData' : [],
 				'aoColumns' : [ {
 					'sTitle' : 'Family Name',
 					'mData' : 'familyName',
-					'sWidth' : '20%',
+					'sWidth' : '25%',
 					'mRender' : familyNameRender
-				}, {
-					'sTitle' : 'Records Moved',
-					'mData' : 'recordsMoved',
-					'mRender' : setupTrueFalseAsYesNo,
-					'sWidth' : '5%'
-				}, {
-					'sTitle' : 'Status',
-					'mData' : 'familyStatus',
-					'sWidth' : '10%'
-				}, {
+				},{
 					'sTitle' : 'Organizations',
 					'mData' : 'organizations',
 					'mRender' : setupOrganizations,
-					'sWidth' : '10%'
+					'sWidth' : '15%'
 				}, {
 					'sTitle' : 'Address',
 					'mData' : 'address',
-					'sWidth' : '20%',
+					'sWidth' : '25%',
 					'mRender' : addressRender,
 					'sClass' : 'hidden-xs'
 				}, {
@@ -57,8 +48,8 @@
 				}, {
 					'sTitle' : 'Companions',
 					'mData' : 'companions',
-					'sWidth' : '15%',
-					'mRender' : setupCompanions
+					'sWidth' : '15%'
+					,'mRender' : setupCompanions
 				} ],
 				'oLanguage' : {
 					'sInfoEmpty' : 'No families to show',

@@ -8,9 +8,12 @@ public class OrganizationViewModel {
 
 	private String organization;
 
-	public OrganizationViewModel(Organization organization) {
+	private Long totalFamilies;
+
+	public OrganizationViewModel(Organization organization, Long totalFamilies) {
 		this.id = organization.getId();
 		this.organization = organization.getOrganization();
+		this.totalFamilies = totalFamilies;
 	}
 
 	public Long getId() {
@@ -19,5 +22,9 @@ public class OrganizationViewModel {
 
 	public String getOrganization() {
 		return organization;
+	}
+
+	public Long getTotalFamilies() {
+		return totalFamilies;
 	}
 }

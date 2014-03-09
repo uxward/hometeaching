@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mysema.query.Tuple;
 import com.personalapp.hometeaching.model.Family;
+import com.personalapp.hometeaching.model.FamilyStatus;
 
 public interface FamilyRepository extends Repository<Family, Long> {
 
@@ -22,5 +23,7 @@ public interface FamilyRepository extends Repository<Family, Long> {
 	List<Family> getAllFamiliesAndVisits();
 
 	List<Tuple> getVisitPercentageDetails(Integer month, Integer year);
+
+	List<Family> getAllNotMovedFamiliesByStatus(List<FamilyStatus> statuses);
 
 }

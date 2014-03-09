@@ -56,7 +56,7 @@ public class UserViewModel extends ActionViewModel {
 		}
 
 		for (UserOrganization userOrg : user.getUserOrganizations()) {
-			this.organizations.add(new OrganizationViewModel(fromId(userOrg.getOrganizationId())));
+			this.organizations.add(new OrganizationViewModel(fromId(userOrg.getOrganizationId()), null));
 		}
 	}
 

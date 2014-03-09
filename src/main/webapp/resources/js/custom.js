@@ -105,6 +105,17 @@ function setupPhoneNumbers(data, type, full) {
 	return html;
 }
 
+function setupOrganizations(data, type, full) {
+	var html = '';
+	for (var i = 0; i < data.length; i++) {
+		if (i != 0) {
+			html += ', ';
+		}
+		html += data[i].organization;
+	}
+	return html;
+}
+
 function isValidEmail(email) {
 	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	if (emailReg.test(email)) {

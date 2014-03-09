@@ -35,7 +35,7 @@ public class PersonViewModel {
 		this.hometeacher = person.getHometeacher();
 
 		if (person.getOrganization() != null) {
-			this.organization = new OrganizationViewModel(person.getOrganization());
+			this.organization = new OrganizationViewModel(person.getOrganization(), null);
 		}
 
 		if (populateFamily) {

@@ -1,6 +1,7 @@
 package com.personalapp.hometeaching.service.impl;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.personalapp.hometeaching.model.FamilyStatus.UNKNOWN;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -53,6 +54,15 @@ public class FamilyServiceImpl implements FamilyService {
 	public List<FamilyViewModel> getAllMovedFamilies() {
 		List<FamilyViewModel> families = newArrayList();
 		for (Family family : repo.getAllMovedFamilies()) {
+			families.add(new FamilyViewModel(family, true, true, true));
+		}
+		return families;
+	}
+
+	@Override
+	public List<FamilyViewModel> getAllUnknownFamilies() {
+		List<FamilyViewModel> families = newArrayList();
+		for (Family family : repo.getAllNotMovedFamiliesByStatus(newArrayList(UNKNOWN))) {
 			families.add(new FamilyViewModel(family, true, true, true));
 		}
 		return families;

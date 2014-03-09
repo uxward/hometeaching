@@ -60,6 +60,7 @@
 		<property name="hierarchy">
 			<value>
 				admin > leader 
+				leader > membership
 				leader > hometeacher
 			</value>
 		</property>

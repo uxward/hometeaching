@@ -1,5 +1,6 @@
 package com.personalapp.hometeaching.repository.impl;
 
+import static com.personalapp.hometeaching.model.FamilyStatus.getIdsFromList;
 import static com.personalapp.hometeaching.model.QAssignment.assignment;
 import static com.personalapp.hometeaching.model.QCompanion.companion;
 import static com.personalapp.hometeaching.model.QFamily.family;
@@ -7,6 +8,7 @@ import static com.personalapp.hometeaching.model.QFamilyOrganization.familyOrgan
 import static com.personalapp.hometeaching.model.QPerson.person;
 import static com.personalapp.hometeaching.model.QPersonCompanion.personCompanion;
 import static com.personalapp.hometeaching.model.QVisit.visit;
+import static com.personalapp.hometeaching.security.SecurityUtils.getAllOrganizationIds;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserOrganizationIds;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -19,6 +21,7 @@ import com.mysema.query.Tuple;
 import com.mysema.query.jpa.JPASubQuery;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.personalapp.hometeaching.model.Family;
+import com.personalapp.hometeaching.model.FamilyStatus;
 import com.personalapp.hometeaching.model.QPerson;
 import com.personalapp.hometeaching.repository.FamilyRepository;
 
@@ -35,6 +38,15 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 	}
 
 	@Override
+	public List<Family> getAllNotMovedFamiliesByStatus(List<FamilyStatus> statuses) {
+		logger.info("entering the get all not moved families method");
+		JPAQuery query = getNotMovedFamilyQuery();
+		query.where(family.familyStatusId.in(getIdsFromList(statuses)));
+		query.orderBy(family.familyName.asc());
+		return query.list(family);
+	}
+
+	@Override
 	public List<Family> getAllMovedFamilies() {
 		logger.info("entering the get all moved families method");
 		JPAQuery query = getMovedFamilyQuery();
@@ -45,7 +57,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 	@Override
 	public Family findDetailedById(Long id) {
 		logger.info("entering the getDetailedById method");
-		JPAQuery query = getFamilyQuery();
+		JPAQuery query = getFamilyQuery(getAllOrganizationIds());
 		query.where(family.id.eq(id)).distinct();
 		return query.singleResult(family);
 	}
@@ -75,14 +87,14 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 
 	@Override
 	public List<Family> getByCompanionId(Long companionId) {
-		JPAQuery query = getFamilyQuery();
+		JPAQuery query = getFamilyQuery(getCurrentUserOrganizationIds());
 		query.where(assignment.active.eq(true), assignment.companionId.eq(companionId));
 		return query.list(family);
 	}
 
 	@Override
 	public List<Family> getAllFamiliesAndVisits() {
-		JPAQuery query = getFamilyQuery();
+		JPAQuery query = getFamilyQuery(getCurrentUserOrganizationIds());
 		query.leftJoin(family.visits).fetch();
 		return query.list(family);
 	}
@@ -107,18 +119,18 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 	}
 
 	private JPAQuery getNotMovedFamilyQuery() {
-		JPAQuery query = getFamilyQuery();
+		JPAQuery query = getFamilyQuery(getCurrentUserOrganizationIds());
 		query.where(family.familyMoved.isNull().or(family.familyMoved.eq(false)));
 		return query;
 	}
 
 	private JPAQuery getMovedFamilyQuery() {
-		JPAQuery query = getFamilyQuery();
+		JPAQuery query = getFamilyQuery(getAllOrganizationIds());
 		query.where(family.familyMoved.isNotNull().and(family.familyMoved.eq(true)));
 		return query;
 	}
 
-	private JPAQuery getFamilyQuery() {
+	private JPAQuery getFamilyQuery(List<Long> organizationIds) {
 		JPAQuery query = jpaFrom(family);
 		QPerson compPerson = QPerson.person;
 		query.leftJoin(family.people, person).fetch();
@@ -128,7 +140,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 		query.leftJoin(companion.companions, personCompanion).fetch();
 		query.leftJoin(personCompanion.person, compPerson).fetch();
 		query.leftJoin(compPerson.family).fetch();
-		query.where(familyOrganization.organizationId.in(getCurrentUserOrganizationIds()));
+		query.where(familyOrganization.organizationId.in(organizationIds));
 		query.distinct();
 		return query;
 	}

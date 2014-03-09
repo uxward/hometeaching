@@ -54,7 +54,7 @@ public class FamilyViewModel {
 
 		if (populateOrganizations) {
 			for (FamilyOrganization organization : family.getFamilyOrganizations()) {
-				this.organizations.add(new OrganizationViewModel(organization.getOrganization()));
+				this.organizations.add(new OrganizationViewModel(organization.getOrganization(), null));
 			}
 		}
 
