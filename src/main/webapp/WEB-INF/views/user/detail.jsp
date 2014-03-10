@@ -6,7 +6,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <t:mainPage activeMenu="user"
-	pageTitle="${user.person.firstName}'s Account"
+	pageTitle="User Detail"
 	pageHeader="${user.person.firstName}'s" pageSubheader="Account"
 	requireReset="false">
 

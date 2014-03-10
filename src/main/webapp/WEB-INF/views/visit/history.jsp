@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<t:mainPage activeMenu="visitHistory" pageTitle="Visit - History" pageHeader="Visit" pageSubheader="${fn:length(months)} Month History">
+<t:mainPage activeMenu="visitHistory" pageTitle="Visit History" pageHeader="${fn:length(months)} Month" pageSubheader="Visit  History">
 
 	<table id="historyTable" class="table table-striped table-hover table-bordered"></table>
 

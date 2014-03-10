@@ -23,8 +23,8 @@
 
 <spring:url var="dashboard" value="/dashboard" />
 
-<t:mainPage activeMenu="yourCompanion" pageTitle="Companionship Detail"
-	pageHeader="${companionship}" pageSubheader="Companionship">
+<t:mainPage activeMenu="yourCompanion" pageTitle="Companion Detail"
+	pageHeader="${companionship}" pageSubheader="Companion">
 
 	<div class="row">
 		<div class="alert alert-info">

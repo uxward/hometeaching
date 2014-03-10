@@ -67,7 +67,7 @@ public class CompanionController {
 	@RequestMapping(value = "/detail/{id}")
 	public ModelAndView detail(@PathVariable Long id) {
 		ModelAndView view;
-		if (currentUserIsAdmin() || hasCompanionAccess(id)) {
+		if (hasCompanionAccess(id)) {
 			view = getDetailModelAndView(id);
 		} else {
 			view = new ModelAndView("denied");

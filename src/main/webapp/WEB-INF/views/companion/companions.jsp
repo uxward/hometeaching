@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<t:mainPage activeMenu="allCompanions" pageTitle="Companion - Home" pageHeader="All" pageSubheader="Companions">
+<t:mainPage activeMenu="allCompanions" pageTitle="Companions" pageHeader="All" pageSubheader="Companions">
 
 	<table id="companionTable" class="table table-striped table-hover table-bordered" width="100%">
 	</table>

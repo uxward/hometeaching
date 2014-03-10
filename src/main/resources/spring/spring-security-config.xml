@@ -9,16 +9,19 @@
          http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
 	<sec:http auto-config="false" use-expressions="true">
-		<sec:intercept-url pattern="/family/all**" access="hasRole('leader')" />
-		<sec:intercept-url pattern="/family/single**" access="hasRole('hometeacher')" />
-		<sec:intercept-url pattern="/companion/all**" access="hasRole('leader')" />
-		<sec:intercept-url pattern="/companion/single**" access="hasRole('hometeacher')" />
-		<sec:intercept-url pattern="/user/all**" access="hasRole('leader')" />
-		<sec:intercept-url pattern="/user/single**" access="hasRole('hometeacher')" />
+		<sec:intercept-url pattern="/family/all*" access="hasRole('membership')" />
+		<sec:intercept-url pattern="/family/single*" access="permitAll" />
+		<sec:intercept-url pattern="/companion/all*" access="hasRole('leader')" />
+		<sec:intercept-url pattern="/companion/single*" access="hasRole('hometeacher')" />
+		<sec:intercept-url pattern="/user/all*" access="hasRole('leader')" />
+		<sec:intercept-url pattern="/user/single*" access="permitAll" />
+		<sec:intercept-url pattern="/dashboard*" access="permitAll" />
+		<sec:intercept-url pattern="/visit*" access="hasRole('leader')" />
+		<sec:intercept-url pattern="/feedback*" access="hasRole('leader')" />
 
 		<sec:intercept-url pattern="/login" access="permitAll" />
-		<sec:intercept-url pattern="/resources/**" access="permitAll" />
-		<sec:intercept-url pattern="/**" access="hasRole('hometeacher')" />
+		<sec:intercept-url pattern="/resources*" access="permitAll" />
+		<sec:intercept-url pattern="/*" access="permitAll" />
 
 		<sec:form-login login-page="/login" login-processing-url="/login-execute" authentication-failure-url="/login?error=true" />
 		<sec:logout logout-url="/logout" logout-success-url="/login?logout=true" />
@@ -59,7 +62,7 @@
 	<bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
 		<property name="hierarchy">
 			<value>
-				admin > leader 
+				admin > leader
 				leader > membership
 				leader > hometeacher
 			</value>

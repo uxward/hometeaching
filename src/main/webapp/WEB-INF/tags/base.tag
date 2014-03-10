@@ -59,13 +59,11 @@
 		<div class="container">
 			<div class="navbar-header">
 				<sec:authorize access="isAuthenticated()">
-					<c:if test="${!reset}">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-					</c:if>
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
 				</sec:authorize>
 				<a class="navbar-brand ${activeMenu ==  'home' ? 'active' : '' }" href="${home}">
 					<span class="glyphicon glyphicon-asterisk"></span>
@@ -83,9 +81,8 @@
 										Leaders <b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
-										<li class="${activeMenu ==  'allFamilies' ? 'active' : '' }"><a href="${family}/all">All Families</a></li>
-										<li class="${activeMenu ==  'allCompanions' ? 'active' : '' }"><a href="${companion}/all">All Companions</a></li>
 										<li class="${activeMenu ==  'users' ? 'active' : '' }"><a href="${user}/all">Users</a></li>
+										<li class="${activeMenu ==  'allCompanions' ? 'active' : '' }"><a href="${companion}/all">Companions</a></li>
 										<li class="${activeMenu ==  'visitHistory' ? 'active' : '' }"><a href="${visit}/history/3">Visit History</a></li>
 										<li class="${activeMenu ==  'feedback' ? 'active' : '' }"><a href="${feedback}">Feedback</a></li>
 									</ul></li>
@@ -98,6 +95,7 @@
 									Membership <b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
+									<li class="${activeMenu ==  'allFamilies' ? 'active' : '' }"><a href="${family}/all">All Families</a></li>
 									<li class="${activeMenu ==  'moved' ? 'active' : '' }"><a href="${family}/moved">Moved Families</a></li>
 									<li class="${activeMenu ==  'unknown' ? 'active' : '' }"><a href="${family}/unknown">Unknown Families</a></li>
 								</ul></li>
@@ -115,7 +113,7 @@
 							<li class="${activeMenu ==  'yourFamily' ? 'active' : '' }"><a href="${family}/you">Family</a></li>
 							
 							<sec:authorize access="hasRole('hometeacher')">
-								<li class="${activeMenu ==  'yourCompanion' ? 'active' : '' }"><a href="${companion}/you">Companionship</a></li>
+								<li class="${activeMenu ==  'yourCompanion' ? 'active' : '' }"><a href="${companion}/you">Companion</a></li>
 							</sec:authorize>
 							
 						</c:if>

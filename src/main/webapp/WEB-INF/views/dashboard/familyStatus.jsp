@@ -7,7 +7,7 @@
 <spring:url var="resources" value="/resources" />
 
 <t:mainPage activeMenu="familyStatus" pageTitle="Family Status"
-	pageHeader="Visualize" pageSubheader="Family Status">
+	pageHeader="Family Status" pageSubheader="Visualized">
 
 	<div class="row">
 		<div class="alert alert-info">
@@ -54,7 +54,7 @@
 
 		function setupFamilyStatus(data, organizations, numOrgs) {
 
-			var display = organizations[0].organization == 'Aggregate' ? 'Ward' : organizations[0].organization;
+			var display = organizations[0].organization;
 
 			var width = 280, height = 280, radius = 100, margin = {
 				x : 0,

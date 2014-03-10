@@ -4,7 +4,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 
-<t:mainPage activeMenu="moved" pageTitle="Family - Moved"
+<t:mainPage activeMenu="moved" pageTitle="Moved Families"
 	pageHeader="Moved" pageSubheader="Families">
 
 	<table id="familyTable"

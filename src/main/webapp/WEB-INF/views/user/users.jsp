@@ -6,8 +6,8 @@
 
 <spring:url var="image" value="/resources/img" />
 
-<t:mainPage activeMenu="users" pageTitle="Users - Home"
-	pageHeader="All" pageSubheader="users">
+<t:mainPage activeMenu="users" pageTitle="Users"
+	pageHeader="All" pageSubheader="Users">
 
 	<table id="userTable"
 		class="table table-striped table-hover table-bordered" width="100%">
@@ -243,7 +243,7 @@
 					'sTitle' : 'Last Login',
 					'mData' : 'lastLogin',
 					'mRender' : setupFullDate,
-					'sWidth' : '20%'
+					'sWidth' : '18%'
 				}, {
 					'sTitle' : 'Setup Account',
 					'mData' : 'reset',
@@ -253,7 +253,7 @@
 					'sTitle' : 'Actions',
 					'mData' : 'id',
 					'mRender' : setupActions,
-					'sWidth' : '15%'
+					'sWidth' : '17%'
 				} ],
 				'oLanguage' : {
 					'sInfoEmpty' : 'No users to show',
@@ -361,7 +361,7 @@
 		}
 
 		function setupActions(data, type, full) {
-			return '<input type="button" class="btn btn-primary editUser" data-user-id="' + data + '" value="Edit"/>' + ' <input type="button" class="btn btn-primary toggleEnable" data-user-id="' + data + '" value="'
+			return '<input type="button" class="btn btn-primary editUser button-medium" data-user-id="' + data + '" value="Edit"/>' + ' <input type="button" class="btn btn-primary toggleEnable button-medium" data-user-id="' + data + '" value="'
 					+ (full.enabled ? 'Disable' : 'Enable') + '"/>';
 		}
 

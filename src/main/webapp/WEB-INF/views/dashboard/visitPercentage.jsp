@@ -7,7 +7,7 @@
 <spring:url var="resources" value="/resources" />
 
 <t:mainPage activeMenu="visitPercentage" pageTitle="Visit Percentage"
-	pageHeader="Visualize" pageSubheader="Visit Percentage">
+	pageHeader="Visit Percentage" pageSubheader="Visualized">
 
 	<style>
 .axis path,.axis line {

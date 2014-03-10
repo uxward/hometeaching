@@ -4,7 +4,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 
-<t:mainPage activeMenu="unknown" pageTitle="Family - Unknown"
+<t:mainPage activeMenu="unknown" pageTitle="Unknown Families"
 	pageHeader="Unknown" pageSubheader="Families">
 
 	<table id="familyTable"

@@ -78,7 +78,7 @@ public class SecurityUtils {
 	}
 
 	public static boolean hasFamilyAccess(Family family) {
-		return Objects.equal(family.getId(), getCurrentUser().getFamily().getId())
+		return currentUserIsAdmin() || Objects.equal(family.getId(), getCurrentUser().getFamily().getId())
 				|| (currentUserIsLeader() && familyInCurrentUserOrganizations(family) || currentUserIsMembership() && familyIsMovedOrUnknown(family));
 	}
 
@@ -99,7 +99,7 @@ public class SecurityUtils {
 	}
 
 	public static boolean hasCompanionAccess(Long id) {
-		return getCurrentUser().getActiveCompanion() != null ? id.equals(getCurrentUser().getActiveCompanion().getId()) : false;
+		return currentUserIsAdmin() || getCurrentUser().getActiveCompanion() != null ? id.equals(getCurrentUser().getActiveCompanion().getId()) : false;
 	}
 
 	public static List<Long> getCurrentUserOrganizationIds() {

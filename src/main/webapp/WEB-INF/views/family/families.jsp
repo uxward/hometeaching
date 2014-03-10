@@ -4,7 +4,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 
-<t:familyStatus activeMenu="allFamilies" pageTitle="Family - Home"
+<t:familyStatus activeMenu="allFamilies" pageTitle="Families"
 	pageHeader="All" pageSubheader="Families">
 
 	<table id="familyTable"

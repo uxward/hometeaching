@@ -1,6 +1,5 @@
 package com.personalapp.hometeaching.controller;
 
-import static com.personalapp.hometeaching.security.SecurityUtils.currentUserIsAdmin;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
 import static com.personalapp.hometeaching.security.SecurityUtils.hasFamilyAccess;
 
@@ -93,7 +92,7 @@ public class FamilyController {
 	private ModelAndView getFamilyViewModel(Long id) {
 		ModelAndView view = new ModelAndView("family/detail");
 		Family family = service.findDetailedFamilyById(id);
-		if (currentUserIsAdmin() || hasFamilyAccess(family)) {
+		if (hasFamilyAccess(family)) {
 			view.addObject("statuses", FamilyStatus.values());
 			view.addObject("organizations", Organization.values());
 			view.addObject("family", service.getDetailedViewModelForFamily(family));

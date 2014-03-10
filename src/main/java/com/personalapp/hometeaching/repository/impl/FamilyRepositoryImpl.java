@@ -32,7 +32,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 	@Override
 	public List<Family> getAllNotMovedFamilies() {
 		logger.info("entering the get all not moved families method");
-		JPAQuery query = getNotMovedFamilyQuery();
+		JPAQuery query = getNotMovedFamilyQuery(getAllOrganizationIds());
 		query.orderBy(family.familyName.asc());
 		return query.list(family);
 	}
@@ -40,7 +40,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 	@Override
 	public List<Family> getAllNotMovedFamiliesByStatus(List<FamilyStatus> statuses) {
 		logger.info("entering the get all not moved families method");
-		JPAQuery query = getNotMovedFamilyQuery();
+		JPAQuery query = getNotMovedFamilyQuery(getAllOrganizationIds());
 		query.where(family.familyStatusId.in(getIdsFromList(statuses)));
 		query.orderBy(family.familyName.asc());
 		return query.list(family);
@@ -65,7 +65,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 	@Override
 	public List<Family> getAllFamiliesWithoutCompanion() {
 		logger.info("entering the get all families without companion method");
-		JPAQuery query = getNotMovedFamilyQuery();
+		JPAQuery query = getNotMovedFamilyQuery(getCurrentUserOrganizationIds());
 		// TODO make this not bad and ugly
 		List<Long> assignedFamilyIds = getAllFamilyIdsWithCompanion();
 		if (!assignedFamilyIds.isEmpty()) {
@@ -118,8 +118,8 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 		return query.list(family.id);
 	}
 
-	private JPAQuery getNotMovedFamilyQuery() {
-		JPAQuery query = getFamilyQuery(getCurrentUserOrganizationIds());
+	private JPAQuery getNotMovedFamilyQuery(List<Long> organizationIds) {
+		JPAQuery query = getFamilyQuery(organizationIds);
 		query.where(family.familyMoved.isNull().or(family.familyMoved.eq(false)));
 		return query;
 	}

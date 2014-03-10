@@ -5,7 +5,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 
 <t:mainPage activeMenu="yourFamily"
-	pageTitle="${family.familyName} Family"
+	pageTitle="Family Detail"
 	pageHeader="${family.familyName}" pageSubheader="Family">
 
 	<div class="well" id="viewInfo">

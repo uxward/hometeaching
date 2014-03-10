@@ -1,6 +1,5 @@
 package com.personalapp.hometeaching.controller;
 
-import static com.personalapp.hometeaching.security.SecurityUtils.currentUserIsAdmin;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserOrganizations;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserRoles;
@@ -10,7 +9,6 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -61,17 +59,6 @@ public class UserController {
 		return new DatatableResponse<UserViewModel>(userService.getAllUsers());
 	}
 
-	@RequestMapping("/all/detail{id}")
-	public ModelAndView viewSingle(@PathVariable Long id) {
-		ModelAndView view;
-		if (currentUserIsAdmin()) {
-			view = new ModelAndView("user/detail", "user", userRepo.findDetailedById(id));
-		} else {
-			view = new ModelAndView("denied");
-		}
-		return view;
-	}
-
 	@RequestMapping(value = "/you")
 	public ModelAndView viewYou() {
 		return new ModelAndView("user/detail", "user", getCurrentUser().getHometeachingUser());
@@ -80,8 +67,6 @@ public class UserController {
 	@RequestMapping(value = "/save")
 	@ResponseBody
 	public UserViewModel save(HometeachingUser user) {
-		// TODO catch when constraint exception violated (same username/same
-		// password)
 		return userService.save(user);
 	}
 

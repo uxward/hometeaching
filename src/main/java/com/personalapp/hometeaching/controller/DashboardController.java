@@ -2,7 +2,6 @@ package com.personalapp.hometeaching.controller;
 
 import static com.personalapp.hometeaching.security.SecurityUtils.getAllOrganizationIds;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
-import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserOrganizationIds;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.List;
@@ -48,13 +47,6 @@ public class DashboardController {
 	@ResponseBody
 	public List<FamilyStatusViewModel> getVisitPercentageDetails(@RequestParam("month") Integer month, @RequestParam("year") Integer year) {
 		return service.getVisitPercentageDetails(month, year);
-	}
-
-	@RequestMapping("getFamilyStatusPercentage")
-	@ResponseBody
-	public List<WardFamilyStatusViewModel> getFamilyStatusPercentage() {
-		logger.info("User {} is getting family status percentages", getCurrentUser().getPerson().getFullName());
-		return service.getFamilyStatusPercentage(getCurrentUserOrganizationIds());
 	}
 
 	@RequestMapping("getFamilyStatus")
