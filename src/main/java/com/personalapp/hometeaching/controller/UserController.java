@@ -2,7 +2,7 @@ package com.personalapp.hometeaching.controller;
 
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserOrganizations;
-import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserRoles;
+import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserAssignableRoles;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import org.slf4j.Logger;
@@ -48,7 +48,7 @@ public class UserController {
 		logger.info("User " + getCurrentUser().getPerson().getFullName() + " is viewing all users");
 		ModelAndView view = new ModelAndView("user/users");
 		view.addObject("organizations", getCurrentUserOrganizations());
-		view.addObject("roles", getCurrentUserRoles());
+		view.addObject("roles", getCurrentUserAssignableRoles());
 		view.addObject("unassigned", personRepo.getUnassignedHometeachingUsers());
 		return view;
 	}

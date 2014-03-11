@@ -82,6 +82,10 @@ public class HometeachingUserRepositoryImpl extends RepositoryImpl<HometeachingU
 		JPAQuery query = jpaFrom(hometeachingUser);
 		query.leftJoin(hometeachingUser.userRoles).fetch();
 		query.leftJoin(hometeachingUser.person, person).fetch();
+		query.leftJoin(person.personCompanion, personCompanion).fetch();
+		query.leftJoin(personCompanion.companion, companion).fetch();
+		query.leftJoin(companion.assignments, assignment).fetch();
+		query.leftJoin(assignment.family, family).fetch();
 		query.leftJoin(person.family).fetch();
 		query.leftJoin(hometeachingUser.userOrganizations, userOrganization).fetch();
 		query.distinct();

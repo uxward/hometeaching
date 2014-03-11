@@ -1,14 +1,11 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<t:mainPage activeMenu="unknown" pageTitle="Unknown Families"
-	pageHeader="Unknown" pageSubheader="Families">
+<t:mainPage activeMenu="unknown" pageTitle="Unknown Families" pageHeader="Unknown" pageSubheader="Families">
 
-	<table id="familyTable"
-		class="table table-striped table-hover table-bordered" width="100%"></table>
+	<table id="familyTable" class="table table-striped table-hover table-bordered" width="100%"></table>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -28,7 +25,7 @@
 					'mData' : 'familyName',
 					'sWidth' : '25%',
 					'mRender' : familyNameRender
-				},{
+				}, {
 					'sTitle' : 'Organizations',
 					'mData' : 'organizations',
 					'mRender' : setupOrganizations,
@@ -48,8 +45,8 @@
 				}, {
 					'sTitle' : 'Companions',
 					'mData' : 'companions',
-					'sWidth' : '15%'
-					,'mRender' : setupCompanions
+					'sWidth' : '15%',
+					'mRender' : setupCompanions
 				} ],
 				'oLanguage' : {
 					'sInfoEmpty' : 'No families to show',
@@ -65,10 +62,7 @@
 		function setupCompanions(data, type, full) {
 			var html = '';
 			if (data != null) {
-				html = data.allHometeachers;
-				<sec:authorize access="hasRole('leader')">
-					html = '<a href="<spring:url value="/companion/detail/"/>' + data.id + '">' + data.allHometeachers + '</a>'
-				</sec:authorize>
+				html = '<a href="<spring:url value="/companion/detail/"/>' + data.id + '">' + data.allHometeachers + '</a>';
 			}
 			return html;
 		}

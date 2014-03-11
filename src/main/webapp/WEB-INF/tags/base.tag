@@ -76,7 +76,7 @@
 					<ul class="nav navbar-nav">
 						<c:if test="${!reset}">
 							
-							<sec:authorize access="hasRole('leader')">
+							<sec:authorize access="hasRole('council')">
 								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
 										Leaders <b class="caret"></b>
 									</a>

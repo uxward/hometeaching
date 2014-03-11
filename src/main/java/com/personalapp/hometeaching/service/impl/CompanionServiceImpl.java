@@ -109,7 +109,7 @@ public class CompanionServiceImpl implements CompanionService {
 	}
 
 	@Override
-	public CompanionViewModel findDetailedById(Long id) {
+	public Companion findDetailedById(Long id) {
 		Companion companion = repo.findDetailedById(id);
 		Set<Assignment> activeAssignments = newHashSet();
 		for (Assignment assignment : companion.getAssignments()) {
@@ -118,6 +118,16 @@ public class CompanionServiceImpl implements CompanionService {
 			}
 		}
 		companion.setAssignments(activeAssignments);
+		return companion;
+	}
+
+	@Override
+	public CompanionViewModel findDetailedCompanionViewModelById(Long id) {
+		return new CompanionViewModel(findDetailedById(id), true);
+	}
+
+	@Override
+	public CompanionViewModel getDetailedViewModelForCompanion(Companion companion) {
 		return new CompanionViewModel(companion, true);
 	}
 

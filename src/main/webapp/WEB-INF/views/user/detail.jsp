@@ -1,20 +1,15 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<t:mainPage activeMenu="user"
-	pageTitle="User Detail"
-	pageHeader="${user.person.firstName}'s" pageSubheader="Account"
-	requireReset="false">
+<t:mainPage activeMenu="user" pageTitle="User Detail" pageHeader="${user.person.fullName}'s" pageSubheader="Account" requireReset="false">
 
 	<c:if test="${passwordError}">
 		<div class="row">
 			<div class="alert alert-danger">
-				<button type="button" class="close" data-dismiss="alert"
-					aria-hidden="true">&times;</button>
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 				Invalid password, please try again.
 			</div>
 		</div>
@@ -23,8 +18,7 @@
 	<c:if test="${usernameError}">
 		<div class="row">
 			<div class="alert alert-danger">
-				<button type="button" class="close" data-dismiss="alert"
-					aria-hidden="true">&times;</button>
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 				That username is already being used, please try another one.
 			</div>
 		</div>
@@ -33,8 +27,7 @@
 	<c:if test="${success}">
 		<div class="row">
 			<div class="alert alert-success">
-				<button type="button" class="close" data-dismiss="alert"
-					aria-hidden="true">&times;</button>
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 				Your account was updated successfully.
 			</div>
 		</div>
@@ -47,28 +40,22 @@
 		</div>
 	</div>
 
-	<form id="userForm" action="<spring:url value="/user/update" />"
-		method="POST">
+	<form id="userForm" action="<spring:url value="/user/update" />" method="POST">
 		<div class="form-group">
-			<label class="sr-only" for="username">Username</label> <input
-				class="form-control" type="text" id="username" name="username"
-				maxlength="50" value="${user.username}" placeholder="Username" />
+			<label class="sr-only" for="username">Username</label>
+			<input class="form-control" type="text" id="username" name="username" maxlength="50" value="${user.username}" placeholder="Username" />
 		</div>
 		<div class="form-group">
-			<label class="sr-only" for="oldPassword">Old Password</label> <input
-				class="form-control" type="password" id="oldPassword"
-				name="oldPassword" maxlength="50" placeholder="Old Password" />
+			<label class="sr-only" for="oldPassword">Old Password</label>
+			<input class="form-control" type="password" id="oldPassword" name="oldPassword" maxlength="50" placeholder="Old Password" />
 		</div>
 		<div class="form-group">
-			<label class="sr-only" for="newPassword">New Password</label> <input
-				class="form-control" type="password" id="newPassword"
-				name="password" maxlength="50" placeholder="New Password" />
+			<label class="sr-only" for="newPassword">New Password</label>
+			<input class="form-control" type="password" id="newPassword" name="password" maxlength="50" placeholder="New Password" />
 		</div>
 		<div class="form-group">
-			<label class="sr-only" for="confirmNewPassword">Confirm New
-				Password</label> <input class="form-control" type="password"
-				id="confirmNewPassword" maxlength="50"
-				placeholder="Confirm New Password" />
+			<label class="sr-only" for="confirmNewPassword">Confirm New Password</label>
+			<input class="form-control" type="password" id="confirmNewPassword" maxlength="50" placeholder="Confirm New Password" />
 		</div>
 	</form>
 

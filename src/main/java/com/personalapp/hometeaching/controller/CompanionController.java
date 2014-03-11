@@ -1,6 +1,6 @@
 package com.personalapp.hometeaching.controller;
 
-import static com.personalapp.hometeaching.security.SecurityUtils.currentUserIsAdmin;
+import static com.personalapp.hometeaching.security.SecurityUtils.canActionCompanion;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
 import static com.personalapp.hometeaching.security.SecurityUtils.hasCompanionAccess;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -56,7 +56,7 @@ public class CompanionController {
 		logger.info("User {} is viewing their companion information.", getCurrentUser().getUsername());
 		ModelAndView view;
 		if (getCurrentUser().getActiveCompanion() != null) {
-			view = getDetailModelAndView(getCurrentUser().getActiveCompanion().getId());
+			view = getDetailModelAndView(service.findDetailedById(getCurrentUser().getActiveCompanion().getId()));
 		} else {
 			view = new ModelAndView("companion/notAssigned");
 		}
@@ -67,8 +67,9 @@ public class CompanionController {
 	@RequestMapping(value = "/detail/{id}")
 	public ModelAndView detail(@PathVariable Long id) {
 		ModelAndView view;
-		if (hasCompanionAccess(id)) {
-			view = getDetailModelAndView(id);
+		Companion companion = service.findDetailedById(id);
+		if (hasCompanionAccess(companion)) {
+			view = getDetailModelAndView(companion);
 		} else {
 			view = new ModelAndView("denied");
 		}
@@ -112,10 +113,11 @@ public class CompanionController {
 		return service.removeAssignment(companionId, familyId);
 	}
 
-	private ModelAndView getDetailModelAndView(Long id) {
+	private ModelAndView getDetailModelAndView(Companion companion) {
 		ModelAndView view = new ModelAndView("companion/detail");
-		view.addObject("companion", service.findDetailedById(id));
+		view.addObject("companion", service.getDetailedViewModelForCompanion(companion));
 		view.addObject("families", familyService.getAllFamiliesWithoutCompanion());
+		view.addObject("canAction", canActionCompanion(companion));
 		return view;
 	}
 }

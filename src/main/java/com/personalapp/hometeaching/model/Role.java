@@ -5,7 +5,7 @@ import static com.google.common.collect.Maps.newHashMap;
 import java.util.Map;
 
 public enum Role {
-	ADMIN("Admin", "admin"), HOMETEACHER("Home teacher", "hometeacher"), LEADER("Leader", "leader"), MEMBERSHIP("Membership", "membership");
+	ADMIN("Admin", "admin"), HOMETEACHER("Home teacher", "hometeacher"), LEADER("Leader", "leader"), MEMBERSHIP("Membership", "membership"), COUNCIL("Council", "council");
 
 	private final static Map<String, Role> ROLE = newHashMap();
 	static {

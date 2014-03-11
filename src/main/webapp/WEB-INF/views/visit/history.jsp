@@ -32,16 +32,21 @@
 		        },
 				'aoColumns' : [{
 					'sTitle' : 'Family',
-					'sWidth' : '20%',
+					'sWidth' : '15%',
 					'mData' : 'familyViewModel',
 					'mRender' : setupFamilyName
 				},{
 					'sTitle' : 'Status',
-					'sWidth' : '10%',
+					'sWidth' : '8%',
 					'mData' : 'familyViewModel.familyStatus'
 				},{
+					'sTitle' : 'Organization',
+					'mData' : 'familyViewModel.organizations',
+					'mRender' : setupOrganizations,
+					'sWidth' : '12%'
+				},{
 					'sTitle' : 'Home Teachers',
-					'sWidth' : '20%',
+					'sWidth' : '15%',
 					'mData' : 'familyViewModel.companions',
 					'mRender' : setupCompanions
 				},
