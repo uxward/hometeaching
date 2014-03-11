@@ -85,6 +85,11 @@
 							</label>
 						</div>
 						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
+							<label class="checkbox">
+								<input type="checkbox" name="user" id="user"> User
+							</label>
+						</div>
+						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
 							<label class="sr-only" for="organization">Organization</label>
 							<select name="organizationId" class="form-control" id="personOrganization">
 								<option value="">Select Organization</option>
@@ -325,6 +330,9 @@
 			}
 			if (data.hometeacher) {
 				$('#hometeacher').prop('checked', true);
+			}
+			if (data.user) {
+				$('#user').prop('checked', true);
 			}
 			var row = $('#personTable').dataTable().fnGetPosition($this.closest('tr')[0]);
 

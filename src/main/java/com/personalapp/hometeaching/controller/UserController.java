@@ -49,7 +49,7 @@ public class UserController {
 		ModelAndView view = new ModelAndView("user/users");
 		view.addObject("organizations", getCurrentUserOrganizations());
 		view.addObject("roles", getCurrentUserAssignableRoles());
-		view.addObject("unassigned", personRepo.getUnassignedHometeachingUsers());
+		view.addObject("unassigned", personRepo.getNotCreatedUsers());
 		return view;
 	}
 

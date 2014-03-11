@@ -45,6 +45,9 @@ public class Person extends BaseEntity {
 	@Column(name = "hometeacher")
 	private Boolean hometeacher;
 
+	@Column(name = "user")
+	private Boolean user;
+
 	@Column(name = "organizationid")
 	private Long organizationId;
 
@@ -125,6 +128,14 @@ public class Person extends BaseEntity {
 
 	public void setHometeacher(Boolean hometeacher) {
 		this.hometeacher = hometeacher;
+	}
+
+	public Boolean getUser() {
+		return user;
+	}
+
+	public void setUser(Boolean user) {
+		this.user = user;
 	}
 
 	public void setOrganizationId(Long organizationId) {

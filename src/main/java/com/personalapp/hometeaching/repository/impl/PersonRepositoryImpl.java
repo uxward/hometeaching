@@ -49,11 +49,11 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 	}
 
 	@Override
-	public List<Person> getUnassignedHometeachingUsers() {
-		logger.info("entering the get all unassigned hometeachers method");
+	public List<Person> getNotCreatedUsers() {
+		logger.info("entering the get not created users method");
 		JPAQuery query = getPersonNotMovedQuery();
-		query.where(person.hometeacher.eq(true));
-		query.where(person.notIn(getAssignedHometeachingUsers()));
+		query.where(person.user.eq(true));
+		query.where(person.notIn(getCreatedUsers()));
 		query.where(person.organizationId.in(getCurrentUserOrganizationIds()));
 		query.orderBy(family.familyName.asc());
 		return query.list(person);
@@ -74,7 +74,7 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 		return query;
 	}
 
-	private List<Person> getAssignedHometeachingUsers() {
+	private List<Person> getCreatedUsers() {
 		List<Person> assignedPeople = newArrayList();
 		JPAQuery query = jpaFrom(hometeachingUser);
 		query.leftJoin(hometeachingUser.person, person).fetch();

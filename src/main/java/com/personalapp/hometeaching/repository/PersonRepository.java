@@ -9,7 +9,7 @@ public interface PersonRepository extends Repository<Person, Long> {
 
 	List<Person> getAllNotMovedHometeachers();
 
-	List<Person> getUnassignedHometeachingUsers();
+	List<Person> getNotCreatedUsers();
 
 	List<Person> getByFamilyId(Long id);
 }

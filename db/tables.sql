@@ -28,6 +28,7 @@ create table person(
 	,phonenumber varchar(20)
 	,email varchar(50)
 	,hometeacher bit
+	,user bit
 	,created datetime
 	,updated datetime
 	,foreign key (familyid) 

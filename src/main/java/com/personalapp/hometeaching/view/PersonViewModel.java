@@ -19,6 +19,8 @@ public class PersonViewModel {
 
 	private Boolean hometeacher;
 
+	private Boolean user;
+
 	private OrganizationViewModel organization;
 
 	private FamilyViewModel family;
@@ -33,6 +35,7 @@ public class PersonViewModel {
 		this.headOfHousehold = person.getHeadOfHousehold();
 		this.phoneNumber = person.getPhoneNumber();
 		this.hometeacher = person.getHometeacher();
+		this.user = person.getUser();
 
 		if (person.getOrganization() != null) {
 			this.organization = new OrganizationViewModel(person.getOrganization(), null);
@@ -82,6 +85,10 @@ public class PersonViewModel {
 
 	public Boolean getHometeacher() {
 		return hometeacher;
+	}
+	
+	public Boolean getUser(){
+		return user;
 	}
 
 	public OrganizationViewModel getOrganization() {

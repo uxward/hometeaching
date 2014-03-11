@@ -59,6 +59,10 @@ public class PersonServiceImpl implements PersonService {
 		if (person.getHometeacher() == null) {
 			person.setHometeacher(false);
 		}
+
+		if (person.getUser() == null) {
+			person.setUser(false);
+		}
 	}
 
 	@Override
