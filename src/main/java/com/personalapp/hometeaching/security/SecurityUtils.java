@@ -107,8 +107,7 @@ public class SecurityUtils {
 		List<Organization> organizations = newArrayList();
 		if (currentUserIsAdmin()) {
 			organizations = newArrayList(RELIEF_SOCIETY, HIGH_PRIEST, ELDERS);
-		}
-		if (currentUserIsLeader()) {
+		} else if (currentUserIsLeader()) {
 			for (UserOrganization organization : getCurrentUser().getHometeachingUser().getUserOrganizations()) {
 				organizations.add(Organization.fromId(organization.getOrganizationId()));
 			}
