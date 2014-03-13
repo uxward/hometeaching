@@ -24,13 +24,7 @@
 	</sec:authorize>
 </c:set>
 
-<jsp:useBean id="now" class="java.util.Date" />
-<c:set var="day">
-	<fmt:formatDate value="${now}" pattern="D" />
-</c:set>
-<c:set var="dayMod">
-	${day % 4}
-</c:set>
+<%@ include file="../views/dayMod.jsp" %>
 
 <head>
 <meta charset="utf-8" />
@@ -95,6 +89,7 @@
 									Membership <b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
+									<li class="${activeMenu ==  'summaryStats' ? 'active' : '' }"><a href="${dashboard}/summaryStatistics">Summary Statistics</a></li>
 									<li class="${activeMenu ==  'allFamilies' ? 'active' : '' }"><a href="${family}/all">All Families</a></li>
 									<li class="${activeMenu ==  'moved' ? 'active' : '' }"><a href="${family}/moved">Moved Families</a></li>
 									<li class="${activeMenu ==  'unknown' ? 'active' : '' }"><a href="${family}/unknown">Unknown Families</a></li>
