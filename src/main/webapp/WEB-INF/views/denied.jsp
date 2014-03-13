@@ -1,17 +1,9 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <spring:url var="image" value="/resources/img" />
 
-<jsp:useBean id="now" class="java.util.Date" />
-<c:set var="day">
-	<fmt:formatDate value="${now}" pattern="D" />
-</c:set>
-<c:set var="dayMod">
-	${day % 3}
-</c:set>
+<%@ include file="./dayMod.jsp" %>
 
 <t:base activeMenu="home" pageTitle="Home">
 

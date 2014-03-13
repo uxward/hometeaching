@@ -5,13 +5,7 @@
 
 <spring:url var="image" value="/resources/img" />
 
-<jsp:useBean id="now" class="java.util.Date" />
-<c:set var="day">
-	<fmt:formatDate value="${now}" pattern="D" />
-</c:set>
-<c:set var="dayMod">
-	${day % 3}
-</c:set>
+<%@ include file="../dayMod.jsp" %>
 
 <t:base activeMenu="home" pageTitle="Home">
 
