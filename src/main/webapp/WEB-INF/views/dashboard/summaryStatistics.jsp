@@ -16,7 +16,7 @@
 
 	<div class="row">
 		<c:forEach var="organization" items="${organizations}" varStatus="status">
-			<div class="col-md-6 col-sm-6">
+			<div class="col-md-6 col-sm-6" style="min-height:315px;">
 
 				<fieldset>
 					<legend> ${organization.organization} </legend>
@@ -57,11 +57,11 @@
 					}, {
 						'sTitle' : '# Families',
 						'mData' : 'totalFamilies',
-						'sWidth' : '25%'
+						'sWidth' : '30%'
 					}, {
 						'sTitle' : 'Group',
 						'mData' : 'familyStatus',
-						'sWidth' : '50%'
+						'sWidth' : '45%'
 					} ],
 					'fnRowCallback' : function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 						var colorClass = {
