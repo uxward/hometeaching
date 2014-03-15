@@ -33,7 +33,7 @@ public class FamilyController {
 		logger.info("User {} is viewing the all families page", getCurrentUser().getPerson().getFullName());
 		ModelAndView view = new ModelAndView("family/families");
 		view.addObject("statuses", FamilyStatus.values());
-		view.addObject("organizations", Organization.values());
+		view.addObject("organizations", Organization.forDisplay());
 		return view;
 	}
 
@@ -108,7 +108,7 @@ public class FamilyController {
 		Family family = service.findDetailedFamilyById(id);
 		if (hasFamilyAccess(family)) {
 			view.addObject("statuses", FamilyStatus.values());
-			view.addObject("organizations", Organization.values());
+			view.addObject("organizations", Organization.forDisplay());
 			view.addObject("family", service.getDetailedViewModelForFamily(family));
 		} else {
 			view = new ModelAndView("denied");

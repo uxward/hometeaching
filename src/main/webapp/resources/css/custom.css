@@ -1,6 +1,24 @@
 /* Random css fixes
 -------------------------------------------------- */
 
+/* Fix bootstrap css for hovering on td with active tr class */
+.table-hover>tbody>tr>td.active:hover,.table-hover>tbody>tr>th.active:hover,.table-hover>tbody>tr.active:hover>td
+	{
+	background-color: #e8e8e8;
+}
+
+/* Fix bootstrap css for td with info tr class */
+.table-hover>tbody>tr>td.info:hover,.table-hover>tbody>tr>th.info:hover,.table-hover>tbody>tr.info:hover>td
+	{
+	background-color: #c4e3f3;
+}
+
+/* Fix bootstrap css for hovering on td with info tr class */
+.table>thead>tr>td.info,.table>tbody>tr>td.info,.table>tfoot>tr>td.info,.table>thead>tr>th.info,.table>tbody>tr>th.info,.table>tfoot>tr>th.info,.table>thead>tr.info>td,.table>tbody>tr.info>td,.table>tfoot>tr.info>td,.table>thead>tr.info>th,.table>tbody>tr.info>th,.table>tfoot>tr.info>th
+	{
+	background-color: #d9edf7;
+}
+
 /* Make bootstrap navbar padding smaller between items */
 .nav>li>a {
 	padding-right: 8px;

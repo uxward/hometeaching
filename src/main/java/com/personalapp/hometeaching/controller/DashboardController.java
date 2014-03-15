@@ -1,5 +1,6 @@
 package com.personalapp.hometeaching.controller;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.personalapp.hometeaching.security.SecurityUtils.getAllOrganizationIds;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.service.DashboardService;
+import com.personalapp.hometeaching.view.DatatableResponse;
 import com.personalapp.hometeaching.view.FamilyStatusViewModel;
 import com.personalapp.hometeaching.view.SummaryStatisticsViewModel;
 import com.personalapp.hometeaching.view.VisitPercentageViewModel;
@@ -43,7 +46,9 @@ public class DashboardController {
 	@RequestMapping("summaryStatistics")
 	public ModelAndView viewSummaryStatistics() {
 		logger.info("User {} is viewing the summary statistics page", getCurrentUser().getPerson().getFullName());
-		return new ModelAndView("dashboard/summaryStatistics");
+		ModelAndView view = new ModelAndView("dashboard/summaryStatistics");
+		view.addObject("organizations", Organization.values());
+		return view;
 	}
 
 	@RequestMapping("getVisitPercentage")
@@ -65,6 +70,14 @@ public class DashboardController {
 	public List<WardFamilyStatusViewModel> getFamilyStatus() {
 		logger.info("User {} is getting family status percentages", getCurrentUser().getPerson().getFullName());
 		return service.getFamilyStatusPercentage(getAllOrganizationIds());
+	}
+
+	@RequestMapping("getFamilyStatusByOrganizationId")
+	@ResponseBody
+	public DatatableResponse<FamilyStatusViewModel> getFamilyStatusByOrganizationId(@RequestParam("organizationId") Long organizationId) {
+		logger.info("User {} is getting family status percentages", getCurrentUser().getPerson().getFullName());
+		List<WardFamilyStatusViewModel> status = service.getFamilyStatusPercentage(newArrayList(organizationId));
+		return new DatatableResponse<FamilyStatusViewModel>(status.get(0).getFamilyStatus());
 	}
 
 	@RequestMapping("getSummaryStatistics")

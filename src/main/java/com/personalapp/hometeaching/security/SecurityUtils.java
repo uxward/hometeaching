@@ -5,6 +5,7 @@ import static com.personalapp.hometeaching.model.FamilyStatus.UNKNOWN;
 import static com.personalapp.hometeaching.model.Organization.ELDERS;
 import static com.personalapp.hometeaching.model.Organization.HIGH_PRIEST;
 import static com.personalapp.hometeaching.model.Organization.RELIEF_SOCIETY;
+import static com.personalapp.hometeaching.model.Organization.WARD;
 import static com.personalapp.hometeaching.model.Role.ADMIN;
 import static com.personalapp.hometeaching.model.Role.COUNCIL;
 import static com.personalapp.hometeaching.model.Role.HOMETEACHER;
@@ -92,7 +93,7 @@ public class SecurityUtils {
 	}
 
 	public static List<Long> getAllOrganizationIds() {
-		return newArrayList(ELDERS.getId(), HIGH_PRIEST.getId(), RELIEF_SOCIETY.getId());
+		return newArrayList(WARD.getId(), RELIEF_SOCIETY.getId(), HIGH_PRIEST.getId(), ELDERS.getId());
 	}
 
 	public static List<Long> getCurrentUserOrganizationIds() {
@@ -126,15 +127,6 @@ public class SecurityUtils {
 	}
 
 	public static boolean canActionCompanion(Companion companion) {
-		// boolean canAction = false;
-		// if (currentUserIsCompanion(companion)) {
-		// canAction = true;
-		// } else if (currentUserIsAdmin()) {
-		// canAction = true;
-		// } else if (currentUserIsLeader() &&
-		// companionInCurrentUserOrganizations(companion)) {
-		// canAction = true;
-		// }
 		return currentUserIsCompanion(companion) || currentUserIsAdmin() || currentUserIsLeader() && companionInCurrentUserOrganizations(companion);
 	}
 

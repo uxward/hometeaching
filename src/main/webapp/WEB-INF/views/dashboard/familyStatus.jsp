@@ -1,24 +1,17 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <spring:url var="resources" value="/resources" />
 
-<t:mainPage activeMenu="familyStatus" pageTitle="Family Status"
-	pageHeader="Family Status" pageSubheader="Visualized">
+<t:mainPage activeMenu="familyStatus" pageTitle="Family Status" pageHeader="Family Status" pageSubheader="Visualized">
 
 	<div class="row">
 		<div class="alert alert-info">
-			<button type="button" class="close" data-dismiss="alert"
-				aria-hidden="true">&times;</button>
-			<strong>Welcome to the family status page!</strong><br /> These pie
-			charts show the makeup of each organization in the ward by family
-			status - active, inactive, recent convert, unknown, and do not
-			contact. By clicking on a pie slice you can see how many families are
-			in that group. Go ahead - give it a try! (Note that many families
-			belong to multiple organizations)
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			<strong>Welcome to the family status page!</strong><br /> These pie charts show the makeup of each organization in the ward by family status - active, inactive, recent convert, unknown, and do not
+			contact. By clicking on a pie slice or pie title you can see how many families are in that group. Go ahead - give it a try! (Note that many families in the ward belong to multiple organizations)
 		</div>
 	</div>
 
@@ -28,9 +21,15 @@
 	<br />
 
 	<div class="well" id="info-well" style="display: none;">
-		<span>There </span><span id="tense"></span>&nbsp;<span id="number"></span>&nbsp;<span
-			id="status"></span><span id="familyTense"></span><span> in the
-		</span><span id="group"></span>
+		<span>There </span>
+		<span id="tense"></span>
+		&nbsp;
+		<span id="number"></span>
+		&nbsp;
+		<span id="status"></span>
+		<span id="familyTense"></span>
+		<span> in the </span>
+		<span id="group"></span>
 	</div>
 
 	<script src="${resources}/js/d3.min.js"></script>

@@ -3,6 +3,7 @@ package com.personalapp.hometeaching.service.impl;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.personalapp.hometeaching.model.Organization.WARD;
 import static com.personalapp.hometeaching.model.Organization.fromId;
+import static com.personalapp.hometeaching.security.SecurityUtils.getAllOrganizationIds;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.List;
@@ -12,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mysema.query.Tuple;
+import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.repository.FamilyRepository;
 import com.personalapp.hometeaching.repository.VisitRepository;
+import com.personalapp.hometeaching.security.SecurityUtils;
 import com.personalapp.hometeaching.service.DashboardService;
 import com.personalapp.hometeaching.view.FamilyStatusViewModel;
 import com.personalapp.hometeaching.view.OrganizationViewModel;
@@ -47,17 +50,18 @@ public class DashboardServiceImpl implements DashboardService {
 	@Override
 	public List<WardFamilyStatusViewModel> getFamilyStatusPercentage(List<Long> organizationIds) {
 		List<WardFamilyStatusViewModel> familyStatuses = newArrayList();
-		// add aggregate family status if have more than one organization
-		if (organizationIds.size() > 1) {
-			List<Tuple> tupleStatuses = familyRepo.getFamilyStatusPercentage(organizationIds);
-			OrganizationViewModel organization = new OrganizationViewModel(WARD, getTotalFamiliesFromTuple(tupleStatuses));
-			familyStatuses.add(new WardFamilyStatusViewModel(getFamilyStatusFromTuple(tupleStatuses), newArrayList(organization)));
-		}
+
 		// add family status for each organization
 		for (Long organizationId : organizationIds) {
-			List<Tuple> tupleStatuses = familyRepo.getFamilyStatusPercentage(newArrayList(organizationId));
-			OrganizationViewModel organization = new OrganizationViewModel(fromId(organizationId), getTotalFamiliesFromTuple(tupleStatuses));
-			familyStatuses.add(new WardFamilyStatusViewModel(getFamilyStatusFromTuple(tupleStatuses), newArrayList(organization)));
+			if (WARD.equals(Organization.fromId(organizationId))) {
+				List<Tuple> tupleStatuses = familyRepo.getFamilyStatusPercentage(getAllOrganizationIds());
+				OrganizationViewModel organization = new OrganizationViewModel(WARD, getTotalFamiliesFromTuple(tupleStatuses));
+				familyStatuses.add(new WardFamilyStatusViewModel(getFamilyStatusFromTuple(tupleStatuses), newArrayList(organization)));
+			} else {
+				List<Tuple> tupleStatuses = familyRepo.getFamilyStatusPercentage(newArrayList(organizationId));
+				OrganizationViewModel organization = new OrganizationViewModel(fromId(organizationId), getTotalFamiliesFromTuple(tupleStatuses));
+				familyStatuses.add(new WardFamilyStatusViewModel(getFamilyStatusFromTuple(tupleStatuses), newArrayList(organization)));
+			}
 		}
 		return familyStatuses;
 	}

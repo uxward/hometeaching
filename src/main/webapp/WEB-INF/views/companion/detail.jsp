@@ -52,7 +52,7 @@
 
 	<sec:authorize access="hasRole('leader')">
 		<a href="#addFamily" class="btn btn-primary" data-toggle="modal">Add Family</a>
-		<a href="#" class="btn btn-primary" id="emailAssignments">Email Assignments</a>
+		<a href="#" class="btn" id="emailAssignments"><i class="glyphicon glyphicon-envelope"></i> Email Assignments</a>
 
 		<!--  Add Family Modal
 	---------------------------------------------------->

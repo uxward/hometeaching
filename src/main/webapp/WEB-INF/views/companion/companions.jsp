@@ -11,7 +11,7 @@
 	<sec:authorize access="hasRole('leader')">
 
 		<a href="#addCompanion" role="button" class="btn btn-primary" data-toggle="modal">Add Companion</a>
-		<a href="#" class="btn btn-primary" id="emailAssignments">Email Assignments</a>
+		<a href="#" class="btn" id="emailAssignments"><i class="glyphicon glyphicon-envelope"></i> Email Assignments</a>
 	
 		<!-- Add companion modal -->
 		<div id="addCompanion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addFamilyLabel" aria-hidden="true">

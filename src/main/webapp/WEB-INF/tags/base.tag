@@ -189,9 +189,9 @@
 	</div>
 
 	<script type="text/javascript">
-		// function over riding. Redirecting to Console with Firebug installed.
+		// function overriding alert messages, primarily to avoid error alerts from datatables (ie when ajax request gets server session timeout response)
 		function alert(message) {
-			console.info(message);
+			console.log("From alert:  " + message);
 		}
 
 		$(document).ready(function() {

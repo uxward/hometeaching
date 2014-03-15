@@ -2,10 +2,13 @@ package com.personalapp.hometeaching.model;
 
 import static com.google.common.collect.Maps.newHashMap;
 
+import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
+
 public enum Organization {
-	ELDERS(1L, "Elders quorum"), HIGH_PRIEST(2L, "High priests"), RELIEF_SOCIETY(3L, "Relief society"), WARD(4L, "Ward");
+	WARD(4L, "Ward"), RELIEF_SOCIETY(3L, "Relief society"), HIGH_PRIEST(2L, "High priests"), ELDERS(1L, "Elders quorum");
 
 	private final static Map<Long, Organization> ORGANIZATION = newHashMap();
 	static {
@@ -32,6 +35,10 @@ public enum Organization {
 
 	public static Organization fromId(Long id) {
 		return ORGANIZATION.get(id);
+	}
+
+	public static List<Organization> forDisplay() {
+		return Lists.newArrayList(RELIEF_SOCIETY, HIGH_PRIEST, ELDERS);
 	}
 
 }
