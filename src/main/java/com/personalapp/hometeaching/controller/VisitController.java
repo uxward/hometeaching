@@ -37,6 +37,7 @@ public class VisitController {
 	@RequestMapping("view")
 	@ResponseBody
 	public DatatableResponse<VisitViewModel> viewVisits(@RequestParam("familyId") Long familyId) {
+		logger.info("User {} is viewing visits for family id {} ", getCurrentUser().getUsername(), familyId );
 		return new DatatableResponse<VisitViewModel>(visitService.getByFamilyId(familyId));
 	}
 

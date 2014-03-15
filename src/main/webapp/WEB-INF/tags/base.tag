@@ -24,7 +24,7 @@
 	</sec:authorize>
 </c:set>
 
-<%@ include file="../views/dayMod.jsp" %>
+<%@ include file="../views/dayMod.jsp"%>
 
 <head>
 <meta charset="utf-8" />
@@ -69,7 +69,7 @@
 
 					<ul class="nav navbar-nav">
 						<c:if test="${!reset}">
-							
+
 							<sec:authorize access="hasRole('council')">
 								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
 										Leaders <b class="caret"></b>
@@ -80,37 +80,37 @@
 										<li class="${activeMenu ==  'visitHistory' ? 'active' : '' }"><a href="${visit}/history/3">Visit History</a></li>
 										<li class="${activeMenu ==  'feedback' ? 'active' : '' }"><a href="${feedback}">Feedback</a></li>
 									</ul></li>
-										
+
 							</sec:authorize>
-							
+
 							<sec:authorize access="hasRole('membership')">
-							
+
 								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									Membership <b class="caret"></b>
+										Members <b class="caret"></b>
+									</a>
+									<ul class="dropdown-menu">
+										<li class="${activeMenu ==  'summaryStats' ? 'active' : '' }"><a href="${dashboard}/summaryStatistics">Summary Statistics</a></li>
+										<li class="${activeMenu ==  'allFamilies' ? 'active' : '' }"><a href="${family}/all">All Families</a></li>
+										<li class="${activeMenu ==  'moved' ? 'active' : '' }"><a href="${family}/moved">Moved Families</a></li>
+										<li class="${activeMenu ==  'unknown' ? 'active' : '' }"><a href="${family}/unknown">Unknown Families</a></li>
+									</ul></li>
+
+							</sec:authorize>
+
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									Visualize <b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
-									<li class="${activeMenu ==  'summaryStats' ? 'active' : '' }"><a href="${dashboard}/summaryStatistics">Summary Statistics</a></li>
-									<li class="${activeMenu ==  'allFamilies' ? 'active' : '' }"><a href="${family}/all">All Families</a></li>
-									<li class="${activeMenu ==  'moved' ? 'active' : '' }"><a href="${family}/moved">Moved Families</a></li>
-									<li class="${activeMenu ==  'unknown' ? 'active' : '' }"><a href="${family}/unknown">Unknown Families</a></li>
+									<li class="${activeMenu ==  'visitPercentage' ? 'active' : '' }"><a href="${dashboard}/visitPercentage">Visit Percentage</a></li>
+									<li class="${activeMenu ==  'familyStatus' ? 'active' : '' }"><a href="${dashboard}/familyStatus">Family Status</a></li>
 								</ul></li>
-							
-							</sec:authorize>
-						
-							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								Visualize <b class="caret"></b>
-							</a>
-							<ul class="dropdown-menu">
-								<li class="${activeMenu ==  'visitPercentage' ? 'active' : '' }"><a href="${dashboard}/visitPercentage">Visit Percentage</a></li>
-								<li class="${activeMenu ==  'familyStatus' ? 'active' : '' }"><a href="${dashboard}/familyStatus">Family Status</a></li>
-							</ul></li>
-								
+
 							<li class="${activeMenu ==  'yourFamily' ? 'active' : '' }"><a href="${family}/you">Family</a></li>
-							
+
 							<sec:authorize access="hasRole('hometeacher')">
 								<li class="${activeMenu ==  'yourCompanion' ? 'active' : '' }"><a href="${companion}/you">Companion</a></li>
 							</sec:authorize>
-							
+
 						</c:if>
 						<li class="visible-xs"><a href="${user}/you">
 								Welcome,
@@ -152,7 +152,7 @@
 	<div class="navbar navbar-fixed-top notification-navbar alert alert-success col-md-4 col-md-offset-4" style="display: none;">
 		<button type="button" class="close alert-close" aria-hidden="true">&times;</button>
 		<p class="text">
-			<strong>Success!</strong> 
+			<strong>Success!</strong>
 		</p>
 	</div>
 	<!-- 	</div> -->
@@ -160,7 +160,6 @@
 	<br />
 
 	<jsp:doBody />
-
 	<!-- Give Feedback Modal -->
 	<div id="leaveFeedback" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="leaveFeedbackLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -190,6 +189,11 @@
 	</div>
 
 	<script type="text/javascript">
+		// function over riding. Redirecting to Console with Firebug installed.
+		function alert(message) {
+			console.info(message);
+		}
+
 		$(document).ready(function() {
 			setupBaseEventBinding();
 		});
@@ -209,8 +213,8 @@
 			});
 
 			$('.base-popover').popover();
-			
-			$.each($('.phone-number'), function(){
+
+			$.each($('.phone-number'), function() {
 				$(this).html(getPhoneNumber($(this).text()));
 			});
 		}
@@ -250,6 +254,16 @@
 				showNotificationSuccess('Thank you very much for your feedback.');
 			} else {
 				showModalError('<p>There was an unexpected error while saving your feedback.  If the issue persists please contact the owner of this site.');
+			}
+		}
+
+		$(document).ajaxError(function(event, jqxhr, settings, exception) {
+			handleAJAXLogin(jqxhr);
+		});
+
+		function handleAJAXLogin(jqxhr) {
+			if (jqxhr.responseText.indexOf('login') >= 0) {
+				location.reload();
 			}
 		}
 	</script>

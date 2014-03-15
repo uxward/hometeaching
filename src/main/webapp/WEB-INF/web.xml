@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
 
-	<display-name>HomeTeaching</display-name>
-	<description>HomeTeaching Webapp</description>
+	<display-name>Home teaching</display-name>
+	<description>Home teaching webapp</description>
 
-	<!-- Location of the XML file that defines the root application context. -Applied by ContextLoaderServlet. -->
+	<!-- Location of the XML file that defines the root application context. 
+		-Applied by ContextLoaderServlet. -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:spring/spring-config.xml</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:log4j.properties</param-value>
 	</context-param>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-	<!-- Servlet that dispatches request to registered handlers (Controller implementations). -->
+	<!-- Servlet that dispatches request to registered handlers (Controller 
+		implementations). -->
 	<servlet>
 		<servlet-name>hometeaching-servlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -41,7 +50,6 @@
 	</filter-mapping>
 
 	<!-- Error mapping -->
-
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
 		<location>/WEB-INF/views/error.jsp</location>

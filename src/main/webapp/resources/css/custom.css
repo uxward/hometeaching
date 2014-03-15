@@ -1,5 +1,13 @@
 /* Random css fixes
 -------------------------------------------------- */
+
+/* Make bootstrap navbar padding smaller between items */
+.nav>li>a {
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
+/* Utility class for hiding elements */
 .hidden {
 	display: none;
 }
