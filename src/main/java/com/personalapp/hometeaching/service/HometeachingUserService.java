@@ -16,8 +16,6 @@ public interface HometeachingUserService {
 	UserViewModel update(HometeachingUser user);
 
 	List<UserViewModel> getAllUsers();
-
-	List<HometeachingUser> getAllUsersToEmail();
 	
 	List<HometeachingUser> getCompanionsToEmail(Long companionId);
 }

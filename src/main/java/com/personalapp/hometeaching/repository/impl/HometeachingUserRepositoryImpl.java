@@ -47,26 +47,9 @@ public class HometeachingUserRepositoryImpl extends RepositoryImpl<HometeachingU
 	}
 
 	@Override
-	public List<HometeachingUser> getAllUsersToEmail() {
-		logger.info("entering the get all users to email method");
-		JPAQuery query = getDetailed();
-		query.leftJoin(person.personCompanion, personCompanion).fetch();
-		query.leftJoin(personCompanion.companion, companion).fetch();
-		query.leftJoin(companion.assignments, assignment).fetch();
-		query.leftJoin(assignment.family, family).fetch();
-		query.leftJoin(family.people).fetch();
-		query.where(companion.active.eq(true));
-		return query.list(hometeachingUser);
-	}
-
-	@Override
 	public List<HometeachingUser> getCompanionsToEmail(Long companionId) {
 		logger.info("entering the get companions to email method for companion id {}", companionId);
-		JPAQuery query = getDetailed();
-		query.leftJoin(person.personCompanion, personCompanion).fetch();
-		query.leftJoin(personCompanion.companion, companion).fetch();
-		query.leftJoin(companion.assignments, assignment).fetch();
-		query.leftJoin(assignment.family, family).fetch();
+		JPAQuery query = getDetailedForLogin();
 		query.leftJoin(family.people).fetch();
 		query.where(companion.active.eq(true), companion.id.eq(companionId), assignment.active.eq(true));
 		return query.list(hometeachingUser);

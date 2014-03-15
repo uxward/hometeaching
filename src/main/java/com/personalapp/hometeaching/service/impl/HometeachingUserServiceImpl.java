@@ -72,11 +72,6 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 	}
 
 	@Override
-	public List<HometeachingUser> getAllUsersToEmail() {
-		return repo.getAllUsersToEmail();
-	}
-
-	@Override
 	public UserViewModel getUserDetails(Long userId) {
 		return new UserViewModel(repo.findDetailedById(userId));
 	}

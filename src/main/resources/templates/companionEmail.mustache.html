@@ -2,13 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <body style="font-family: ' HelveticaNeue ', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.428571429; color: #333;">
 	<p>
-		{{#companions}}{{firstNoAnd @index}}{{person.firstName}}{{/companions}}, <br /> <br /> Here are your most up to date home teaching assignments. To see more information about these families and
-		record visits with them you can use the
-		<a href="http://hometeaching.philman.cloudbees.net/companion/you">home teaching website.</a>
+		{{#companions}}{{firstNoAnd @index}}{{person.firstName}}{{/companions}}, <br /> <br /> Here are your most up to date home teaching assignments as well as personal contact information to help you coordinate with each other. To see more information about these families and
+		record visits with them you can use the	<a href="http://hometeaching.philman.cloudbees.net/companion/you">home teaching website</a>, write me an email, give me a call, or send me a text.
 	</p>
 	<br />
+	
+	<fieldset style="padding: 0;margin: 0;border: 0;">
+		<legend style="display: block;width: 100%;padding: 0;margin-bottom: 20px;font-size: 21px;line-height: inherit;color: #333;border: 0;border-bottom: 1px solid #e5e5e5;">Companion Contact Information</legend>
+	</fieldset>
+	
+	{{#companions}}{{person.firstName}} {{person.family.familyName}}: <a href="tel:{{person.phoneNumber}}">{{person.phoneNumber}}</a><br/>{{/companions}}
+	<br/><br/>
+	
+	<fieldset style="padding: 0;margin: 0;border: 0;">
+		<legend style="display: block;width: 100%;padding: 0;margin-bottom: 20px;font-size: 21px;line-height: inherit;color: #333;border: 0;border-bottom: 1px solid #e5e5e5;">Assigned Families</legend>
+	</fieldset>
 
-	<table style="border: 1px solid #ddd; background-color: transparent; border-collapse: collapse; border-spacing: 0;">
+	<table style="border: 1px solid #ddd; background-color: transparent; border-collapse: collapse; border-spacing: 0; width:100%">
 		<thead style="display: table-header-group; vertical-align: middle; border-color: inherit;">
 			<tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
 				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Family</th>
@@ -38,10 +48,7 @@
 			{{/with}} {{/if}}{{/assignments}}
 		</tbody>
 	</table>
-	<br />
-	<p>
-		Thanks for all you do to help out, let me know if you have any questions or concerns.<br /> <br />Phillip<br />214-470-5695
-	</p>
-	</p>
+	<br/>
+	<p>Thanks for all you do to help out, let me know if you have any questions or concerns.<br /> <br />Phillip<br /><a href="tel:214-470-5695">214-470-5695</a></p>
 </body>
 </html>
