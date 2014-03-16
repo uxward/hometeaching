@@ -331,7 +331,8 @@
 		function setupVisitHistoryTables() {
 			$('.visitHistory').each(function() {
 				$(this).dataTable({
-					'sAjaxSource' : '<spring:url value="/visit/view/"/>?familyId=' + $(this).data('familyId')
+					'sDom' : 't'
+					,'sAjaxSource' : '<spring:url value="/visit/view/"/>?familyId=' + $(this).data('familyId')
 					,'aaData' : []
 					,'aaSorting': [[ 1, 'desc' ]]
 					,'aoColumns' : [ {
