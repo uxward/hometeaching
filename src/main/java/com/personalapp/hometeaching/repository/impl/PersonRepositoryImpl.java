@@ -13,6 +13,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Repository;
 
+import com.mysema.query.jpa.JPASubQuery;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.model.Person;
@@ -39,11 +40,11 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 	}
 
 	@Override
-	public List<Person> getAllNotMovedHometeachers() {
+	public List<Person> getAllNotMovedNotAssignedHometeachers() {
 		logger.info("entering the get all hometeachers method");
 		JPAQuery query = getPersonNotMovedQuery();
 		query.where(person.organizationId.in(getCurrentUserOrganizationIds()));
-		query.where(person.hometeacher.eq(true));
+		query.where(person.hometeacher.eq(true), getHometeachersSubQuery().notExists());
 		query.orderBy(person.firstName.asc(), family.familyName.asc());
 		return query.list(person);
 	}
@@ -58,8 +59,8 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 		query.orderBy(family.familyName.asc());
 		return query.list(person);
 	}
-	
-	private JPAQuery getPersonNotMovedQuery(){
+
+	private JPAQuery getPersonNotMovedQuery() {
 		JPAQuery query = getPersonQuery();
 		query.where(family.familyMoved.isNull().or(family.familyMoved.eq(false)));
 		return query;
@@ -82,5 +83,11 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 			assignedPeople.add(user.getPerson());
 		}
 		return assignedPeople;
+	}
+
+	private JPASubQuery getHometeachersSubQuery() {
+		JPASubQuery q = new JPASubQuery().from(personCompanion);
+		q.where(personCompanion.person.eq(person), personCompanion.active.eq(true));
+		return q;
 	}
 }

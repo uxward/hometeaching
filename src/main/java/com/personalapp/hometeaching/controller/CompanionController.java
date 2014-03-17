@@ -5,8 +5,6 @@ import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser
 import static com.personalapp.hometeaching.security.SecurityUtils.hasCompanionAccess;
 import static org.slf4j.LoggerFactory.getLogger;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +18,7 @@ import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.service.CompanionService;
 import com.personalapp.hometeaching.service.FamilyService;
 import com.personalapp.hometeaching.service.PersonService;
+import com.personalapp.hometeaching.view.ActionViewModel;
 import com.personalapp.hometeaching.view.CompanionViewModel;
 import com.personalapp.hometeaching.view.DatatableResponse;
 import com.personalapp.hometeaching.view.FamilyViewModel;
@@ -41,7 +40,7 @@ public class CompanionController {
 	@RequestMapping("all")
 	public ModelAndView viewAll() {
 		ModelAndView view = new ModelAndView("companion/companions");
-		view.addObject("hometeachers", personService.getAllNotMovedHometeachers());
+		view.addObject("hometeachers", personService.getAllNotMovedNotAssignedHometeachers());
 		return view;
 	}
 
@@ -91,7 +90,7 @@ public class CompanionController {
 
 	@RequestMapping("/remove")
 	@ResponseBody
-	public Boolean remove(Long companionId) {
+	public ActionViewModel remove(Long companionId) {
 		return service.removeCompanion(companionId);
 	}
 
@@ -103,13 +102,13 @@ public class CompanionController {
 
 	@RequestMapping(value = "/addAssignment")
 	@ResponseBody
-	public List<FamilyViewModel> addAssignment(Companion companion) {
+	public FamilyViewModel addAssignment(Companion companion) {
 		return service.addAssignment(companion);
 	}
 
 	@RequestMapping(value = "/removeAssignment")
 	@ResponseBody
-	public Boolean removeAssignment(Long companionId, Long familyId) {
+	public ActionViewModel removeAssignment(Long companionId, Long familyId) {
 		return service.removeAssignment(companionId, familyId);
 	}
 

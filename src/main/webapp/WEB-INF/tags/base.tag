@@ -253,12 +253,20 @@
 				$('#feedbackForm')[0].reset();
 				showNotificationSuccess('Thank you very much for your feedback.');
 			} else {
-				showModalError('<p>There was an unexpected error while saving your feedback.  If the issue persists please contact the owner of this site.');
+				showModalError('<p>There was an unexpected error while saving your feedback.  If the issue continues please contact your organiation leader.');
 			}
 		}
 
 		$(document).ajaxError(function(event, jqxhr, settings, exception) {
 			handleAJAXLogin(jqxhr);
+		});
+
+		$(document).ajaxStart(function(event, xmlHttpRequest, ajaxOptions) {
+			$('.btn-primary').prop('disabled', true);
+		});
+
+		$(document).ajaxComplete(function(event, xmlHttpRequest, ajaxOptions) {
+			$('.btn-primary').prop('disabled', false);
 		});
 
 		function handleAJAXLogin(jqxhr) {

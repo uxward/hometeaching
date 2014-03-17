@@ -4,11 +4,12 @@ import static com.google.common.collect.Lists.newArrayList;
 
 import java.util.List;
 
+import com.personalapp.hometeaching.model.ActionStatus;
 import com.personalapp.hometeaching.model.Family;
 import com.personalapp.hometeaching.model.FamilyOrganization;
 import com.personalapp.hometeaching.model.Person;
 
-public class FamilyViewModel {
+public class FamilyViewModel extends ActionViewModel {
 	private Long id;
 
 	private Long assignmentId;
@@ -35,7 +36,16 @@ public class FamilyViewModel {
 
 	private CompanionViewModel companions;
 
+	public FamilyViewModel(Family family, Boolean populatePeople, Boolean populateHometeachers, Boolean populateOrganizations, ActionStatus actionStatus) {
+		setupFamilyViewModel(family, populatePeople, populateHometeachers, populateOrganizations);
+		super.setActionStatus(actionStatus);
+	}
+
 	public FamilyViewModel(Family family, Boolean populatePeople, Boolean populateHometeachers, Boolean populateOrganizations) {
+		setupFamilyViewModel(family, populatePeople, populateHometeachers, populateOrganizations);
+	}
+
+	private void setupFamilyViewModel(Family family, Boolean populatePeople, Boolean populateHometeachers, Boolean populateOrganizations) {
 		this.id = family.getId();
 		this.familyName = family.getFamilyName();
 		this.address = family.getAddress();

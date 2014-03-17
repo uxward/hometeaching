@@ -3,17 +3,18 @@ package com.personalapp.hometeaching.service;
 import java.util.List;
 
 import com.personalapp.hometeaching.model.Companion;
+import com.personalapp.hometeaching.view.ActionViewModel;
 import com.personalapp.hometeaching.view.CompanionViewModel;
 import com.personalapp.hometeaching.view.FamilyViewModel;
 
 public interface CompanionService {
 	CompanionViewModel addCompanion(Companion companion);
 
-	List<FamilyViewModel> addAssignment(Companion viewModel);
+	FamilyViewModel addAssignment(Companion viewModel);
 
-	Boolean removeAssignment(Long companionId, Long familyId);
+	ActionViewModel removeAssignment(Long companionId, Long familyId);
 
-	Boolean removeCompanion(Long companionId);
+	ActionViewModel removeCompanion(Long companionId);
 
 	CompanionViewModel editAssignment(Companion viewModel);
 

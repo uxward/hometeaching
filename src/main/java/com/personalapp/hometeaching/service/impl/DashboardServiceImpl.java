@@ -16,7 +16,6 @@ import com.mysema.query.Tuple;
 import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.repository.FamilyRepository;
 import com.personalapp.hometeaching.repository.VisitRepository;
-import com.personalapp.hometeaching.security.SecurityUtils;
 import com.personalapp.hometeaching.service.DashboardService;
 import com.personalapp.hometeaching.view.FamilyStatusViewModel;
 import com.personalapp.hometeaching.view.OrganizationViewModel;

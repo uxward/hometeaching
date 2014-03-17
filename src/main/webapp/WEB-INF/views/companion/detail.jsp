@@ -52,7 +52,9 @@
 
 	<sec:authorize access="hasRole('leader')">
 		<a href="#addFamily" class="btn btn-primary" data-toggle="modal">Add Family</a>
-		<a href="#" class="btn" id="emailAssignments"><i class="glyphicon glyphicon-envelope"></i> Email Assignments</a>
+		<a href="#" class="btn" id="emailAssignments">
+			<i class="glyphicon glyphicon-envelope"></i> Email Assignments
+		</a>
 
 		<!--  Add Family Modal
 	---------------------------------------------------->
@@ -436,28 +438,37 @@
 				url : '<spring:url value="/companion/addAssignment"/>',
 				data : $('#familyForm').serialize(),
 				success : function(data) {
-					handleSaveSuccess(data);
+					handleSaveAssignment(data);
 				}
 			});
 		}
 
-		function handleSaveSuccess(data) {
-			//clear form and hide modal
-			$('#addFamily').modal('hide');
-			for ( var i = 0; i < data.length; i++) {
-				$('#familySelect option').filter(function() {
-					return $(this).html() == data[i].familyName;
-				}).remove();
-
-				//add family row to table
-				$('#assignmentTable').dataTable().fnAddData(data[i]);
-				//add family to visit dropdown
-				$('#visitFamilySelect').append(
-						new Option(data[i].familyName, data[i].id));
+		function handleSaveAssignment(data) {
+			if (data.success) {
+				showNotificationSuccess('This family has been successfully added to this companionship.');
+				handleSaveAssignmentSuccess(data);
+			} else {
+				showModalError('<p>There was an unexpected error while adding the family to the companionship.  If the issue continues please contact your organization leader.');
 			}
 		}
 		
-		
+		function handleSaveAssignmentSuccess(data){
+			//clear form and hide modal
+			$('#addFamily').modal('hide');
+			//remove family from add family select
+			$('#familySelect option').each(function() {
+			    if ( $(this).val() == data.id) {
+			        $(this).remove();
+			    }
+			});
+
+			//add family row to table
+			$('#assignmentTable').dataTable().fnAddData(data);
+			//add family to visit dropdown
+			$('#visitFamilySelect').append(new Option(data.familyName, data.id));
+			
+			//TODO add family to visit section
+		}
 
 		function removeAssignment($this) {
 			$.ajax({
@@ -468,15 +479,21 @@
 					'familyId' : $this.data('familyId')
 				},
 				success : function(data) {
-					handleRemoveSuccess(data, $this);
+					handleRemoveAssignment(data, $this);
 				}
 			});
 		}
-
-		function handleRemoveSuccess(data, $this) {
-			var tr = $this.closest('tr')[0];
-			//remove companion row from table
-			$('#assignmentTable').dataTable().fnDeleteRow(tr);
+		
+		function handleRemoveAssignment(data, $this){
+			if (data.success) {
+				showNotificationSuccess('This family has been successfully removed from this companionship.');
+				var tr = $this.closest('tr')[0];
+				//remove companion row from table
+				$('#assignmentTable').dataTable().fnDeleteRow(tr);
+				//TODO remove visit section of page
+			} else {
+				showModalError('<p>There was an unexpected error while removing the family from this companionship.  If the issue continues please contact your organization leader.');
+			}
 		}
 		
 		function setupFamilyName(data, type, full){

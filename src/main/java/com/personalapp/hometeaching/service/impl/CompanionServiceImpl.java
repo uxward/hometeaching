@@ -2,90 +2,72 @@ package com.personalapp.hometeaching.service.impl;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
+import static com.personalapp.hometeaching.model.ActionStatus.ERROR;
+import static com.personalapp.hometeaching.model.ActionStatus.SUCCESS;
+import static org.slf4j.LoggerFactory.getLogger;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.personalapp.hometeaching.model.ActionStatus;
 import com.personalapp.hometeaching.model.Assignment;
 import com.personalapp.hometeaching.model.Companion;
-import com.personalapp.hometeaching.model.PersonCompanion;
-import com.personalapp.hometeaching.repository.AssignmentRepository;
 import com.personalapp.hometeaching.repository.CompanionRepository;
 import com.personalapp.hometeaching.repository.FamilyRepository;
-import com.personalapp.hometeaching.repository.PersonCompanionRepository;
-import com.personalapp.hometeaching.repository.PersonRepository;
 import com.personalapp.hometeaching.service.CompanionService;
+import com.personalapp.hometeaching.view.ActionViewModel;
 import com.personalapp.hometeaching.view.CompanionViewModel;
 import com.personalapp.hometeaching.view.FamilyViewModel;
 
 @Service
 public class CompanionServiceImpl implements CompanionService {
+	private final Logger logger = getLogger(getClass());
 
 	@Autowired
 	private CompanionRepository repo;
 
 	@Autowired
-	private AssignmentRepository assignmentRepo;
-
-	@Autowired
 	private FamilyRepository familyRepo;
 
 	@Autowired
-	private PersonRepository personRepo;
-
-	@Autowired
-	private PersonCompanionRepository personCompanionRepo;
+	private CompanionServiceImplHelper companionServiceImplHelper;
 
 	@Override
-	public CompanionViewModel addCompanion(Companion toCreate) {
-		Companion companion = createNewCompanion(toCreate);
-		return new CompanionViewModel(repo.findDetailedById(companion.getId()), true);
+	public CompanionViewModel addCompanion(Companion companion) {
+		ActionStatus status = tryCreateNewCompanion(companion);
+		return new CompanionViewModel(repo.findDetailedById(companion.getId()), true, status);
 	}
 
 	@Override
-	public List<FamilyViewModel> addAssignment(Companion companion) {
-		List<FamilyViewModel> families = newArrayList();
-		for (Assignment assignment : companion.getAutopopulatingAssignments()) {
-			saveAssignment(companion.getId(), assignment.getFamilyId());
-			families.add(new FamilyViewModel(familyRepo.findDetailedById(assignment.getFamilyId()), true, false, true));
-		}
-
-		return families;
-	}
-
-	@Override
-	public Boolean removeAssignment(Long companionId, Long familyId) {
-		Assignment assignment = assignmentRepo.findByCompanionIdAndFamilyId(companionId, familyId);
-		assignment.setActive(false);
-		assignment.setUpdated(new Date());
-		assignmentRepo.update(assignment);
-		return true;
-	}
-
-	@Override
-	public Boolean removeCompanion(Long companionId) {
-		Companion companion = repo.findDetailedById(companionId);
-		markAllInactive(companion);
-		return true;
-	}
-
-	@Override
-	public CompanionViewModel editAssignment(Companion toCreate) {
-		Companion oldCompanion = repo.findDetailedById(toCreate.getId());
+	public CompanionViewModel editAssignment(Companion companion) {
 		// setup new companion with same families
-		Companion companion = createNewCompanion(toCreate);
+		ActionStatus status = tryEditCompanion(companion);
+		return new CompanionViewModel(repo.findDetailedById(companion.getId()), true, status);
+	}
 
-		for (Assignment assignment : oldCompanion.getAssignments()) {
-			saveAssignment(companion.getId(), assignment.getFamilyId());
-		}
+	@Override
+	public FamilyViewModel addAssignment(Companion companion) {
+		ActionStatus actionStatus = tryAddAssignment(companion);
+		return new FamilyViewModel(familyRepo.findDetailedById(companion.getAutopopulatingAssignments().get(0).getFamilyId()), true, false, true, actionStatus);
+	}
 
-		// mark old companion inactive
-		markAllInactive(oldCompanion);
-		return new CompanionViewModel(repo.findDetailedById(companion.getId()), true);
+	@Override
+	public ActionViewModel removeAssignment(Long companionId, Long familyId) {
+		ActionStatus actionStatus = tryRemoveAssignment(companionId, familyId);
+		ActionViewModel actionViewModel = new ActionViewModel();
+		actionViewModel.setActionStatus(actionStatus);
+		return actionViewModel;
+	}
+
+	@Override
+	public ActionViewModel removeCompanion(Long companionId) {
+		ActionViewModel actionViewModel = new ActionViewModel();
+		actionViewModel.setActionStatus(tryRemoveCompanion(companionId));
+		return actionViewModel;
 	}
 
 	@Override
@@ -94,7 +76,6 @@ public class CompanionServiceImpl implements CompanionService {
 		for (Companion companion : repo.getAllCompanionsAndActiveFamilies()) {
 			companions.add(new CompanionViewModel(companion, true));
 		}
-
 		return companions;
 	}
 
@@ -131,39 +112,58 @@ public class CompanionServiceImpl implements CompanionService {
 		return new CompanionViewModel(companion, true);
 	}
 
-	private Assignment saveAssignment(Long companionId, Long familyId) {
-		Assignment assignment = new Assignment();
-		assignment.setCompanionId(companionId);
-		assignment.setFamilyId(familyId);
-		assignment.setCreated(new Date());
-		assignment.setActive(true);
-		assignmentRepo.save(assignment);
-		return assignment;
+	private ActionStatus tryCreateNewCompanion(Companion companion) {
+		ActionStatus status = SUCCESS;
+		try {
+			companionServiceImplHelper.doCreateNewCompanion(companion);
+		} catch (Exception e) {
+			logger.error("An unexpected error occurred while trying to create a new companion: {}", e);
+			status = ERROR;
+		}
+		return status;
 	}
 
-	private void markAllInactive(Companion companion) {
-		companion.setActive(false);
-		for (PersonCompanion personCompanion : companion.getCompanions()) {
-			personCompanion.setActive(false);
+	private ActionStatus tryEditCompanion(Companion companion) {
+		ActionStatus status = SUCCESS;
+		try {
+			companionServiceImplHelper.doEditCompanion(companion);
+		} catch (Exception e) {
+			logger.error("An unexpected error occurred while trying to edit a companion: {}", e);
+			status = ERROR;
 		}
-		for (Assignment assignment : companion.getAssignments()) {
-			assignment.setActive(false);
-		}
-		repo.update(companion);
+		return status;
 	}
 
-	private Companion createNewCompanion(Companion toCreate) {
-		Companion companion = new Companion();
-		companion.setActive(true);
-		Set<PersonCompanion> companions = newHashSet();
-		for (PersonCompanion personCompanion : toCreate.getAutopopulatingPersonCompanions()) {
-			personCompanion.setActive(true);
-			personCompanion.setCompanion(companion);
-			companions.add(personCompanion);
+	private ActionStatus tryRemoveAssignment(Long companionId, Long familyId) {
+		ActionStatus actionStatus = SUCCESS;
+		try {
+			companionServiceImplHelper.doRemoveAssignment(companionId, familyId);
+		} catch (Exception e) {
+			logger.error("An unexpected error occurred while trying to remove the assignment: {}", e);
+			actionStatus = ERROR;
 		}
-		companion.setCompanions(companions);
-		companion.setCreated(new Date());
-		repo.save(companion);
-		return companion;
+		return actionStatus;
+	}
+
+	private ActionStatus tryAddAssignment(Companion companion) {
+		ActionStatus actionStatus = SUCCESS;
+		try {
+			companionServiceImplHelper.doAddAssignment(companion);
+		} catch (Exception e) {
+			logger.error("An unexpected exception occurred while adding the assignment: {}", e);
+			actionStatus = ERROR;
+		}
+		return actionStatus;
+	}
+
+	private ActionStatus tryRemoveCompanion(Long companionId) {
+		ActionStatus actionStatus = SUCCESS;
+		try {
+			companionServiceImplHelper.doRemoveCompanion(companionId);
+		} catch (Exception e) {
+			logger.error("An unexpected error occurred while removing the companion: {}", e);
+			actionStatus = ERROR;
+		}
+		return actionStatus;
 	}
 }

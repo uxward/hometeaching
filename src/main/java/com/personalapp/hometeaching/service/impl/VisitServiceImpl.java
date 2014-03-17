@@ -63,6 +63,7 @@ public class VisitServiceImpl implements VisitService {
 				logger.warn("A visit was already recorded for assignment id: {}, month: {}, year: {}", visit.getAssignmentId(), visit.getMonth(), visit.getYear());
 				status = DUPLICATE;
 			} else {
+				logger.error("An unexpected error occurred while trying to save a visit: {}", e);
 				status = ERROR;
 			}
 
