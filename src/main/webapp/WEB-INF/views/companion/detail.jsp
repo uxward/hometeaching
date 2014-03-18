@@ -105,13 +105,13 @@
 	<div id="visitHistory">
 		<ul class="nav nav-tabs">
 			<c:forEach var="family" items="${companion.assignments}" varStatus="status">
-				<li class="${status.first ? 'active' : ''}"><a href="#${family.id}_tab" data-toggle="tab" class="hidden-xs">${family.familyName},&nbsp;${family.headOfHousehold}</a> <a
-						href="#${family.id}_tab" data-toggle="tab" class="hidden-sm hidden-md hidden-lg">${family.familyName}</a></li>
+				<li class="${status.first ? 'active' : ''}" id="${family.id}-tab-link"><a href="#${family.id}_tab" data-toggle="tab" class="hidden-xs">${family.familyName},&nbsp;${family.headOfHousehold}</a>
+					<a href="#${family.id}_tab" data-toggle="tab" class="hidden-sm hidden-md hidden-lg">${family.familyName}</a></li>
 			</c:forEach>
 		</ul>
 		<div class="tab-content">
 			<c:forEach var="family" items="${companion.assignments}" varStatus="status">
-				<div class="tab-pane ${status.first ? 'active' : ''}" id="${family.id}_tab">
+				<div class="tab-pane ${status.first ? 'active' : ''}" id="${family.id}-tab">
 					<br />
 
 					<table class="table table-striped table-hover table-bordered visitHistory" data-family-id="${family.id}" width="100%">
@@ -487,13 +487,18 @@
 		function handleRemoveAssignment(data, $this){
 			if (data.success) {
 				showNotificationSuccess('This family has been successfully removed from this companionship.');
-				var tr = $this.closest('tr')[0];
-				//remove companion row from table
-				$('#assignmentTable').dataTable().fnDeleteRow(tr);
-				//TODO remove visit section of page
+				handleRemoveAssignmentSuccess($this);
 			} else {
 				showModalError('<p>There was an unexpected error while removing the family from this companionship.  If the issue continues please contact your organization leader.');
 			}
+		}
+		
+		function handleRemoveAssignmentSuccess($this){
+			$('#' + $this.data('familyId') + '-tab-link').remove();
+			$('#' + $this.data('familyId') + '-tab').remove();
+			var tr = $this.closest('tr')[0];
+			//remove companion row from table
+			$('#assignmentTable').dataTable().fnDeleteRow(tr);
 		}
 		
 		function setupFamilyName(data, type, full){
