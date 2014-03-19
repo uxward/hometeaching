@@ -105,8 +105,8 @@
 	<div id="visitHistory">
 		<ul class="nav nav-tabs">
 			<c:forEach var="family" items="${companion.assignments}" varStatus="status">
-				<li class="${status.first ? 'active' : ''}" id="${family.id}-tab-link"><a href="#${family.id}_tab" data-toggle="tab" class="hidden-xs">${family.familyName},&nbsp;${family.headOfHousehold}</a>
-					<a href="#${family.id}_tab" data-toggle="tab" class="hidden-sm hidden-md hidden-lg">${family.familyName}</a></li>
+				<li class="${status.first ? 'active' : ''}" id="${family.id}-tab-link"><a href="#${family.id}-tab" data-toggle="tab" class="hidden-xs">${family.familyName},&nbsp;${family.headOfHousehold}</a>
+					<a href="#${family.id}-tab" data-toggle="tab" class="hidden-sm hidden-md hidden-lg">${family.familyName}</a></li>
 			</c:forEach>
 		</ul>
 		<div class="tab-content">
