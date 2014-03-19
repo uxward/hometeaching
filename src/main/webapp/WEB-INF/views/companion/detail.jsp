@@ -291,7 +291,7 @@
 		function handleSaveVisit(data){
 			if(data.success){
 				handleVisitSuccess(data);
-				showNotificationSuccess('<strong>This visit has been saved!</strong><br/>Thanks for recording this visit.  If you\'d like to see how visits are going for the entire elders quorum, check out <a href="${dashboard}/visitPercentage">the dashboard here</a>');
+				showNotificationSuccess('<strong>This visit has been saved!</strong><br/>Thanks for recording your visit.  If you\'d like to see how visits are going for the entire elders quorum, check out <a href="${dashboard}/visitPercentage">the dashboard here</a>');
 			} else if(data.duplicate){
 				showModalError('A visit was already saved for this family for this month.  If you need to edit the visit information you can do so from the visit history table.');
 			} else if(data.error){
@@ -304,10 +304,9 @@
 			
 			var familyId = $saveVisit.data('familyId');
 			if($saveVisit.data('action') == 'save'){
-				$('#' + familyId + '_tab').find('.visitHistory').dataTable()
-						.fnAddData(data);
+				$('#' + familyId + '-tab').find('.visitHistory').dataTable().fnAddData(data);
 			} else {
-				$('#' + familyId + '_tab').find('.visitHistory').dataTable().fnUpdate(data, $saveVisit.data('editRow'));
+				$('#' + familyId + '-tab').find('.visitHistory').dataTable().fnUpdate(data, $saveVisit.data('editRow'));
 			}
 			
 			

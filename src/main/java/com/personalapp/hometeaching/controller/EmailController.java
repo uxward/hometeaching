@@ -43,16 +43,16 @@ public class EmailController {
 	@Value("${email.smtpPort}")
 	private Integer smtpPort;
 
-	@Value("${email.username}")
+	@Value("${email.elders.username}")
 	private String username;
 
-	@Value("${email.password}")
+	@Value("${email.elders.password}")
 	private String password;
 
-	@Value("${email.fromEmail}")
+	@Value("${email.elders.fromEmail}")
 	private String fromEmail;
 
-	@Value("${email.fromName}")
+	@Value("${email.elders.fromName}")
 	private String fromName;
 
 	@Autowired
