@@ -31,10 +31,10 @@
 		<sec:logout logout-url="/logout" logout-success-url="/login?logout=true" />
 		<sec:access-denied-handler error-page="/denied" />
 		<sec:expression-handler ref="defaultWebSecurityExpressionHandler" />
+		
+		<!-- remember me configuration -->
+		<sec:remember-me key="APP_KEY_CHANGE_ME" />
 	</sec:http>
-
-
-	<!-- ${pageContext.session.maxInactiveInterval} -->
 
 	<sec:authentication-manager>
 		<sec:authentication-provider
