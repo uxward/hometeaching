@@ -72,7 +72,12 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 	}
 
 	@Override
-	public UserViewModel getUserDetails(Long userId) {
+	public HometeachingUser getUserDetails(Long userId) {
+		return repo.findDetailedById(userId);
+	}
+
+	@Override
+	public UserViewModel getUserViewModel(Long userId) {
 		return new UserViewModel(repo.findDetailedById(userId));
 	}
 

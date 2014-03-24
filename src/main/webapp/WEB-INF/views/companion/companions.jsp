@@ -372,9 +372,13 @@
 		function emailAssignments() {
 			$.ajax({
 				type : 'POST',
-				url : '<spring:url value="/email"/>',
+				url : '<spring:url value="/email/allCompanions"/>',
 				success : function(data) {
-					console.log(data);
+					if(data.success){
+						showNotificationSuccess('An updated assignment email was successfully sent to all companionships.');
+					} else {
+						showNotificationError('There was an unexpected error while emailing at least one companionship.  Please verify that their email addresses are valid.  If the problem continues please contact the leader of your organization.');
+					}
 				}
 			});
 		}

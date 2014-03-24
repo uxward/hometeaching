@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<body style="font-family: ' HelveticaNeue ', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.428571429; color: #333;">
+	{{#with user}}
+	<p>
+		{{person.firstName}}, <br /> <br /> I'm working on a home teaching website where home teachers can go to see who their families are, get basic contact info for them (address and phone number), and
+		record visits. If you are interested the site can be found at
+		<a href="http://hometeaching.elasticbeanstalk.com">hometeaching.elasticbeanstalk.com</a>.<br /> <br />Your initial username is: {{user.username}} (you can change this after logging in the first time)<br /> <br />Your initial password is: your first name and your last name, one word
+		lowercase (you can change this after logging in the first time)<br /> <br /> The website should work equally well on a computer, tablet, or phone. Let me or Phillip Manwaring know if you have any
+		questions or concerns,
+	</p>
+	{{/with}}
+	<p>
+		Let me know if you have any questions or concerns.<br /> <br />{{fromName}}<br />
+		<a href="tel:{{fromNumber}}">{{fromNumber}}</a>
+	</p>
+</body>
+</html>

@@ -9,13 +9,15 @@ public interface HometeachingUserService {
 
 	UserViewModel save(HometeachingUser user);
 
-	UserViewModel getUserDetails(Long userId);
+	HometeachingUser getUserDetails(Long userId);
+
+	UserViewModel getUserViewModel(Long userId);
 
 	UserViewModel toggleEnabled(Long id);
 
 	UserViewModel update(HometeachingUser user);
 
 	List<UserViewModel> getAllUsers();
-	
+
 	List<HometeachingUser> getCompanionsToEmail(Long companionId);
 }

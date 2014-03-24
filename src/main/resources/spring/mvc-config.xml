@@ -10,14 +10,9 @@
 		http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- Import the environment-specific application properties -->
-	<import resource="app-props-config.xml" />
 
 	<!-- Import the view configuration and resolution -->
 	<import resource="mvc-view-config.xml" />
-
-	<!-- POJOs labeles with the @Controller and @Service annotations are auto-detected -->
-	<context:component-scan
-		base-package="com.personalapp.hometeaching.controller, com.personalapp.hometeaching.service, com.personalapp.hometeaching.security" />
 
 	<mvc:annotation-driven />
 

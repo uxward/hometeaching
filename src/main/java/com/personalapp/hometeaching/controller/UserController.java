@@ -96,7 +96,7 @@ public class UserController {
 	@RequestMapping(value = "getUserDetails")
 	@ResponseBody
 	public UserViewModel getUserDetails(@RequestParam("userId") Long userId) {
-		return userService.getUserDetails(userId);
+		return userService.getUserViewModel(userId);
 	}
 
 	@RequestMapping(value = "updateUserDetails")

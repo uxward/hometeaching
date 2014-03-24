@@ -102,7 +102,7 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li class="${activeMenu ==  'visitPercentage' ? 'active' : '' }"><a href="${dashboard}/visitPercentage">Visit Percentage</a></li>
-									<li class="${activeMenu ==  'familyStatus' ? 'active' : '' }"><a href="${dashboard}/familyStatus">Family Status</a></li>
+<%-- 									<li class="${activeMenu ==  'familyStatus' ? 'active' : '' }"><a href="${dashboard}/familyStatus">Family Status</a></li> --%>
 								</ul></li>
 
 							<li class="${activeMenu ==  'yourFamily' ? 'active' : '' }"><a href="${family}/you">Family</a></li>

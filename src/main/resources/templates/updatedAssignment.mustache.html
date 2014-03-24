@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<body style="font-family: ' HelveticaNeue ', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.428571429; color: #333;">
+	{{#with companion}}
+		<p>
+			{{#companions}}{{firstNoAnd @index}}{{person.firstName}}{{/companions}}, <br /> <br /> Here are your most up to date home teaching assignments as well as personal contact information to help you coordinate with each other. To see more information about these families and
+			record visits with them you can use the	<a href="http://hometeaching.elasticbeanstalk.com/companion/you">home teaching website</a>, write me an email, give me a call, or send me a text.
+		</p>
+		
+		<fieldset style="padding: 0;margin: 0;border: 0;">
+			<legend style="display: block;width: 100%;padding: 0;margin-bottom: 20px;font-size: 21px;line-height: inherit;color: #333;border: 0;border-bottom: 1px solid #e5e5e5;">Companion Contact Information</legend>
+		</fieldset>
+		
+		{{#companions}}{{person.firstName}} {{person.family.familyName}}: <a href="tel:{{person.phoneNumber}}">{{person.phoneNumber}}</a><br/>{{/companions}}
+		<br/>
+		
+		<fieldset style="padding: 0;margin: 0;border: 0;">
+			<legend style="display: block;width: 100%;padding: 0;margin-bottom: 20px;font-size: 21px;line-height: inherit;color: #333;border: 0;border-bottom: 1px solid #e5e5e5;">Assigned Families</legend>
+		</fieldset>
+		
+		<br/>
+	
+		<table style="border: 1px solid #ddd; background-color: transparent; border-collapse: collapse; border-spacing: 0; width:100%">
+			<thead style="display: table-header-group; vertical-align: middle; border-color: inherit;">
+				<tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
+					<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Family</th>
+					<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Status</th>
+					<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Children</th>
+					<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Address</th>
+					<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Phone Numbers</th>
+				</tr>
+			</thead>
+			<tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
+				{{#assignments}} {{#if active}}{{#with family}}
+				<tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
+					<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{familyName}}, {{#headOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/headOfHousehold}}</td>
+					<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{familyStatus.status}}</td>
+					<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#children}}{{firstNoComma @index}}{{firstName}}{{/children}}</td>
+					<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}"><a href="http://maps.google.com/maps?daddr={{address}}" target="_blank">{{address}}</a></td>
+					<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}"><span style="float: left !important;">
+							{{#if phoneNumber}} Home:
+							<a href="tel:{{phoneNumber}}">{{phoneNumber}}</a>
+							&nbsp;&nbsp; {{/if}}
+						</span> {{#headOfHousehold}} <span style="float: left !important;">
+							{{#if phoneNumber}}{{firstName}}:
+							<a href="tel:{{phoneNumber}}">{{phoneNumber}}</a>
+							&nbsp;&nbsp; {{/if}}
+						</span> {{/headOfHousehold}}</td>
+				</tr>
+				{{/with}} {{/if}}{{/assignments}}
+			</tbody>
+		</table>
+	{{/with}}
+	<br/><br/>
+	<p>Thanks for all you do to help out, let me know if you have any questions or concerns.<br /> <br />{{fromName}}<br /><a href="tel:{{fromNumber}}">{{fromNumber}}</a></p>
+</body>
+</html>
