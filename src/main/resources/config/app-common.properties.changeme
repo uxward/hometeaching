@@ -6,10 +6,27 @@ db.driverClassName=com.mysql.jdbc.Driver
 db.validationQuery=SELECT 1
 db.testOnBorrow=true
 
-#Email config
+#Common email config
 email.hostname=HOSTNAME
 email.smtpPort=PORT
-email.username=USERNAME
-email.password=PASSWORD
-email.fromEmail=EMAIL FROM
-email.fromName=NAME FROM
+
+#Elders email config
+email.elders.username=ELDERS USERNAME
+email.elders.password=ELDERS PASSWORD
+email.elders.fromEmail=EDLERS EMAIL
+email.elders.fromName=ELDERS FROM NAME
+email.elders.fromNumber=ELDERS FROM NUMBER
+
+#High priests email config
+email.highpriests.username=HIGH PRIESTS USERNAME
+email.highpriests.password=HIGH PRIESTS PASSWORD
+email.highpriests.fromEmail=HIGH PRIESTS EMAIL
+email.highpriests.fromName=HIGH PRIESTS FROM NAME
+email.highpriests.fromNumber=HIGH PRIESTS FROM NUMBER
+
+#Relief society email config
+email.reliefsociety.username=RELIEF SOCIETY USERNAME
+email.reliefsociety.password=RELIEF SOCIETY PASSWORD
+email.reliefsociety.fromEmail=RELIEF SOCIETY EMAIL
+email.reliefsociety.fromName=RELIEF SOCIETY FROM NAME
+email.reliefsociety.fromNumber=RELIEF SOCIETY FROM NUMBER
