@@ -170,6 +170,10 @@
 		});
 
 		function setupEventBinding() {
+			$('#person').change(function(){
+				getNewUserInformation($(this).val());
+			});
+			
 			$('#saveUser').click(function() {
 				if (canSaveUser()) {
 					saveUser();
@@ -256,8 +260,6 @@
 			});
 		}
 
-		
-
 		function setupRoles(data, type, full) {
 			var roles = '';
 			for (var i = 0; i < data.length; i++) {
@@ -340,6 +342,7 @@
 
 		function handleSaveUser(data) {
 			if (data.success) {
+				showNotificationSuccess('This user was saved successfully.');
 				//clear form and hide modal
 				$('#addUser').modal('hide');
 				resetFormElements('userForm');
@@ -460,6 +463,23 @@
 			} else if (data.error) {
 				showModalError('There was an unexpected error while updating this user.  If the problem continues please submit feedback with a description of the problem.');
 			}
+		}
+		
+		function getNewUserInformation(personId){
+			$.ajax({
+				type : 'POST',
+				url : '<spring:url value="/person/get"/>',
+				data : {
+					'personId' : personId
+				},
+				success : function(data) {
+					$('#username').val(data.email);
+					$('#email').val(data.email);
+					var password = data.fullName.toLowerCase().replace(' ','');
+					$('#password').val(password);
+					$('#confirmPassword').val(password);
+				}
+			});
 		}
 
 		function toggleEnableUser($this, tr) {

@@ -21,8 +21,8 @@
 
 /* Make bootstrap navbar padding smaller between items */
 .nav>li>a {
-	padding-right: 6px;
-	padding-left: 6px;
+/* 	padding-right: 6px; */
+/* 	padding-left: 6px; */
 }
 
 /* Utility class for hiding elements */

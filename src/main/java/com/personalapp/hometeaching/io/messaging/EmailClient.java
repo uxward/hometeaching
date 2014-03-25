@@ -34,6 +34,7 @@ public class EmailClient {
 
 	private Map<Organization, HtmlEmail> emails = newHashMap();
 	private Map<Organization, BaseEmailTemplate> templates = newHashMap();
+	private Handlebars handlebars;
 
 	@Autowired
 	private EmailConfig emailConfig;
@@ -44,12 +45,12 @@ public class EmailClient {
 			emails.put(organization, emailConfig.getEmailForOrganization(organization));
 			templates.put(organization, emailConfig.getTemplateForOrganization(organization));
 		}
+		handlebars = setupHandlebars();
 	}
 
 	public void sendNewUserEmail(HometeachingUser user) throws EmailException, IOException {
 		HtmlEmail email = setupNewUserEmail(user);
 		email.send();
-
 	}
 
 	public void sendUpdatedAssignmentEmail(Companion companion, List<HometeachingUser> users) throws EmailException, IOException {
@@ -110,68 +111,16 @@ public class EmailClient {
 		return organization;
 	}
 
-	// private String getUpdatedAssignmentHandlebars(Organization organization,
-	// Companion companion) throws IOException {
-	// StringWriter writer = new StringWriter();
-	// TemplateLoader loader = new ClassPathTemplateLoader("/templates",
-	// ".html");
-	// Handlebars handlebars = new Handlebars(loader);
-	// handlebars.registerHelper("stripeRows", new Helper<Integer>() {
-	// @Override
-	// public CharSequence apply(final Integer value, final Options options)
-	// throws IOException {
-	// return isEven(value + 1) ? "" : "background-color: #f9f9f9;";
-	// }
-	//
-	// protected boolean isEven(final Integer value) {
-	// return value % 2 == 0;
-	// }
-	// });
-	// handlebars.registerHelper("firstNoAnd", new Helper<Integer>() {
-	// @Override
-	// public CharSequence apply(final Integer value, final Options options)
-	// throws IOException {
-	// return value == 0 ? "" : " and ";
-	// }
-	// });
-	// handlebars.registerHelper("firstNoComma", new Helper<Integer>() {
-	// @Override
-	// public CharSequence apply(final Integer value, final Options options)
-	// throws IOException {
-	// return value == 0 ? "" : ", ";
-	// }
-	// });
-	//
-	// Template template = handlebars.compile("updatedAssignment.mustache");
-	//
-	// BaseEmailTemplate baseEmailTemplate = templates.get(organization);
-	// AssignmentEmailTemplate assignmentEmailTemplate = new
-	// AssignmentEmailTemplate(baseEmailTemplate, companion);
-	//
-	// template.apply(assignmentEmailTemplate, writer);
-	//
-	// return writer.toString();
-	// }
-
-	// private String getNewUserHandlebars(Organization organization,
-	// HometeachingUser user) throws IOException {
-	// StringWriter writer = new StringWriter();
-	// TemplateLoader loader = new ClassPathTemplateLoader("/templates",
-	// ".html");
-	// Handlebars handlebars = new Handlebars(loader);
-	//
-	// Template template = handlebars.compile("newUser.mustache");
-	//
-	// BaseEmailTemplate baseEmailTemplate = templates.get(organization);
-	// UserEmailTemplate userEmailTemplate = new
-	// UserEmailTemplate(baseEmailTemplate, user);
-	// template.apply(userEmailTemplate, writer);
-	//
-	// return writer.toString();
-	// }
-
 	private String getHtml(String templateFile, BaseEmailTemplate emailTemplate) throws IOException {
 		StringWriter writer = new StringWriter();
+
+		Template template = handlebars.compile(templateFile);
+		template.apply(emailTemplate, writer);
+
+		return writer.toString();
+	}
+
+	private Handlebars setupHandlebars() {
 		TemplateLoader loader = new ClassPathTemplateLoader("/templates", ".html");
 		Handlebars handlebars = new Handlebars(loader);
 		handlebars.registerHelper("stripeRows", new Helper<Integer>() {
@@ -196,11 +145,6 @@ public class EmailClient {
 				return value == 0 ? "" : ", ";
 			}
 		});
-
-		Template template = handlebars.compile(templateFile);
-
-		template.apply(emailTemplate, writer);
-
-		return writer.toString();
+		return handlebars;
 	}
 }

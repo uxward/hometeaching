@@ -61,7 +61,7 @@
 				</sec:authorize>
 				<a class="navbar-brand ${activeMenu ==  'home' ? 'active' : '' }" href="${home}">
 					<span class="glyphicon glyphicon-asterisk"></span>
-					<sec:authorize access="!isAuthenticated()">Home Teaching</sec:authorize>
+					<sec:authorize access="!isAuthenticated()">Home and Visiting Teaching</sec:authorize>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
@@ -108,7 +108,7 @@
 							<li class="${activeMenu ==  'yourFamily' ? 'active' : '' }"><a href="${family}/you">Family</a></li>
 
 							<sec:authorize access="hasRole('hometeacher')">
-								<li class="${activeMenu ==  'yourCompanion' ? 'active' : '' }"><a href="${companion}/you">Companion</a></li>
+								<li class="${activeMenu ==  'yourCompanion' ? 'active' : '' }"><a href="${companion}/you">Home Teaching</a></li>
 							</sec:authorize>
 
 						</c:if>
