@@ -1,14 +1,16 @@
 package com.personalapp.hometeaching.io.messaging;
 
+import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
+
 import com.personalapp.hometeaching.model.Companion;
 
 public class AssignmentEmailTemplate extends BaseEmailTemplate {
 
 	private Companion companion;
 
-	public AssignmentEmailTemplate(BaseEmailTemplate baseEmailTemplate, Companion companion) {
-		super.setFromName(baseEmailTemplate.getFromName());
-		super.setFromNumber(baseEmailTemplate.getFromNumber());
+	public AssignmentEmailTemplate(Companion companion) {
+		super.setFromName(getCurrentUser().getPerson().getFullName());
+		super.setFromNumber(getCurrentUser().getPerson().getPhoneNumber());
 		this.companion = companion;
 	}
 

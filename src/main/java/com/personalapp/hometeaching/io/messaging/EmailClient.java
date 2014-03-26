@@ -33,7 +33,7 @@ public class EmailClient {
 	private final Logger logger = getLogger(getClass());
 
 	private Map<Organization, HtmlEmail> emails = newHashMap();
-	private Map<Organization, BaseEmailTemplate> templates = newHashMap();
+	// private Map<Organization, BaseEmailTemplate> templates = newHashMap();
 	private Handlebars handlebars;
 
 	@Autowired
@@ -43,7 +43,8 @@ public class EmailClient {
 	private void setupEmails() throws EmailException {
 		for (Organization organization : Organization.forDisplay()) {
 			emails.put(organization, emailConfig.getEmailForOrganization(organization));
-			templates.put(organization, emailConfig.getTemplateForOrganization(organization));
+			// templates.put(organization,
+			// emailConfig.getTemplateForOrganization(organization));
 		}
 		handlebars = setupHandlebars();
 	}
@@ -62,8 +63,7 @@ public class EmailClient {
 		Organization organization = getUserOrganization(user);
 		HtmlEmail email = emails.get(organization);
 		email.setSubject("Home teaching website invite");
-		BaseEmailTemplate baseEmailTemplate = templates.get(organization);
-		UserEmailTemplate userEmailTemplate = new UserEmailTemplate(baseEmailTemplate, user);
+		UserEmailTemplate userEmailTemplate = new UserEmailTemplate(user);
 		email.setHtmlMsg(getHtml("newUser.mustache", userEmailTemplate));
 		addUserToEmail(email, user);
 		return email;
@@ -73,8 +73,7 @@ public class EmailClient {
 		Organization organization = getCompanionOrganization(companion);
 		HtmlEmail email = emails.get(organization);
 		email.setSubject("Updated home teaching assignment");
-		BaseEmailTemplate baseEmailTemplate = templates.get(organization);
-		AssignmentEmailTemplate assignmentEmailTemplate = new AssignmentEmailTemplate(baseEmailTemplate, companion);
+		AssignmentEmailTemplate assignmentEmailTemplate = new AssignmentEmailTemplate(companion);
 		email.setHtmlMsg(getHtml("updatedAssignment.mustache", assignmentEmailTemplate));
 		for (HometeachingUser user : users) {
 			addUserToEmail(email, user);

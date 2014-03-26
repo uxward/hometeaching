@@ -79,7 +79,7 @@ public class SecurityUtils {
 		if (currentUserIsAdmin()) {
 			roles = newArrayList(ADMIN, LEADER, HOMETEACHER, MEMBERSHIP, COUNCIL);
 		} else if (currentUserIsLeader()) {
-			roles = newArrayList(HOMETEACHER);
+			roles = newArrayList(LEADER, HOMETEACHER);
 		}
 		return roles;
 	}
