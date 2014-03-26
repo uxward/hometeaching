@@ -65,6 +65,7 @@ public class CompanionController {
 
 	@RequestMapping(value = "/detail/{id}")
 	public ModelAndView detail(@PathVariable Long id) {
+		logger.info("User {} is viewing the companion information of companion with id {}.", getCurrentUser().getUsername(), id);
 		ModelAndView view;
 		Companion companion = service.findDetailedById(id);
 		if (hasCompanionAccess(companion)) {

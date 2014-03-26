@@ -218,6 +218,7 @@
 				}, {
 					'sTitle' : 'Name',
 					'mData' : 'name',
+					'mRender' : setupNameCompanionLink,
 					'sWidth' : '15%'
 				}, {
 					'sTitle' : 'Username',
@@ -258,6 +259,14 @@
 					'sEmptyTable' : 'There are no users yet.  Add a user by clicking the button below.'
 				}
 			});
+		}
+		
+		function setupNameCompanionLink(data, type, full){
+			var html = data;
+			if(full.companionId != null){
+				html = '<a href="<spring:url value="/companion/detail/"/>' + full.companionId + '">' + data + '</a>';
+			}
+			return html;
 		}
 
 		function setupRoles(data, type, full) {

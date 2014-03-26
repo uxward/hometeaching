@@ -29,6 +29,8 @@ public class UserViewModel extends ActionViewModel {
 
 	private Boolean enabled;
 
+	private Long companionId;
+
 	private List<RoleViewModel> roles = newArrayList();
 
 	private List<OrganizationViewModel> organizations = newArrayList();
@@ -50,6 +52,9 @@ public class UserViewModel extends ActionViewModel {
 		this.lastLogin = user.getLastLogin();
 		this.email = user.getEmail();
 		this.enabled = user.getEnabled();
+		if (user.getPerson() != null && user.getPerson().getActiveCompanion() != null) {
+			this.companionId = user.getPerson().getActiveCompanion().getCompanionId();
+		}
 
 		for (UserRole userRole : user.getUserRoles()) {
 			this.roles.add(new RoleViewModel(fromRole(userRole.getRole())));
@@ -90,6 +95,10 @@ public class UserViewModel extends ActionViewModel {
 
 	public Boolean getEnabled() {
 		return enabled;
+	}
+
+	public Long getCompanionId() {
+		return companionId;
 	}
 
 	public List<RoleViewModel> getRoles() {

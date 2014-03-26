@@ -33,7 +33,6 @@ public class EmailClient {
 	private final Logger logger = getLogger(getClass());
 
 	private Map<Organization, HtmlEmail> emails = newHashMap();
-	// private Map<Organization, BaseEmailTemplate> templates = newHashMap();
 	private Handlebars handlebars;
 
 	@Autowired
@@ -43,8 +42,6 @@ public class EmailClient {
 	private void setupEmails() throws EmailException {
 		for (Organization organization : Organization.forDisplay()) {
 			emails.put(organization, emailConfig.getEmailForOrganization(organization));
-			// templates.put(organization,
-			// emailConfig.getTemplateForOrganization(organization));
 		}
 		handlebars = setupHandlebars();
 	}
