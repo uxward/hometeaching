@@ -21,6 +21,7 @@ import com.personalapp.hometeaching.view.FamilyStatusViewModel;
 import com.personalapp.hometeaching.view.OrganizationViewModel;
 import com.personalapp.hometeaching.view.VisitPercentageViewModel;
 import com.personalapp.hometeaching.view.WardFamilyStatusViewModel;
+import com.personalapp.hometeaching.view.WardVisitPercentageViewModel;
 
 @Service
 public class DashboardServiceImpl implements DashboardService {
@@ -33,17 +34,21 @@ public class DashboardServiceImpl implements DashboardService {
 	private VisitRepository visitRepo;
 
 	@Override
-	public List<VisitPercentageViewModel> getVisitPercentage() {
+	public List<WardVisitPercentageViewModel> getVisitPercentage(List<Long> organizationIds) {
 		logger.info("getting the visit percentage statistics");
-		List<VisitPercentageViewModel> visits = newArrayList();
+		List<WardVisitPercentageViewModel> wardVisits = newArrayList();
 
-		List<Tuple> tupleVisits = visitRepo.getAllVisits();
+		for (Long organizationId : organizationIds) {
+			List<VisitPercentageViewModel> orgVisits = newArrayList();
 
-		for (Tuple tupleVisit : tupleVisits) {
-			VisitPercentageViewModel visit = new VisitPercentageViewModel(tupleVisit);
-			visits.add(visit);
+			for (Tuple tupleVisit : visitRepo.getAllVisitsByOrganization(organizationId)) {
+				VisitPercentageViewModel visit = new VisitPercentageViewModel(tupleVisit);
+				orgVisits.add(visit);
+			}
+			wardVisits.add(new WardVisitPercentageViewModel(orgVisits, new OrganizationViewModel(Organization.fromId(organizationId), null)));
 		}
-		return visits;
+
+		return wardVisits;
 	}
 
 	@Override
@@ -85,8 +90,8 @@ public class DashboardServiceImpl implements DashboardService {
 	}
 
 	@Override
-	public List<FamilyStatusViewModel> getVisitPercentageDetails(Integer month, Integer year) {
-		List<Tuple> tupleStatuses = familyRepo.getVisitPercentageDetails(month, year);
+	public List<FamilyStatusViewModel> getVisitPercentageDetails(Integer month, Integer year, Long organizationId) {
+		List<Tuple> tupleStatuses = familyRepo.getVisitPercentageDetails(month, year, organizationId);
 		return getFamilyStatusFromTuple(tupleStatuses);
 	}
 }

@@ -10,9 +10,9 @@
 </c:set>
 
 <c:set var="companionship">
-	<c:forEach var="hometeacher" items="${companion.hometeachers}" varStatus="status">
-		<span class="pull-left">${hometeacher.firstName}&nbsp;</span>
-		<span class="hidden-sm hidden-xs pull-left">${hometeacher.family.familyName}&nbsp;</span>
+	<c:forEach var="teacher" items="${companion.teachers}" varStatus="status">
+		<span class="pull-left">${teacher.firstName}&nbsp;</span>
+		<span class="hidden-sm hidden-xs pull-left">${teacher.family.familyName}&nbsp;</span>
 		<c:if test="${!status.last}">
 			<span class="pull-left">and&nbsp;</span>
 		</c:if>
@@ -21,7 +21,7 @@
 
 <spring:url var="dashboard" value="/dashboard" />
 
-<t:mainPage activeMenu="yourCompanion" pageTitle="Companion Detail" pageHeader="${companionship}" pageSubheader="Companion">
+<t:mainPage activeMenu="visitingTeachingDetail" pageTitle="Visiting Teaching Detail" pageHeader="${companionship}" pageSubheader="Visiting Teaching">
 
 	<div class="row">
 		<div class="alert alert-info">
@@ -29,9 +29,9 @@
 			<fieldset>
 				<legend> Companion Contact Information </legend>
 			</fieldset>
-			<c:forEach var="hometeacher" items="${companion.hometeachers}" varStatus="status">
-				<strong>${hometeacher.firstName} phone number:</strong>
-				<span class="phone-number">${hometeacher.phoneNumber}</span>
+			<c:forEach var="teacher" items="${companion.teachers}" varStatus="status">
+				<strong>${teacher.firstName} phone number:</strong>
+				<span class="phone-number">${teacher.phoneNumber}</span>
 				<c:if test="${!status.last}">
 					<br />
 				</c:if>
@@ -40,7 +40,7 @@
 	</div>
 
 	<fieldset>
-		<legend> Assigned Families </legend>
+		<legend> Assigned Women </legend>
 	</fieldset>
 
 	<!--  Family Assignment Table
@@ -51,7 +51,7 @@
 	<br />
 
 	<sec:authorize access="hasRole('leader')">
-		<a href="#addFamily" class="btn btn-primary" data-toggle="modal">Add Family</a>
+		<a href="#addFamily" class="btn btn-primary" data-toggle="modal">Add Assignment</a>
 		<a href="#" class="btn" id="emailAssignments">
 			<i class="glyphicon glyphicon-envelope"></i> Email Assignments
 		</a>
@@ -63,7 +63,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h3 id="addFamilyLabel">Add Family</h3>
+						<h3 id="addFamilyLabel">Add Assignment</h3>
 					</div>
 
 					<div class="modal-body">
@@ -72,17 +72,18 @@
 								<select name="autopopulatingAssignments[0].familyId" id="familySelect" class="form-control">
 									<option value="">Select Family</option>
 									<c:forEach items="${families}" var="family">
-										<option value="${family.id}">${family.familyName},&nbsp;${family.headOfHousehold}&nbsp;</option>
+										<option value="${family.id}">${family.familyName},&nbsp;${family.womenHeadOfHousehold}&nbsp;</option>
 									</c:forEach>
 								</select>
 							</div>
 							<input type="hidden" value="${companion.id}" name="id" />
+							<input type="hidden" name="visitingTeaching" value="true" />
 						</form>
 					</div>
 
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-						<button type="button" class="btn btn-primary" id="saveAssignment" data-action="save">Add Family</button>
+						<button type="button" class="btn btn-primary" id="saveAssignment" data-action="save">Add Assignment</button>
 					</div>
 				</div>
 			</div>
@@ -105,7 +106,7 @@
 	<div id="visitHistory">
 		<ul class="nav nav-tabs">
 			<c:forEach var="family" items="${companion.assignments}" varStatus="status">
-				<li class="${status.first ? 'active' : ''}" id="${family.id}-tab-link"><a href="#${family.id}-tab" data-toggle="tab" class="hidden-xs">${family.familyName},&nbsp;${family.headOfHousehold}</a>
+				<li class="${status.first ? 'active' : ''}" id="${family.id}-tab-link"><a href="#${family.id}-tab" data-toggle="tab" class="hidden-xs">${family.womenHeadOfHousehold}&nbsp;${family.familyName}</a>
 					<a href="#${family.id}-tab" data-toggle="tab" class="hidden-sm hidden-md hidden-lg">${family.familyName}</a></li>
 			</c:forEach>
 		</ul>
@@ -117,8 +118,8 @@
 					<table class="table table-striped table-hover table-bordered visitHistory" data-family-id="${family.id}" width="100%">
 					</table>
 					<c:if test="${canAction}">
-						<a href="#recordVisit" role="button" class="btn btn-primary recordVisit" data-assignment-id="${family.assignmentId}" data-family-id="${family.id}" data-toggle="modal">Record Visit for the
-							${family.familyName} family</a>
+						<a href="#recordVisit" role="button" class="btn btn-primary recordVisit" data-assignment-id="${family.assignmentId}" data-family-id="${family.id}" data-toggle="modal">Record visit with
+							${family.womenHeadOfHousehold}&nbsp;${family.familyName }</a>
 					</c:if>
 				</div>
 			</c:forEach>
@@ -142,7 +143,7 @@
 							<select name="familyId" id="visitFamilySelect" class="form-control" disabled>
 								<option value="">Select Family</option>
 								<c:forEach var="family" items="${companion.assignments}">
-									<option value="${family.id}">${family.familyName}&nbsp;${family.headOfHousehold}</option>
+									<option value="${family.id}">${family.familyName}&nbsp;${family.womenHeadOfHousehold}</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -158,7 +159,8 @@
 							<textarea class="form-control" name="notes" id="notes" placeholder="Notes" maxlength="400"></textarea>
 						</div>
 						<div>
-							<input type="hidden" name="id" id="visitId" /> <input type="hidden" name="assignmentId" id="assignmentId" /><input type="hidden" name="familyId" id="familyId" />
+							<input type="hidden" name="visitingTeaching" value="true" /> <input type="hidden" name="id" id="visitId" /> <input type="hidden" name="assignmentId" id="assignmentId" /><input type="hidden"
+								name="familyId" id="familyId" /><input type="hidden" name="organizationId" value="${companion.teachers[0].organization.id}" />
 						</div>
 					</form>
 				</div>
@@ -207,7 +209,7 @@
 			});
 
 			$('#assignmentTable').on('click', '.removeFamily', function() {
-				if (confirm('Are you sure you want to remove this family?')) {
+				if (confirm('Are you sure you want to remove this assignment?')) {
 					removeAssignment($(this));
 				}
 			});
@@ -291,9 +293,9 @@
 		function handleSaveVisit(data){
 			if(data.success){
 				handleVisitSuccess(data);
-				showNotificationSuccess('<strong>This visit has been saved!</strong><br/>Thanks for recording your visit.  If you\'d like to see how visits are going for the entire elders quorum, check out <a href="${dashboard}/visitPercentage">the dashboard here</a>');
+				showNotificationSuccess('<strong>This visit has been saved!</strong><br/>Thanks for recording your visit.  If you\'d like to see how visits are going for your entire organization, check out <a href="${dashboard}/visitPercentage">the dashboard here</a>');
 			} else if(data.duplicate){
-				showModalError('A visit was already saved for this family for this month.  If you need to edit the visit information you can do so from the visit history table.');
+				showModalError('A visit was already saved for this assignment for this month.  If you need to edit the visit information you can do so from the visit history table.');
 			} else if(data.error){
 				showModalError('There was an unexpected error while trying to save this visit.  If the problem continues please submit feedback with a description of the problem.');
 			}
@@ -333,7 +335,7 @@
 			$('.visitHistory').each(function() {
 				$(this).dataTable({
 					'sDom' : 't'
-					,'sAjaxSource' : '<spring:url value="/visit/view/"/>?familyId=' + $(this).data('familyId')
+					,'sAjaxSource' : '<spring:url value="/visit/visitingTeaching/"/>?familyId=' + $(this).data('familyId')
 					,'aaData' : []
 					,'aaSorting': [[ 1, 'desc' ]]
 					,'aoColumns' : [ {
@@ -413,8 +415,8 @@
 								</sec:authorize>
 								],
 								'oLanguage' : {
-									'sInfoEmpty' : 'No families to show',
-									'sEmptyTable' : 'There are no families assigned yet.  Add a family by clicking the button below.'
+									'sInfoEmpty' : 'No assignments to show',
+									'sEmptyTable' : 'There are no women assigned yet.  Add an assignment by clicking the button below.'
 								}
 							});
 		}
@@ -444,10 +446,10 @@
 
 		function handleSaveAssignment(data) {
 			if (data.success) {
-				showNotificationSuccess('This family has been successfully added to this companionship.');
+				showNotificationSuccess('The assignment has been successfully added to this companionship.');
 				handleSaveAssignmentSuccess(data);
 			} else {
-				showModalError('<p>There was an unexpected error while adding the family to the companionship.  If the issue continues please contact your organization leader.');
+				showModalError('<p>There was an unexpected error while adding the assignment to this companionship.  If the issue continues please contact your organization leader.');
 			}
 		}
 		
@@ -485,10 +487,10 @@
 		
 		function handleRemoveAssignment(data, $this){
 			if (data.success) {
-				showNotificationSuccess('This family has been successfully removed from this companionship.');
+				showNotificationSuccess('This assignment has been successfully removed from this companionship.');
 				handleRemoveAssignmentSuccess($this);
 			} else {
-				showModalError('<p>There was an unexpected error while removing the family from this companionship.  If the issue continues please contact your organization leader.');
+				showModalError('<p>There was an unexpected error while removing the assignment from this companionship.  If the issue continues please contact your organization leader.');
 			}
 		}
 		

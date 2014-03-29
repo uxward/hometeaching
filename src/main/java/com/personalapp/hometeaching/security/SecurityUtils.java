@@ -89,7 +89,7 @@ public class SecurityUtils {
 	}
 
 	public static boolean hasCompanionAccess(Companion companion) {
-		return currentUserIsCouncil() || (getCurrentUser().getActiveCompanion() != null && companion.getId().equals(getCurrentUser().getActiveCompanion().getId()));
+		return currentUserIsCouncil() || (getCurrentUser().getActiveHomeTeachingCompanion() != null && companion.getId().equals(getCurrentUser().getActiveHomeTeachingCompanion().getId()));
 	}
 
 	public static List<Long> getAllOrganizationIds() {
@@ -131,7 +131,7 @@ public class SecurityUtils {
 	}
 
 	private static boolean currentUserIsCompanion(Companion companion) {
-		return companion != null && getCurrentUser().getActiveCompanion() != null && companion.getId().equals(getCurrentUser().getActiveCompanion().getId());
+		return companion != null && getCurrentUser().getActiveHomeTeachingCompanion() != null && companion.getId().equals(getCurrentUser().getActiveHomeTeachingCompanion().getId());
 	}
 
 	private static boolean companionInCurrentUserOrganizations(Companion companion) {

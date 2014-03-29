@@ -28,6 +28,9 @@ public class Assignment extends BaseEntity {
 	@Column(name = "active")
 	private Boolean active;
 
+	@Column(name = "visitingTeaching")
+	private Boolean visitingTeaching;
+
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "familyId", insertable = false, updatable = false)
 	private Family family;
@@ -58,6 +61,14 @@ public class Assignment extends BaseEntity {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public Boolean getVisitingTeaching() {
+		return visitingTeaching;
+	}
+
+	public void setVisitingTeaching(Boolean visitingTeaching) {
+		this.visitingTeaching = visitingTeaching;
 	}
 
 	public Long getFamilyId() {

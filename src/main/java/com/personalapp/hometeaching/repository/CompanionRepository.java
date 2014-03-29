@@ -8,8 +8,10 @@ public interface CompanionRepository extends Repository<Companion, Long> {
 
 	Companion findDetailedById(Long id);
 
-	List<Companion> getAllCompanionsAndActiveFamilies();
+	List<Companion> getAllHomeTeachingCompanionsAndActiveFamilies();
 
 	Companion getCompanionAndActiveFamilies(Long companionId);
+
+	List<Companion> getAllVisitingTeachingCompanionsAndActiveFamilies();
 
 }

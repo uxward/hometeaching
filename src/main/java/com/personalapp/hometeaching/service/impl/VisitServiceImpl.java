@@ -4,6 +4,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static com.personalapp.hometeaching.model.ActionStatus.DUPLICATE;
 import static com.personalapp.hometeaching.model.ActionStatus.ERROR;
 import static com.personalapp.hometeaching.model.ActionStatus.SUCCESS;
+import static com.personalapp.hometeaching.model.Organization.RELIEF_SOCIETY;
 import static java.util.Calendar.LONG;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
@@ -85,28 +86,47 @@ public class VisitServiceImpl implements VisitService {
 		visit.setCreated(updated.getCreated());
 		visit.setFamilyId(updated.getFamilyId());
 		visit.setAssignmentId(updated.getAssignmentId());
+		visit.setOrganizationId(updated.getOrganizationId());
+		visit.setVisitingTeaching(updated.getVisitingTeaching());
 
-		if (visit.getVisited() != null) {
-			visit.setVisited(visit.getVisited());
-		} else {
-			visit.setVisited(false);
-		}
+		setupNullAsFalse(visit);
 		visit.setUpdated(new Date());
 	}
 
 	private void setupNewVisit(Visit visit) {
+		if (visit.getVisitingTeaching()) {
+			visit.setOrganizationId(RELIEF_SOCIETY.getId());
+		}
+		setupNullAsFalse(visit);
+		visit.setCreated(new Date());
+	}
+
+	private void setupNullAsFalse(Visit visit) {
 		if (visit.getVisited() != null) {
 			visit.setVisited(visit.getVisited());
 		} else {
 			visit.setVisited(false);
 		}
-		visit.setCreated(new Date());
+
+		if (visit.getVisitingTeaching() == null) {
+			visit.setVisitingTeaching(false);
+		}
 	}
 
 	@Override
-	public List<VisitViewModel> getByFamilyId(Long familyId) {
+	public List<VisitViewModel> getHomeTeachingVisitsByFamilyId(Long familyId) {
 		List<VisitViewModel> visits = newArrayList();
-		for (Visit visit : repo.getByFamilyId(familyId)) {
+		for (Visit visit : repo.getHomeTeachingVisitsByFamilyId(familyId)) {
+			VisitViewModel model = new VisitViewModel(visit);
+			visits.add(model);
+		}
+		return visits;
+	}
+
+	@Override
+	public List<VisitViewModel> getVisitingTeachingVisitsByFamilyId(Long familyId) {
+		List<VisitViewModel> visits = newArrayList();
+		for (Visit visit : repo.getVisitingTeachingVisitsByFamilyId(familyId)) {
 			VisitViewModel model = new VisitViewModel(visit);
 			visits.add(model);
 		}

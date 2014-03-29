@@ -165,10 +165,21 @@ public class Family extends BaseEntity {
 		this.familyOrganizationIds = familyOrganizationIds;
 	}
 
-	public Assignment getActiveAssignment() {
+	public Assignment getActiveHomeTeachingAssignment() {
 		Assignment active = new Assignment();
 		for (Assignment assignment : this.assignment) {
-			if (assignment.getActive()) {
+			if (assignment.getActive() && !assignment.getVisitingTeaching()) {
+				active = assignment;
+				break;
+			}
+		}
+		return active;
+	}
+
+	public Assignment getActiveVisitingTeachingAssignment() {
+		Assignment active = new Assignment();
+		for (Assignment assignment : this.assignment) {
+			if (assignment.getActive() && assignment.getVisitingTeaching()) {
 				active = assignment;
 				break;
 			}

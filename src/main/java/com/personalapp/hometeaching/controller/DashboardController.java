@@ -20,8 +20,8 @@ import com.personalapp.hometeaching.service.DashboardService;
 import com.personalapp.hometeaching.view.DatatableResponse;
 import com.personalapp.hometeaching.view.FamilyStatusViewModel;
 import com.personalapp.hometeaching.view.SummaryStatisticsViewModel;
-import com.personalapp.hometeaching.view.VisitPercentageViewModel;
 import com.personalapp.hometeaching.view.WardFamilyStatusViewModel;
+import com.personalapp.hometeaching.view.WardVisitPercentageViewModel;
 
 @Controller
 @RequestMapping(value = "/dashboard")
@@ -53,16 +53,16 @@ public class DashboardController {
 
 	@RequestMapping("getVisitPercentage")
 	@ResponseBody
-	public List<VisitPercentageViewModel> getVisitPercentage() {
+	public List<WardVisitPercentageViewModel> getVisitPercentage() {
 		logger.info("User {} is getting visit percentages", getCurrentUser().getPerson().getFullName());
-		return service.getVisitPercentage();
+		return service.getVisitPercentage(getAllOrganizationIds());
 	}
 
 	@RequestMapping("getVisitPercentageDetails")
 	@ResponseBody
-	public List<FamilyStatusViewModel> getVisitPercentageDetails(@RequestParam("month") Integer month, @RequestParam("year") Integer year) {
+	public List<FamilyStatusViewModel> getVisitPercentageDetails(@RequestParam("month") Integer month, @RequestParam("year") Integer year, @RequestParam("organizationId") Long organizationId) {
 		logger.info("User {} is getting visit percentage details", getCurrentUser().getPerson().getFullName());
-		return service.getVisitPercentageDetails(month, year);
+		return service.getVisitPercentageDetails(month, year, organizationId);
 	}
 
 	@RequestMapping("getFamilyStatus")

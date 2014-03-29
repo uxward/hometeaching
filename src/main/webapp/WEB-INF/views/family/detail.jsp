@@ -20,10 +20,17 @@
 			<c:forEach items="${family.organizations}" var="organization" varStatus="status">${organization.organization}<c:if test="${!status.last}">, </c:if>
 			</c:forEach>
 		</p>
-		<p id="viewHometeachers">
+		<p>
 			<strong>Home teachers:</strong>
-			<c:if test="${not empty family.companions}">
-				<c:forEach items="${family.companions.hometeachers}" var="person" varStatus="status">${person.firstName}&nbsp;${person.family.familyName}<c:if test="${!status.last}">, </c:if>
+			<c:if test="${not empty family.homeTeachingCompanions}">
+				<c:forEach items="${family.homeTeachingCompanions.teachers}" var="person" varStatus="status">${person.firstName}&nbsp;${person.family.familyName}<c:if test="${!status.last}">, </c:if>
+				</c:forEach>
+			</c:if>
+		</p>
+		<p>
+			<strong>Visiting teachers:</strong>
+			<c:if test="${not empty family.visitingTeachingCompanions}">
+				<c:forEach items="${family.visitingTeachingCompanions.teachers}" var="person" varStatus="status">${person.firstName}&nbsp;${person.family.familyName}<c:if test="${!status.last}">, </c:if>
 				</c:forEach>
 			</c:if>
 		</p>
@@ -81,7 +88,12 @@
 						</div>
 						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
 							<label class="checkbox">
-								<input type="checkbox" name="hometeacher" id="hometeacher"> Home Teacher
+								<input type="checkbox" name="visitingTeacher" id="visitingTeacher"> Visiting Teacher
+							</label>
+						</div>
+						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
+							<label class="checkbox">
+								<input type="checkbox" name="homeTeacher" id="homeTeacher"> Home Teacher
 							</label>
 						</div>
 						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
@@ -244,7 +256,12 @@
 					'sClass' : 'hidden-xs hidden-sm'
 				}, {
 					'sTitle' : 'Home Teacher',
-					'mData' : 'hometeacher',
+					'mData' : 'homeTeacher',
+					'mRender' : setupTrueFalseAsYesNo,
+					'sClass' : 'hidden-xs'
+				}, {
+					'sTitle' : 'Visiting Teacher',
+					'mData' : 'visitingTeacher',
 					'mRender' : setupTrueFalseAsYesNo,
 					'sClass' : 'hidden-xs'
 				}, {
@@ -287,10 +304,6 @@
 			return (data ? 'Female' : 'Male');
 		}
 
-		function setupHometeacher(data, type, full) {
-			return (data ? 'Yes' : 'No');
-		}
-
 		function setupOrganization(data, type, full) {
 			var html = '';
 			if (data != null) {
@@ -328,8 +341,11 @@
 			if (data.headOfHousehold) {
 				$('#headOfHousehold').prop('checked', true);
 			}
-			if (data.hometeacher) {
-				$('#hometeacher').prop('checked', true);
+			if (data.visitingTeacher) {
+				$('#visitingTeacher').prop('checked', true);
+			}
+			if (data.homeTeacher) {
+				$('#homeTeacher').prop('checked', true);
 			}
 			if (data.user) {
 				$('#user').prop('checked', true);

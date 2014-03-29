@@ -37,25 +37,38 @@ public class CompanionController {
 	@Autowired
 	private PersonService personService;
 
-	@RequestMapping("all")
-	public ModelAndView viewAll() {
-		ModelAndView view = new ModelAndView("companion/companions");
-		view.addObject("hometeachers", personService.getAllNotMovedNotAssignedHometeachers());
+	@RequestMapping("allHomeTeachers")
+	public ModelAndView viewAllHomeTeachers() {
+		ModelAndView view = new ModelAndView("companion/homeTeachers");
+		view.addObject("teachers", personService.getAllNotMovedNotAssignedHomeTeachers());
 		return view;
 	}
 
-	@RequestMapping("getCompanions")
-	@ResponseBody
-	public DatatableResponse<CompanionViewModel> getCompanions() {
-		return new DatatableResponse<CompanionViewModel>(service.getViewModelAllCompanionsAndActiveFamilies());
+	@RequestMapping("allVisitingTeachers")
+	public ModelAndView viewAllVisitingTeachers() {
+		ModelAndView view = new ModelAndView("companion/visitingTeachers");
+		view.addObject("teachers", personService.getAllNotMovedNotAssignedVisitingTeachers());
+		return view;
 	}
 
-	@RequestMapping("you")
-	public ModelAndView viewYou() {
-		logger.info("User {} is viewing their companion information.", getCurrentUser().getUsername());
+	@RequestMapping("getHomeTeachingCompanions")
+	@ResponseBody
+	public DatatableResponse<CompanionViewModel> getHomeTeachingCompanions() {
+		return new DatatableResponse<CompanionViewModel>(service.getViewModelAllHomeTeachingCompanionsAndActiveFamilies());
+	}
+
+	@RequestMapping("getVisitingTeachingCompanions")
+	@ResponseBody
+	public DatatableResponse<CompanionViewModel> getVisitingTeachingCompanions() {
+		return new DatatableResponse<CompanionViewModel>(service.getViewModelAllVisitingTeachingCompanionsAndActiveFamilies());
+	}
+
+	@RequestMapping("yourHomeTeaching")
+	public ModelAndView viewYourHomeTeaching() {
+		logger.info("User {} is viewing their home teaching information.", getCurrentUser().getUsername());
 		ModelAndView view;
-		if (getCurrentUser().getActiveCompanion() != null) {
-			view = getDetailModelAndView(service.findDetailedById(getCurrentUser().getActiveCompanion().getId()));
+		if (getCurrentUser().getActiveHomeTeachingCompanion() != null) {
+			view = getDetailHomeTeachingModelAndView(service.findDetailedById(getCurrentUser().getActiveHomeTeachingCompanion().getId()));
 		} else {
 			view = new ModelAndView("companion/notAssigned");
 		}
@@ -63,13 +76,39 @@ public class CompanionController {
 		return view;
 	}
 
-	@RequestMapping(value = "/detail/{id}")
-	public ModelAndView detail(@PathVariable Long id) {
+	@RequestMapping("yourVisitingTeaching")
+	public ModelAndView viewYourVisitingTeaching() {
+		logger.info("User {} is viewing their visiting teaching information.", getCurrentUser().getUsername());
+		ModelAndView view;
+		if (getCurrentUser().getActiveVisitingTeachingCompanion() != null) {
+			view = getDetailVisitingTeachingModelAndView(service.findDetailedById(getCurrentUser().getActiveVisitingTeachingCompanion().getId()));
+		} else {
+			view = new ModelAndView("companion/notAssigned");
+		}
+
+		return view;
+	}
+
+	@RequestMapping(value = "/homeTeachingDetail/{id}")
+	public ModelAndView homeTeachingDetail(@PathVariable Long id) {
 		logger.info("User {} is viewing the companion information of companion with id {}.", getCurrentUser().getUsername(), id);
 		ModelAndView view;
 		Companion companion = service.findDetailedById(id);
 		if (hasCompanionAccess(companion)) {
-			view = getDetailModelAndView(companion);
+			view = getDetailHomeTeachingModelAndView(companion);
+		} else {
+			view = new ModelAndView("denied");
+		}
+		return view;
+	}
+
+	@RequestMapping(value = "/visitingTeachingDetail/{id}")
+	public ModelAndView visitingTeachingDetail(@PathVariable Long id) {
+		logger.info("User {} is viewing the companion information of companion with id {}.", getCurrentUser().getUsername(), id);
+		ModelAndView view;
+		Companion companion = service.findDetailedById(id);
+		if (hasCompanionAccess(companion)) {
+			view = getDetailVisitingTeachingModelAndView(companion);
 		} else {
 			view = new ModelAndView("denied");
 		}
@@ -113,10 +152,18 @@ public class CompanionController {
 		return service.removeAssignment(companionId, familyId);
 	}
 
-	private ModelAndView getDetailModelAndView(Companion companion) {
-		ModelAndView view = new ModelAndView("companion/detail");
+	private ModelAndView getDetailHomeTeachingModelAndView(Companion companion) {
+		ModelAndView view = new ModelAndView("companion/homeTeachingDetail");
 		view.addObject("companion", service.getDetailedViewModelForCompanion(companion));
-		view.addObject("families", familyService.getAllFamiliesWithoutCompanion());
+		view.addObject("families", familyService.getAllFamiliesWithoutHomeTeachingCompanion());
+		view.addObject("canAction", canActionCompanion(companion));
+		return view;
+	}
+
+	private ModelAndView getDetailVisitingTeachingModelAndView(Companion companion) {
+		ModelAndView view = new ModelAndView("companion/visitingTeachingDetail");
+		view.addObject("companion", service.getDetailedViewModelForCompanion(companion));
+		view.addObject("families", familyService.getAllFamiliesWithoutVisitingTeachingCompanion());
 		view.addObject("canAction", canActionCompanion(companion));
 		return view;
 	}

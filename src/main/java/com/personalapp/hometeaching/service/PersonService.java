@@ -15,5 +15,7 @@ public interface PersonService {
 
 	List<PersonViewModel> getByFamilyId(Long id);
 
-	List<PersonViewModel> getAllNotMovedNotAssignedHometeachers();
+	List<PersonViewModel> getAllNotMovedNotAssignedHomeTeachers();
+
+	List<PersonViewModel> getAllNotMovedNotAssignedVisitingTeachers();
 }

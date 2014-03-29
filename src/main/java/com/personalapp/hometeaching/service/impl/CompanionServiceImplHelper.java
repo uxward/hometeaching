@@ -33,6 +33,7 @@ public class CompanionServiceImplHelper {
 		Set<PersonCompanion> companions = newHashSet();
 		for (PersonCompanion personCompanion : companion.getAutopopulatingPersonCompanions()) {
 			personCompanion.setActive(true);
+			personCompanion.setVisitingTeaching(companion.getVisitingTeaching());
 			personCompanion.setCompanion(companion);
 			companions.add(personCompanion);
 		}
@@ -48,7 +49,7 @@ public class CompanionServiceImplHelper {
 		doCreateNewCompanion(companion);
 
 		for (Assignment assignment : oldCompanion.getAssignments()) {
-			saveAssignment(companion.getId(), assignment.getFamilyId());
+			saveAssignment(companion, assignment.getFamilyId());
 		}
 
 		// mark old companion inactive
@@ -63,7 +64,7 @@ public class CompanionServiceImplHelper {
 
 	@Transactional(rollbackFor = Exception.class)
 	public void doAddAssignment(Companion companion) {
-		saveAssignment(companion.getId(), companion.getAutopopulatingAssignments().get(0).getFamilyId());
+		saveAssignment(companion, companion.getAutopopulatingAssignments().get(0).getFamilyId());
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -85,12 +86,13 @@ public class CompanionServiceImplHelper {
 		repo.update(companion);
 	}
 
-	private void saveAssignment(Long companionId, Long familyId) {
+	private void saveAssignment(Companion companion, Long familyId) {
 		Assignment assignment = new Assignment();
-		assignment.setCompanionId(companionId);
+		assignment.setCompanionId(companion.getId());
 		assignment.setFamilyId(familyId);
 		assignment.setCreated(new Date());
 		assignment.setActive(true);
+		assignment.setVisitingTeaching(companion.getVisitingTeaching());
 		assignmentRepo.save(assignment);
 	}
 }

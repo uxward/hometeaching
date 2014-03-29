@@ -17,7 +17,9 @@ public class PersonViewModel {
 
 	private String email;
 
-	private Boolean hometeacher;
+	private Boolean homeTeacher;
+
+	private Boolean visitingTeacher;
 
 	private Boolean user;
 
@@ -34,7 +36,8 @@ public class PersonViewModel {
 		this.female = person.getFemale();
 		this.headOfHousehold = person.getHeadOfHousehold();
 		this.phoneNumber = person.getPhoneNumber();
-		this.hometeacher = person.getHometeacher();
+		this.homeTeacher = person.getHomeTeacher();
+		this.visitingTeacher = person.getVisitingTeacher();
 		this.user = person.getUser();
 
 		if (person.getOrganization() != null) {
@@ -83,8 +86,12 @@ public class PersonViewModel {
 		return email;
 	}
 
-	public Boolean getHometeacher() {
-		return hometeacher;
+	public Boolean getHomeTeacher() {
+		return homeTeacher;
+	}
+
+	public Boolean getVisitingTeacher() {
+		return visitingTeacher;
 	}
 	
 	public Boolean getUser(){

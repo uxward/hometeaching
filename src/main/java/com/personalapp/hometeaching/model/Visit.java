@@ -30,6 +30,9 @@ public class Visit extends BaseEntity {
 	@Column(name = "familyid")
 	private Long familyId;
 
+	@Column(name = "organizationid")
+	private Long organizationId;
+
 	@Column(name = "visited")
 	private Boolean visited;
 
@@ -38,6 +41,9 @@ public class Visit extends BaseEntity {
 
 	@Column(name = "notes")
 	private String notes;
+
+	@Column(name = "visitingteaching")
+	private Boolean visitingTeaching;
 
 	@Column(name = "month")
 	private Integer month;
@@ -76,6 +82,14 @@ public class Visit extends BaseEntity {
 		this.familyId = familyId;
 	}
 
+	public Long getOrganizationId() {
+		return organizationId;
+	}
+
+	public void setOrganizationId(Long organizationId) {
+		this.organizationId = organizationId;
+	}
+
 	public Boolean getVisited() {
 		return visited;
 	}
@@ -94,6 +108,14 @@ public class Visit extends BaseEntity {
 
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+	public Boolean getVisitingTeaching() {
+		return visitingTeaching;
+	}
+
+	public void setVisitingTeaching(Boolean visitingTeaching) {
+		this.visitingTeaching = visitingTeaching;
 	}
 
 	public Integer getMonth() {
@@ -125,7 +147,7 @@ public class Visit extends BaseEntity {
 		this.visitDate = calendar.getTime();
 	}
 
-	public Family getFamily() {
-		return family;
-	}
+//	public Family getFamily() {
+//		return family;
+//	}
 }

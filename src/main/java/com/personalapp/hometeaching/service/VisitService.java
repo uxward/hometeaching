@@ -10,9 +10,11 @@ public interface VisitService {
 
 	VisitViewModel save(Visit visit);
 
-	List<VisitViewModel> getByFamilyId(Long familyId);
+	List<VisitViewModel> getHomeTeachingVisitsByFamilyId(Long familyId);
 
 	List<VisitHistoryModel> getVisitHistory(Integer n);
 
 	List<String> getLastNMonths(Integer n);
+
+	List<VisitViewModel> getVisitingTeachingVisitsByFamilyId(Long familyId);
 }

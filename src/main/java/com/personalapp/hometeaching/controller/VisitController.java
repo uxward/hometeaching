@@ -34,11 +34,18 @@ public class VisitController {
 		return new ModelAndView("visit/history").addObject("months", months);
 	}
 
-	@RequestMapping("view")
+	@RequestMapping("homeTeaching")
 	@ResponseBody
-	public DatatableResponse<VisitViewModel> viewVisits(@RequestParam("familyId") Long familyId) {
-		logger.info("User {} is viewing visits for family id {} ", getCurrentUser().getUsername(), familyId );
-		return new DatatableResponse<VisitViewModel>(visitService.getByFamilyId(familyId));
+	public DatatableResponse<VisitViewModel> getHomeTeachingVisits(@RequestParam("familyId") Long familyId) {
+		logger.info("User {} is viewing home teaching visits for family id {} ", getCurrentUser().getUsername(), familyId );
+		return new DatatableResponse<VisitViewModel>(visitService.getHomeTeachingVisitsByFamilyId(familyId));
+	}
+
+	@RequestMapping("visitingTeaching")
+	@ResponseBody
+	public DatatableResponse<VisitViewModel> getVisitingTeachingVisits(@RequestParam("familyId") Long familyId) {
+		logger.info("User {} is viewing visiting teaching visits for family id {} ", getCurrentUser().getUsername(), familyId );
+		return new DatatableResponse<VisitViewModel>(visitService.getVisitingTeachingVisitsByFamilyId(familyId));
 	}
 
 	@RequestMapping("getHistory")

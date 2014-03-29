@@ -76,7 +76,8 @@
 									</a>
 									<ul class="dropdown-menu">
 										<li class="${activeMenu ==  'users' ? 'active' : '' }"><a href="${user}/all">Users</a></li>
-										<li class="${activeMenu ==  'allCompanions' ? 'active' : '' }"><a href="${companion}/all">Companions</a></li>
+										<li class="${activeMenu ==  'homeTeachers' ? 'active' : '' }"><a href="${companion}/allHomeTeachers">Home Teachers</a></li>
+										<li class="${activeMenu ==  'visitingTeachers' ? 'active' : '' }"><a href="${companion}/allVisitingTeachers">Visiting Teachers</a></li>
 										<li class="${activeMenu ==  'visitHistory' ? 'active' : '' }"><a href="${visit}/history/3">Visit History</a></li>
 										<li class="${activeMenu ==  'feedback' ? 'active' : '' }"><a href="${feedback}">Feedback</a></li>
 									</ul></li>
@@ -102,14 +103,20 @@
 								</a>
 								<ul class="dropdown-menu">
 									<li class="${activeMenu ==  'visitPercentage' ? 'active' : '' }"><a href="${dashboard}/visitPercentage">Visit Percentage</a></li>
-<%-- 									<li class="${activeMenu ==  'familyStatus' ? 'active' : '' }"><a href="${dashboard}/familyStatus">Family Status</a></li> --%>
+									<%-- 									<li class="${activeMenu ==  'familyStatus' ? 'active' : '' }"><a href="${dashboard}/familyStatus">Family Status</a></li> --%>
 								</ul></li>
 
 							<li class="${activeMenu ==  'yourFamily' ? 'active' : '' }"><a href="${family}/you">Family</a></li>
 
-							<sec:authorize access="hasRole('hometeacher')">
-								<li class="${activeMenu ==  'yourCompanion' ? 'active' : '' }"><a href="${companion}/you">Home Teaching</a></li>
-							</sec:authorize>
+							<sec:authentication property="principal.person.homeTeacher" var="homeTeacher" />
+							<c:if test="${homeTeacher}">
+								<li class="${activeMenu ==  'homeTeachingDetail' ? 'active' : '' }"><a href="${companion}/yourHomeTeaching">Home Teaching</a></li>
+							</c:if>
+
+							<sec:authentication property="principal.person.visitingTeacher" var="visitingTeacher" />
+							<c:if test="${visitingTeacher}">
+								<li class="${activeMenu ==  'visitingTeachingDetail' ? 'active' : '' }"><a href="${companion}/yourVisitingTeaching">Visiting Teaching</a></li>
+							</c:if>
 
 						</c:if>
 						<li class="visible-xs"><a href="${user}/you">

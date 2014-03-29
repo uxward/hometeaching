@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<t:mainPage activeMenu="allCompanions" pageTitle="Companions" pageHeader="All" pageSubheader="Companions">
+<t:mainPage activeMenu="visitingTeachers" pageTitle="Visiting Teachers" pageHeader="All" pageSubheader="Visiting Teachers">
 
 	<table id="companionTable" class="table table-striped table-hover table-bordered" width="100%">
 	</table>
@@ -30,21 +30,22 @@
 							<div class="form-group">
 								<label class="sr-only" for="companion0">1st Companion</label>
 								<select name="autopopulatingPersonCompanions[0].personId" class="companionSelect form-control" id="companion0">
-									<option value="">Select Home Teacher</option>
-									<c:forEach items="${hometeachers}" var="hometeacher">
-										<option value="${hometeacher.id}">${hometeacher.firstName}&nbsp;${hometeacher.family.familyName}</option>
+									<option value="">Select Visiting Teacher</option>
+									<c:forEach items="${teachers}" var="teacher">
+										<option value="${teacher.id}">${teacher.firstName}&nbsp;${teacher.family.familyName}&nbsp;-&nbsp;${teacher.family.familyStatus}</option>
 									</c:forEach>
 								</select>
 							</div>
 							<div class="form-group">
 								<label class="sr-only" for="companion1">2nd Companion</label>
 								<select name="autopopulatingPersonCompanions[1].personId" class="companionSelect form-control" id="companion1">
-									<option value="">Select Home Teacher</option>
-									<c:forEach items="${hometeachers}" var="hometeacher">
-										<option value="${hometeacher.id}">${hometeacher.firstName}&nbsp;${hometeacher.family.familyName}</option>
+									<option value="">Select Visiting Teacher</option>
+									<c:forEach items="${teachers}" var="teacher">
+										<option value="${teacher.id}">${teacher.firstName}&nbsp;${teacher.family.familyName}&nbsp;-&nbsp;${teacher.family.familyStatus}</option>
 									</c:forEach>
 								</select>
 							</div>
+							<input type="hidden" name="visitingTeaching" value="true" />
 						</form>
 					</div>
 
@@ -72,22 +73,22 @@
 							<div class="form-group">
 								<label class="sr-only" for="editFirstCompanion">1st Companion</label>
 								<select name="autopopulatingPersonCompanions[0].personId" class="companionSelect form-control" id="editFirstCompanion">
-									<option value="">Select Home Teacher</option>
-									<c:forEach items="${hometeachers}" var="hometeacher">
-										<option value="${hometeacher.id}">${hometeacher.firstName}&nbsp;${hometeacher.family.familyName}</option>
+									<option value="">Select Visiting Teacher</option>
+									<c:forEach items="${teachers}" var="teacher">
+										<option value="${teacher.id}">${teacher.firstName}&nbsp;${teacher.family.familyName}&nbsp;-&nbsp;${teacher.family.familyStatus}</option>
 									</c:forEach>
 								</select>
 							</div>
 							<div class="form-group">
 								<label class="sr-only" for="editSecondCompanion">2nd Companion</label>
 								<select name="autopopulatingPersonCompanions[1].personId" class="companionSelect form-control" id="editSecondCompanion">
-									<option value="">Select Home Teacher</option>
-									<c:forEach items="${hometeachers}" var="hometeacher">
-										<option value="${hometeacher.id}">${hometeacher.firstName}&nbsp;${hometeacher.family.familyName}</option>
+									<option value="">Select Visiting Teacher</option>
+									<c:forEach items="${teachers}" var="teacher">
+										<option value="${teacher.id}">${teacher.firstName}&nbsp;${teacher.family.familyName}&nbsp;-&nbsp;${teacher.family.familyStatus}</option>
 									</c:forEach>
 								</select>
 							</div>
-							<input type="hidden" name="id" id="editCompanionId" />
+							<input type="hidden" name="visitingTeaching" value="true" /> <input type="hidden" name="id" id="editCompanionId" />
 						</form>
 					</div>
 
@@ -202,8 +203,8 @@
 		
 		function handleSaveCompanionSuccess(data){
 			//remove perople from dropdown
-			var firstPersonId = data.hometeachers[0].id;
-			var secondPersonId = data.hometeachers[1].id;
+			var firstPersonId = data.teachers[0].id;
+			var secondPersonId = data.teachers[1].id;
 			$('.companionSelect option').each(function() {
 			    if ( $(this).val() == firstPersonId || $(this).val() == secondPersonId ) {
 			        $(this).remove();
@@ -294,14 +295,14 @@
 		function setupCompanionTable() {
 
 			$('#companionTable').dataTable({
-				'sAjaxSource' : '<spring:url value="/companion/getCompanions"/>',
+				'sAjaxSource' : '<spring:url value="/companion/getVisitingTeachingCompanions"/>',
 				'aaData' : [],
 				'aaSorting' : [ [ 0, 'asc' ] ],
 				'aoColumns' : [ {
 					'sTitle' : 'Home Teachers',
 					'sWidth' : '25%',
-					'mData' : 'hometeachers',
-					'mRender' : setupHometeachers
+					'mData' : 'teachers',
+					'mRender' : setupTeachers
 				}, {
 					'sTitle' : '# Families',
 					'sWidth' : '10%',
@@ -325,7 +326,7 @@
 			});
 		}
 
-		function setupHometeachers(data, type, full) {
+		function setupTeachers(data, type, full) {
 			var names = '';
 			for (var i = 0; i < data.length; i++) {
 				if (i != 0) {
@@ -333,7 +334,7 @@
 				}
 				names += data[i].fullName;
 			}
-			return '<a href="<spring:url value="/companion/detail/' + full.id + '"/>">' + names + '</a>';
+			return '<a href="<spring:url value="/companion/visitingTeachingDetail/' + full.id + '"/>">' + names + '</a>';
 		}
 
 		function setupAssignments(data, type, full) {
@@ -352,8 +353,8 @@
 		}
 
 		function setupActions(data, type, full) {
-			var firstPersonId = full.hometeachers[0].id;
-			var secondPersonId = full.hometeachers[1].id;
+			var firstPersonId = full.teachers[0].id;
+			var secondPersonId = full.teachers[1].id;
 			var actions = ''
 				<sec:authorize access="hasRole('admin')">
 					+'<input type="button" class="btn btn-primary editCompanions button-medium" value="Edit"'

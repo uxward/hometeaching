@@ -18,10 +18,10 @@ public interface CompanionService {
 
 	CompanionViewModel editAssignment(Companion viewModel);
 
-	List<CompanionViewModel> getViewModelAllCompanionsAndActiveFamilies();
+	List<CompanionViewModel> getViewModelAllHomeTeachingCompanionsAndActiveFamilies();
 
 	Companion findDetailedById(Long id);
-	
+
 	CompanionViewModel findDetailedCompanionViewModelById(Long id);
 
 	List<Companion> getAllCompanionsAndActiveFamilies();
@@ -29,4 +29,6 @@ public interface CompanionService {
 	Companion getCompanionAndActiveFamilies(Long companionId);
 
 	CompanionViewModel getDetailedViewModelForCompanion(Companion companion);
+
+	List<CompanionViewModel> getViewModelAllVisitingTeachingCompanionsAndActiveFamilies();
 }

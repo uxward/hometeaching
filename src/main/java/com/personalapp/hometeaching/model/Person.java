@@ -43,7 +43,10 @@ public class Person extends BaseEntity {
 	private String email;
 
 	@Column(name = "hometeacher")
-	private Boolean hometeacher;
+	private Boolean homeTeacher;
+
+	@Column(name = "visitingteacher")
+	private Boolean visitingTeacher;
 
 	@Column(name = "user")
 	private Boolean user;
@@ -122,12 +125,20 @@ public class Person extends BaseEntity {
 		this.email = email;
 	}
 
-	public Boolean getHometeacher() {
-		return hometeacher;
+	public Boolean getHomeTeacher() {
+		return homeTeacher;
 	}
 
-	public void setHometeacher(Boolean hometeacher) {
-		this.hometeacher = hometeacher;
+	public void setHomeTeacher(Boolean hometeacher) {
+		this.homeTeacher = hometeacher;
+	}
+
+	public Boolean getVisitingTeacher() {
+		return visitingTeacher;
+	}
+
+	public void setVisitingTeacher(Boolean visitingTeacher) {
+		this.visitingTeacher = visitingTeacher;
 	}
 
 	public Boolean getUser() {
@@ -158,10 +169,21 @@ public class Person extends BaseEntity {
 		this.personCompanion = personCompanion;
 	}
 
-	public PersonCompanion getActiveCompanion() {
+	public PersonCompanion getActiveHomeTeachingCompanion() {
 		PersonCompanion active = null;
 		for (PersonCompanion personCompanion : this.personCompanion) {
-			if (personCompanion.getActive()) {
+			if (personCompanion.getActive() && !personCompanion.getVisitingTeaching()) {
+				active = personCompanion;
+				break;
+			}
+		}
+		return active;
+	}
+
+	public PersonCompanion getActiveVisitingTeachingCompanion() {
+		PersonCompanion active = null;
+		for (PersonCompanion personCompanion : this.personCompanion) {
+			if (personCompanion.getActive() && personCompanion.getVisitingTeaching()) {
 				active = personCompanion;
 				break;
 			}

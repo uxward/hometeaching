@@ -98,12 +98,12 @@
 				'aoColumns' : [ {
 					'sTitle' : 'Family Name',
 					'mData' : 'familyName',
-					'sWidth' : '20%',
+					'sWidth' : '16%',
 					'mRender' : familyNameRender
 				}, {
 					'sTitle' : 'Status',
 					'mData' : 'familyStatus',
-					'sWidth' : '10%'
+					'sWidth' : '12%'
 				}, {
 					'sTitle' : 'Organization',
 					'mData' : 'organizations',
@@ -112,20 +112,25 @@
 				}, {
 					'sTitle' : 'Address',
 					'mData' : 'address',
-					'sWidth' : '20%',
+					'sWidth' : '15%',
 					'mRender' : addressRender,
 					'sClass' : 'hidden-xs'
 				}, {
 					'sTitle' : 'Phone Numbers',
 					'mData' : 'phoneNumbers',
-					'sWidth' : '20%',
+					'sWidth' : '16%',
 					'sClass' : 'hidden-xs hidden-sm',
 					'mRender' : setupPhoneNumbers
 				}, {
-					'sTitle' : 'Companions',
-					'mData' : 'companions',
-					'sWidth' : '15%',
-					'mRender' : setupCompanions
+					'sTitle' : 'Home Teachers',
+					'mData' : 'homeTeachingCompanions',
+					'sWidth' : '13%',
+					'mRender' : setupHomeTeaching
+				}, {
+					'sTitle' : 'Visiting Teachers',
+					'mData' : 'visitingTeachingCompanions',
+					'sWidth' : '13%',
+					'mRender' : setupVisitingTeaching
 				} ],
 				'oLanguage' : {
 					'sInfoEmpty' : 'No families to show',
@@ -138,10 +143,18 @@
 			return '<a href="<spring:url value="/family/detail/"/>' + full.id + '">' + getFamilyAndHeadNames(data, full.people) + '</a>';
 		}
 
-		function setupCompanions(data, type, full) {
+		function setupHomeTeaching(data, type, full) {
 			var html = '';
 			if (data != null) {
-				html = '<a href="<spring:url value="/companion/detail/"/>' + data.id + '">' + data.allHometeachers + '</a>';
+				html = '<a href="<spring:url value="/companion/homeTeachingDetail/"/>' + data.id + '">' + data.allTeachers + '</a>';
+			}
+			return html;
+		}
+
+		function setupVisitingTeaching(data, type, full) {
+			var html = '';
+			if (data != null) {
+				html = '<a href="<spring:url value="/companion/visitingTeachingDetail/"/>' + data.id + '">' + data.allTeachers + '</a>';
 			}
 			return html;
 		}

@@ -21,9 +21,11 @@ public interface FamilyService {
 
 	List<FamilyViewModel> getByCompanionId(Long companionId);
 
-	List<FamilyViewModel> getAllFamiliesWithoutCompanion();
+	List<FamilyViewModel> getAllFamiliesWithoutHomeTeachingCompanion();
 
 	List<FamilyViewModel> getAllMovedFamilies();
 
 	List<FamilyViewModel> getAllUnknownFamilies();
+
+	List<FamilyViewModel> getAllFamiliesWithoutVisitingTeachingCompanion();
 }

@@ -52,8 +52,8 @@ public class UserViewModel extends ActionViewModel {
 		this.lastLogin = user.getLastLogin();
 		this.email = user.getEmail();
 		this.enabled = user.getEnabled();
-		if (user.getPerson() != null && user.getPerson().getActiveCompanion() != null) {
-			this.companionId = user.getPerson().getActiveCompanion().getCompanionId();
+		if (user.getPerson() != null && user.getPerson().getActiveHomeTeachingCompanion() != null) {
+			this.companionId = user.getPerson().getActiveHomeTeachingCompanion().getCompanionId();
 		}
 
 		for (UserRole userRole : user.getUserRoles()) {

@@ -71,9 +71,18 @@ public class CompanionServiceImpl implements CompanionService {
 	}
 
 	@Override
-	public List<CompanionViewModel> getViewModelAllCompanionsAndActiveFamilies() {
+	public List<CompanionViewModel> getViewModelAllHomeTeachingCompanionsAndActiveFamilies() {
 		List<CompanionViewModel> companions = newArrayList();
-		for (Companion companion : repo.getAllCompanionsAndActiveFamilies()) {
+		for (Companion companion : repo.getAllHomeTeachingCompanionsAndActiveFamilies()) {
+			companions.add(new CompanionViewModel(companion, true));
+		}
+		return companions;
+	}
+
+	@Override
+	public List<CompanionViewModel> getViewModelAllVisitingTeachingCompanionsAndActiveFamilies() {
+		List<CompanionViewModel> companions = newArrayList();
+		for (Companion companion : repo.getAllVisitingTeachingCompanionsAndActiveFamilies()) {
 			companions.add(new CompanionViewModel(companion, true));
 		}
 		return companions;
@@ -81,7 +90,7 @@ public class CompanionServiceImpl implements CompanionService {
 
 	@Override
 	public List<Companion> getAllCompanionsAndActiveFamilies() {
-		return repo.getAllCompanionsAndActiveFamilies();
+		return repo.getAllHomeTeachingCompanionsAndActiveFamilies();
 	}
 
 	@Override

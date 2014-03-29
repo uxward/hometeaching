@@ -34,7 +34,9 @@ public class FamilyViewModel extends ActionViewModel {
 
 	private List<PersonViewModel> people = newArrayList();
 
-	private CompanionViewModel companions;
+	private CompanionViewModel homeTeachingCompanions;
+
+	private CompanionViewModel visitingTeachingCompanions;
 
 	public FamilyViewModel(Family family, Boolean populatePeople, Boolean populateHometeachers, Boolean populateOrganizations, ActionStatus actionStatus) {
 		setupFamilyViewModel(family, populatePeople, populateHometeachers, populateOrganizations);
@@ -78,7 +80,8 @@ public class FamilyViewModel extends ActionViewModel {
 		}
 
 		if (populateHometeachers) {
-			this.companions = new CompanionViewModel(family.getActiveAssignment().getCompanion(), false);
+			this.homeTeachingCompanions = new CompanionViewModel(family.getActiveHomeTeachingAssignment().getCompanion(), false);
+			this.visitingTeachingCompanions = new CompanionViewModel(family.getActiveVisitingTeachingAssignment().getCompanion(), false);
 		}
 	}
 
@@ -158,8 +161,25 @@ public class FamilyViewModel extends ActionViewModel {
 		return names;
 	}
 
-	public CompanionViewModel getCompanions() {
-		return companions;
+	public String getWomenHeadOfHousehold() {
+		String names = "";
+		for (PersonViewModel person : people) {
+			if (person.getHeadOfHousehold() && person.getFemale()) {
+				if (!names.equals("")) {
+					names += " and ";
+				}
+				names += person.getFirstName();
+			}
+		}
+		return names;
+	}
+
+	public CompanionViewModel getHomeTeachingCompanions() {
+		return homeTeachingCompanions;
+	}
+
+	public CompanionViewModel getVisitingTeachingCompanions() {
+		return visitingTeachingCompanions;
 	}
 
 	public void setAssignmentId(Long assignmentId) {

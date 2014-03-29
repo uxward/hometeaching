@@ -1,13 +1,11 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <spring:url var="resources" value="/resources" />
 
-<t:mainPage activeMenu="visitPercentage" pageTitle="Visit Percentage"
-	pageHeader="Visit Percentage" pageSubheader="Visualized">
+<t:mainPage activeMenu="visitPercentage" pageTitle="Visit Percentage" pageHeader="Visit Percentage" pageSubheader="Visualized">
 
 	<style>
 .axis path,.axis line {
@@ -22,21 +20,45 @@
 
 .line {
 	fill: none;
-	stroke: steelblue;
 	stroke-width: 1.5px;
+}
+
+.point {
+	stroke: red;
+	stroke-width: 30px;
+	stroke-opacity: 0;
+}
+
+.line-highpriests {
+	stroke: orange;
+}
+
+.point-highpriests{
+	fill: orange;
+}
+
+.line-eldersquorum {
+	stroke: black;
+}
+
+.point-eldersquorum{
+	fill: black;
+}
+
+.line-reliefsociety {
+	stroke: pink;
+}
+
+.point-reliefsociety{
+	fill: pink;
 }
 </style>
 
 	<div class="row">
 		<div class="alert alert-info">
-			<button type="button" class="close" data-dismiss="alert"
-				aria-hidden="true">&times;</button>
-			<strong>Welcome to the visit percentage page!</strong><br /> This
-			graph shows the home teaching visit percentage trends over past
-			several months. If you click on the data point for a particular month
-			you can see how well we did for the different family groupings -
-			active, inactive, recent convert, unknown, and do not contact. Go
-			ahead - give it a try!
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			<strong>Welcome to the visit percentage page!</strong><br /> This graph shows the home teaching visit percentage trends over past several months. If you click on the data point for a particular
+			month you can see how well we did for the different family groupings - active, inactive, recent convert, unknown, and do not contact. Go ahead - give it a try!
 		</div>
 	</div>
 
@@ -69,42 +91,21 @@
 				'Moved' : '#999',
 				'Do Not Contact' : '#333'
 			};
-		}
 
-		function getDashboard() {
-			$.ajax({
-				type : 'GET',
-				url : '<spring:url value="/dashboard/getVisitPercentage"/>',
-				success : function(data) {
-					setupD3(data);
-				}
-			});
-		}
+			var today = new Date();
+			var yearAgo = today.getFullYear() - 1;
+			var sixMonthsLater = today.getMonth() + 6;
+			var oneYearAgo = new Date(yearAgo, sixMonthsLater, today.getDay());
 
-		function setupD3(dataset) {
-			var parseDate = d3.time.format('%Y-%m').parse;
-
-			var data = dataset.map(function(d) {
-				return {
-					date : parseDate(d.formattedDate),
-					visitPercent : d.visitPercent,
-					month : d.month,
-					year : d.year,
-					totalFamilies : d.totalFamilies
-				};
-			});
-
-			x = d3.time.scale().range([ 0, width ]).domain(d3.extent(data, function(d) {
-				return d.date;
-			}));
+			x = d3.time.scale().range([ 0, width ]).domain([ oneYearAgo, today ]);
 
 			y = d3.scale.linear().range([ height, 0 ]).domain([ 0, 1 ]);
 
-			var xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(d3.time.months, 1);
+			xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(d3.time.months, 1);
 
-			var yAxis = d3.svg.axis().scale(y).orient('left').tickFormat(d3.format('.0%'));
+			yAxis = d3.svg.axis().scale(y).orient('left').tickFormat(d3.format('.0%'));
 
-			var line = d3.svg.line().interpolate('basis').x(function(d) {
+			line = d3.svg.line().interpolate('basis').x(function(d) {
 				return x(d.date);
 			}).y(function(d) {
 				return y(d.visitPercent);
@@ -113,26 +114,52 @@
 			svg.append('g').attr('class', 'x axis').attr('transform', 'translate(0,' + height + ')').call(xAxis);
 
 			svg.append('g').attr('class', 'y axis').call(yAxis);
+		}
 
-			svg.append('path').datum(data).attr('class', 'line').attr('d', line);
-
-			var points = svg.selectAll('.point').data(data).enter().append('svg:circle').attr('cx', function(d, i) {
-				return x(d.date);
-			}).attr('cy', function(d, i) {
-				return y(d.visitPercent);
-			}).attr('r', function(d, i) {
-				return 5;
-			}).attr('fill', function(d, i) {
-				return d.visitPercent < .33 ? 'steelblue' : d.visitPercent < .66 ? 'steelblue' : 'steelblue';
-			}).attr('stroke', function(d, i) {
-				return 'red';
-			}).attr('stroke-width', function(d, i) {
-				return 30;
-			}).attr('stroke-opacity', function(d, i) {
-				return 0;
-			}).on('click', function(d) {
-				getDetails(d);
+		function getDashboard() {
+			$.ajax({
+				type : 'GET',
+				url : '<spring:url value="/dashboard/getVisitPercentage"/>',
+				success : function(data) {
+					for (var i = 0; i < data.length; i++) {
+						setupD3(data[i].visits);
+					}
+				}
 			});
+		}
+
+		function setupD3(dataset) {
+			if (dataset.length > 0) {
+				var parseDate = d3.time.format('%Y-%m').parse;
+
+				var data = dataset.map(function(d) {
+					return {
+						date : parseDate(d.formattedDate),
+						visitPercent : d.visitPercent,
+						month : d.month,
+						year : d.year,
+						totalFamilies : d.totalFamilies,
+						organization : d.organization
+					};
+				});
+
+				var organization = dataset[0].organization.organization.replace(' ', '');
+				svg.append('path').datum(data).attr('class', 'line line-' + organization.toLowerCase()).attr('d', line);
+
+				var points = svg.selectAll('.point-').data(data).enter().append('svg:circle').attr('class', 'point point-' + organization.toLowerCase()).attr('cx', function(d, i) {
+					return x(d.date);
+				}).attr('cy', function(d, i) {
+					return y(d.visitPercent);
+				}).attr('r', function(d, i) {
+					return 5;
+				})
+// 				.attr('fill', function(d, i) {
+// 					return d.visitPercent < .33 ? 'steelblue' : d.visitPercent < .66 ? 'steelblue' : 'steelblue';
+// 				})
+				.on('click', function(d) {
+					getDetails(d);
+				});
+			}
 		}
 
 		function getDetails(d) {
@@ -141,7 +168,8 @@
 				url : '<spring:url value="/dashboard/getVisitPercentageDetails"/>',
 				data : {
 					'month' : d.month,
-					'year' : d.year
+					'year' : d.year,
+					'organizationId' : d.organization.id
 				},
 				success : function(data) {
 					setupDetails(d, data);

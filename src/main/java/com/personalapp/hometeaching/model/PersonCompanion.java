@@ -29,6 +29,9 @@ public class PersonCompanion extends BaseEntity {
 	@Column(name = "active")
 	private Boolean active;
 
+	@Column(name = "visitingteaching")
+	private Boolean visitingTeaching;
+
 	@OneToOne(fetch = LAZY)
 	@JoinColumn(name = "personid", insertable = false, updatable = false)
 	private Person person;
@@ -67,6 +70,14 @@ public class PersonCompanion extends BaseEntity {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public Boolean getVisitingTeaching() {
+		return visitingTeaching;
+	}
+
+	public void setVisitingTeaching(Boolean visitingTeaching) {
+		this.visitingTeaching = visitingTeaching;
 	}
 
 	public Person getPerson() {

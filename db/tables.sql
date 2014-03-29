@@ -28,6 +28,7 @@ create table person(
 	,phonenumber varchar(20)
 	,email varchar(50)
 	,hometeacher bit
+	,visitingteacher bit
 	,user bit
 	,created datetime
 	,updated datetime
@@ -41,6 +42,7 @@ create table person(
 create table companion(
 	id int auto_increment primary key
 	,active bit
+	,visitingteaching bit
 	,created datetime
 	,updated datetime
 );
@@ -52,6 +54,7 @@ create table personcompanion(
 	,personid int
 	,companionid int
 	,active bit
+	,visitingteaching bit
 	,created datetime
 	,updated datetime
 	,foreign key (personid) 
@@ -69,6 +72,7 @@ create table assignment(
 	,companionid int
 	,familyid int
 	,active bit
+	,visitingteaching bit
 	,created datetime
 	,updated datetime
 	,foreign key (companionid) 
@@ -90,12 +94,14 @@ create table visit (
 	,month int
 	,year int
 	,visitdate datetime
+	,visitingteaching bit
+	,organizationid int
 	,created datetime
 	,updated datetime
 	,foreign key (assignmentid) 
         references assignment(id)
         on delete cascade
-    unique (assignmentid, month, year)
+    unique (assignmentid, month, year, visitingteaching)
 );
 
 ##Users

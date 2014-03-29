@@ -20,7 +20,7 @@ public class AssignmentRepositoryImpl extends RepositoryImpl<Assignment, Long>
 			Long familyId) {
 		logger.info("Entering the find by companion id and family id method");
 		JPAQuery query = jpaFrom(assignment);
-		query.where(assignment.active.eq(true))
+		query.where(assignment.active.isTrue())
 				.where(assignment.companionId.eq(companionId))
 				.where(assignment.familyId.eq(familyId));
 		return query.singleResult(assignment);

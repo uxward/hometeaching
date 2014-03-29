@@ -32,16 +32,23 @@ public class CompanionRepositoryImpl extends RepositoryImpl<Companion, Long> imp
 	}
 
 	@Override
-	public List<Companion> getAllCompanionsAndActiveFamilies() {
+	public List<Companion> getAllHomeTeachingCompanionsAndActiveFamilies() {
 		JPAQuery query = getCompanionDetailQuery();
-		query.where(companion.active.eq(true));
+		query.where(companion.active.eq(true), companion.visitingTeaching.isFalse());
+		return query.list(companion);
+	}
+
+	@Override
+	public List<Companion> getAllVisitingTeachingCompanionsAndActiveFamilies() {
+		JPAQuery query = getCompanionDetailQuery();
+		query.where(companion.active.eq(true), companion.visitingTeaching.isTrue());
 		return query.list(companion);
 	}
 
 	@Override
 	public Companion getCompanionAndActiveFamilies(Long companionId) {
 		JPAQuery query = getCompanionDetailQuery();
-		query.where(companion.active.eq(true));
+		query.where(companion.active.isTrue());
 		query.where(companion.id.eq(companionId));
 		return query.singleResult(companion);
 	}

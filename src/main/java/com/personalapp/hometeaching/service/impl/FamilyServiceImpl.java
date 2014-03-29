@@ -93,9 +93,18 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
-	public List<FamilyViewModel> getAllFamiliesWithoutCompanion() {
+	public List<FamilyViewModel> getAllFamiliesWithoutHomeTeachingCompanion() {
 		List<FamilyViewModel> families = newArrayList();
-		for (Family family : repo.getAllFamiliesWithoutCompanion()) {
+		for (Family family : repo.getAllFamiliesWithoutHomeTeachingCompanion()) {
+			families.add(new FamilyViewModel(family, true, false, true));
+		}
+		return families;
+	}
+
+	@Override
+	public List<FamilyViewModel> getAllFamiliesWithoutVisitingTeachingCompanion() {
+		List<FamilyViewModel> families = newArrayList();
+		for (Family family : repo.getAllFamiliesWithoutVisitingTeachingCompanion()) {
 			families.add(new FamilyViewModel(family, true, false, true));
 		}
 		return families;

@@ -29,6 +29,9 @@ public class Companion extends BaseEntity {
 	@Column(name = "active")
 	private Boolean active;
 
+	@Column(name = "visitingteaching")
+	private Boolean visitingTeaching;
+
 	@OneToMany(fetch = LAZY, mappedBy = "companion", cascade = ALL)
 	private Set<PersonCompanion> companions = newHashSet();
 
@@ -55,6 +58,14 @@ public class Companion extends BaseEntity {
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public Boolean getVisitingTeaching() {
+		return visitingTeaching;
+	}
+
+	public void setVisitingTeaching(Boolean visitingTeaching) {
+		this.visitingTeaching = visitingTeaching;
 	}
 
 	public Set<PersonCompanion> getCompanions() {

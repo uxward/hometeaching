@@ -20,6 +20,24 @@ public class PersonServiceImpl implements PersonService {
 	private PersonRepository repo;
 
 	@Override
+	public List<PersonViewModel> getAllNotMovedNotAssignedHomeTeachers() {
+		List<PersonViewModel> hometeachers = newArrayList();
+		for (Person person : repo.getAllNotMovedNotAssignedHomeTeachers()) {
+			hometeachers.add(new PersonViewModel(person, true, true));
+		}
+		return hometeachers;
+	}
+
+	@Override
+	public List<PersonViewModel> getAllNotMovedNotAssignedVisitingTeachers() {
+		List<PersonViewModel> hometeachers = newArrayList();
+		for (Person person : repo.getAllNotMovedNotAssignedVisitingTeachers()) {
+			hometeachers.add(new PersonViewModel(person, true, true));
+		}
+		return hometeachers;
+	}
+
+	@Override
 	public PersonViewModel findDetailedById(Long id) {
 		return new PersonViewModel(repo.findDetailedById(id), true, false);
 	}
@@ -56,21 +74,16 @@ public class PersonServiceImpl implements PersonService {
 			person.setHeadOfHousehold(false);
 		}
 
-		if (person.getHometeacher() == null) {
-			person.setHometeacher(false);
+		if (person.getHomeTeacher() == null) {
+			person.setHomeTeacher(false);
+		}
+
+		if (person.getVisitingTeacher() == null) {
+			person.setVisitingTeacher(false);
 		}
 
 		if (person.getUser() == null) {
 			person.setUser(false);
 		}
-	}
-
-	@Override
-	public List<PersonViewModel> getAllNotMovedNotAssignedHometeachers() {
-		List<PersonViewModel> hometeachers = newArrayList();
-		for (Person person : repo.getAllNotMovedNotAssignedHometeachers()) {
-			hometeachers.add(new PersonViewModel(person, true, true));
-		}
-		return hometeachers;
 	}
 }
