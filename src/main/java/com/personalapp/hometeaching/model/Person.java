@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.google.common.collect.Lists;
+
 @Entity
 @Table(name = "person")
 public class Person extends BaseEntity {
@@ -169,23 +171,21 @@ public class Person extends BaseEntity {
 		this.personCompanion = personCompanion;
 	}
 
-	public PersonCompanion getActiveHomeTeachingCompanion() {
-		PersonCompanion active = null;
+	public List<PersonCompanion> getActiveHomeTeachingCompanion() {
+		List<PersonCompanion> active = newArrayList();
 		for (PersonCompanion personCompanion : this.personCompanion) {
 			if (personCompanion.getActive() && !personCompanion.getVisitingTeaching()) {
-				active = personCompanion;
-				break;
+				active.add(personCompanion);
 			}
 		}
 		return active;
 	}
 
-	public PersonCompanion getActiveVisitingTeachingCompanion() {
-		PersonCompanion active = null;
+	public List<PersonCompanion> getActiveVisitingTeachingCompanion() {
+		List<PersonCompanion> active = newArrayList();
 		for (PersonCompanion personCompanion : this.personCompanion) {
 			if (personCompanion.getActive() && personCompanion.getVisitingTeaching()) {
-				active = personCompanion;
-				break;
+				active.add(personCompanion);
 			}
 		}
 		return active;

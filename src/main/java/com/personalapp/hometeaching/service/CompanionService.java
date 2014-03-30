@@ -3,6 +3,7 @@ package com.personalapp.hometeaching.service;
 import java.util.List;
 
 import com.personalapp.hometeaching.model.Companion;
+import com.personalapp.hometeaching.security.HometeachingUserDetails;
 import com.personalapp.hometeaching.view.ActionViewModel;
 import com.personalapp.hometeaching.view.CompanionViewModel;
 import com.personalapp.hometeaching.view.FamilyViewModel;

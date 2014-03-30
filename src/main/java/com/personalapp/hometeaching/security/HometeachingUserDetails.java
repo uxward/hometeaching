@@ -1,5 +1,7 @@
 package com.personalapp.hometeaching.security;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.model.Family;
 import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.model.Person;
+import com.personalapp.hometeaching.model.PersonCompanion;
 import com.personalapp.hometeaching.model.UserRole;
 
 @SuppressWarnings("serial")
@@ -43,12 +46,24 @@ public class HometeachingUserDetails implements UserDetails {
 		return hometeachingUser.getPerson().getFamily();
 	}
 
-	public Companion getActiveHomeTeachingCompanion() {
-		return hometeachingUser.getPerson().getActiveHomeTeachingCompanion() != null ? hometeachingUser.getPerson().getActiveHomeTeachingCompanion().getCompanion() : null;
+	public List<Companion> getActiveHomeTeachingCompanions() {
+		List<Companion> active = newArrayList();
+		for (PersonCompanion personCompanion : hometeachingUser.getPerson().getActiveVisitingTeachingCompanion()) {
+			if (personCompanion.getActive() && !personCompanion.getVisitingTeaching()) {
+				active.add(personCompanion.getCompanion());
+			}
+		}
+		return active;
 	}
 
-	public Companion getActiveVisitingTeachingCompanion() {
-		return hometeachingUser.getPerson().getActiveVisitingTeachingCompanion() != null ? hometeachingUser.getPerson().getActiveVisitingTeachingCompanion().getCompanion() : null;
+	public List<Companion> getActiveVisitingTeachingCompanions() {
+		List<Companion> active = newArrayList();
+		for (PersonCompanion personCompanion : hometeachingUser.getPerson().getActiveVisitingTeachingCompanion()) {
+			if (personCompanion.getActive() && personCompanion.getVisitingTeaching()) {
+				active.add(personCompanion.getCompanion());
+			}
+		}
+		return active;
 	}
 
 	public Long getId() {

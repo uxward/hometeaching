@@ -13,11 +13,13 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
 import com.personalapp.hometeaching.model.ActionStatus;
 import com.personalapp.hometeaching.model.Assignment;
 import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.repository.CompanionRepository;
 import com.personalapp.hometeaching.repository.FamilyRepository;
+import com.personalapp.hometeaching.security.HometeachingUserDetails;
 import com.personalapp.hometeaching.service.CompanionService;
 import com.personalapp.hometeaching.view.ActionViewModel;
 import com.personalapp.hometeaching.view.CompanionViewModel;
@@ -101,6 +103,7 @@ public class CompanionServiceImpl implements CompanionService {
 	@Override
 	public Companion findDetailedById(Long id) {
 		Companion companion = repo.findDetailedById(id);
+		// only display active assignments
 		Set<Assignment> activeAssignments = newHashSet();
 		for (Assignment assignment : companion.getAssignments()) {
 			if (assignment.getActive()) {

@@ -5,6 +5,8 @@ import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser
 import static com.personalapp.hometeaching.security.SecurityUtils.hasCompanionAccess;
 import static org.slf4j.LoggerFactory.getLogger;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -67,8 +69,10 @@ public class CompanionController {
 	public ModelAndView viewYourHomeTeaching() {
 		logger.info("User {} is viewing their home teaching information.", getCurrentUser().getUsername());
 		ModelAndView view;
-		if (getCurrentUser().getActiveHomeTeachingCompanion() != null) {
-			view = getDetailHomeTeachingModelAndView(service.findDetailedById(getCurrentUser().getActiveHomeTeachingCompanion().getId()));
+		if (getCurrentUser().getActiveHomeTeachingCompanions().size() == 1) {
+			view = getDetailHomeTeachingModelAndView(service.findDetailedById(getCurrentUser().getActiveHomeTeachingCompanions().get(0).getId()));
+		} else if (getCurrentUser().getActiveHomeTeachingCompanions().size() > 1) {
+			view = getLandingHomeTeachingModelAndView(getCurrentUser().getActiveHomeTeachingCompanions());
 		} else {
 			view = new ModelAndView("companion/notAssigned");
 		}
@@ -80,8 +84,10 @@ public class CompanionController {
 	public ModelAndView viewYourVisitingTeaching() {
 		logger.info("User {} is viewing their visiting teaching information.", getCurrentUser().getUsername());
 		ModelAndView view;
-		if (getCurrentUser().getActiveVisitingTeachingCompanion() != null) {
-			view = getDetailVisitingTeachingModelAndView(service.findDetailedById(getCurrentUser().getActiveVisitingTeachingCompanion().getId()));
+		if (getCurrentUser().getActiveVisitingTeachingCompanions().size() == 1) {
+			view = getDetailVisitingTeachingModelAndView(service.findDetailedById(getCurrentUser().getActiveVisitingTeachingCompanions().get(0).getId()));
+		} else if (getCurrentUser().getActiveVisitingTeachingCompanions().size() == 1) {
+			view = getLandingVisitingTeachingModelAndView(getCurrentUser().getActiveVisitingTeachingCompanions());
 		} else {
 			view = new ModelAndView("companion/notAssigned");
 		}
@@ -165,6 +171,18 @@ public class CompanionController {
 		view.addObject("companion", service.getDetailedViewModelForCompanion(companion));
 		view.addObject("families", familyService.getAllFamiliesWithoutVisitingTeachingCompanion());
 		view.addObject("canAction", canActionCompanion(companion));
+		return view;
+	}
+
+	private ModelAndView getLandingVisitingTeachingModelAndView(List<Companion> companions) {
+		ModelAndView view = new ModelAndView("companion/homeTeachingLanding");
+		view.addObject("companions", service.getDetailedViewModelForCompanions(companions));
+		return view;
+	}
+
+	private ModelAndView getLandingHomeTeachingModelAndView(List<Companion> companions) {
+		ModelAndView view = new ModelAndView("companion/homeTeachingLanding");
+		view.addObject("companion", service.getDetailedViewModelForCompanions(companions));
 		return view;
 	}
 }
