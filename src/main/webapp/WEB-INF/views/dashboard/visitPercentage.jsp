@@ -33,7 +33,7 @@
 	stroke: orange;
 }
 
-.point-highpriests{
+.point-highpriests {
 	fill: orange;
 }
 
@@ -41,7 +41,7 @@
 	stroke: black;
 }
 
-.point-eldersquorum{
+.point-eldersquorum {
 	fill: black;
 }
 
@@ -49,7 +49,7 @@
 	stroke: pink;
 }
 
-.point-reliefsociety{
+.point-reliefsociety {
 	fill: pink;
 }
 </style>
@@ -152,11 +152,7 @@
 					return y(d.visitPercent);
 				}).attr('r', function(d, i) {
 					return 5;
-				})
-// 				.attr('fill', function(d, i) {
-// 					return d.visitPercent < .33 ? 'steelblue' : d.visitPercent < .66 ? 'steelblue' : 'steelblue';
-// 				})
-				.on('click', function(d) {
+				}).on('click', function(d) {
 					getDetails(d);
 				});
 			}
@@ -195,13 +191,11 @@
 
 			console.log(d3data);
 
-			var wrappers = svg.selectAll('.point').data(data).enter().append('g').attr('class', 'wrapper');
+			var wrappers = svg.selectAll('.detail-point').data(data).enter().append('g').attr('class', 'wrapper');
 
 			wrappers.append('circle').attr('cx', function(d) {
-				//return x(d.date);
 				return x(d3data.date);
 			}).attr('cy', function(d) {
-				// 				return y(d.percent);
 				return y(d3data.visitPercent);
 			}).attr('fill', function(d, i) {
 				return color[d.status];
