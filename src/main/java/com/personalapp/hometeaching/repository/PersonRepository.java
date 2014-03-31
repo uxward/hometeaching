@@ -7,11 +7,11 @@ import com.personalapp.hometeaching.model.Person;
 public interface PersonRepository extends Repository<Person, Long> {
 	Person findDetailedById(Long id);
 
-	List<Person> getAllNotMovedNotAssignedHomeTeachers();
+	List<Person> getAllNotMovedHomeTeachers();
 
 	List<Person> getNotCreatedUsers();
 
 	List<Person> getByFamilyId(Long id);
 
-	List<Person> getAllNotMovedNotAssignedVisitingTeachers();
+	List<Person> getAllNotMovedVisitingTeachers();
 }

@@ -16,8 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.google.common.collect.Lists;
-
 @Entity
 @Table(name = "person")
 public class Person extends BaseEntity {

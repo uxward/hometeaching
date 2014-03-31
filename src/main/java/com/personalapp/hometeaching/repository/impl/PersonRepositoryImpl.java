@@ -1,6 +1,7 @@
 package com.personalapp.hometeaching.repository.impl;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.personalapp.hometeaching.model.QCompanion.companion;
 import static com.personalapp.hometeaching.model.QFamily.family;
 import static com.personalapp.hometeaching.model.QHometeachingUser.hometeachingUser;
 import static com.personalapp.hometeaching.model.QPerson.person;
@@ -40,17 +41,19 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 	}
 
 	@Override
-	public List<Person> getAllNotMovedNotAssignedHomeTeachers() {
+	public List<Person> getAllNotMovedHomeTeachers() {
 		logger.info("entering the get all unassigned hometeachers method");
 		JPAQuery query = getPersonNotMovedQuery();
 		query.where(person.organizationId.in(getCurrentUserOrganizationIds()));
-		query.where(person.homeTeacher.isTrue(), getHomeTeachersSubQuery().notExists());
+		query.where(person.homeTeacher.isTrue());
+		// query.where(person.homeTeacher.isTrue(),
+		// getHomeTeachersSubQuery().notExists());
 		query.orderBy(person.firstName.asc(), family.familyName.asc());
 		return query.list(person);
 	}
 
 	@Override
-	public List<Person> getAllNotMovedNotAssignedVisitingTeachers() {
+	public List<Person> getAllNotMovedVisitingTeachers() {
 		logger.info("entering the get all unassigned visiting teachers method");
 		JPAQuery query = getPersonNotMovedQuery();
 		query.where(person.organizationId.in(getCurrentUserOrganizationIds()));
@@ -81,6 +84,7 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 		query.leftJoin(person.family, family).fetch();
 		query.leftJoin(family.familyOrganizations).fetch();
 		query.leftJoin(person.personCompanion, personCompanion).fetch();
+		query.leftJoin(personCompanion.companion, companion).fetch();
 		query.distinct();
 		return query;
 	}

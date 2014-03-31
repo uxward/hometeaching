@@ -22,7 +22,6 @@
 <spring:url var="dashboard" value="/dashboard" />
 
 <t:mainPage activeMenu="homeTeachingDetail" pageTitle="Home Teaching Detail" pageHeader="${companionship}" pageSubheader="Home Teaching">
-	${organizationId }
 	<div class="row">
 		<div class="alert alert-info">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

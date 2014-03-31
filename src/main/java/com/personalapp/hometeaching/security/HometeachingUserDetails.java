@@ -48,7 +48,7 @@ public class HometeachingUserDetails implements UserDetails {
 
 	public List<Companion> getActiveHomeTeachingCompanions() {
 		List<Companion> active = newArrayList();
-		for (PersonCompanion personCompanion : hometeachingUser.getPerson().getActiveVisitingTeachingCompanion()) {
+		for (PersonCompanion personCompanion : hometeachingUser.getPerson().getActiveHomeTeachingCompanion()) {
 			if (personCompanion.getActive() && !personCompanion.getVisitingTeaching()) {
 				active.add(personCompanion.getCompanion());
 			}

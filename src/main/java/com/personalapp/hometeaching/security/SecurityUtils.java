@@ -89,7 +89,7 @@ public class SecurityUtils {
 	}
 
 	public static boolean hasCompanionAccess(Companion companion) {
-		return currentUserIsCouncil() || (getCurrentUser().getActiveHomeTeachingCompanions() != null && companion.getId().equals(getCurrentUser().getActiveHomeTeachingCompanions().getId()));
+		return currentUserIsCouncil() || currentUserIsInCompanion(companion);
 	}
 
 	public static List<Long> getAllOrganizationIds() {
@@ -127,12 +127,14 @@ public class SecurityUtils {
 	}
 
 	public static boolean canActionCompanion(Companion companion) {
-		return currentUserIsCompanion(companion) || currentUserIsAdmin() || currentUserIsLeader() && companionInCurrentUserOrganizations(companion);
+		return currentUserIsInCompanion(companion) || currentUserIsAdmin() || currentUserIsLeader() && companionInCurrentUserOrganizations(companion);
 	}
 
-	private static boolean currentUserIsCompanion(Companion companion) {
-		return companion != null && getCurrentUser().getActiveHomeTeachingCompanions() != null && companion.getId().equals(getCurrentUser().getActiveHomeTeachingCompanions().getId());
-	}
+	// private static boolean currentUserIsCompanion(Companion companion) {
+	// return companion != null &&
+	// getCurrentUser().getActiveHomeTeachingCompanions() != null &&
+	// companion.getId().equals(getCurrentUser().getActiveHomeTeachingCompanions().getId());
+	// }
 
 	private static boolean companionInCurrentUserOrganizations(Companion companion) {
 		List<Long> organizationIds = newArrayList();
@@ -142,6 +144,17 @@ public class SecurityUtils {
 			}
 		}
 		return containsAny(organizationIds, getCurrentUserOrganizationIds());
+	}
+
+	private static boolean currentUserIsInCompanion(Companion companion) {
+		List<Companion> companions = getCurrentUser().getActiveHomeTeachingCompanions();
+		companions.addAll(getCurrentUser().getActiveVisitingTeachingCompanions());
+		for (Companion currentUserCompanion : companions) {
+			if (Objects.equal(currentUserCompanion.getId(), companion.getId())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private static boolean familyIsMovedOrUnknown(Family family) {

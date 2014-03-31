@@ -1,6 +1,5 @@
 package com.personalapp.hometeaching.security;
 
-import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.Date;

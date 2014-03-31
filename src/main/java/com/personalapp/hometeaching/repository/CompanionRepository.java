@@ -14,4 +14,8 @@ public interface CompanionRepository extends Repository<Companion, Long> {
 
 	List<Companion> getAllVisitingTeachingCompanionsAndActiveFamilies();
 
+	List<Companion> findAllDetailedHomeTeachingByPerson(Long personId);
+
+	List<Companion> findAllDetailedVisitingTeachingByPerson(Long personId);
+
 }

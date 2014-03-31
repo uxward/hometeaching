@@ -33,7 +33,7 @@ public class PersonController {
 	@RequestMapping(value = "/get")
 	@ResponseBody
 	public PersonViewModel getPerson(@RequestParam("personId") Long id) {
-		return personService.findDetailedById(id);
+		return personService.findDetailedViewModelById(id);
 	}
 
 	@RequestMapping(value = "/getByFamily/{id}")

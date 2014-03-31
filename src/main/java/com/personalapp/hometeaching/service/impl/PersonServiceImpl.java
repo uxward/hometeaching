@@ -20,26 +20,31 @@ public class PersonServiceImpl implements PersonService {
 	private PersonRepository repo;
 
 	@Override
-	public List<PersonViewModel> getAllNotMovedNotAssignedHomeTeachers() {
+	public List<PersonViewModel> getAllNotMovedHomeTeachers() {
 		List<PersonViewModel> hometeachers = newArrayList();
-		for (Person person : repo.getAllNotMovedNotAssignedHomeTeachers()) {
+		for (Person person : repo.getAllNotMovedHomeTeachers()) {
 			hometeachers.add(new PersonViewModel(person, true, true));
 		}
 		return hometeachers;
 	}
 
 	@Override
-	public List<PersonViewModel> getAllNotMovedNotAssignedVisitingTeachers() {
+	public List<PersonViewModel> getAllNotMovedVisitingTeachers() {
 		List<PersonViewModel> hometeachers = newArrayList();
-		for (Person person : repo.getAllNotMovedNotAssignedVisitingTeachers()) {
+		for (Person person : repo.getAllNotMovedVisitingTeachers()) {
 			hometeachers.add(new PersonViewModel(person, true, true));
 		}
 		return hometeachers;
 	}
 
 	@Override
-	public PersonViewModel findDetailedById(Long id) {
-		return new PersonViewModel(repo.findDetailedById(id), true, false);
+	public Person findDetailedById(Long id) {
+		return repo.findDetailedById(id);
+	}
+
+	@Override
+	public PersonViewModel findDetailedViewModelById(Long id) {
+		return new PersonViewModel(findDetailedById(id), true, false);
 	}
 
 	@Override
@@ -63,6 +68,11 @@ public class PersonServiceImpl implements PersonService {
 		setNullAsFalse(person);
 		person.setCreated(new Date());
 		repo.save(person);
+	}
+
+	@Override
+	public PersonViewModel getViewModel(Person person) {
+		return new PersonViewModel(person, true, false);
 	}
 
 	private void setNullAsFalse(Person person) {

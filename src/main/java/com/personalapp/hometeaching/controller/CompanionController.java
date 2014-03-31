@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.personalapp.hometeaching.model.Companion;
+import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.service.CompanionService;
 import com.personalapp.hometeaching.service.FamilyService;
 import com.personalapp.hometeaching.service.PersonService;
@@ -42,14 +43,14 @@ public class CompanionController {
 	@RequestMapping("allHomeTeachers")
 	public ModelAndView viewAllHomeTeachers() {
 		ModelAndView view = new ModelAndView("companion/homeTeachers");
-		view.addObject("teachers", personService.getAllNotMovedNotAssignedHomeTeachers());
+		view.addObject("teachers", personService.getAllNotMovedHomeTeachers());
 		return view;
 	}
 
 	@RequestMapping("allVisitingTeachers")
 	public ModelAndView viewAllVisitingTeachers() {
 		ModelAndView view = new ModelAndView("companion/visitingTeachers");
-		view.addObject("teachers", personService.getAllNotMovedNotAssignedVisitingTeachers());
+		view.addObject("teachers", personService.getAllNotMovedVisitingTeachers());
 		return view;
 	}
 
@@ -69,10 +70,11 @@ public class CompanionController {
 	public ModelAndView viewYourHomeTeaching() {
 		logger.info("User {} is viewing their home teaching information.", getCurrentUser().getUsername());
 		ModelAndView view;
-		if (getCurrentUser().getActiveHomeTeachingCompanions().size() == 1) {
-			view = getDetailHomeTeachingModelAndView(service.findDetailedById(getCurrentUser().getActiveHomeTeachingCompanions().get(0).getId()));
-		} else if (getCurrentUser().getActiveHomeTeachingCompanions().size() > 1) {
-			view = getLandingHomeTeachingModelAndView(getCurrentUser().getActiveHomeTeachingCompanions());
+		List<Companion> companions = getCurrentUser().getActiveHomeTeachingCompanions();
+		if (companions.size() == 1) {
+			view = getDetailHomeTeachingModelAndView(service.findDetailedById(companions.get(0).getId()));
+		} else if (companions.size() > 1) {
+			view = getLandingHomeTeachingModelAndView(getCurrentUser().getHometeachingUser(), companions);
 		} else {
 			view = new ModelAndView("companion/notAssigned");
 		}
@@ -84,10 +86,11 @@ public class CompanionController {
 	public ModelAndView viewYourVisitingTeaching() {
 		logger.info("User {} is viewing their visiting teaching information.", getCurrentUser().getUsername());
 		ModelAndView view;
-		if (getCurrentUser().getActiveVisitingTeachingCompanions().size() == 1) {
-			view = getDetailVisitingTeachingModelAndView(service.findDetailedById(getCurrentUser().getActiveVisitingTeachingCompanions().get(0).getId()));
-		} else if (getCurrentUser().getActiveVisitingTeachingCompanions().size() == 1) {
-			view = getLandingVisitingTeachingModelAndView(getCurrentUser().getActiveVisitingTeachingCompanions());
+		List<Companion> companions = getCurrentUser().getActiveVisitingTeachingCompanions();
+		if (companions.size() == 1) {
+			view = getDetailVisitingTeachingModelAndView(service.findDetailedById(companions.get(0).getId()));
+		} else if (companions.size() > 1) {
+			view = getLandingVisitingTeachingModelAndView(getCurrentUser().getHometeachingUser(), companions);
 		} else {
 			view = new ModelAndView("companion/notAssigned");
 		}
@@ -99,6 +102,7 @@ public class CompanionController {
 	public ModelAndView homeTeachingDetail(@PathVariable Long id) {
 		logger.info("User {} is viewing the companion information of companion with id {}.", getCurrentUser().getUsername(), id);
 		ModelAndView view;
+
 		Companion companion = service.findDetailedById(id);
 		if (hasCompanionAccess(companion)) {
 			view = getDetailHomeTeachingModelAndView(companion);
@@ -112,6 +116,7 @@ public class CompanionController {
 	public ModelAndView visitingTeachingDetail(@PathVariable Long id) {
 		logger.info("User {} is viewing the companion information of companion with id {}.", getCurrentUser().getUsername(), id);
 		ModelAndView view;
+
 		Companion companion = service.findDetailedById(id);
 		if (hasCompanionAccess(companion)) {
 			view = getDetailVisitingTeachingModelAndView(companion);
@@ -124,8 +129,19 @@ public class CompanionController {
 	@RequestMapping(value = "getAssignments")
 	@ResponseBody
 	public DatatableResponse<FamilyViewModel> getAssignments(@RequestParam("companionId") Long companionId) {
-
 		return new DatatableResponse<FamilyViewModel>(familyService.getByCompanionId(companionId));
+	}
+
+	@RequestMapping(value = "getAllHomeTeachingCompanions")
+	@ResponseBody
+	public DatatableResponse<CompanionViewModel> getAllHomeTeachingCompanions(@RequestParam("personId") Long personId) {
+		return new DatatableResponse<CompanionViewModel>(service.getDetailedHomeTeachingViewModelsByPersonId(personId));
+	}
+
+	@RequestMapping(value = "getAllVisitingTeachingCompanions")
+	@ResponseBody
+	public DatatableResponse<CompanionViewModel> getAllVisitingTeachingCompanions(@RequestParam("personId") Long personId) {
+		return new DatatableResponse<CompanionViewModel>(service.getDetailedVisitingTeachingViewModelsByPersonId(personId));
 	}
 
 	@RequestMapping("/save")
@@ -174,15 +190,15 @@ public class CompanionController {
 		return view;
 	}
 
-	private ModelAndView getLandingVisitingTeachingModelAndView(List<Companion> companions) {
-		ModelAndView view = new ModelAndView("companion/homeTeachingLanding");
-		view.addObject("companions", service.getDetailedViewModelForCompanions(companions));
+	private ModelAndView getLandingVisitingTeachingModelAndView(HometeachingUser user, List<Companion> companions) {
+		ModelAndView view = new ModelAndView("companion/visitingTeachingLanding");
+		view.addObject("person", personService.findDetailedViewModelById(user.getPerson().getId()));
 		return view;
 	}
 
-	private ModelAndView getLandingHomeTeachingModelAndView(List<Companion> companions) {
+	private ModelAndView getLandingHomeTeachingModelAndView(HometeachingUser user, List<Companion> companions) {
 		ModelAndView view = new ModelAndView("companion/homeTeachingLanding");
-		view.addObject("companion", service.getDetailedViewModelForCompanions(companions));
+		view.addObject("person", personService.findDetailedViewModelById(user.getPerson().getId()));
 		return view;
 	}
 }

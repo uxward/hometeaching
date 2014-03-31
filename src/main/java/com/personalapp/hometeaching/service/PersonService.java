@@ -11,11 +11,15 @@ public interface PersonService {
 
 	void save(Person person);
 
-	PersonViewModel findDetailedById(Long id);
+	PersonViewModel findDetailedViewModelById(Long id);
+
+	Person findDetailedById(Long id);
 
 	List<PersonViewModel> getByFamilyId(Long id);
 
-	List<PersonViewModel> getAllNotMovedNotAssignedHomeTeachers();
+	List<PersonViewModel> getAllNotMovedHomeTeachers();
 
-	List<PersonViewModel> getAllNotMovedNotAssignedVisitingTeachers();
+	List<PersonViewModel> getAllNotMovedVisitingTeachers();
+
+	PersonViewModel getViewModel(Person person);
 }

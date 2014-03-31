@@ -12,7 +12,7 @@
 
 	<!--  Family Assignment Table
 	---------------------------------------------------->
-	<table id="assignmentTable" class="table table-striped table-hover table-bordered" data-person-id="${person.id}" width="100%">
+	<table id="assignmentTable" class="table table-striped table-hover table-bordered" data-companion-id="${companion.id}" width="100%">
 	</table>
 
 
@@ -21,7 +21,7 @@
 
 			setupEventBinding();
 
-			setupAssignmentTable();
+// 			setupAssignmentTable();
 		});
 
 		function setupEventBinding() {
@@ -32,11 +32,12 @@
 					.dataTable(
 							{
 								'sDom' : 't',
-								'sAjaxSource' : '<spring:url value="/companion/getAllHomeTeachingCompanions/"/>?personId=' + $('#assignmentTable').data('personId'),
+								'sAjaxSource' : '<spring:url value="/companion/getAssignments/"/>?companionId=' + $('#assignmentTable').data('companionId'),
 								'aaData' : [],
 								'aoColumns' : [{
 									'sTitle' : 'Family',
-									'mData' : 'familyName'
+									'mData' : 'familyName',
+									'mRender' : setupFamilyName
 								}, {
 									'sTitle' : 'Status',
 									'sClass' : 'hidden-xs hidden-sm',
@@ -44,17 +45,21 @@
 								}, {
 									'sTitle' : 'Children',
 									'mData' : 'people'
+									,'mRender' : getChildrenNames
 								}, {
 									'sTitle' : 'Address',
-									'mData' : 'address'
+									'mData' : 'address',
+									'mRender' : addressRender
 								}, {
 									'sTitle' : 'Phone Numbers',
-									'mData' : 'phoneNumbers'
+									'mData' : 'phoneNumbers',
+									'mRender' : setupPhoneNumbers
 								}
 								<sec:authorize access="hasRole('leader')">
 								, {
 									'sTitle' : 'Actions',
 									'mData' : 'id'
+									,'mRender' : setupActions
 								} 
 								</sec:authorize>
 								],

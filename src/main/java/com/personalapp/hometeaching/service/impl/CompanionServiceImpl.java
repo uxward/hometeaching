@@ -19,7 +19,6 @@ import com.personalapp.hometeaching.model.Assignment;
 import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.repository.CompanionRepository;
 import com.personalapp.hometeaching.repository.FamilyRepository;
-import com.personalapp.hometeaching.security.HometeachingUserDetails;
 import com.personalapp.hometeaching.service.CompanionService;
 import com.personalapp.hometeaching.view.ActionViewModel;
 import com.personalapp.hometeaching.view.CompanionViewModel;
@@ -122,6 +121,24 @@ public class CompanionServiceImpl implements CompanionService {
 	@Override
 	public CompanionViewModel getDetailedViewModelForCompanion(Companion companion) {
 		return new CompanionViewModel(companion, true);
+	}
+
+	@Override
+	public List<CompanionViewModel> getDetailedHomeTeachingViewModelsByPersonId(Long personId) {
+		List<CompanionViewModel> companions = newArrayList();
+		for (Companion companion : repo.findAllDetailedHomeTeachingByPerson(personId)) {
+			companions.add(new CompanionViewModel(companion, true));
+		}
+		return companions;
+	}
+
+	@Override
+	public List<CompanionViewModel> getDetailedVisitingTeachingViewModelsByPersonId(Long personId) {
+		List<CompanionViewModel> companions = newArrayList();
+		for (Companion companion : repo.findAllDetailedVisitingTeachingByPerson(personId)) {
+			companions.add(new CompanionViewModel(companion, true));
+		}
+		return companions;
 	}
 
 	private ActionStatus tryCreateNewCompanion(Companion companion) {

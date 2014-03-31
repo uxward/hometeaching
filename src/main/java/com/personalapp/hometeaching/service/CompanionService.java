@@ -3,7 +3,6 @@ package com.personalapp.hometeaching.service;
 import java.util.List;
 
 import com.personalapp.hometeaching.model.Companion;
-import com.personalapp.hometeaching.security.HometeachingUserDetails;
 import com.personalapp.hometeaching.view.ActionViewModel;
 import com.personalapp.hometeaching.view.CompanionViewModel;
 import com.personalapp.hometeaching.view.FamilyViewModel;
@@ -32,4 +31,8 @@ public interface CompanionService {
 	CompanionViewModel getDetailedViewModelForCompanion(Companion companion);
 
 	List<CompanionViewModel> getViewModelAllVisitingTeachingCompanionsAndActiveFamilies();
+
+	List<CompanionViewModel> getDetailedHomeTeachingViewModelsByPersonId(Long personId);
+
+	List<CompanionViewModel> getDetailedVisitingTeachingViewModelsByPersonId(Long personId);
 }
