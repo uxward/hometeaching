@@ -4,11 +4,14 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<t:mainPage activeMenu="homeTeachingDetail" pageTitle="Home Teaching Detail" pageHeader="" pageSubheader="Home Teaching">
+<t:mainPage activeMenu="homeTeachingDetail" pageTitle="Home Teaching Landing" pageHeader="${person.fullName}'s" pageSubheader="Home Teaching">
 
-	<fieldset>
-		<legend> Active Assignments </legend>
-	</fieldset>
+	<div class="row">
+		<div class="alert alert-info">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			<strong>Click which companionship you want to view!</strong><br /> It looks like you have multiple home teaching assignments. So which one do you want to see?
+		</div>
+	</div>
 
 	<!--  Family Assignment Table
 	---------------------------------------------------->
@@ -28,41 +31,48 @@
 		}
 
 		function setupAssignmentTable() {
-			$('#assignmentTable')
-					.dataTable(
-							{
-								'sDom' : 't',
-								'sAjaxSource' : '<spring:url value="/companion/getAllHomeTeachingCompanions/"/>?personId=' + $('#assignmentTable').data('personId'),
-								'aaData' : [],
-								'aoColumns' : [{
-									'sTitle' : 'Family',
-									'mData' : 'familyName'
-								}, {
-									'sTitle' : 'Status',
-									'sClass' : 'hidden-xs hidden-sm',
-									'mData' : 'familyStatus'
-								}, {
-									'sTitle' : 'Children',
-									'mData' : 'people'
-								}, {
-									'sTitle' : 'Address',
-									'mData' : 'address'
-								}, {
-									'sTitle' : 'Phone Numbers',
-									'mData' : 'phoneNumbers'
-								}
-								<sec:authorize access="hasRole('leader')">
-								, {
-									'sTitle' : 'Actions',
-									'mData' : 'id'
-								} 
-								</sec:authorize>
-								],
-								'oLanguage' : {
-									'sInfoEmpty' : 'No families to show',
-									'sEmptyTable' : 'There are no families assigned yet.  Add a family by clicking the button below.'
-								}
-							});
+			$('#assignmentTable').dataTable({
+				'sDom' : "<'row'<'col-sm-12'<'pull-right'f>r<'clearfix'>>>t",
+				'sAjaxSource' : '<spring:url value="/companion/getAllHomeTeachingCompanions/"/>?personId=' + $('#assignmentTable').data('personId'),
+				'aaData' : [],
+				'aoColumns' : [ {
+					'sTitle' : 'Home Teachers',
+					'sWidth' : '33%',
+					'mData' : 'teachers',
+					'mRender' : setupTeachers
+				}, {
+					'sTitle' : 'Assigned Families',
+					'sWidth' : '67%',
+					'mData' : 'assignments',
+					'mRender' : setupAssignments
+				} ],
+				'oLanguage' : {
+					'sInfoEmpty' : 'No assignments to show',
+					'sEmptyTable' : 'There are no assignments yet.  Talk with your organization leader if you think that\'s a mistake.'
+				}
+			});
+		}
+
+		function setupTeachers(data, type, full) {
+			var names = '';
+			for (var i = 0; i < data.length; i++) {
+				if (i != 0) {
+					names += ' and ';
+				}
+				names += data[i].fullName;
+			}
+			return '<a href="<spring:url value="/companion/homeTeachingDetail/' + full.id + '"/>">' + names + '</a>';
+		}
+
+		function setupAssignments(data, type, full) {
+			var html = '';
+			for (var i = 0; i < data.length; i++) {
+				if (i != 0) {
+					html += '; ';
+				}
+				html += data[i].familyName + ', ' + data[i].headOfHousehold;
+			}
+			return html;
 		}
 	</script>
 </t:mainPage>

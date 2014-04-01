@@ -224,6 +224,9 @@
 			$.each($('.phone-number'), function() {
 				$(this).html(getPhoneNumber($(this).text()));
 			});
+			
+			//add placeholder to datatables search
+			$('.dataTables_filter input').attr('placeholder', 'Search');
 		}
 
 		function canSubmitFeedback() {

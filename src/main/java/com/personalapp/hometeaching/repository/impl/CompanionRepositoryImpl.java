@@ -35,7 +35,7 @@ public class CompanionRepositoryImpl extends RepositoryImpl<Companion, Long> imp
 	public List<Companion> findAllDetailedHomeTeachingByPerson(Long personId) {
 		JPAQuery query = getCompanionDetailQuery();
 		query.leftJoin(family.people).fetch();
-		query.where(person.id.eq(personId), companion.visitingTeaching.isFalse(), assignment.active.isTrue()).distinct();
+		query.where(companion.id.in(getCompanionsWithPersonSubQuery(personId)), companion.visitingTeaching.isFalse(), companion.active.isTrue()).distinct();
 		return query.list(companion);
 	}
 
@@ -43,8 +43,15 @@ public class CompanionRepositoryImpl extends RepositoryImpl<Companion, Long> imp
 	public List<Companion> findAllDetailedVisitingTeachingByPerson(Long personId) {
 		JPAQuery query = getCompanionDetailQuery();
 		query.leftJoin(family.people).fetch();
-		query.where(person.id.eq(personId), companion.visitingTeaching.isTrue(), assignment.active.isTrue()).distinct();
+		query.where(companion.id.in(getCompanionsWithPersonSubQuery(personId)), companion.visitingTeaching.isTrue(), companion.active.isTrue()).distinct();
 		return query.list(companion);
+	}
+
+	private List<Long> getCompanionsWithPersonSubQuery(Long personId) {
+		JPAQuery q = jpaFrom(companion);
+		q.leftJoin(companion.companions, personCompanion);
+		q.where(personCompanion.personId.eq(personId));
+		return q.list(companion.id);
 	}
 
 	@Override

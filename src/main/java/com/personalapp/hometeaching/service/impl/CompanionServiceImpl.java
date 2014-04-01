@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
 import com.personalapp.hometeaching.model.ActionStatus;
 import com.personalapp.hometeaching.model.Assignment;
 import com.personalapp.hometeaching.model.Companion;
@@ -127,6 +126,13 @@ public class CompanionServiceImpl implements CompanionService {
 	public List<CompanionViewModel> getDetailedHomeTeachingViewModelsByPersonId(Long personId) {
 		List<CompanionViewModel> companions = newArrayList();
 		for (Companion companion : repo.findAllDetailedHomeTeachingByPerson(personId)) {
+			Set<Assignment> activeAssignments = newHashSet();
+			for (Assignment assignment : companion.getAssignments()) {
+				if (assignment.getActive()) {
+					activeAssignments.add(assignment);
+				}
+			}
+			companion.setAssignments(activeAssignments);
 			companions.add(new CompanionViewModel(companion, true));
 		}
 		return companions;
@@ -136,6 +142,13 @@ public class CompanionServiceImpl implements CompanionService {
 	public List<CompanionViewModel> getDetailedVisitingTeachingViewModelsByPersonId(Long personId) {
 		List<CompanionViewModel> companions = newArrayList();
 		for (Companion companion : repo.findAllDetailedVisitingTeachingByPerson(personId)) {
+			Set<Assignment> activeAssignments = newHashSet();
+			for (Assignment assignment : companion.getAssignments()) {
+				if (assignment.getActive()) {
+					activeAssignments.add(assignment);
+				}
+			}
+			companion.setAssignments(activeAssignments);
 			companions.add(new CompanionViewModel(companion, true));
 		}
 		return companions;

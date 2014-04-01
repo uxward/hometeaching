@@ -211,14 +211,11 @@
 			$('#userTable').dataTable({
 				'sAjaxSource' : '<spring:url value="/user/getAllUsers/"/>',
 				'aaData' : [],
-				'aaSorting' : [ [ 5, 'desc' ] ],
-				'aoColumns' : [ {
-					'mData' : 'id',
-					'bVisible' : false
-				}, {
+				'aaSorting' : [ [ 4, 'desc' ] ],
+				'aoColumns' : [{
 					'sTitle' : 'Name',
 					'mData' : 'name',
-					'mRender' : setupNameCompanionLink,
+					//'mRender' : setupNameCompanionLink,
 					'sWidth' : '15%'
 				}, {
 					'sTitle' : 'Username',

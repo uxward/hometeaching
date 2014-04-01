@@ -44,10 +44,7 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 	public List<Person> getAllNotMovedHomeTeachers() {
 		logger.info("entering the get all unassigned hometeachers method");
 		JPAQuery query = getPersonNotMovedQuery();
-		query.where(person.organizationId.in(getCurrentUserOrganizationIds()));
-		query.where(person.homeTeacher.isTrue());
-		// query.where(person.homeTeacher.isTrue(),
-		// getHomeTeachersSubQuery().notExists());
+		query.where(person.organizationId.in(getCurrentUserOrganizationIds()), person.homeTeacher.isTrue());
 		query.orderBy(person.firstName.asc(), family.familyName.asc());
 		return query.list(person);
 	}
@@ -56,8 +53,7 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 	public List<Person> getAllNotMovedVisitingTeachers() {
 		logger.info("entering the get all unassigned visiting teachers method");
 		JPAQuery query = getPersonNotMovedQuery();
-		query.where(person.organizationId.in(getCurrentUserOrganizationIds()));
-		query.where(person.visitingTeacher.isTrue(), getVisitingTeachersSubQuery().notExists());
+		query.where(person.organizationId.in(getCurrentUserOrganizationIds()), person.visitingTeacher.isTrue());
 		query.orderBy(person.firstName.asc(), family.familyName.asc());
 		return query.list(person);
 	}
