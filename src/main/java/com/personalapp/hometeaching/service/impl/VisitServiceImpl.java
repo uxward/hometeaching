@@ -134,12 +134,13 @@ public class VisitServiceImpl implements VisitService {
 	}
 
 	@Override
-	public List<VisitHistoryModel> getVisitHistory(Integer n) {
-		logger.info("Entering the get visit history method, will get last {} visits", n);
+	public List<VisitHistoryModel> getHistory(Integer n) {
+		logger.info("Entering the get home teaching history method, will get last {} visits", n);
 		List<VisitHistoryModel> visitHistory = newArrayList();
 		for (Family family : familyRepo.getAllFamiliesAndVisits()) {
-			List<Visit> nVisits = getLastNVisits(n, family.getVisits());
-			visitHistory.add(new VisitHistoryModel(nVisits, family));
+			List<Visit> nHomeTeachingVisits = getLastNVisits(n, family.getHomeTeachingVisits());
+			List<Visit> nVisitingTeachingVisits = getLastNVisits(n, family.getVisitingTeachingVisits());
+			visitHistory.add(new VisitHistoryModel(nHomeTeachingVisits, nVisitingTeachingVisits, family));
 		}
 		return visitHistory;
 	}

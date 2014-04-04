@@ -37,21 +37,21 @@ public class VisitController {
 	@RequestMapping("homeTeaching")
 	@ResponseBody
 	public DatatableResponse<VisitViewModel> getHomeTeachingVisits(@RequestParam("familyId") Long familyId) {
-		logger.info("User {} is viewing home teaching visits for family id {} ", getCurrentUser().getUsername(), familyId );
+		logger.info("User {} is viewing home teaching visits for family id {} ", getCurrentUser().getUsername(), familyId);
 		return new DatatableResponse<VisitViewModel>(visitService.getHomeTeachingVisitsByFamilyId(familyId));
 	}
 
 	@RequestMapping("visitingTeaching")
 	@ResponseBody
 	public DatatableResponse<VisitViewModel> getVisitingTeachingVisits(@RequestParam("familyId") Long familyId) {
-		logger.info("User {} is viewing visiting teaching visits for family id {} ", getCurrentUser().getUsername(), familyId );
+		logger.info("User {} is viewing visiting teaching visits for family id {} ", getCurrentUser().getUsername(), familyId);
 		return new DatatableResponse<VisitViewModel>(visitService.getVisitingTeachingVisitsByFamilyId(familyId));
 	}
 
 	@RequestMapping("getHistory")
 	@ResponseBody
 	public DatatableResponse<VisitHistoryModel> getHistory(@RequestParam("n") Integer n) {
-		return new DatatableResponse<VisitHistoryModel>(visitService.getVisitHistory(n));
+		return new DatatableResponse<VisitHistoryModel>(visitService.getHistory(n));
 	}
 
 	@RequestMapping(value = "/saveVisit")

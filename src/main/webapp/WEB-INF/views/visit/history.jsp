@@ -5,7 +5,7 @@
 
 <t:mainPage activeMenu="visitHistory" pageTitle="Visit History" pageHeader="${fn:length(months)} Month" pageSubheader="Visit  History">
 
-	<table id="historyTable" class="table table-striped table-hover table-bordered"></table>
+	<table id="historyTable" class="table table-striped table-hover table-bordered" width="100%"></table>
 
 
 	<label id="monthSelect" style="margin-left: 10px;">
@@ -37,23 +37,28 @@
 					'mRender' : setupFamilyName
 				},{
 					'sTitle' : 'Status',
-					'sWidth' : '8%',
+					'sWidth' : '10%',
 					'mData' : 'familyViewModel.familyStatus'
 				},{
 					'sTitle' : 'Organization',
 					'mData' : 'familyViewModel.organizations',
 					'mRender' : setupOrganizations,
-					'sWidth' : '12%'
+					'sWidth' : '10%'
 				},{
 					'sTitle' : 'Home Teachers',
 					'sWidth' : '15%',
-					'mData' : 'familyViewModel.companions',
+					'mData' : 'familyViewModel.homeTeachingCompanions',
+					'mRender' : setupCompanions
+				},{
+					'sTitle' : 'Visiting Teachers',
+					'sWidth' : '15%',
+					'mData' : 'familyViewModel.visitingTeachingCompanions',
 					'mRender' : setupCompanions
 				},
 				<c:forEach items="${months}" var="month" varStatus="status">{
 					'sTitle' : '${month}',
-					'sWidth' : '${50 / fn:length(months)}%',
-					'mData' : 'visits.${status.index}',
+					'sWidth' : '${35 / fn:length(months)}%',
+					'mData' : 'familyVisits.${status.index}.visits',
 					'mRender' : setupVisit
 				} <c:if test="${!status.last}">,</c:if>
 				</c:forEach>
@@ -68,13 +73,25 @@
 		}
 		
 		function setupVisit(data, type, full){
-			var content = data.notes;
-			return '<a href="#" class="visitPopover" data-visit-id="' + data.id + '" data-trigger="manual" data-content="' + content + '">' + setupTrueFalseAsYesNo(data.visited, type, full) + '</a>';
+			var html = '', content, id, visited, visitingTeaching;
+			for(var i = 0; i < data.length; i++){
+				if(data[i].id != null){
+					content = data[i].notes;
+					id = data[i].id;
+					visited = data[i].visited;
+					visitingTeaching = data[i].visitingTeaching;
+					html +=(visitingTeaching ? 'VT: ' : 'HT: ') + '<a href="#" class="visitPopover" data-visit-id="' + id + '" data-trigger="manual" data-content="' + content + '">' + setupTrueFalseAsYesNo(visited) + '</a>';
+					if(i == 0){
+						html += '<br/>';
+					}
+				}
+			}
+			return html;
 		}
 		
 		function setupCompanions(data, type, full) {
 			return '<a href="<spring:url value="/companion/detail/"/>'
-					+ data.id + '">' + data.allHometeachers + '</a>';
+					+ data.id + '">' + data.allTeachers + '</a>';
 		}
 		
 		function setupEventBinding(){

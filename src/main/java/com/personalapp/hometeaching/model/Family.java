@@ -187,8 +187,24 @@ public class Family extends BaseEntity {
 		return active;
 	}
 
-	public Set<Visit> getVisits() {
-		return visits;
+	public Set<Visit> getHomeTeachingVisits() {
+		Set<Visit> homeTeachingVisits = newHashSet();
+		for (Visit visit : visits) {
+			if (!visit.getVisitingTeaching()) {
+				homeTeachingVisits.add(visit);
+			}
+		}
+		return homeTeachingVisits;
+	}
+
+	public Set<Visit> getVisitingTeachingVisits() {
+		Set<Visit> visitingTeachingVisits = newHashSet();
+		for (Visit visit : visits) {
+			if (visit.getVisitingTeaching()) {
+				visitingTeachingVisits.add(visit);
+			}
+		}
+		return visitingTeachingVisits;
 	}
 
 	public Set<Person> getHeadOfHousehold() {

@@ -22,9 +22,9 @@ public class VisitViewModel extends ActionViewModel {
 
 	private Integer year;
 
-	private Boolean saveVisit;
-
 	private Long companionId;
+
+	private Boolean visitingTeaching;
 
 	public VisitViewModel() {
 
@@ -48,6 +48,7 @@ public class VisitViewModel extends ActionViewModel {
 		this.monthYear = visit.getVisitDate();
 		this.month = visit.getMonth();
 		this.year = visit.getYear();
+		this.visitingTeaching = visit.getVisitingTeaching();
 	}
 
 	public Long getId() {
@@ -82,11 +83,11 @@ public class VisitViewModel extends ActionViewModel {
 		return year;
 	}
 
-	public Boolean getSaveVisit() {
-		return saveVisit;
-	}
-
 	public Long getCompanionId() {
 		return companionId;
+	}
+	
+	public Boolean getVisitingTeaching(){
+		return visitingTeaching;
 	}
 }
