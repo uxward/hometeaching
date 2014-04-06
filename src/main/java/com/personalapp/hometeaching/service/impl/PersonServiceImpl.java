@@ -1,6 +1,7 @@
 package com.personalapp.hometeaching.service.impl;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.personalapp.hometeaching.model.Organization.isVisitingTeaching;
 
 import java.util.Date;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.model.Person;
 import com.personalapp.hometeaching.repository.PersonRepository;
 import com.personalapp.hometeaching.service.PersonService;
@@ -20,21 +22,12 @@ public class PersonServiceImpl implements PersonService {
 	private PersonRepository repo;
 
 	@Override
-	public List<PersonViewModel> getAllNotMovedHomeTeachers() {
-		List<PersonViewModel> hometeachers = newArrayList();
-		for (Person person : repo.getAllNotMovedHomeTeachers()) {
-			hometeachers.add(new PersonViewModel(person, true, true));
+	public List<PersonViewModel> getAllNotMovedTeachersByOrganization(Organization organization) {
+		List<PersonViewModel> teachers = newArrayList();
+		for (Person person : repo.getAllNotMovedTeachers(isVisitingTeaching(organization))) {
+			teachers.add(new PersonViewModel(person, true, true));
 		}
-		return hometeachers;
-	}
-
-	@Override
-	public List<PersonViewModel> getAllNotMovedVisitingTeachers() {
-		List<PersonViewModel> hometeachers = newArrayList();
-		for (Person person : repo.getAllNotMovedVisitingTeachers()) {
-			hometeachers.add(new PersonViewModel(person, true, true));
-		}
-		return hometeachers;
+		return teachers;
 	}
 
 	@Override

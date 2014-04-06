@@ -75,15 +75,16 @@
 		function setupVisit(data, type, full){
 			var html = '', content, id, visited, visitingTeaching;
 			for(var i = 0; i < data.length; i++){
+				html += (i == 0 ? 'HT: ' : 'VT: ');
 				if(data[i].id != null){
 					content = data[i].notes;
 					id = data[i].id;
 					visited = data[i].visited;
 					visitingTeaching = data[i].visitingTeaching;
-					html +=(visitingTeaching ? 'VT: ' : 'HT: ') + '<a href="#" class="visitPopover" data-visit-id="' + id + '" data-trigger="manual" data-content="' + content + '">' + setupTrueFalseAsYesNo(visited) + '</a>';
-					if(i == 0){
-						html += '<br/>';
-					}
+					html +='<a href="#" class="visitPopover" data-visit-id="' + id + '" data-trigger="manual" data-content="' + content + '">' + setupTrueFalseAsYesNo(visited) + '</a>';
+				}
+				if(i == 0){
+					html += '<br/>';
 				}
 			}
 			return html;

@@ -25,6 +25,7 @@
 	<mvc:view-controller path="/" view-name="home" />
 	<mvc:view-controller path="/login" view-name="login" />
 	<mvc:view-controller path="/denied" view-name="denied" />
+    <mvc:interceptors><bean class="com.personalapp.hometeaching.controller.GlobalUIInjector" /></mvc:interceptors>
 
 	<!-- Handle mvc resources view -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />

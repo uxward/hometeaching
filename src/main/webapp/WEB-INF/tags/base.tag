@@ -76,8 +76,9 @@
 									</a>
 									<ul class="dropdown-menu">
 										<li class="${activeMenu ==  'users' ? 'active' : '' }"><a href="${user}/all">Users</a></li>
-										<li class="${activeMenu ==  'homeTeachers' ? 'active' : '' }"><a href="${companion}/allHomeTeachers">Home Teachers</a></li>
-										<li class="${activeMenu ==  'visitingTeachers' ? 'active' : '' }"><a href="${companion}/allVisitingTeachers">Visiting Teachers</a></li>
+										<li class="${activeMenu ==  'Teachers1' ? 'active' : '' }"><a href="${companion}/allTeachers/1">EQ Home Teachers</a></li>
+										<li class="${activeMenu ==  'allTeachers2' ? 'active' : '' }"><a href="${companion}/allTeachers/2">HP Home Teachers</a></li>
+										<li class="${activeMenu ==  'allTeachers3' ? 'active' : '' }"><a href="${companion}/allTeachers/3">Visiting Teachers</a></li>
 										<li class="${activeMenu ==  'visitHistory' ? 'active' : '' }"><a href="${visit}/history/3">Visit History</a></li>
 										<li class="${activeMenu ==  'feedback' ? 'active' : '' }"><a href="${feedback}">Feedback</a></li>
 									</ul></li>

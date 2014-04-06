@@ -29,8 +29,8 @@ public class PersonCompanion extends BaseEntity {
 	@Column(name = "active")
 	private Boolean active;
 
-	@Column(name = "visitingteaching")
-	private Boolean visitingTeaching;
+	@Column(name = "organizationid")
+	private Long organizationId;
 
 	@OneToOne(fetch = LAZY)
 	@JoinColumn(name = "personid", insertable = false, updatable = false)
@@ -72,12 +72,12 @@ public class PersonCompanion extends BaseEntity {
 		this.active = active;
 	}
 
-	public Boolean getVisitingTeaching() {
-		return visitingTeaching;
+	public Organization getOrganization() {
+		return Organization.fromId(organizationId);
 	}
 
-	public void setVisitingTeaching(Boolean visitingTeaching) {
-		this.visitingTeaching = visitingTeaching;
+	public void setOrganization(Organization organization) {
+		this.organizationId = organization.getId();
 	}
 
 	public Person getPerson() {

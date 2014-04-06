@@ -29,8 +29,8 @@ public class Companion extends BaseEntity {
 	@Column(name = "active")
 	private Boolean active;
 
-	@Column(name = "visitingteaching")
-	private Boolean visitingTeaching;
+	@Column(name = "organizationid")
+	private Long organizationId;
 
 	@OneToMany(fetch = LAZY, mappedBy = "companion", cascade = ALL)
 	private Set<PersonCompanion> companions = newHashSet();
@@ -60,12 +60,12 @@ public class Companion extends BaseEntity {
 		this.active = active;
 	}
 
-	public Boolean getVisitingTeaching() {
-		return visitingTeaching;
+	public Organization getOrganization() {
+		return Organization.fromId(organizationId);
 	}
 
-	public void setVisitingTeaching(Boolean visitingTeaching) {
-		this.visitingTeaching = visitingTeaching;
+	public void setOrganization(Organization organization) {
+		this.organizationId = organization.getId();
 	}
 
 	public Set<PersonCompanion> getCompanions() {
@@ -98,5 +98,9 @@ public class Companion extends BaseEntity {
 
 	public void setAutopopulatingAssignments(List<Assignment> autopopulatingAssignments) {
 		this.autopopulatingAssignments = autopopulatingAssignments;
+	}
+
+	public boolean isVisitingTeaching() {
+		return Organization.isVisitingTeaching(getOrganization());
 	}
 }

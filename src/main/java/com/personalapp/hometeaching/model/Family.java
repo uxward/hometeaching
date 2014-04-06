@@ -168,7 +168,7 @@ public class Family extends BaseEntity {
 	public Assignment getActiveHomeTeachingAssignment() {
 		Assignment active = new Assignment();
 		for (Assignment assignment : this.assignment) {
-			if (assignment.getActive() && !assignment.getVisitingTeaching()) {
+			if (assignment.getActive() && !assignment.isVisitingTeaching()) {
 				active = assignment;
 				break;
 			}
@@ -179,7 +179,7 @@ public class Family extends BaseEntity {
 	public Assignment getActiveVisitingTeachingAssignment() {
 		Assignment active = new Assignment();
 		for (Assignment assignment : this.assignment) {
-			if (assignment.getActive() && assignment.getVisitingTeaching()) {
+			if (assignment.getActive() && assignment.isVisitingTeaching()) {
 				active = assignment;
 				break;
 			}

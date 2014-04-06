@@ -41,4 +41,8 @@ public enum Organization {
 		return Lists.newArrayList(RELIEF_SOCIETY, HIGH_PRIEST, ELDERS);
 	}
 
+	public static boolean isVisitingTeaching(Organization organization) {
+		return RELIEF_SOCIETY.equals(organization);
+	}
+
 }

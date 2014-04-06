@@ -1,5 +1,6 @@
 package com.personalapp.hometeaching.model;
 
+import static com.personalapp.hometeaching.model.Organization.RELIEF_SOCIETY;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -28,8 +29,8 @@ public class Assignment extends BaseEntity {
 	@Column(name = "active")
 	private Boolean active;
 
-	@Column(name = "visitingTeaching")
-	private Boolean visitingTeaching;
+	@Column(name = "organizationid")
+	private Long organizationId;
 
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "familyId", insertable = false, updatable = false)
@@ -63,12 +64,12 @@ public class Assignment extends BaseEntity {
 		this.active = active;
 	}
 
-	public Boolean getVisitingTeaching() {
-		return visitingTeaching;
+	public Organization getOrganization() {
+		return Organization.fromId(organizationId);
 	}
 
-	public void setVisitingTeaching(Boolean visitingTeaching) {
-		this.visitingTeaching = visitingTeaching;
+	public void setOrganization(Organization organization) {
+		this.organizationId = organization.getId();
 	}
 
 	public Long getFamilyId() {
@@ -93,5 +94,12 @@ public class Assignment extends BaseEntity {
 
 	public void setCompanion(Companion companion) {
 		this.companion = companion;
+	}
+
+	public boolean isVisitingTeaching() {
+		if (RELIEF_SOCIETY.equals(getOrganization())) {
+			return true;
+		}
+		return false;
 	}
 }

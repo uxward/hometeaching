@@ -6,7 +6,6 @@ import static com.personalapp.hometeaching.model.QFamily.family;
 import static com.personalapp.hometeaching.model.QFamilyOrganization.familyOrganization;
 import static com.personalapp.hometeaching.model.QPerson.person;
 import static com.personalapp.hometeaching.model.QPersonCompanion.personCompanion;
-import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserOrganizationIds;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.List;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.personalapp.hometeaching.model.Companion;
+import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.repository.CompanionRepository;
 
 @Repository
@@ -32,18 +32,10 @@ public class CompanionRepositoryImpl extends RepositoryImpl<Companion, Long> imp
 	}
 
 	@Override
-	public List<Companion> findAllDetailedHomeTeachingByPerson(Long personId) {
+	public List<Companion> findAllDetailedCompanionsByPerson(Long personId) {
 		JPAQuery query = getCompanionDetailQuery();
 		query.leftJoin(family.people).fetch();
-		query.where(companion.id.in(getCompanionsWithPersonSubQuery(personId)), companion.visitingTeaching.isFalse(), companion.active.isTrue()).distinct();
-		return query.list(companion);
-	}
-
-	@Override
-	public List<Companion> findAllDetailedVisitingTeachingByPerson(Long personId) {
-		JPAQuery query = getCompanionDetailQuery();
-		query.leftJoin(family.people).fetch();
-		query.where(companion.id.in(getCompanionsWithPersonSubQuery(personId)), companion.visitingTeaching.isTrue(), companion.active.isTrue()).distinct();
+		query.where(companion.id.in(getCompanionsWithPersonSubQuery(personId)), companion.active.isTrue()).distinct();
 		return query.list(companion);
 	}
 
@@ -55,16 +47,9 @@ public class CompanionRepositoryImpl extends RepositoryImpl<Companion, Long> imp
 	}
 
 	@Override
-	public List<Companion> getAllHomeTeachingCompanionsAndActiveFamilies() {
+	public List<Companion> getAllCompanionsAndActiveFamilies(Organization organization) {
 		JPAQuery query = getCompanionDetailQuery();
-		query.where(companion.active.eq(true), companion.visitingTeaching.isFalse());
-		return query.list(companion);
-	}
-
-	@Override
-	public List<Companion> getAllVisitingTeachingCompanionsAndActiveFamilies() {
-		JPAQuery query = getCompanionDetailQuery();
-		query.where(companion.active.eq(true), companion.visitingTeaching.isTrue());
+		query.where(companion.active.eq(true), companion.organizationId.eq(organization.getId()));
 		return query.list(companion);
 	}
 
@@ -85,7 +70,6 @@ public class CompanionRepositoryImpl extends RepositoryImpl<Companion, Long> imp
 		query.leftJoin(assignment.family, family).fetch();
 		query.leftJoin(family.people).fetch();
 		query.leftJoin(family.familyOrganizations, familyOrganization).fetch();
-		query.where(person.organizationId.in(getCurrentUserOrganizationIds()));
 		query.distinct();
 		return query;
 	}

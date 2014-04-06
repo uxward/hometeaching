@@ -2,6 +2,8 @@ package com.personalapp.hometeaching.repository.impl;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.personalapp.hometeaching.model.FamilyStatus.getIdsFromList;
+import static com.personalapp.hometeaching.model.Organization.ELDERS;
+import static com.personalapp.hometeaching.model.Organization.HIGH_PRIEST;
 import static com.personalapp.hometeaching.model.Organization.RELIEF_SOCIETY;
 import static com.personalapp.hometeaching.model.QAssignment.assignment;
 import static com.personalapp.hometeaching.model.QCompanion.companion;
@@ -24,6 +26,7 @@ import com.mysema.query.jpa.JPASubQuery;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.personalapp.hometeaching.model.Family;
 import com.personalapp.hometeaching.model.FamilyStatus;
+import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.model.QPerson;
 import com.personalapp.hometeaching.repository.FamilyRepository;
 
@@ -129,7 +132,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 		logger.info("entering the get all families with a companion method");
 		JPAQuery query = jpaFrom(family);
 		query.leftJoin(family.assignment, assignment);
-		query.where(assignment.isNotNull(), assignment.active.isTrue(), assignment.visitingTeaching.isFalse());
+		query.where(assignment.isNotNull(), assignment.active.isTrue(), assignment.organizationId.in(newArrayList(ELDERS.getId(), HIGH_PRIEST.getId())));
 		query.orderBy(family.familyName.asc());
 		return query.list(family.id);
 	}
@@ -138,7 +141,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 		logger.info("entering the get all families with a companion method");
 		JPAQuery query = jpaFrom(family);
 		query.leftJoin(family.assignment, assignment);
-		query.where(assignment.isNotNull(), assignment.active.isTrue(), assignment.visitingTeaching.isTrue());
+		query.where(assignment.isNotNull(), assignment.active.isTrue(), assignment.organizationId.in(newArrayList(Organization.RELIEF_SOCIETY.getId())));
 		query.orderBy(family.familyName.asc());
 		return query.list(family.id);
 	}

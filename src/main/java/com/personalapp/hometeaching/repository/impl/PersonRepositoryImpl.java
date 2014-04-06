@@ -41,19 +41,14 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 	}
 
 	@Override
-	public List<Person> getAllNotMovedHomeTeachers() {
+	public List<Person> getAllNotMovedTeachers(boolean visitingTeaching) {
 		logger.info("entering the get all unassigned hometeachers method");
 		JPAQuery query = getPersonNotMovedQuery();
-		query.where(person.organizationId.in(getCurrentUserOrganizationIds()), person.homeTeacher.isTrue());
-		query.orderBy(person.firstName.asc(), family.familyName.asc());
-		return query.list(person);
-	}
-
-	@Override
-	public List<Person> getAllNotMovedVisitingTeachers() {
-		logger.info("entering the get all unassigned visiting teachers method");
-		JPAQuery query = getPersonNotMovedQuery();
-		query.where(person.organizationId.in(getCurrentUserOrganizationIds()), person.visitingTeacher.isTrue());
+		if (visitingTeaching) {
+			query.where(person.visitingTeacher.isTrue());
+		} else {
+			query.where(person.homeTeacher.isTrue());
+		}
 		query.orderBy(person.firstName.asc(), family.familyName.asc());
 		return query.list(person);
 	}
@@ -97,13 +92,17 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 
 	private JPASubQuery getHomeTeachersSubQuery() {
 		JPASubQuery q = new JPASubQuery().from(personCompanion);
-		q.where(personCompanion.person.eq(person), personCompanion.active.isTrue(), personCompanion.visitingTeaching.isFalse());
+		// q.where(personCompanion.person.eq(person),
+		// personCompanion.active.isTrue(),
+		// personCompanion.visitingTeaching.isFalse());
 		return q;
 	}
 
 	private JPASubQuery getVisitingTeachersSubQuery() {
 		JPASubQuery q = new JPASubQuery().from(personCompanion);
-		q.where(personCompanion.person.eq(person), personCompanion.active.isTrue(), personCompanion.visitingTeaching.isTrue());
+		// q.where(personCompanion.person.eq(person),
+		// personCompanion.active.isTrue(),
+		// personCompanion.visitingTeaching.isTrue());
 		return q;
 	}
 }

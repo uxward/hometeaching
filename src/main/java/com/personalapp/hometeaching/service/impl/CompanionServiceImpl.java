@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.personalapp.hometeaching.model.ActionStatus;
 import com.personalapp.hometeaching.model.Assignment;
 import com.personalapp.hometeaching.model.Companion;
+import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.repository.CompanionRepository;
 import com.personalapp.hometeaching.repository.FamilyRepository;
 import com.personalapp.hometeaching.service.CompanionService;
@@ -71,26 +72,17 @@ public class CompanionServiceImpl implements CompanionService {
 	}
 
 	@Override
-	public List<CompanionViewModel> getViewModelAllHomeTeachingCompanionsAndActiveFamilies() {
+	public List<CompanionViewModel> getViewModelAllCompanionsAndActiveFamiliesByOrganization(Organization organization) {
 		List<CompanionViewModel> companions = newArrayList();
-		for (Companion companion : repo.getAllHomeTeachingCompanionsAndActiveFamilies()) {
+		for (Companion companion : repo.getAllCompanionsAndActiveFamilies(organization)) {
 			companions.add(new CompanionViewModel(companion, true));
 		}
 		return companions;
 	}
 
 	@Override
-	public List<CompanionViewModel> getViewModelAllVisitingTeachingCompanionsAndActiveFamilies() {
-		List<CompanionViewModel> companions = newArrayList();
-		for (Companion companion : repo.getAllVisitingTeachingCompanionsAndActiveFamilies()) {
-			companions.add(new CompanionViewModel(companion, true));
-		}
-		return companions;
-	}
-
-	@Override
-	public List<Companion> getAllCompanionsAndActiveFamilies() {
-		return repo.getAllHomeTeachingCompanionsAndActiveFamilies();
+	public List<Companion> getAllCompanionsAndActiveFamilies(Organization organization) {
+		return repo.getAllCompanionsAndActiveFamilies(organization);
 	}
 
 	@Override
@@ -123,33 +115,19 @@ public class CompanionServiceImpl implements CompanionService {
 	}
 
 	@Override
-	public List<CompanionViewModel> getDetailedHomeTeachingViewModelsByPersonId(Long personId) {
+	public List<CompanionViewModel> getDetailedCompanionViewModelsByPersonId(Long personId, boolean visitingTeaching) {
 		List<CompanionViewModel> companions = newArrayList();
-		for (Companion companion : repo.findAllDetailedHomeTeachingByPerson(personId)) {
-			Set<Assignment> activeAssignments = newHashSet();
-			for (Assignment assignment : companion.getAssignments()) {
-				if (assignment.getActive()) {
-					activeAssignments.add(assignment);
+		for (Companion companion : repo.findAllDetailedCompanionsByPerson(personId)) {
+			if (companion.isVisitingTeaching() == visitingTeaching) {
+				Set<Assignment> activeAssignments = newHashSet();
+				for (Assignment assignment : companion.getAssignments()) {
+					if (assignment.getActive()) {
+						activeAssignments.add(assignment);
+					}
 				}
+				companion.setAssignments(activeAssignments);
+				companions.add(new CompanionViewModel(companion, true));
 			}
-			companion.setAssignments(activeAssignments);
-			companions.add(new CompanionViewModel(companion, true));
-		}
-		return companions;
-	}
-
-	@Override
-	public List<CompanionViewModel> getDetailedVisitingTeachingViewModelsByPersonId(Long personId) {
-		List<CompanionViewModel> companions = newArrayList();
-		for (Companion companion : repo.findAllDetailedVisitingTeachingByPerson(personId)) {
-			Set<Assignment> activeAssignments = newHashSet();
-			for (Assignment assignment : companion.getAssignments()) {
-				if (assignment.getActive()) {
-					activeAssignments.add(assignment);
-				}
-			}
-			companion.setAssignments(activeAssignments);
-			companions.add(new CompanionViewModel(companion, true));
 		}
 		return companions;
 	}

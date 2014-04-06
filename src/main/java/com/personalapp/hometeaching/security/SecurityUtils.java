@@ -15,6 +15,7 @@ import static org.apache.commons.collections.CollectionUtils.containsAny;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -40,7 +41,7 @@ public class SecurityUtils {
 
 	public static HometeachingUserDetails getCurrentUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		return authentication != null ? (HometeachingUserDetails) authentication.getPrincipal() : null;
+		return authentication != null && !StringUtils.equals(authentication.getName(), "anonymousUser") ? (HometeachingUserDetails) authentication.getPrincipal() : null;
 	}
 
 	public static boolean currentUserHasRole(Role role) {

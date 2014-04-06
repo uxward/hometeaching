@@ -169,21 +169,18 @@ public class Person extends BaseEntity {
 		this.personCompanion = personCompanion;
 	}
 
-	public List<PersonCompanion> getActiveHomeTeachingCompanion() {
-		List<PersonCompanion> active = newArrayList();
+	public List<Companion> getActiveCompanions(boolean visitingTeaching) {
+		List<Companion> active = newArrayList();
 		for (PersonCompanion personCompanion : this.personCompanion) {
-			if (personCompanion.getActive() && !personCompanion.getVisitingTeaching()) {
-				active.add(personCompanion);
-			}
-		}
-		return active;
-	}
-
-	public List<PersonCompanion> getActiveVisitingTeachingCompanion() {
-		List<PersonCompanion> active = newArrayList();
-		for (PersonCompanion personCompanion : this.personCompanion) {
-			if (personCompanion.getActive() && personCompanion.getVisitingTeaching()) {
-				active.add(personCompanion);
+			Companion companion = personCompanion.getCompanion();
+			if (visitingTeaching) {
+				if (companion.getActive() && companion.isVisitingTeaching()) {
+					active.add(companion);
+				}
+			} else {
+				if (companion.getActive() && !companion.isVisitingTeaching()) {
+					active.add(companion);
+				}
 			}
 		}
 		return active;

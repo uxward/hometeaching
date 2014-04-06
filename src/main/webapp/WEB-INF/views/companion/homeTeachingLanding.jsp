@@ -33,7 +33,7 @@
 		function setupAssignmentTable() {
 			$('#assignmentTable').dataTable({
 				'sDom' : "<'row'<'col-sm-12'<'pull-right'f>r<'clearfix'>>>t",
-				'sAjaxSource' : '<spring:url value="/companion/getAllHomeTeachingCompanions/"/>?personId=' + $('#assignmentTable').data('personId'),
+				'sAjaxSource' : '<spring:url value="/companion/getUsersCompanions/"/>/false?personId=' + $('#assignmentTable').data('personId'),
 				'aaData' : [],
 				'aoColumns' : [ {
 					'sTitle' : 'Home Teachers',

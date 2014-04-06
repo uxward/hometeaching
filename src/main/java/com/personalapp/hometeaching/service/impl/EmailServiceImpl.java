@@ -15,6 +15,7 @@ import com.personalapp.hometeaching.io.messaging.EmailClient;
 import com.personalapp.hometeaching.model.ActionStatus;
 import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.model.HometeachingUser;
+import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.service.CompanionService;
 import com.personalapp.hometeaching.service.EmailService;
 import com.personalapp.hometeaching.service.HometeachingUserService;
@@ -48,9 +49,9 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	@Override
-	public ActionViewModel sendUpdatedAssignmentEmailToAllCompanions() {
+	public ActionViewModel sendUpdatedAssignmentEmailToAllCompanions(Organization organization) {
 		ActionStatus status = SUCCESS;
-		for (Companion companion : companionService.getAllCompanionsAndActiveFamilies()) {
+		for (Companion companion : companionService.getAllCompanionsAndActiveFamilies(organization)) {
 			try {
 				List<HometeachingUser> users = userService.getCompanionsToEmail(companion.getId());
 				emailClient.sendUpdatedAssignmentEmail(companion, users);

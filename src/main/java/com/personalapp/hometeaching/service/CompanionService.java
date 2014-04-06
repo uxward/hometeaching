@@ -3,6 +3,7 @@ package com.personalapp.hometeaching.service;
 import java.util.List;
 
 import com.personalapp.hometeaching.model.Companion;
+import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.view.ActionViewModel;
 import com.personalapp.hometeaching.view.CompanionViewModel;
 import com.personalapp.hometeaching.view.FamilyViewModel;
@@ -18,21 +19,17 @@ public interface CompanionService {
 
 	CompanionViewModel editAssignment(Companion viewModel);
 
-	List<CompanionViewModel> getViewModelAllHomeTeachingCompanionsAndActiveFamilies();
+	List<CompanionViewModel> getViewModelAllCompanionsAndActiveFamiliesByOrganization(Organization organization);
 
 	Companion findDetailedById(Long id);
 
 	CompanionViewModel findDetailedCompanionViewModelById(Long id);
 
-	List<Companion> getAllCompanionsAndActiveFamilies();
+	List<Companion> getAllCompanionsAndActiveFamilies(Organization organization);
 
 	Companion getCompanionAndActiveFamilies(Long companionId);
 
 	CompanionViewModel getDetailedViewModelForCompanion(Companion companion);
 
-	List<CompanionViewModel> getViewModelAllVisitingTeachingCompanionsAndActiveFamilies();
-
-	List<CompanionViewModel> getDetailedHomeTeachingViewModelsByPersonId(Long personId);
-
-	List<CompanionViewModel> getDetailedVisitingTeachingViewModelsByPersonId(Long personId);
+	List<CompanionViewModel> getDetailedCompanionViewModelsByPersonId(Long personId, boolean visitingTeaching);
 }

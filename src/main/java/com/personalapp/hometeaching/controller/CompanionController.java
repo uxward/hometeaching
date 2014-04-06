@@ -1,5 +1,6 @@
 package com.personalapp.hometeaching.controller;
 
+import static com.personalapp.hometeaching.model.Organization.fromId;
 import static com.personalapp.hometeaching.security.SecurityUtils.canActionCompanion;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
 import static com.personalapp.hometeaching.security.SecurityUtils.hasCompanionAccess;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.model.HometeachingUser;
+import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.service.CompanionService;
 import com.personalapp.hometeaching.service.FamilyService;
 import com.personalapp.hometeaching.service.PersonService;
@@ -40,30 +42,20 @@ public class CompanionController {
 	@Autowired
 	private PersonService personService;
 
-	@RequestMapping("allHomeTeachers")
-	public ModelAndView viewAllHomeTeachers() {
-		ModelAndView view = new ModelAndView("companion/homeTeachers");
-		view.addObject("teachers", personService.getAllNotMovedHomeTeachers());
+	@RequestMapping("allTeachers/{organizationId}")
+	public ModelAndView viewAllTeachers(@PathVariable Long organizationId) {
+		Organization organization = fromId(organizationId);
+		ModelAndView view = new ModelAndView("companion/teachers");
+		view.addObject("teachers", personService.getAllNotMovedTeachersByOrganization(organization));
+		view.addObject("organization", organization);
 		return view;
 	}
 
-	@RequestMapping("allVisitingTeachers")
-	public ModelAndView viewAllVisitingTeachers() {
-		ModelAndView view = new ModelAndView("companion/visitingTeachers");
-		view.addObject("teachers", personService.getAllNotMovedVisitingTeachers());
-		return view;
-	}
-
-	@RequestMapping("getHomeTeachingCompanions")
+	@RequestMapping("getAllCompanions/{organizationId}")
 	@ResponseBody
-	public DatatableResponse<CompanionViewModel> getHomeTeachingCompanions() {
-		return new DatatableResponse<CompanionViewModel>(service.getViewModelAllHomeTeachingCompanionsAndActiveFamilies());
-	}
-
-	@RequestMapping("getVisitingTeachingCompanions")
-	@ResponseBody
-	public DatatableResponse<CompanionViewModel> getVisitingTeachingCompanions() {
-		return new DatatableResponse<CompanionViewModel>(service.getViewModelAllVisitingTeachingCompanionsAndActiveFamilies());
+	public DatatableResponse<CompanionViewModel> getAllCompanions(@PathVariable Long organizationId) {
+		Organization organization = fromId(organizationId);
+		return new DatatableResponse<CompanionViewModel>(service.getViewModelAllCompanionsAndActiveFamiliesByOrganization(organization));
 	}
 
 	@RequestMapping("yourHomeTeaching")
@@ -132,16 +124,10 @@ public class CompanionController {
 		return new DatatableResponse<FamilyViewModel>(familyService.getByCompanionId(companionId));
 	}
 
-	@RequestMapping(value = "getAllHomeTeachingCompanions")
+	@RequestMapping(value = "getUsersCompanions/{visitingTeaching}")
 	@ResponseBody
-	public DatatableResponse<CompanionViewModel> getAllHomeTeachingCompanions(@RequestParam("personId") Long personId) {
-		return new DatatableResponse<CompanionViewModel>(service.getDetailedHomeTeachingViewModelsByPersonId(personId));
-	}
-
-	@RequestMapping(value = "getAllVisitingTeachingCompanions")
-	@ResponseBody
-	public DatatableResponse<CompanionViewModel> getAllVisitingTeachingCompanions(@RequestParam("personId") Long personId) {
-		return new DatatableResponse<CompanionViewModel>(service.getDetailedVisitingTeachingViewModelsByPersonId(personId));
+	public DatatableResponse<CompanionViewModel> getusersCompanions(@RequestParam("personId") Long personId, @PathVariable boolean visitingTeaching) {
+		return new DatatableResponse<CompanionViewModel>(service.getDetailedCompanionViewModelsByPersonId(personId, visitingTeaching));
 	}
 
 	@RequestMapping("/save")

@@ -33,7 +33,7 @@ public class CompanionServiceImplHelper {
 		Set<PersonCompanion> companions = newHashSet();
 		for (PersonCompanion personCompanion : companion.getAutopopulatingPersonCompanions()) {
 			personCompanion.setActive(true);
-			personCompanion.setVisitingTeaching(companion.getVisitingTeaching());
+			personCompanion.setOrganization(companion.getOrganization());
 			personCompanion.setCompanion(companion);
 			companions.add(personCompanion);
 		}
@@ -92,7 +92,7 @@ public class CompanionServiceImplHelper {
 		assignment.setFamilyId(familyId);
 		assignment.setCreated(new Date());
 		assignment.setActive(true);
-		assignment.setVisitingTeaching(companion.getVisitingTeaching());
+		assignment.setOrganization(companion.getOrganization());
 		assignmentRepo.save(assignment);
 	}
 }
