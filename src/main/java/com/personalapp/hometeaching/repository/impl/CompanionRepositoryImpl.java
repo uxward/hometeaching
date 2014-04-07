@@ -39,13 +39,6 @@ public class CompanionRepositoryImpl extends RepositoryImpl<Companion, Long> imp
 		return query.list(companion);
 	}
 
-	private List<Long> getCompanionsWithPersonSubQuery(Long personId) {
-		JPAQuery q = jpaFrom(companion);
-		q.leftJoin(companion.companions, personCompanion);
-		q.where(personCompanion.personId.eq(personId));
-		return q.list(companion.id);
-	}
-
 	@Override
 	public List<Companion> getAllCompanionsAndActiveFamilies(Organization organization) {
 		JPAQuery query = getCompanionDetailQuery();
@@ -72,5 +65,12 @@ public class CompanionRepositoryImpl extends RepositoryImpl<Companion, Long> imp
 		query.leftJoin(family.familyOrganizations, familyOrganization).fetch();
 		query.distinct();
 		return query;
+	}
+
+	private List<Long> getCompanionsWithPersonSubQuery(Long personId) {
+		JPAQuery q = jpaFrom(companion);
+		q.leftJoin(companion.companions, personCompanion);
+		q.where(personCompanion.personId.eq(personId));
+		return q.list(companion.id);
 	}
 }

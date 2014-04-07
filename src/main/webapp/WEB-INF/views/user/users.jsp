@@ -72,7 +72,7 @@
 								<select name="userOrganizationIds" class="form-control" id="organization" multiple="multiple">
 									<option value="">Select Organization</option>
 									<c:forEach items="${organizations}" var="organization">
-										<option value="${organization.id}">${organization.organization}</option>
+										<option value="${organization.id}">${organization.name}</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -142,7 +142,7 @@
 								<select name="userOrganizationIds" class="form-control" id="editOrganization" multiple="multiple">
 									<option value="">Select Organization</option>
 									<c:forEach items="${organizations}" var="organization">
-										<option value="${organization.id}">${organization.organization}</option>
+										<option value="${organization.id}">${organization.name}</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -215,17 +215,16 @@
 				'aoColumns' : [{
 					'sTitle' : 'Name',
 					'mData' : 'name',
-					//'mRender' : setupNameCompanionLink,
 					'sWidth' : '15%'
 				}, {
 					'sTitle' : 'Username',
 					'mData' : 'username',
-					'sWidth' : '15%'
+					'sWidth' : '16%'
 				}, {
 					'sTitle' : 'Role',
 					'mData' : 'roles',
 					'mRender' : setupRoles,
-					'sWidth' : '15%'
+					'sWidth' : '11%'
 				}, {
 					'sTitle' : 'Organization',
 					'mData' : 'organizations',
@@ -235,7 +234,7 @@
 					'sTitle' : 'Last Login',
 					'mData' : 'lastLogin',
 					'mRender' : setupFullDate,
-					'sWidth' : '18%'
+					'sWidth' : '14%'
 				}, {
 					'sTitle' : 'Setup Account',
 					'mData' : 'reset',
@@ -247,7 +246,7 @@
 						'sTitle' : 'Actions',
 						'mData' : 'id',
 						'mRender' : setupActions,
-						'sWidth' : '17%'
+						'sWidth' : '24%'
 					}
 				</sec:authorize>
 				],
@@ -256,14 +255,6 @@
 					'sEmptyTable' : 'There are no users yet.  Add a user by clicking the button below.'
 				}
 			});
-		}
-		
-		function setupNameCompanionLink(data, type, full){
-			var html = data;
-			if(full.companionId != null){
-				html = '<a href="<spring:url value="/companion/detail/"/>' + full.companionId + '">' + data + '</a>';
-			}
-			return html;
 		}
 
 		function setupRoles(data, type, full) {
@@ -283,15 +274,15 @@
 				if (i > 0) {
 					organizations += ', ';
 				}
-				organizations += data[i].organization;
+				organizations += data[i].name;
 			}
 			return organizations;
 		}
 
 		function setupActions(data, type, full) {
-			return '<input type="button" class="btn btn-primary editUser button-medium" data-user-id="' + data + '" value="Edit"/>'
-				+ ' <input type="button" class="btn btn-primary toggleEnable button-medium" data-user-id="' + data + '" value="'+ (full.enabled ? 'Disable' : 'Enable') + '"/>'
-				+ ' <a href="#" class="btn emailInvitation " data-user-id="' + data + '"><i class="glyphicon glyphicon-envelope"></i> Email Invitation</a>';
+			return '<input type="button" class="btn btn-primary editUser" data-user-id="' + data + '" value="Edit"/>'
+				+ ' <input type="button" class="btn btn-primary toggleEnable" data-user-id="' + data + '" value="'+ (full.enabled ? 'Disable' : 'Enable') + '"/>'
+				+ ' <a href="#" class="btn emailInvitation " data-user-id="' + data + '"><i class="glyphicon glyphicon-envelope"></i> Email Invite</a>';
 		}
 		
 		function canSaveUser() {

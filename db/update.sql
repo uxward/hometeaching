@@ -31,3 +31,8 @@ update visit v, person p , personcompanion pc, companion c, assignment a
 set pc.organizationid = p.organizationid
 where p.id = pc.personid and pc.companionid = c.id and a.companionid = c.id and v.assignmentid = a.id;
 commit;
+
+alter table personcompanion drop organizationid;
+alter table person drop organizationid;
+alter table assignment drop organizationid;
+commit;

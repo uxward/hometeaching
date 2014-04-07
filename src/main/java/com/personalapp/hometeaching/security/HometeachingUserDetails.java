@@ -43,12 +43,20 @@ public class HometeachingUserDetails implements UserDetails {
 		return hometeachingUser.getPerson().getFamily();
 	}
 
-	public List<Companion> getActiveHomeTeachingCompanions() {
-		return hometeachingUser.getPerson().getActiveCompanions(false);
-	}
+//	public List<Companion> getActiveHomeTeachingCompanions() {
+//		return hometeachingUser.getPerson().getActiveCompanions(false);
+//	}
+//
+//	public List<Companion> getActiveVisitingTeachingCompanions() {
+//		return hometeachingUser.getPerson().getActiveCompanions(true);
+//	}
 
-	public List<Companion> getActiveVisitingTeachingCompanions() {
-		return hometeachingUser.getPerson().getActiveCompanions(true);
+	public List<Companion> getActiveCompanions(boolean visitingTeaching) {
+		return hometeachingUser.getPerson().getActiveCompanions(visitingTeaching);
+	}
+	
+	public List<Companion> getActiveCompanions(){
+		return hometeachingUser.getPerson().getActiveCompanions();
 	}
 
 	public Long getId() {

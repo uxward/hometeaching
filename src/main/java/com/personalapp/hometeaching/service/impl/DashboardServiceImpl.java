@@ -70,6 +70,12 @@ public class DashboardServiceImpl implements DashboardService {
 		return familyStatuses;
 	}
 
+	@Override
+	public List<FamilyStatusViewModel> getVisitPercentageDetails(Integer month, Integer year, Long organizationId) {
+		List<Tuple> tupleStatuses = familyRepo.getVisitPercentageDetails(month, year, organizationId);
+		return getFamilyStatusFromTuple(tupleStatuses);
+	}
+
 	private List<FamilyStatusViewModel> getFamilyStatusFromTuple(List<Tuple> tupleStatuses) {
 		List<FamilyStatusViewModel> statuses = newArrayList();
 
@@ -87,11 +93,5 @@ public class DashboardServiceImpl implements DashboardService {
 			totalFamilies += (Long) tupleStatus.toArray()[0];
 		}
 		return totalFamilies;
-	}
-
-	@Override
-	public List<FamilyStatusViewModel> getVisitPercentageDetails(Integer month, Integer year, Long organizationId) {
-		List<Tuple> tupleStatuses = familyRepo.getVisitPercentageDetails(month, year, organizationId);
-		return getFamilyStatusFromTuple(tupleStatuses);
 	}
 }

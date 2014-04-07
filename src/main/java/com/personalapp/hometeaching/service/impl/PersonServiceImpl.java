@@ -1,7 +1,6 @@
 package com.personalapp.hometeaching.service.impl;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.personalapp.hometeaching.model.Organization.isVisitingTeaching;
 
 import java.util.Date;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.model.Person;
 import com.personalapp.hometeaching.repository.PersonRepository;
 import com.personalapp.hometeaching.service.PersonService;
@@ -22,9 +20,9 @@ public class PersonServiceImpl implements PersonService {
 	private PersonRepository repo;
 
 	@Override
-	public List<PersonViewModel> getAllNotMovedTeachersByOrganization(Organization organization) {
+	public List<PersonViewModel> getAllNotMovedTeachers(boolean visitingTeaching) {
 		List<PersonViewModel> teachers = newArrayList();
-		for (Person person : repo.getAllNotMovedTeachers(isVisitingTeaching(organization))) {
+		for (Person person : repo.getAllNotMovedTeachers(visitingTeaching)) {
 			teachers.add(new PersonViewModel(person, true, true));
 		}
 		return teachers;
@@ -63,10 +61,10 @@ public class PersonServiceImpl implements PersonService {
 		repo.save(person);
 	}
 
-	@Override
-	public PersonViewModel getViewModel(Person person) {
-		return new PersonViewModel(person, true, false);
-	}
+//	@Override
+//	public PersonViewModel getViewModel(Person person) {
+//		return new PersonViewModel(person, true, false);
+//	}
 
 	private void setNullAsFalse(Person person) {
 		if (person.getFemale() == null) {

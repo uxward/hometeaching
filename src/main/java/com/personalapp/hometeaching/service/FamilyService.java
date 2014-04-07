@@ -16,16 +16,14 @@ public interface FamilyService {
 	Family findDetailedFamilyById(Long id);
 
 	FamilyViewModel findDetailedFamilyViewModelById(Long id);
-	
+
 	FamilyViewModel getDetailedViewModelForFamily(Family family);
 
 	List<FamilyViewModel> getByCompanionId(Long companionId);
 
-	List<FamilyViewModel> getAllFamiliesWithoutHomeTeachingCompanion();
+	List<FamilyViewModel> getAllFamiliesWithoutCompanion(boolean visitingTeaching);
 
 	List<FamilyViewModel> getAllMovedFamilies();
 
 	List<FamilyViewModel> getAllUnknownFamilies();
-
-	List<FamilyViewModel> getAllFamiliesWithoutVisitingTeachingCompanion();
 }

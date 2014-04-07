@@ -14,7 +14,7 @@ public interface FamilyRepository extends Repository<Family, Long> {
 
 	Family findDetailedById(Long id);
 
-	List<Family> getAllFamiliesWithoutHomeTeachingCompanion();
+	List<Family> getAllFamiliesWithoutCompanion(boolean visitingTeaching);
 
 	List<Tuple> getFamilyStatusPercentage(List<Long> organizationIds);
 
@@ -25,7 +25,5 @@ public interface FamilyRepository extends Repository<Family, Long> {
 	List<Tuple> getVisitPercentageDetails(Integer month, Integer year, Long organizationId);
 
 	List<Family> getAllNotMovedFamiliesByStatus(List<FamilyStatus> statuses);
-
-	List<Family> getAllFamiliesWithoutVisitingTeachingCompanion();
 
 }

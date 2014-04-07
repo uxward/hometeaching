@@ -1,7 +1,6 @@
 package com.personalapp.hometeaching.security;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.personalapp.hometeaching.model.FamilyStatus.UNKNOWN;
 import static com.personalapp.hometeaching.model.Organization.ELDERS;
 import static com.personalapp.hometeaching.model.Organization.HIGH_PRIEST;
 import static com.personalapp.hometeaching.model.Organization.RELIEF_SOCIETY;
@@ -11,7 +10,6 @@ import static com.personalapp.hometeaching.model.Role.COUNCIL;
 import static com.personalapp.hometeaching.model.Role.HOMETEACHER;
 import static com.personalapp.hometeaching.model.Role.LEADER;
 import static com.personalapp.hometeaching.model.Role.MEMBERSHIP;
-import static org.apache.commons.collections.CollectionUtils.containsAny;
 
 import java.util.List;
 
@@ -25,10 +23,8 @@ import org.springframework.stereotype.Component;
 import com.google.common.base.Objects;
 import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.model.Family;
-import com.personalapp.hometeaching.model.FamilyOrganization;
 import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.model.Organization;
-import com.personalapp.hometeaching.model.PersonCompanion;
 import com.personalapp.hometeaching.model.Role;
 import com.personalapp.hometeaching.model.UserOrganization;
 import com.personalapp.hometeaching.repository.HometeachingUserRepository;
@@ -131,42 +127,17 @@ public class SecurityUtils {
 		return currentUserIsInCompanion(companion) || currentUserIsAdmin() || currentUserIsLeader() && companionInCurrentUserOrganizations(companion);
 	}
 
-	// private static boolean currentUserIsCompanion(Companion companion) {
-	// return companion != null &&
-	// getCurrentUser().getActiveHomeTeachingCompanions() != null &&
-	// companion.getId().equals(getCurrentUser().getActiveHomeTeachingCompanions().getId());
-	// }
-
 	private static boolean companionInCurrentUserOrganizations(Companion companion) {
-		List<Long> organizationIds = newArrayList();
-		for (PersonCompanion personCompanion : companion.getCompanions()) {
-			if (personCompanion.getPerson() != null && personCompanion.getPerson().getOrganization() != null) {
-				organizationIds.add(personCompanion.getPerson().getOrganization().getId());
-			}
-		}
-		return containsAny(organizationIds, getCurrentUserOrganizationIds());
+		return getCurrentUserOrganizationIds().contains(companion.getOrganization().getId());
 	}
 
 	private static boolean currentUserIsInCompanion(Companion companion) {
-		List<Companion> companions = getCurrentUser().getActiveHomeTeachingCompanions();
-		companions.addAll(getCurrentUser().getActiveVisitingTeachingCompanions());
+		List<Companion> companions = getCurrentUser().getActiveCompanions();
 		for (Companion currentUserCompanion : companions) {
 			if (Objects.equal(currentUserCompanion.getId(), companion.getId())) {
 				return true;
 			}
 		}
 		return false;
-	}
-
-	private static boolean familyIsMovedOrUnknown(Family family) {
-		return family.getFamilyMoved() || UNKNOWN.equals(family.getFamilyStatus());
-	}
-
-	private static boolean familyInCurrentUserOrganizations(Family family) {
-		List<Long> organizationIds = newArrayList();
-		for (FamilyOrganization organization : family.getFamilyOrganizations()) {
-			organizationIds.add(organization.getOrganizationId());
-		}
-		return containsAny(organizationIds, getCurrentUserOrganizationIds());
 	}
 }

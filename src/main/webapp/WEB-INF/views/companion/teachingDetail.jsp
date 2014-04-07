@@ -9,6 +9,20 @@
 	<fmt:formatDate value="${now}" type="both" pattern="MM-yyyy" />
 </c:set>
 
+<c:set var="teachingType">
+	<c:choose>
+		<c:when test="${visitingTeaching}">Visiting Teaching</c:when>
+		<c:otherwise>Home Teaching</c:otherwise>
+	</c:choose>
+</c:set>
+
+<c:set var="teachingActive">
+	<c:choose>
+		<c:when test="${visitingTeaching}">visitingTeachingDetail</c:when>
+		<c:otherwise>homeTeachingDetail</c:otherwise>
+	</c:choose>
+</c:set>
+
 <c:set var="companionship">
 	<c:forEach var="teacher" items="${companion.teachers}" varStatus="status">
 		<span class="pull-left">${teacher.firstName}&nbsp;</span>
@@ -21,8 +35,7 @@
 
 <spring:url var="dashboard" value="/dashboard" />
 
-<t:mainPage activeMenu="visitingTeachingDetail" pageTitle="Visiting Teaching Detail" pageHeader="${companionship}" pageSubheader="Visiting Teaching">
-
+<t:mainPage activeMenu="${teachingActive}" pageTitle="${teachingType} Detail" pageHeader="${companionship}" pageSubheader="${teachingType}">
 	<div class="row">
 		<div class="alert alert-info">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -40,7 +53,7 @@
 	</div>
 
 	<fieldset>
-		<legend> Assigned Women </legend>
+		<legend> Assigned ${visitingTeaching ? 'Women' : 'Families'} </legend>
 	</fieldset>
 
 	<!--  Family Assignment Table
@@ -72,18 +85,24 @@
 								<select name="autopopulatingAssignments[0].familyId" id="familySelect" class="form-control">
 									<option value="">Select Family</option>
 									<c:forEach items="${families}" var="family">
-										<option value="${family.id}">${family.familyName},&nbsp;${family.womenHeadOfHousehold}&nbsp;</option>
+										<c:choose>
+											<c:when test="${visitingTeaching}">
+												<option value="${family.id}">${family.familyName},&nbsp;${family.womenHeadOfHousehold}&nbsp;</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${family.id}">${family.familyName},&nbsp;${family.headOfHousehold}&nbsp;</option>
+											</c:otherwise>
+										</c:choose>
 									</c:forEach>
 								</select>
 							</div>
-							<input type="hidden" value="${companion.id}" name="id" />
-							<input type="hidden" name="visitingTeaching" value="true" />
+							<input type="hidden" value="${companion.id}" name="id" /> <input type="hidden" name="visitingTeaching" value="${visitingTeaching}" />
 						</form>
 					</div>
 
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-						<button type="button" class="btn btn-primary" id="saveAssignment" data-action="save">Add Assignment</button>
+						<button type="button" class="btn btn-primary" id="saveAssignment" data-action="save">Save Assignment</button>
 					</div>
 				</div>
 			</div>
@@ -106,8 +125,16 @@
 	<div id="visitHistory">
 		<ul class="nav nav-tabs">
 			<c:forEach var="family" items="${companion.assignments}" varStatus="status">
-				<li class="${status.first ? 'active' : ''}" id="${family.id}-tab-link"><a href="#${family.id}-tab" data-toggle="tab" class="hidden-xs">${family.womenHeadOfHousehold}&nbsp;${family.familyName}</a>
-					<a href="#${family.id}-tab" data-toggle="tab" class="hidden-sm hidden-md hidden-lg">${family.familyName}</a></li>
+				<li class="${status.first ? 'active' : ''}" id="${family.id}-tab-link"><c:choose>
+						<c:when test="${visitingTeaching}">
+							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-xs">${family.womenHeadOfHousehold},&nbsp;${family.familyName}</a>
+							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-sm hidden-md hidden-lg">${family.womenHeadOfHousehold}</a>
+						</c:when>
+						<c:otherwise>
+							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-xs">${family.familyName},&nbsp;${family.headOfHousehold}</a>
+							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-sm hidden-md hidden-lg">${family.familyName}</a>
+						</c:otherwise>
+					</c:choose></li>
 			</c:forEach>
 		</ul>
 		<div class="tab-content">
@@ -118,8 +145,16 @@
 					<table class="table table-striped table-hover table-bordered visitHistory" data-family-id="${family.id}" width="100%">
 					</table>
 					<c:if test="${canAction}">
-						<a href="#recordVisit" role="button" class="btn btn-primary recordVisit" data-assignment-id="${family.assignmentId}" data-family-id="${family.id}" data-toggle="modal">Record visit with
-							${family.womenHeadOfHousehold}&nbsp;${family.familyName }</a>
+						<a href="#recordVisit" role="button" class="btn btn-primary recordVisit" data-assignment-id="${family.assignmentId}" data-family-id="${family.id}" data-toggle="modal">
+							<c:choose>
+								<c:when test="${visitingTeaching}">
+									Record visit with ${family.womenHeadOfHousehold}&nbsp;${family.familyName }
+								</c:when>
+								<c:otherwise>
+									Record visit with the ${family.familyName} family
+								</c:otherwise>
+							</c:choose>
+						</a>
 					</c:if>
 				</div>
 			</c:forEach>
@@ -143,7 +178,14 @@
 							<select name="familyId" id="visitFamilySelect" class="form-control" disabled>
 								<option value="">Select Family</option>
 								<c:forEach var="family" items="${companion.assignments}">
-									<option value="${family.id}">${family.familyName}&nbsp;${family.womenHeadOfHousehold}</option>
+									<c:choose>
+										<c:when test="${visitingTeaching}">
+											<option value="${family.id}">${family.womenHeadOfHousehold}&nbsp;${family.familyName}</option>
+										</c:when>
+										<c:otherwise>
+											<option value="${family.id}">${family.familyName}&nbsp;${family.headOfHousehold}</option>
+										</c:otherwise>
+									</c:choose>
 								</c:forEach>
 							</select>
 						</div>
@@ -159,8 +201,8 @@
 							<textarea class="form-control" name="notes" id="notes" placeholder="Notes" maxlength="400"></textarea>
 						</div>
 						<div>
-							<input type="hidden" name="visitingTeaching" value="true" /> <input type="hidden" name="id" id="visitId" /> <input type="hidden" name="assignmentId" id="assignmentId" /><input type="hidden"
-								name="familyId" id="familyId" /><input type="hidden" name="organizationId" value="${companion.teachers[0].organization.id}" />
+							<input type="hidden" name="visitingTeaching" value="${visitingTeaching}" /><input type="hidden" name="id" id="visitId" /> <input type="hidden" name="assignmentId" id="assignmentId" /><input type="hidden"
+								name="familyId" id="familyId" /><input type="hidden" value="${companion.organization.id}" name="organizationId" />
 						</div>
 					</form>
 				</div>
@@ -335,7 +377,7 @@
 			$('.visitHistory').each(function() {
 				$(this).dataTable({
 					'sDom' : 't'
-					,'sAjaxSource' : '<spring:url value="/visit/visitingTeaching/"/>?familyId=' + $(this).data('familyId')
+					,'sAjaxSource' : '<spring:url value="/visit/getVisits/${visitingTeaching}"/>?familyId=' + $(this).data('familyId')
 					,'aaData' : []
 					,'aaSorting': [[ 1, 'desc' ]]
 					,'aoColumns' : [ {
@@ -416,7 +458,7 @@
 								],
 								'oLanguage' : {
 									'sInfoEmpty' : 'No assignments to show',
-									'sEmptyTable' : 'There are no women assigned yet.  Add an assignment by clicking the button below.'
+									'sEmptyTable' : 'There are no assignments yet.  Add an assignment by clicking the button below.'
 								}
 							});
 		}
@@ -446,10 +488,10 @@
 
 		function handleSaveAssignment(data) {
 			if (data.success) {
-				showNotificationSuccess('The assignment has been successfully added to this companionship.');
+				showNotificationSuccess('This assignment has been successfully added to this companionship.');
 				handleSaveAssignmentSuccess(data);
 			} else {
-				showModalError('<p>There was an unexpected error while adding the assignment to this companionship.  If the issue continues please contact your organization leader.');
+				showModalError('<p>There was an unexpected error while adding this assignment to the companionship.  If the issue continues please contact your organization leader.');
 			}
 		}
 		
@@ -490,7 +532,7 @@
 				showNotificationSuccess('This assignment has been successfully removed from this companionship.');
 				handleRemoveAssignmentSuccess($this);
 			} else {
-				showModalError('<p>There was an unexpected error while removing the assignment from this companionship.  If the issue continues please contact your organization leader.');
+				showModalError('<p>There was an unexpected error while removing this assignment from this companionship.  If the issue continues please contact your organization leader.');
 			}
 		}
 		
@@ -517,7 +559,7 @@
 		function emailAssignments() {
 			$.ajax({
 				type : 'POST',
-				url : '<spring:url value="/email/byCompanion"/>',
+				url : '<spring:url value="/email/updatedAssignment"/>',
 				data : {
 					'companionId' : '${companion.id}'
 				},

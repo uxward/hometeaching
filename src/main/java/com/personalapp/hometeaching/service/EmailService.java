@@ -10,4 +10,6 @@ public interface EmailService {
 	ActionViewModel sendUpdatedAssignmentEmailToAllCompanions(Organization organization);
 
 	ActionViewModel sendEmailToNewUser(Long hometeachingUserId);
+
+	ActionViewModel sendTeachingReportEmailToAllCompanions(Organization organization);
 }

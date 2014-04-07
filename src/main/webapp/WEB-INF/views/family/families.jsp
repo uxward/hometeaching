@@ -56,7 +56,7 @@
 							<select name="familyOrganizationIds" class="form-control" id="familyOrganization" multiple="multiple">
 								<option value="">Select Organization</option>
 								<c:forEach items="${organizations}" var="organization">
-									<option value="${organization.id}">${organization.organization}</option>
+									<option value="${organization.id}">${organization.name}</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -125,12 +125,12 @@
 					'sTitle' : 'Home Teachers',
 					'mData' : 'homeTeachingCompanions',
 					'sWidth' : '13%',
-					'mRender' : setupHomeTeaching
+					'mRender' : setupTeachers
 				}, {
 					'sTitle' : 'Visiting Teachers',
 					'mData' : 'visitingTeachingCompanions',
 					'sWidth' : '13%',
-					'mRender' : setupVisitingTeaching
+					'mRender' : setupTeachers
 				} ],
 				'oLanguage' : {
 					'sInfoEmpty' : 'No families to show',
@@ -143,18 +143,10 @@
 			return '<a href="<spring:url value="/family/detail/"/>' + full.id + '">' + getFamilyAndHeadNames(data, full.people) + '</a>';
 		}
 
-		function setupHomeTeaching(data, type, full) {
+		function setupTeachers(data, type, full) {
 			var html = '';
 			if (data != null) {
-				html = '<a href="<spring:url value="/companion/homeTeachingDetail/"/>' + data.id + '">' + data.allTeachers + '</a>';
-			}
-			return html;
-		}
-
-		function setupVisitingTeaching(data, type, full) {
-			var html = '';
-			if (data != null) {
-				html = '<a href="<spring:url value="/companion/visitingTeachingDetail/"/>' + data.id + '">' + data.allTeachers + '</a>';
+				html = '<a href="<spring:url value="/companion/detail/"/>' + data.id + '">' + data.allTeachers + '</a>';
 			}
 			return html;
 		}

@@ -53,7 +53,7 @@
 
 		function setupFamilyStatus(data, organizations, numOrgs) {
 
-			var display = organizations[0].organization;
+			var display = organizations[0].name;
 
 			var width = 280, height = 280, radius = 100, margin = {
 				x : 0,

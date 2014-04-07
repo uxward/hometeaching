@@ -23,8 +23,6 @@ public interface CompanionService {
 
 	Companion findDetailedById(Long id);
 
-	CompanionViewModel findDetailedCompanionViewModelById(Long id);
-
 	List<Companion> getAllCompanionsAndActiveFamilies(Organization organization);
 
 	Companion getCompanionAndActiveFamilies(Long companionId);

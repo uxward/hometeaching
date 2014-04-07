@@ -146,8 +146,4 @@ public class Visit extends BaseEntity {
 		calendar.add(DAY_OF_MONTH, 1);
 		this.visitDate = calendar.getTime();
 	}
-
-//	public Family getFamily() {
-//		return family;
-//	}
 }

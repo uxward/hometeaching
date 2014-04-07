@@ -3,7 +3,21 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<t:mainPage activeMenu="allTeachers${organization.id}" pageTitle="Home Teachers" pageHeader="All" pageSubheader="Home Teachers">
+<c:set var="teacherPrefix">
+	<c:choose>
+		<c:when test="${visitingTeaching}"></c:when>
+		<c:otherwise>${organization.abbreviation}&nbsp;</c:otherwise>
+	</c:choose>
+</c:set>
+
+<c:set var="teacherType">
+	<c:choose>
+		<c:when test="${visitingTeaching}">Visiting Teacher</c:when>
+		<c:otherwise>Home Teacher</c:otherwise>
+	</c:choose>
+</c:set>
+
+<t:mainPage activeMenu="${organization.name}" pageTitle="${teacherPrefix}${teacherType}s" pageHeader="All" pageSubheader="${teacherPrefix}${teacherType}s">
 
 	<table id="companionTable" class="table table-striped table-hover table-bordered" width="100%">
 	</table>
@@ -13,6 +27,9 @@
 		<a href="#addCompanion" role="button" class="btn btn-primary" data-toggle="modal">Add Companion</a>
 		<a href="#" class="btn" id="emailAssignments">
 			<i class="glyphicon glyphicon-envelope"></i> Email All Assignments
+		</a>
+		<a href="#" class="btn" id="emailReportUpdate">
+			<i class="glyphicon glyphicon-envelope"></i> Request Monthly Update
 		</a>
 
 		<!-- Add companion modal -->
@@ -30,7 +47,7 @@
 							<div class="form-group">
 								<label class="sr-only" for="companion0">1st Companion</label>
 								<select name="autopopulatingPersonCompanions[0].personId" class="companionSelect form-control" id="companion0">
-									<option value="">Select Home Teacher</option>
+									<option value="">Select ${teacherType}</option>
 									<c:forEach items="${teachers}" var="teacher">
 										<option value="${teacher.id}">${teacher.firstName}&nbsp;${teacher.family.familyName}&nbsp;-&nbsp;${teacher.family.familyStatus}</option>
 									</c:forEach>
@@ -39,7 +56,7 @@
 							<div class="form-group">
 								<label class="sr-only" for="companion1">2nd Companion</label>
 								<select name="autopopulatingPersonCompanions[1].personId" class="companionSelect form-control" id="companion1">
-									<option value="">Select Home Teacher</option>
+									<option value="">Select ${teacherType}</option>
 									<c:forEach items="${teachers}" var="teacher">
 										<option value="${teacher.id}">${teacher.firstName}&nbsp;${teacher.family.familyName}&nbsp;-&nbsp;${teacher.family.familyStatus}</option>
 									</c:forEach>
@@ -73,7 +90,7 @@
 							<div class="form-group">
 								<label class="sr-only" for="editFirstCompanion">1st Companion</label>
 								<select name="autopopulatingPersonCompanions[0].personId" class="companionSelect form-control" id="editFirstCompanion">
-									<option value="">Select Home Teacher</option>
+									<option value="">Select ${teacherType}</option>
 									<c:forEach items="${teachers}" var="teacher">
 										<option value="${teacher.id}">${teacher.firstName}&nbsp;${teacher.family.familyName}&nbsp;-&nbsp;${teacher.family.familyStatus}</option>
 									</c:forEach>
@@ -82,7 +99,7 @@
 							<div class="form-group">
 								<label class="sr-only" for="editSecondCompanion">2nd Companion</label>
 								<select name="autopopulatingPersonCompanions[1].personId" class="companionSelect form-control" id="editSecondCompanion">
-									<option value="">Select Home Teacher</option>
+									<option value="">Select ${teacherType}</option>
 									<c:forEach items="${teachers}" var="teacher">
 										<option value="${teacher.id}">${teacher.firstName}&nbsp;${teacher.family.familyName}&nbsp;-&nbsp;${teacher.family.familyStatus}</option>
 									</c:forEach>
@@ -142,6 +159,12 @@
 			$('#emailAssignments').click(function() {
 				if (confirm('Are you sure you want to email all assignments?')) {
 					emailAssignments();
+				}
+			});
+
+			$('#emailReportUpdate').click(function() {
+				if (confirm('Are you sure you want to email all assignments?')) {
+					emailReportUpdate();
 				}
 			});
 		}
@@ -295,7 +318,7 @@
 		function setupCompanionTable() {
 
 			$('#companionTable').dataTable({
-				'sAjaxSource' : '<spring:url value="/companion/getAllCompanions"/>/${organization.id}',
+				'sAjaxSource' : '<spring:url value="/companion/getAll"/>/${organization.id}',
 				'aaData' : [],
 				'aaSorting' : [ [ 0, 'asc' ] ],
 				'aoColumns' : [ {
@@ -334,7 +357,7 @@
 				}
 				names += data[i].fullName;
 			}
-			return '<a href="<spring:url value="/companion/homeTeachingDetail/' + full.id + '"/>">' + names + '</a>';
+			return '<a href="<spring:url value="/companion/detail/' + full.id + '"/>">' + names + '</a>';
 		}
 
 		function setupAssignments(data, type, full) {
@@ -366,17 +389,31 @@
 		
 		/*
 		*
-		* Email assignments
+		* Email
 		*
 		*/
 
 		function emailAssignments() {
 			$.ajax({
 				type : 'POST',
-				url : '<spring:url value="/email/allCompanions"/>',
+				url : '<spring:url value="/email/updatedAssignment"/>/${organization.id}',
 				success : function(data) {
 					if(data.success){
 						showNotificationSuccess('An updated assignment email was successfully sent to all companionships.');
+					} else {
+						showNotificationError('There was an unexpected error while emailing at least one companionship.  Please verify that their email addresses are valid.  If the problem continues please contact the leader of your organization.');
+					}
+				}
+			});
+		}
+
+		function emailReportUpdate() {
+			$.ajax({
+				type : 'POST',
+				url : '<spring:url value="/email/reportUpdate"/>/${organization.id}',
+				success : function(data) {
+					if(data.success){
+						showNotificationSuccess('An email requesting a teaching report was successfully sent to all companionships.');
 					} else {
 						showNotificationError('There was an unexpected error while emailing at least one companionship.  Please verify that their email addresses are valid.  If the problem continues please contact the leader of your organization.');
 					}

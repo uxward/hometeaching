@@ -5,7 +5,7 @@
 
 <%@ include file="./dayMod.jsp" %>
 
-<t:base activeMenu="home" pageTitle="Home">
+<t:base activeMenu="home" pageTitle="Error">
 
 	<div class="jumbotron">
 		<div class="container">
@@ -20,7 +20,7 @@
 
 				<div class="col-md-9">
 					<h1>An error occurred</h1>
-					<p>...while building better worlds.</p>
+					<p>If the problem continues please contact the leader of your organization.</p>
 				</div>
 			</div>
 		</div>

@@ -3,8 +3,8 @@
 <body style="font-family: ' HelveticaNeue ', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.428571429; color: #333;">
 	{{#with companion}}
 		<p>
-			{{#companions}}{{firstNoAnd @index}}{{person.firstName}}{{/companions}}, <br /> <br /> Here are your most up to date home teaching assignments as well as personal contact information to help you coordinate with each other. To see more information about these families and
-			record visits with them you can use the	<a href="http://hometeaching.elasticbeanstalk.com/companion/you">home teaching website</a>, write me an email, give me a call, or send me a text.
+			{{#companions}}{{firstNoAnd @index}}{{person.firstName}}{{/companions}}, <br /> <br /> Here are your most up to date {{#if visitingTeaching}} visiting {{else}} home {{/if}}teaching assignments as well as personal contact information to help you coordinate with each other. To see more information about these families and
+			record visits with them you can use the	<a href="http://hometeaching.elasticbeanstalk.com/companion/you/{{visitingTeaching}}">home teaching website</a>, write me an email, give me a call, or send me a text.
 		</p>
 		
 		<fieldset style="padding: 0;margin: 0;border: 0;">

@@ -105,11 +105,6 @@ public class CompanionServiceImpl implements CompanionService {
 	}
 
 	@Override
-	public CompanionViewModel findDetailedCompanionViewModelById(Long id) {
-		return new CompanionViewModel(findDetailedById(id), true);
-	}
-
-	@Override
 	public CompanionViewModel getDetailedViewModelForCompanion(Companion companion) {
 		return new CompanionViewModel(companion, true);
 	}

@@ -19,7 +19,7 @@
 			<div class="col-md-6 col-sm-6" style="min-height:315px;">
 
 				<fieldset>
-					<legend> ${organization.organization} </legend>
+					<legend> ${organization.name} </legend>
 				</fieldset>
 				<table class="table table-hover table-condensed summaryStatistics" data-organization-id="${organization.id}" width="100%">
 

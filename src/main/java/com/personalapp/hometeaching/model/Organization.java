@@ -8,7 +8,7 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 
 public enum Organization {
-	WARD(4L, "Ward"), RELIEF_SOCIETY(3L, "Relief society"), HIGH_PRIEST(2L, "High priests"), ELDERS(1L, "Elders quorum");
+	WARD(4L, "Ward", "D4"), RELIEF_SOCIETY(3L, "Relief society", "RS"), HIGH_PRIEST(2L, "High priests", "HP"), ELDERS(1L, "Elders quorum", "EQ");
 
 	private final static Map<Long, Organization> ORGANIZATION = newHashMap();
 	static {
@@ -18,23 +18,29 @@ public enum Organization {
 	}
 
 	private Long id;
-	private String organization;
+	private String name;
+	private String abbreviation;
 
-	private Organization(Long id, String organization) {
+	private Organization(Long id, String name, String abbreviation) {
 		this.id = id;
-		this.organization = organization;
+		this.name = name;
+		this.abbreviation = abbreviation;
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public String getOrganization() {
-		return organization;
+	public String getName() {
+		return name;
+	}
+	
+	public String getAbbreviation(){
+		return abbreviation;
 	}
 
 	public static Organization fromId(Long id) {
-		return ORGANIZATION.get(id);
+		return id != null ? ORGANIZATION.get(id) : null;
 	}
 
 	public static List<Organization> forDisplay() {

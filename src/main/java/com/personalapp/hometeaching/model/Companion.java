@@ -68,6 +68,10 @@ public class Companion extends BaseEntity {
 		this.organizationId = organization.getId();
 	}
 
+	public void setOrganizationId(Long organizationId) {
+		this.organizationId = organizationId;
+	}
+
 	public Set<PersonCompanion> getCompanions() {
 		return companions;
 	}

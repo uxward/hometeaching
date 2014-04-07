@@ -80,8 +80,8 @@ public class FamilyViewModel extends ActionViewModel {
 		}
 
 		if (populateHometeachers) {
-			this.homeTeachingCompanions = new CompanionViewModel(family.getActiveHomeTeachingAssignment().getCompanion(), false);
-			this.visitingTeachingCompanions = new CompanionViewModel(family.getActiveVisitingTeachingAssignment().getCompanion(), false);
+			this.homeTeachingCompanions = new CompanionViewModel(family.getActiveCompanion(false), false);
+			this.visitingTeachingCompanions = new CompanionViewModel(family.getActiveCompanion(true), false);
 		}
 	}
 

@@ -6,22 +6,37 @@ public class OrganizationViewModel {
 
 	private Long id;
 
-	private String organization;
+	private String name;
+
+	private String abbreviation;
 
 	private Long totalFamilies;
 
 	public OrganizationViewModel(Organization organization, Long totalFamilies) {
-		this.id = organization.getId();
-		this.organization = organization.getOrganization();
+		setupViewModel(organization);
 		this.totalFamilies = totalFamilies;
+	}
+
+	public OrganizationViewModel(Organization organization) {
+		setupViewModel(organization);
+	}
+
+	private void setupViewModel(Organization organization) {
+		this.id = organization.getId();
+		this.name = organization.getName();
+		this.abbreviation = organization.getAbbreviation();
 	}
 
 	public Long getId() {
 		return id;
 	}
 
-	public String getOrganization() {
-		return organization;
+	public String getName() {
+		return name;
+	}
+
+	public String getAbbreviation() {
+		return abbreviation;
 	}
 
 	public Long getTotalFamilies() {

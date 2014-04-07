@@ -6,7 +6,6 @@ import static com.personalapp.hometeaching.model.QFamily.family;
 import static com.personalapp.hometeaching.model.QHometeachingUser.hometeachingUser;
 import static com.personalapp.hometeaching.model.QPerson.person;
 import static com.personalapp.hometeaching.model.QPersonCompanion.personCompanion;
-import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserOrganizationIds;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Repository;
 
-import com.mysema.query.jpa.JPASubQuery;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.model.Person;
@@ -59,7 +57,6 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 		JPAQuery query = getPersonNotMovedQuery();
 		query.where(person.user.isTrue());
 		query.where(person.notIn(getCreatedUsers()));
-		query.where(person.organizationId.in(getCurrentUserOrganizationIds()));
 		query.orderBy(family.familyName.asc());
 		return query.list(person);
 	}
@@ -88,21 +85,5 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 			assignedPeople.add(user.getPerson());
 		}
 		return assignedPeople;
-	}
-
-	private JPASubQuery getHomeTeachersSubQuery() {
-		JPASubQuery q = new JPASubQuery().from(personCompanion);
-		// q.where(personCompanion.person.eq(person),
-		// personCompanion.active.isTrue(),
-		// personCompanion.visitingTeaching.isFalse());
-		return q;
-	}
-
-	private JPASubQuery getVisitingTeachersSubQuery() {
-		JPASubQuery q = new JPASubQuery().from(personCompanion);
-		// q.where(personCompanion.person.eq(person),
-		// personCompanion.active.isTrue(),
-		// personCompanion.visitingTeaching.isTrue());
-		return q;
 	}
 }

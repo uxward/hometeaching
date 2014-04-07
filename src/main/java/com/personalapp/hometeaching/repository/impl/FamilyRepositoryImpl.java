@@ -26,7 +26,6 @@ import com.mysema.query.jpa.JPASubQuery;
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.personalapp.hometeaching.model.Family;
 import com.personalapp.hometeaching.model.FamilyStatus;
-import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.model.QPerson;
 import com.personalapp.hometeaching.repository.FamilyRepository;
 
@@ -68,27 +67,13 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 	}
 
 	@Override
-	public List<Family> getAllFamiliesWithoutHomeTeachingCompanion() {
+	public List<Family> getAllFamiliesWithoutCompanion(boolean visitingTeaching) {
 		logger.info("entering the get all families without home teaching companion method");
 		JPAQuery query = getNotMovedFamilyQuery(getCurrentUserOrganizationIds());
 		// TODO make this not bad and ugly
-		List<Long> assignedFamilyIds = getAllFamilyIdsWithHomeTeachingCompanion();
+		List<Long> assignedFamilyIds = getAllFamilyIdsWithCompanion(visitingTeaching);
 		if (!assignedFamilyIds.isEmpty()) {
-			query.where(family.assignment.isEmpty().or(family.id.notIn(getAllFamilyIdsWithHomeTeachingCompanion())));
-		}
-		query.distinct();
-		query.orderBy(family.familyName.asc());
-		return query.list(family);
-	}
-
-	@Override
-	public List<Family> getAllFamiliesWithoutVisitingTeachingCompanion() {
-		logger.info("entering the get all families without visiting teaching companion method");
-		JPAQuery query = getNotMovedFamilyQuery(newArrayList(RELIEF_SOCIETY.getId()));
-		// TODO make this not bad and ugly
-		List<Long> assignedFamilyIds = getAllFamilyIdsWithVisitingTeachingCompanion();
-		if (!assignedFamilyIds.isEmpty()) {
-			query.where(family.assignment.isEmpty().or(family.id.notIn(getAllFamilyIdsWithVisitingTeachingCompanion())));
+			query.where(family.assignment.isEmpty().or(family.id.notIn(assignedFamilyIds)));
 		}
 		query.distinct();
 		query.orderBy(family.familyName.asc());
@@ -128,20 +113,16 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 		return query.groupBy(family.familyStatusId).list(family.id.count(), family.familyStatusId, visit.visited.castToNum(Integer.class).avg());
 	}
 
-	private List<Long> getAllFamilyIdsWithHomeTeachingCompanion() {
+	private List<Long> getAllFamilyIdsWithCompanion(boolean visitingTeaching) {
 		logger.info("entering the get all families with a companion method");
 		JPAQuery query = jpaFrom(family);
 		query.leftJoin(family.assignment, assignment);
-		query.where(assignment.isNotNull(), assignment.active.isTrue(), assignment.organizationId.in(newArrayList(ELDERS.getId(), HIGH_PRIEST.getId())));
-		query.orderBy(family.familyName.asc());
-		return query.list(family.id);
-	}
-
-	private List<Long> getAllFamilyIdsWithVisitingTeachingCompanion() {
-		logger.info("entering the get all families with a companion method");
-		JPAQuery query = jpaFrom(family);
-		query.leftJoin(family.assignment, assignment);
-		query.where(assignment.isNotNull(), assignment.active.isTrue(), assignment.organizationId.in(newArrayList(Organization.RELIEF_SOCIETY.getId())));
+		query.leftJoin(assignment.companion, companion);
+		if (visitingTeaching) {
+			query.where(assignment.isNotNull(), assignment.active.isTrue(), companion.active.isTrue(), companion.organizationId.in(newArrayList(RELIEF_SOCIETY.getId())));
+		} else {
+			query.where(assignment.isNotNull(), assignment.active.isTrue(), companion.active.isTrue(), companion.organizationId.in(newArrayList(ELDERS.getId(), HIGH_PRIEST.getId())));
+		}
 		query.orderBy(family.familyName.asc());
 		return query.list(family.id);
 	}

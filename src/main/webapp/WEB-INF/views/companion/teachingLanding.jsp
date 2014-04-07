@@ -1,15 +1,37 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<t:mainPage activeMenu="homeTeachingDetail" pageTitle="Home Teaching Landing" pageHeader="${person.fullName}'s" pageSubheader="Home Teaching">
+<c:set var="teachingType">
+	<c:choose>
+		<c:when test="${visitingTeaching}">Visiting Teaching</c:when>
+		<c:otherwise>Home Teaching</c:otherwise>
+	</c:choose>
+</c:set>
+
+<c:set var="teacherType">
+	<c:choose>
+		<c:when test="${visitingTeaching}">Visiting Teachers</c:when>
+		<c:otherwise>Home Teachers</c:otherwise>
+	</c:choose>
+</c:set>
+
+<c:set var="teachingActive">
+	<c:choose>
+		<c:when test="${visitingTeaching}">visitingTeachingDetail</c:when>
+		<c:otherwise>homeTeachingDetail</c:otherwise>
+	</c:choose>
+</c:set>
+
+<t:mainPage activeMenu="${teachingActive}" pageTitle="${teachingType} Landing" pageHeader="${person.fullName}'s" pageSubheader="${teachingType}">
 
 	<div class="row">
 		<div class="alert alert-info">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			<strong>Click which companionship you want to view!</strong><br /> It looks like you have multiple home teaching assignments. So which one do you want to see?
+			<strong>Click the companionship you want to view!</strong><br /> It looks like you have multiple ${fn:toLowerCase(teachingType)} assignments, so which one do you want to see?
 		</div>
 	</div>
 
@@ -33,10 +55,10 @@
 		function setupAssignmentTable() {
 			$('#assignmentTable').dataTable({
 				'sDom' : "<'row'<'col-sm-12'<'pull-right'f>r<'clearfix'>>>t",
-				'sAjaxSource' : '<spring:url value="/companion/getUsersCompanions/"/>/false?personId=' + $('#assignmentTable').data('personId'),
+				'sAjaxSource' : '<spring:url value="/companion/getByPerson/"/>/${visitingTeaching}?personId=' + $('#assignmentTable').data('personId'),
 				'aaData' : [],
 				'aoColumns' : [ {
-					'sTitle' : 'Home Teachers',
+					'sTitle' : '${teacherType}',
 					'sWidth' : '33%',
 					'mData' : 'teachers',
 					'mRender' : setupTeachers
@@ -61,7 +83,7 @@
 				}
 				names += data[i].fullName;
 			}
-			return '<a href="<spring:url value="/companion/homeTeachingDetail/' + full.id + '"/>">' + names + '</a>';
+			return '<a href="<spring:url value="/companion/detail/' + full.id + '"/>">' + names + '</a>';
 		}
 
 		function setupAssignments(data, type, full) {

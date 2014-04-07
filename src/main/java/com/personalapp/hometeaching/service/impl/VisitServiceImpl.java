@@ -114,19 +114,9 @@ public class VisitServiceImpl implements VisitService {
 	}
 
 	@Override
-	public List<VisitViewModel> getHomeTeachingVisitsByFamilyId(Long familyId) {
+	public List<VisitViewModel> getVisitsByFamilyId(Long familyId, boolean visitingTeaching) {
 		List<VisitViewModel> visits = newArrayList();
-		for (Visit visit : repo.getHomeTeachingVisitsByFamilyId(familyId)) {
-			VisitViewModel model = new VisitViewModel(visit);
-			visits.add(model);
-		}
-		return visits;
-	}
-
-	@Override
-	public List<VisitViewModel> getVisitingTeachingVisitsByFamilyId(Long familyId) {
-		List<VisitViewModel> visits = newArrayList();
-		for (Visit visit : repo.getVisitingTeachingVisitsByFamilyId(familyId)) {
+		for (Visit visit : repo.getVisitsByFamilyId(familyId, visitingTeaching)) {
 			VisitViewModel model = new VisitViewModel(visit);
 			visits.add(model);
 		}

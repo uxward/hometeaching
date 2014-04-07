@@ -40,9 +40,9 @@ public class PersonViewModel {
 		this.visitingTeacher = person.getVisitingTeacher();
 		this.user = person.getUser();
 
-		if (person.getOrganization() != null) {
-			this.organization = new OrganizationViewModel(person.getOrganization(), null);
-		}
+//		if (person.getOrganization() != null) {
+//			this.organization = new OrganizationViewModel(person.getOrganization(), null);
+//		}
 
 		if (populateFamily) {
 			this.family = new FamilyViewModel(person.getFamily(), false, false, false);

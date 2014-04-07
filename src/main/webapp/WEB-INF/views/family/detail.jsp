@@ -17,7 +17,7 @@
 		</p>
 		<p id="viewOrganization">
 			<strong>Organization:</strong>
-			<c:forEach items="${family.organizations}" var="organization" varStatus="status">${organization.organization}<c:if test="${!status.last}">, </c:if>
+			<c:forEach items="${family.organizations}" var="organization" varStatus="status">${organization.name}<c:if test="${!status.last}">, </c:if>
 			</c:forEach>
 		</p>
 		<p>
@@ -101,15 +101,15 @@
 								<input type="checkbox" name="user" id="user"> User
 							</label>
 						</div>
-						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
-							<label class="sr-only" for="organization">Organization</label>
-							<select name="organizationId" class="form-control" id="personOrganization">
-								<option value="">Select Organization</option>
-								<c:forEach items="${organizations}" var="organization">
-									<option value="${organization.id}">${organization.organization}</option>
-								</c:forEach>
-							</select>
-						</div>
+<%-- 						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>"> --%>
+<!-- 							<label class="sr-only" for="organization">Organization</label> -->
+<!-- 							<select name="organizationId" class="form-control" id="personOrganization"> -->
+<!-- 								<option value="">Select Organization</option> -->
+<%-- 								<c:forEach items="${organizations}" var="organization"> --%>
+<%-- 									<option value="${organization.id}">${organization.name}</option> --%>
+<%-- 								</c:forEach> --%>
+<!-- 							</select> -->
+<!-- 						</div> -->
 						<input type="hidden" value="${family.id}" name="familyId" /> <input type="hidden" id="personId" name="id" />
 					</form>
 				</div>
@@ -178,7 +178,7 @@
 							<select name="familyOrganizationIds" class="form-control" id="familyOrganization" multiple="multiple">
 								<option value="">Select Organization</option>
 								<c:forEach items="${organizations}" var="organization">
-									<option value="${organization.id}">${organization.organization}</option>
+									<option value="${organization.id}">${organization.name}</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -245,11 +245,7 @@
 					'sTitle' : 'Phone Number',
 					'mData' : 'phoneNumber',
 					'mRender' : getPhoneNumber
-				}, {
-					'sTitle' : 'Organization',
-					'mData' : 'organization',
-					'mRender' : setupOrganization
-				}, {
+				},{
 					'sTitle' : 'Gender',
 					'mData' : 'female',
 					'mRender' : maleFemale,
@@ -302,14 +298,6 @@
 
 		function maleFemale(data, type, full) {
 			return (data ? 'Female' : 'Male');
-		}
-
-		function setupOrganization(data, type, full) {
-			var html = '';
-			if (data != null) {
-				html = data.organization;
-			}
-			return html;
 		}
 
 		function editPerson($this) {
@@ -466,7 +454,7 @@
 				if (i != 0) {
 					organizations += ', ';
 				}
-				organizations += data.organizations[i].organization;
+				organizations += data.organizations[i].name;
 			}
 
 			$('#viewOrganization').html('<strong>Organizations: </strong>' + organizations);

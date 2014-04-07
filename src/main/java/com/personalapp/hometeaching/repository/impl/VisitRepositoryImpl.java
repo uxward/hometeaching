@@ -27,18 +27,16 @@ public class VisitRepositoryImpl extends RepositoryImpl<Visit, Long> implements 
 	}
 
 	@Override
-	public List<Visit> getHomeTeachingVisitsByFamilyId(Long familyId) {
+	public List<Visit> getVisitsByFamilyId(Long familyId, boolean visitingTeaching) {
 		logger.info("Entering the get all home teaching visits by family id method with family id: {}", familyId);
 		JPAQuery query = jpaFrom(visit);
-		query.where(visit.familyId.eq(familyId), visit.visitingTeaching.isFalse()).orderBy(visit.year.asc(), visit.month.asc());
-		return query.list(visit);
-	}
-
-	@Override
-	public List<Visit> getVisitingTeachingVisitsByFamilyId(Long familyId) {
-		logger.info("Entering the get all visits by family id method with family id: {}", familyId);
-		JPAQuery query = jpaFrom(visit);
-		query.where(visit.familyId.eq(familyId), visit.visitingTeaching.isTrue()).orderBy(visit.year.asc(), visit.month.asc());
+		query.where(visit.familyId.eq(familyId));
+		if(visitingTeaching){
+			query.where(visit.visitingTeaching.isTrue());
+		} else {
+			query.where(visit.visitingTeaching.isFalse());
+		}
+		query.orderBy(visit.year.asc(), visit.month.asc());
 		return query.list(visit);
 	}
 }

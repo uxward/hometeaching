@@ -76,9 +76,15 @@
 									</a>
 									<ul class="dropdown-menu">
 										<li class="${activeMenu ==  'users' ? 'active' : '' }"><a href="${user}/all">Users</a></li>
-										<li class="${activeMenu ==  'Teachers1' ? 'active' : '' }"><a href="${companion}/allTeachers/1">EQ Home Teachers</a></li>
-										<li class="${activeMenu ==  'allTeachers2' ? 'active' : '' }"><a href="${companion}/allTeachers/2">HP Home Teachers</a></li>
-										<li class="${activeMenu ==  'allTeachers3' ? 'active' : '' }"><a href="${companion}/allTeachers/3">Visiting Teachers</a></li>
+										<c:forEach items="${userOrganizations}" var="organization">
+											<li class="${activeMenu ==  organization.name ? 'active' : '' }"><a href="${companion}/all/${organization.id}">
+													<c:choose>
+														<c:when test="${organization.id == 1 || organization.id == 2}">${organization.abbreviation} Home</c:when>
+														<c:otherwise>Visiting</c:otherwise>
+													</c:choose>
+													Teaching
+												</a></li>
+										</c:forEach>
 										<li class="${activeMenu ==  'visitHistory' ? 'active' : '' }"><a href="${visit}/history/3">Visit History</a></li>
 										<li class="${activeMenu ==  'feedback' ? 'active' : '' }"><a href="${feedback}">Feedback</a></li>
 									</ul></li>
@@ -91,10 +97,10 @@
 										Members <b class="caret"></b>
 									</a>
 									<ul class="dropdown-menu">
-										<li class="${activeMenu ==  'summaryStats' ? 'active' : '' }"><a href="${dashboard}/summaryStatistics">Summary Statistics</a></li>
 										<li class="${activeMenu ==  'allFamilies' ? 'active' : '' }"><a href="${family}/all">All Families</a></li>
 										<li class="${activeMenu ==  'moved' ? 'active' : '' }"><a href="${family}/moved">Moved Families</a></li>
 										<li class="${activeMenu ==  'unknown' ? 'active' : '' }"><a href="${family}/unknown">Unknown Families</a></li>
+										<li class="${activeMenu ==  'summaryStats' ? 'active' : '' }"><a href="${dashboard}/summaryStatistics">Summary Statistics</a></li>
 									</ul></li>
 
 							</sec:authorize>
@@ -111,12 +117,12 @@
 
 							<sec:authentication property="principal.person.homeTeacher" var="homeTeacher" />
 							<c:if test="${homeTeacher}">
-								<li class="${activeMenu ==  'homeTeachingDetail' ? 'active' : '' }"><a href="${companion}/yourHomeTeaching">Home Teaching</a></li>
+								<li class="${activeMenu ==  'homeTeachingDetail' ? 'active' : '' }"><a href="${companion}/you/false">Home Teaching</a></li>
 							</c:if>
 
 							<sec:authentication property="principal.person.visitingTeacher" var="visitingTeacher" />
 							<c:if test="${visitingTeacher}">
-								<li class="${activeMenu ==  'visitingTeachingDetail' ? 'active' : '' }"><a href="${companion}/yourVisitingTeaching">Visiting Teaching</a></li>
+								<li class="${activeMenu ==  'visitingTeachingDetail' ? 'active' : '' }"><a href="${companion}/you/true">Visiting Teaching</a></li>
 							</c:if>
 
 						</c:if>
@@ -225,9 +231,9 @@
 			$.each($('.phone-number'), function() {
 				$(this).html(getPhoneNumber($(this).text()));
 			});
-			
-			//add placeholder to datatables search
-			$('.dataTables_filter input').attr('placeholder', 'Search');
+
+			//add placeholder to datatables search and preselect them.
+			$('.dataTables_filter input').attr('placeholder', 'Search').focus();
 		}
 
 		function canSubmitFeedback() {

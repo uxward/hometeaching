@@ -1,7 +1,6 @@
 package com.personalapp.hometeaching.model;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.personalapp.hometeaching.model.Organization.fromId;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -51,8 +50,8 @@ public class Person extends BaseEntity {
 	@Column(name = "user")
 	private Boolean user;
 
-	@Column(name = "organizationid")
-	private Long organizationId;
+	// @Column(name = "organizationid")
+	// private Long organizationId;
 
 	@OneToMany(fetch = LAZY, mappedBy = "person")
 	private List<PersonCompanion> personCompanion = newArrayList();
@@ -149,17 +148,17 @@ public class Person extends BaseEntity {
 		this.user = user;
 	}
 
-	public void setOrganizationId(Long organizationId) {
-		this.organizationId = organizationId;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organizationId = organization.getId();
-	}
-
-	public Organization getOrganization() {
-		return fromId(organizationId);
-	}
+	// public void setOrganizationId(Long organizationId) {
+	// this.organizationId = organizationId;
+	// }
+	//
+	// public void setOrganization(Organization organization) {
+	// this.organizationId = organization.getId();
+	// }
+	//
+	// public Organization getOrganization() {
+	// return fromId(organizationId);
+	// }
 
 	public List<PersonCompanion> getPersonCompanion() {
 		return personCompanion;
@@ -181,6 +180,17 @@ public class Person extends BaseEntity {
 				if (companion.getActive() && !companion.isVisitingTeaching()) {
 					active.add(companion);
 				}
+			}
+		}
+		return active;
+	}
+
+	public List<Companion> getActiveCompanions() {
+		List<Companion> active = newArrayList();
+		for (PersonCompanion personCompanion : this.personCompanion) {
+			Companion companion = personCompanion.getCompanion();
+			if (companion.getActive()) {
+				active.add(companion);
 			}
 		}
 		return active;

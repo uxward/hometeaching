@@ -5,17 +5,20 @@ import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser
 
 import com.personalapp.hometeaching.model.Companion;
 
-public class AssignmentEmailTemplate extends BaseEmailTemplate {
+public class ReportEmailTemplate extends BaseEmailTemplate {
 
 	private Companion companion;
 
 	private boolean visitingTeaching;
 
-	public AssignmentEmailTemplate(Companion companion) {
+	private String month;
+
+	public ReportEmailTemplate(Companion companion, String month) {
 		super.setFromName(getCurrentUser().getPerson().getFullName());
 		super.setFromNumber(getCurrentUser().getPerson().getPhoneNumber());
 		this.companion = companion;
 		this.visitingTeaching = isVisitingTeaching(companion.getOrganization());
+		this.month = month;
 	}
 
 	public Companion getCompanion() {
@@ -24,5 +27,9 @@ public class AssignmentEmailTemplate extends BaseEmailTemplate {
 
 	public boolean getVisitingTeaching() {
 		return visitingTeaching;
+	}
+
+	public String getMonth() {
+		return month;
 	}
 }

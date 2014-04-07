@@ -34,18 +34,11 @@ public class VisitController {
 		return new ModelAndView("visit/history").addObject("months", months);
 	}
 
-	@RequestMapping("homeTeaching")
+	@RequestMapping("getVisits/{visitingTeaching}")
 	@ResponseBody
-	public DatatableResponse<VisitViewModel> getHomeTeachingVisits(@RequestParam("familyId") Long familyId) {
+	public DatatableResponse<VisitViewModel> getHomeTeachingVisits(@RequestParam("familyId") Long familyId, @PathVariable boolean visitingTeaching) {
 		logger.info("User {} is viewing home teaching visits for family id {} ", getCurrentUser().getUsername(), familyId);
-		return new DatatableResponse<VisitViewModel>(visitService.getHomeTeachingVisitsByFamilyId(familyId));
-	}
-
-	@RequestMapping("visitingTeaching")
-	@ResponseBody
-	public DatatableResponse<VisitViewModel> getVisitingTeachingVisits(@RequestParam("familyId") Long familyId) {
-		logger.info("User {} is viewing visiting teaching visits for family id {} ", getCurrentUser().getUsername(), familyId);
-		return new DatatableResponse<VisitViewModel>(visitService.getVisitingTeachingVisitsByFamilyId(familyId));
+		return new DatatableResponse<VisitViewModel>(visitService.getVisitsByFamilyId(familyId, visitingTeaching));
 	}
 
 	@RequestMapping("getHistory")

@@ -9,7 +9,5 @@ public interface VisitRepository extends Repository<Visit, Long> {
 
 	List<Tuple> getAllVisitsByOrganization(Long organizationId);
 
-	List<Visit> getHomeTeachingVisitsByFamilyId(Long familyId);
-
-	List<Visit> getVisitingTeachingVisitsByFamilyId(Long familyId);
+	List<Visit> getVisitsByFamilyId(Long familyId, boolean visitingTeaching);
 }

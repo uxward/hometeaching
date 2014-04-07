@@ -13,6 +13,8 @@ public class CompanionViewModel extends ActionViewModel {
 
 	private Long id;
 
+	private OrganizationViewModel organization;
+
 	private List<PersonViewModel> teachers = newArrayList();
 
 	private List<FamilyViewModel> assignments = newArrayList();
@@ -33,6 +35,9 @@ public class CompanionViewModel extends ActionViewModel {
 	private void setupCompanionViewModel(Companion companion, Boolean populateAssignments) {
 		if (companion != null) {
 			this.id = companion.getId();
+			if (companion.getOrganization() != null) {
+				this.organization = new OrganizationViewModel(companion.getOrganization());
+			}
 
 			for (PersonCompanion personCompanion : companion.getCompanions()) {
 				teachers.add(new PersonViewModel(personCompanion.getPerson(), true, false));
@@ -50,25 +55,17 @@ public class CompanionViewModel extends ActionViewModel {
 		}
 	}
 
-//	public void setId(Long id) {
-//		this.id = id;
-//	}
-
 	public Long getId() {
 		return id;
 	}
 
-//	public void setHometeachers(List<PersonViewModel> hometeachers) {
-//		this.teachers = hometeachers;
-//	}
+	public OrganizationViewModel getOrganization() {
+		return organization;
+	}
 
 	public List<PersonViewModel> getTeachers() {
 		return teachers;
 	}
-
-//	public void setAssignments(List<FamilyViewModel> assignments) {
-//		this.assignments = assignments;
-//	}
 
 	public List<FamilyViewModel> getAssignments() {
 		return assignments;

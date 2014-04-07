@@ -143,7 +143,7 @@
 					};
 				});
 
-				var organization = dataset[0].organization.organization.replace(' ', '');
+				var organization = dataset[0].organization.name.replace(' ', '');
 				svg.append('path').datum(data).attr('class', 'line line-' + organization.toLowerCase()).attr('d', line);
 
 				var points = svg.selectAll('.point-').data(data).enter().append('svg:circle').attr('class', 'point point-' + organization.toLowerCase()).attr('cx', function(d, i) {

@@ -64,6 +64,25 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	@Override
+	public ActionViewModel sendTeachingReportEmailToAllCompanions(Organization organization) {
+		ActionStatus status = SUCCESS;
+		for (Companion companion : companionService.getAllCompanionsAndActiveFamilies(organization)) {
+			if (companion.getAssignments().size() > 0) {
+				try {
+					List<HometeachingUser> users = userService.getCompanionsToEmail(companion.getId());
+					emailClient.sendReportTeachingEmail(companion, users);
+				} catch (Exception e) {
+					status = ERROR;
+					logger.error(format("Unexpected exception occured while trying to email companion with id %s: ", companion.getId()), e);
+				}
+			} else {
+				status = ActionStatus.ERROR;
+			}
+		}
+		return getViewModelFromStatus(status);
+	}
+
+	@Override
 	public ActionViewModel sendEmailToNewUser(Long hometeachingUserId) {
 		ActionStatus status = SUCCESS;
 		try {

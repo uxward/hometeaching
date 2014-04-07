@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<body style="font-family: ' HelveticaNeue ', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.428571429; color: #333;">
+	{{#with companion}}
+	<p>
+		{{#companions}}{{firstNoAnd @index}}{{person.firstName}}{{/companions}}, <br /> <br /> I hope that both of you are doing well. I'm following up on {{month}} {{#if visitingTeaching}}
+		visiting {{else}} home {{/if}} teaching - can you let me know how your assigned {{#if visitingTeaching}} sisters {{else}} families {{/if}} are doing and if you were able to visit with them in {{month}} or not? Feel free to email, text, call, or use the
+		<a href="http://hometeaching.elasticbeanstalk.com/companion/you/{{visitingTeaching}}">{{#if visitingTeaching}} visiting {{else}} home {{/if}} teaching website</a>.
+	</p>
+
+	<fieldset style="padding: 0; margin: 0; border: 0;">
+		<legend style="display: block; width: 100%; padding: 0; margin-bottom: 20px; font-size: 21px; line-height: inherit; color: #333; border: 0; border-bottom: 1px solid #e5e5e5;">Assigned
+			{{#if visitingTeaching}} Sisters{{else}} Families{{/if}}</legend>
+	</fieldset>
+
+	<br />
+
+	<table style="border: 1px solid #ddd; background-color: transparent; border-collapse: collapse; border-spacing: 0; width: 100%">
+		<thead style="display: table-header-group; vertical-align: middle; border-color: inherit;">
+			<tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
+				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Family</th>
+				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Status</th>
+				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Children</th>
+				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Address</th>
+				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Phone Numbers</th>
+			</tr>
+		</thead>
+		<tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
+			{{#assignments}} {{#if active}}{{#with family}}
+			<tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
+				<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top;">{{familyName}}, {{#headOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/headOfHousehold}}</td>
+				<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top;">{{familyStatus.status}}</td>
+				<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top;">{{#children}}{{firstNoComma @index}}{{firstName}}{{/children}}</td>
+				<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top;"><a href="http://maps.google.com/maps?daddr={{address}}" target="_blank">{{address}}</a></td>
+				<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top;"><span style="float: left !important;">
+						{{#if phoneNumber}} Home:
+						<a href="tel:{{phoneNumber}}">{{phoneNumber}}</a>
+						&nbsp;&nbsp; {{/if}}
+					</span> {{#headOfHousehold}} <span style="float: left !important;">
+						{{#if phoneNumber}}{{firstName}}:
+						<a href="tel:{{phoneNumber}}">{{phoneNumber}}</a>
+						&nbsp;&nbsp; {{/if}}
+					</span> {{/headOfHousehold}}</td>
+			</tr>
+			{{/with}} {{/if}}{{/assignments}}
+		</tbody>
+	</table>
+	{{/with}}
+	<br />
+	<br />
+	<p>
+		Thanks for all you do to help out, please let me know if you have any questions or concerns.<br /> <br />{{fromName}}<br />
+		<a href="tel:{{fromNumber}}">{{fromNumber}}</a>
+	</p>
+</body>
+</html>
