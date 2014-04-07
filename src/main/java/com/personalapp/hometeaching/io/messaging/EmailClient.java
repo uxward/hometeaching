@@ -1,6 +1,5 @@
 package com.personalapp.hometeaching.io.messaging;
 
-import static com.google.common.collect.Maps.newHashMap;
 import static com.personalapp.hometeaching.model.Organization.ELDERS;
 import static com.personalapp.hometeaching.model.Organization.HIGH_PRIEST;
 import static com.personalapp.hometeaching.model.Organization.RELIEF_SOCIETY;
@@ -12,7 +11,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -37,8 +35,6 @@ import com.personalapp.hometeaching.model.UserOrganization;
 @Component
 public class EmailClient {
 	private final Logger logger = getLogger(getClass());
-
-	private Map<Organization, HtmlEmail> emails = newHashMap();
 	private Handlebars handlebars;
 
 	@Autowired
@@ -46,9 +42,6 @@ public class EmailClient {
 
 	@PostConstruct
 	private void setupEmails() throws EmailException {
-		for (Organization organization : Organization.forDisplay()) {
-			emails.put(organization, emailConfig.getEmailForOrganization(organization));
-		}
 		handlebars = setupHandlebars();
 	}
 
@@ -69,7 +62,7 @@ public class EmailClient {
 
 	private HtmlEmail setupNewUserEmail(HometeachingUser user) throws EmailException, IOException {
 		Organization organization = getUserOrganization(user);
-		HtmlEmail email = emails.get(organization);
+		HtmlEmail email = emailConfig.getEmailForOrganization(organization);
 		email.setSubject("Dallas 4th Ward home and visiting teaching website invite");
 		UserEmailTemplate userEmailTemplate = new UserEmailTemplate(user, organization);
 		email.setHtmlMsg(getHtml("newUser.mustache", userEmailTemplate));
@@ -79,7 +72,7 @@ public class EmailClient {
 
 	private HtmlEmail setupUpdatedAssignmentEmail(Companion companion, List<HometeachingUser> users) throws IOException, EmailException {
 		Organization organization = companion.getOrganization();
-		HtmlEmail email = emails.get(organization);
+		HtmlEmail email = emailConfig.getEmailForOrganization(organization);
 		email.setSubject(format("Updated %s teaching assignment", isVisitingTeaching(organization) ? "visiting" : "home"));
 		AssignmentEmailTemplate assignmentEmailTemplate = new AssignmentEmailTemplate(companion);
 		email.setHtmlMsg(getHtml("updatedAssignment.mustache", assignmentEmailTemplate));
@@ -90,11 +83,11 @@ public class EmailClient {
 	}
 
 	private HtmlEmail setupReportTeachingEmail(Companion companion, List<HometeachingUser> users) throws EmailException, IOException {
-		LocalDate date = LocalDate.now();
+		LocalDate date = LocalDate.now().minusMonths(1);
 		String month = date.monthOfYear().getAsText();
 
 		Organization organization = companion.getOrganization();
-		HtmlEmail email = emails.get(organization);
+		HtmlEmail email = emailConfig.getEmailForOrganization(organization);
 		email.setSubject(format("%s %s teaching", month, isVisitingTeaching(organization) ? "visiting" : "home"));
 		ReportEmailTemplate reportEmailTemplate = new ReportEmailTemplate(companion, month);
 		email.setHtmlMsg(getHtml("reportTeaching.mustache", reportEmailTemplate));
