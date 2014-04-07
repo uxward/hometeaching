@@ -215,7 +215,7 @@
 				'aoColumns' : [{
 					'sTitle' : 'Name',
 					'mData' : 'name',
-					'sWidth' : '15%'
+					'sWidth' : '14%'
 				}, {
 					'sTitle' : 'Username',
 					'mData' : 'username',
@@ -229,17 +229,18 @@
 					'sTitle' : 'Organization',
 					'mData' : 'organizations',
 					'mRender' : setupOrganizations,
-					'sWidth' : '15%'
+					'sWidth' : '13%'
 				}, {
 					'sTitle' : 'Last Login',
 					'mData' : 'lastLogin',
+					'sType' : 'date',
 					'mRender' : setupFullDate,
-					'sWidth' : '14%'
+					'sWidth' : '16%'
 				}, {
 					'sTitle' : 'Setup Account',
 					'mData' : 'reset',
 					'mRender' : setupTrueFalseAsYesNoOpposite,
-					'sWidth' : '5%'
+					'sWidth' : '6%'
 				}
 				<sec:authorize access="hasRole('leader')">
 					, {

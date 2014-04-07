@@ -74,7 +74,7 @@ function setupMonthYear(data, type, full) {
 }
 
 function setupFullDate(data, type, full) {
-	return data != null ? dateFormat(data, "m/d h:MM TT Z") : '';
+	return data != null ? dateFormat(data, "m/d/yy h:MM TT Z") : '';
 }
 
 function setupPersonFullName(person, type, full) {
