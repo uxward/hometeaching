@@ -61,7 +61,7 @@
 				</sec:authorize>
 				<a class="navbar-brand ${activeMenu ==  'home' ? 'active' : '' }" href="${home}">
 					<span class="glyphicon glyphicon-asterisk"></span>
-					<sec:authorize access="!isAuthenticated()">Home and Visiting Teaching</sec:authorize>
+					<sec:authorize access="!isAuthenticated()">Dallas 4th Ward Home and Visiting Teaching</sec:authorize>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
