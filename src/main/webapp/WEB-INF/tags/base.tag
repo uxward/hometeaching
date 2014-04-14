@@ -62,6 +62,7 @@
 				<a class="navbar-brand ${activeMenu ==  'home' ? 'active' : '' }" href="${home}">
 					<span class="glyphicon glyphicon-asterisk"></span>
 					<sec:authorize access="!isAuthenticated()">Dallas 4th Ward Home and Visiting Teaching</sec:authorize>
+					<c:if test="${reset}">D4 Home and Visiting Teaching</c:if>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
@@ -133,21 +134,33 @@
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right">
-						<li class="visible-sm visible-md visible-lg">
-							<p class="navbar-text">
-								Welcome,
-								<a href="${user}/you">
-									<sec:authentication property="principal.person.firstName" />
-								</a>
-							</p>
-						</li>
-						<li><a href="#leaveFeedback" data-toggle="modal">
-								<i class="glyphicon glyphicon-comment"></i> Feedback
-							</a></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<sec:authentication property="principal.person.fullName" />
+								<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li class="${activeMenu == 'user' ? 'active' : '' }"><a href="${user}/you">Your Account</a></li>
+								<li><a href="#leaveFeedback" data-toggle="modal"> Feedback</a></li>
+								<li><a href="<spring:url value="/logout"/>">
+										<i class="glyphicon glyphicon-log-out"></i> Logout
+									</a></li>
+							</ul></li>
 
-						<li><a href="<spring:url value="/logout"/>">
-								<i class="glyphicon glyphicon-log-out"></i> Logout
-							</a></li>
+						<!-- 						<li class="visible-sm visible-md visible-lg"> -->
+						<!-- 							<p class="navbar-text"> -->
+						<!-- 								Welcome, -->
+						<%-- 								<a href="${user}/you"> --%>
+						<%-- 									<sec:authentication property="principal.person.firstName" /> --%>
+						<!-- 								</a> -->
+						<!-- 							</p> -->
+						<!-- 						</li> -->
+						<!-- 						<li><a href="#leaveFeedback" data-toggle="modal"> -->
+						<!-- 								<i class="glyphicon glyphicon-comment"></i> Feedback -->
+						<!-- 							</a></li> -->
+
+						<%-- 						<li><a href="<spring:url value="/logout"/>"> --%>
+						<!-- 								<i class="glyphicon glyphicon-log-out"></i> Logout -->
+						<!-- 							</a></li> -->
 					</ul>
 
 				</sec:authorize>

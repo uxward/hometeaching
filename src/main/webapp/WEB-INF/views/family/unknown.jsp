@@ -23,7 +23,7 @@
 				'aoColumns' : [ {
 					'sTitle' : 'Family Name',
 					'mData' : 'familyName',
-					'sWidth' : '25%',
+					'sWidth' : '15%',
 					'mRender' : familyNameRender
 				}, {
 					'sTitle' : 'Organizations',
@@ -33,7 +33,7 @@
 				}, {
 					'sTitle' : 'Address',
 					'mData' : 'address',
-					'sWidth' : '25%',
+					'sWidth' : '20%',
 					'mRender' : addressRender,
 					'sClass' : 'hidden-xs'
 				}, {
@@ -43,11 +43,16 @@
 					'sClass' : 'hidden-xs hidden-sm',
 					'mRender' : setupPhoneNumbers
 				}, {
-					'sTitle' : 'Companions',
-					'mData' : 'companions',
+					'sTitle' : 'HT Companions',
+					'mData' : 'homeTeachingCompanions',
 					'sWidth' : '15%',
-					'mRender' : setupCompanions
-				} ],
+					'mRender' : setupTeachers
+				}, {
+					'sTitle' : 'VT Companions',
+					'mData' : 'visitingTeachingCompanions',
+					'sWidth' : '15%',
+					'mRender' : setupTeachers
+				}  ],
 				'oLanguage' : {
 					'sInfoEmpty' : 'No families to show',
 					'sEmptyTable' : 'There are no moved families yet.'
@@ -58,13 +63,21 @@
 		function familyNameRender(data, type, full) {
 			return '<a href="<spring:url value="/family/detail/"/>' + full.id + '">' + getFamilyAndHeadNames(data, full.people) + '</a>';
 		}
-
-		function setupCompanions(data, type, full) {
+		
+		function setupTeachers(data, type, full) {
 			var html = '';
 			if (data != null) {
-				html = '<a href="<spring:url value="/companion/detail/"/>' + data.id + '">' + data.allHometeachers + '</a>';
+				html = '<a href="<spring:url value="/companion/detail/"/>' + data.id + '">' + data.allTeachers + '</a>';
 			}
 			return html;
 		}
+
+// 		function setupCompanions(data, type, full) {
+// 			var html = '';
+// 			if (data != null) {
+// 				html = '<a href="<spring:url value="/companion/detail/"/>' + data.id + '">' + data.allHometeachers + '</a>';
+// 			}
+// 			return html;
+// 		}
 	</script>
 </t:mainPage>
