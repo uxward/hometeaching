@@ -127,10 +127,6 @@
 							</c:if>
 
 						</c:if>
-						<li class="visible-xs"><a href="${user}/you">
-								Welcome,
-								<sec:authentication property="principal.person.firstName" />
-							</a></li>
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right">

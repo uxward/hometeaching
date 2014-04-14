@@ -101,15 +101,6 @@
 								<input type="checkbox" name="user" id="user"> User
 							</label>
 						</div>
-<%-- 						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>"> --%>
-<!-- 							<label class="sr-only" for="organization">Organization</label> -->
-<!-- 							<select name="organizationId" class="form-control" id="personOrganization"> -->
-<!-- 								<option value="">Select Organization</option> -->
-<%-- 								<c:forEach items="${organizations}" var="organization"> --%>
-<%-- 									<option value="${organization.id}">${organization.name}</option> --%>
-<%-- 								</c:forEach> --%>
-<!-- 							</select> -->
-<!-- 						</div> -->
 						<input type="hidden" value="${family.id}" name="familyId" /> <input type="hidden" id="personId" name="id" />
 					</form>
 				</div>
@@ -319,9 +310,6 @@
 			$('#email').val(data.email);
 			$('#phoneNumber').val(data.phoneNumber);
 			$('#personId').val(data.id);
-			if (data.organization != null) {
-				$('#personOrganization').val(data.organization.id);
-			}
 
 			if (data.female) {
 				$('#female').prop('checked', true);
@@ -353,14 +341,6 @@
 				$firstName.parent().addClass('has-error');
 			} else {
 				$firstName.parent().removeClass('has-error');
-			}
-
-			var $organization = $('#personOrganization');
-			if ($('#headOfHousehold').is(':checked') && $.trim($organization.val()).length < 1) {
-				valid = false;
-				$organization.parent().addClass('has-error');
-			} else {
-				$organization.parent().removeClass('has-error');
 			}
 
 			return valid;

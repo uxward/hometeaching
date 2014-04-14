@@ -50,9 +50,6 @@ public class Person extends BaseEntity {
 	@Column(name = "user")
 	private Boolean user;
 
-	// @Column(name = "organizationid")
-	// private Long organizationId;
-
 	@OneToMany(fetch = LAZY, mappedBy = "person")
 	private List<PersonCompanion> personCompanion = newArrayList();
 
@@ -147,18 +144,6 @@ public class Person extends BaseEntity {
 	public void setUser(Boolean user) {
 		this.user = user;
 	}
-
-	// public void setOrganizationId(Long organizationId) {
-	// this.organizationId = organizationId;
-	// }
-	//
-	// public void setOrganization(Organization organization) {
-	// this.organizationId = organization.getId();
-	// }
-	//
-	// public Organization getOrganization() {
-	// return fromId(organizationId);
-	// }
 
 	public List<PersonCompanion> getPersonCompanion() {
 		return personCompanion;
