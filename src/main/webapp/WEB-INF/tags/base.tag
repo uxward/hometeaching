@@ -141,22 +141,6 @@
 										<i class="glyphicon glyphicon-log-out"></i> Logout
 									</a></li>
 							</ul></li>
-
-						<!-- 						<li class="visible-sm visible-md visible-lg"> -->
-						<!-- 							<p class="navbar-text"> -->
-						<!-- 								Welcome, -->
-						<%-- 								<a href="${user}/you"> --%>
-						<%-- 									<sec:authentication property="principal.person.firstName" /> --%>
-						<!-- 								</a> -->
-						<!-- 							</p> -->
-						<!-- 						</li> -->
-						<!-- 						<li><a href="#leaveFeedback" data-toggle="modal"> -->
-						<!-- 								<i class="glyphicon glyphicon-comment"></i> Feedback -->
-						<!-- 							</a></li> -->
-
-						<%-- 						<li><a href="<spring:url value="/logout"/>"> --%>
-						<!-- 								<i class="glyphicon glyphicon-log-out"></i> Logout -->
-						<!-- 							</a></li> -->
 					</ul>
 
 				</sec:authorize>
