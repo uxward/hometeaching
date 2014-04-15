@@ -101,7 +101,7 @@ public class EmailClient {
 		if (isNotEmpty(user.getEmail())) {
 			email.addTo(user.getEmail(), user.getPerson().getFullName());
 		} else if (isNotEmpty(user.getPerson().getEmail())) {
-			email.addTo(user.getEmail(), user.getPerson().getFullName());
+			email.addTo(user.getPerson().getEmail(), user.getPerson().getFullName());
 		}
 	}
 
