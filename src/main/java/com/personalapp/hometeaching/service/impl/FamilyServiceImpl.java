@@ -25,7 +25,6 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	public FamilyViewModel edit(Family family) {
-		family.setUpdated(new Date());
 		setFamilyOrganizations(family);
 		setNullAsFalse(family);
 		repo.update(family);
@@ -34,7 +33,6 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	public FamilyViewModel save(Family family) {
-		family.setCreated(new Date());
 		setFamilyOrganizations(family);
 		setNullAsFalse(family);
 		repo.save(family);

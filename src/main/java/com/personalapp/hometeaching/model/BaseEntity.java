@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 
 @MappedSuperclass
 public class BaseEntity {
@@ -24,12 +25,13 @@ public class BaseEntity {
 	// private Long updatedBy;
 
 	@PrePersist
-	public void setupUserAndDateInformation() {
-		if (this.created == null) {
-			this.created = new Date();
-		} else {
-			this.updated = new Date();
-		}
+	public void setupCreateInformation() {
+		this.created = new Date();
+	}
+
+	@PreUpdate
+	public void setupUpdateInformation() {
+		this.updated = new Date();
 	}
 
 	public Date getCreated() {

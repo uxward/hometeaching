@@ -90,7 +90,6 @@ public class VisitServiceImpl implements VisitService {
 		visit.setVisitingTeaching(updated.getVisitingTeaching());
 
 		setupNullAsFalse(visit);
-		visit.setUpdated(new Date());
 	}
 
 	private void setupNewVisit(Visit visit) {
@@ -98,7 +97,6 @@ public class VisitServiceImpl implements VisitService {
 			visit.setOrganizationId(RELIEF_SOCIETY.getId());
 		}
 		setupNullAsFalse(visit);
-		visit.setCreated(new Date());
 	}
 
 	private void setupNullAsFalse(Visit visit) {

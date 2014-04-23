@@ -50,21 +50,14 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public void edit(Person person) {
 		setNullAsFalse(person);
-		person.setUpdated(new Date());
 		repo.update(person);
 	}
 
 	@Override
 	public void save(Person person) {
 		setNullAsFalse(person);
-		person.setCreated(new Date());
 		repo.save(person);
 	}
-
-//	@Override
-//	public PersonViewModel getViewModel(Person person) {
-//		return new PersonViewModel(person, true, false);
-//	}
 
 	private void setNullAsFalse(Person person) {
 		if (person.getFemale() == null) {

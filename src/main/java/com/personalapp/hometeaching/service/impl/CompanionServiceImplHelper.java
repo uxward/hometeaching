@@ -3,7 +3,6 @@ package com.personalapp.hometeaching.service.impl;
 import static com.google.common.collect.Sets.newHashSet;
 import static org.slf4j.LoggerFactory.getLogger;
 
-import java.util.Date;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -37,7 +36,6 @@ public class CompanionServiceImplHelper {
 			companions.add(personCompanion);
 		}
 		companion.setCompanions(companions);
-		companion.setCreated(new Date());
 		repo.save(companion);
 	}
 
@@ -45,6 +43,7 @@ public class CompanionServiceImplHelper {
 	public void doEditCompanion(Companion companion) {
 		Companion oldCompanion = repo.findDetailedById(companion.getId());
 
+		companion.setId(null);
 		doCreateNewCompanion(companion);
 
 		for (Assignment assignment : oldCompanion.getAssignments()) {
@@ -70,7 +69,6 @@ public class CompanionServiceImplHelper {
 	public void doRemoveAssignment(Long companionId, Long familyId) {
 		Assignment assignment = assignmentRepo.findByCompanionIdAndFamilyId(companionId, familyId);
 		assignment.setActive(false);
-		assignment.setUpdated(new Date());
 		assignmentRepo.update(assignment);
 	}
 
@@ -89,7 +87,6 @@ public class CompanionServiceImplHelper {
 		Assignment assignment = new Assignment();
 		assignment.setCompanionId(companion.getId());
 		assignment.setFamilyId(familyId);
-		assignment.setCreated(new Date());
 		assignment.setActive(true);
 		assignmentRepo.save(assignment);
 	}

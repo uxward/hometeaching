@@ -28,9 +28,6 @@ public class Assignment extends BaseEntity {
 	@Column(name = "active")
 	private Boolean active;
 
-	// @Column(name = "organizationid")
-	// private Long organizationId;
-
 	@ManyToOne(fetch = LAZY)
 	@JoinColumn(name = "familyId", insertable = false, updatable = false)
 	private Family family;
@@ -63,14 +60,6 @@ public class Assignment extends BaseEntity {
 		this.active = active;
 	}
 
-//	public Organization getOrganization() {
-//		return Organization.fromId(organizationId);
-//	}
-//
-//	public void setOrganization(Organization organization) {
-//		this.organizationId = organization.getId();
-//	}
-
 	public Long getFamilyId() {
 		return familyId;
 	}
@@ -94,11 +83,4 @@ public class Assignment extends BaseEntity {
 	public void setCompanion(Companion companion) {
 		this.companion = companion;
 	}
-
-//	public boolean isVisitingTeaching() {
-//		if (RELIEF_SOCIETY.equals(getOrganization())) {
-//			return true;
-//		}
-//		return false;
-//	}
 }

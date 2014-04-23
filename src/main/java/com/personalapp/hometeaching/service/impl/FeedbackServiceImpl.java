@@ -49,7 +49,6 @@ public class FeedbackServiceImpl implements FeedbackService {
 	}
 
 	private void doCreateFeedback(Feedback feedback) {
-		feedback.setCreated(new Date());
 		feedback.setUserId(getCurrentUser().getId());
 		feedback.setPriority(HIGH);
 		feedback.setResolved(false);

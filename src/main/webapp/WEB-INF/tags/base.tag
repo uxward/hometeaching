@@ -167,6 +167,7 @@
 	<br />
 
 	<jsp:doBody />
+	
 	<!-- Give Feedback Modal -->
 	<div id="leaveFeedback" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="leaveFeedbackLabel" aria-hidden="true">
 		<div class="modal-dialog">

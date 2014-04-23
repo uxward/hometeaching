@@ -225,14 +225,6 @@
 		}
 		
 		function handleSaveCompanionSuccess(data){
-			//remove perople from dropdown
-			var firstPersonId = data.teachers[0].id;
-			var secondPersonId = data.teachers[1].id;
-			$('.companionSelect option').each(function() {
-			    if ( $(this).val() == firstPersonId || $(this).val() == secondPersonId ) {
-			        $(this).remove();
-			    }
-			});
 			
 			//clear form and hide modal
 			$('#addCompanion').modal('hide');
@@ -248,21 +240,21 @@
 				url : '<spring:url value="/companion/edit"/>',
 				data : $('#editCompanionForm').serialize(),
 				success : function(data) {
-					handleEditCompanion(data);
+					handleEditCompanion(data, tr);
 				}
 			});
 		}
 		
-		function handleEditCompanion(data){
+		function handleEditCompanion(data, tr){
 			if (data.success) {
-				handleEditCompanionSuccess(data);
+				handleEditCompanionSuccess(data, tr);
 				showNotificationSuccess('This companionship has been successfully edited.');
 			} else {
 				showModalError('<p>There was an unexpected error while editing this companionship.  If the issue continues please contact your organization leader.');
 			}
 		}
 		
-		function handleEditCompanionSuccess(data){
+		function handleEditCompanionSuccess(data, tr){
 			//clear form and hide modal
 			$('#editCompanionModal').modal('hide');
 			$('#editCompanionForm')[0].reset();
@@ -378,11 +370,7 @@
 		function setupActions(data, type, full) {
 			var firstPersonId = full.teachers[0].id;
 			var secondPersonId = full.teachers[1].id;
-			var actions = ''
-				<sec:authorize access="hasRole('admin')">
-					+'<input type="button" class="btn btn-primary editCompanions button-medium" value="Edit"'
-					+ 'data-companion-id="' + full.id + '" data-first-person-id="' + firstPersonId + '"data-second-person-id="' + secondPersonId + '" /> '
-				</sec:authorize>
+			var actions = '<input type="button" class="btn btn-primary editCompanions button-medium" value="Edit" data-companion-id="' + full.id + '" data-first-person-id="' + firstPersonId + '"data-second-person-id="' + secondPersonId + '" /> '
 					+ '<input type="button" class="btn btn-primary removeCompanions button-medium" value="Remove" data-companion-id="' + full.id + '" />';
 			return actions;
 		}
