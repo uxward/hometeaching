@@ -127,7 +127,7 @@
 			<c:forEach var="family" items="${companion.assignments}" varStatus="status">
 				<li class="${status.first ? 'active' : ''}" id="${family.id}-tab-link"><c:choose>
 						<c:when test="${visitingTeaching}">
-							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-xs">${family.womenHeadOfHousehold},&nbsp;${family.familyName}</a>
+							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-xs">${family.womenHeadOfHousehold}&nbsp;${family.familyName}</a>
 							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-sm hidden-md hidden-lg">${family.womenHeadOfHousehold}</a>
 						</c:when>
 						<c:otherwise>
@@ -429,12 +429,22 @@
 								'aaData' : [],
 								'aoColumns' : [{
 									'sTitle' : 'Family',
+									'bVisible' : ${!visitingTeaching},
 									'mData' : 'familyName',
 									'mRender' : setupFamilyName
+								}, {
+									'sTitle' : 'Woman',
+									'bVisible' : ${visitingTeaching},
+									'mData' : 'womenHeadOfHousehold',
+									'mRender' : setupWomenName
 								}, {
 									'sTitle' : 'Status',
 									'sClass' : 'hidden-xs hidden-sm',
 									'mData' : 'familyStatus'
+								}, {
+									'sTitle' : 'Husband',
+									'bVisible' : ${visitingTeaching},
+									'mData' : 'menHeadOfHousehold'
 								}, {
 									'sTitle' : 'Children',
 									'mData' : 'people'
@@ -554,6 +564,10 @@
 		
 		function setupActions(data, type, full){
 			return '<input type="button" class="btn btn-primary removeFamily" value="Remove" data-companion-id="' + '${companion.id}' + '" data-family-id="' + data + '" />';
+		}
+		
+		function setupWomenName(data, type, full){
+			return data + ' ' + full.familyName;
 		}
 		
 		function emailAssignments() {

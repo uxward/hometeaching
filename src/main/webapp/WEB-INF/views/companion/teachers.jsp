@@ -187,20 +187,33 @@
 			var valid = true;
 			var companionIds = [];
 			$(formId + ' .companionSelect').each(function() {
-				if ($(this).val() == null || $(this).val() == '') {
-					valid = false;
-					showModalError('You must select both companions to save this assignment.');
+				var companionId = $(this).val();
+				if(companionId != '' && companionId != null){
+					companionIds.push(companionId);
 				}
-				if (valid) {
-					if (companionIds.indexOf($(this).val()) > -1) {
-						valid = false;
-						showModalError('You cannot select the same person twice for the companionship.');
-					} else {
-						companionIds.push($(this).val());
-					}
-				}
-
+				
+// 				if ($(this).val() == null || $(this).val() == '') {
+// 					valid = false;
+// 					showModalError('You must select both companions to save this assignment.');
+// 				}
+// 				if (valid) {
+// 					if (companionIds.indexOf($(this).val()) > -1) {
+// 						valid = false;
+// 						showModalError('You cannot select the same person twice for the companionship.');
+// 					} else {
+// 						companionIds.push($(this).val());
+// 					}
+// 				}
 			});
+			
+			if(companionIds.length < 1){
+				valid = false;
+				showModalError('You must select at least one companion to save this assignment.');
+			} else if(companionIds.length > 1 && companionIds[0] == companionIds[1]){
+				valid = false;
+				showModalError('You cannot select the same person twice for the companionship.');
+			} 
+			
 			return valid;
 		}
 
@@ -369,7 +382,7 @@
 
 		function setupActions(data, type, full) {
 			var firstPersonId = full.teachers[0].id;
-			var secondPersonId = full.teachers[1].id;
+			var secondPersonId = full.teachers[1] != null ? full.teachers[1].id : null;
 			var actions = '<input type="button" class="btn btn-primary editCompanions button-medium" value="Edit" data-companion-id="' + full.id + '" data-first-person-id="' + firstPersonId + '"data-second-person-id="' + secondPersonId + '" /> '
 					+ '<input type="button" class="btn btn-primary removeCompanions button-medium" value="Remove" data-companion-id="' + full.id + '" />';
 			return actions;

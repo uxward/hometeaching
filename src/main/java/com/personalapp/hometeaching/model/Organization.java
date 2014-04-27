@@ -8,7 +8,7 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 
 public enum Organization {
-	WARD(4L, "Ward", "D4"), RELIEF_SOCIETY(3L, "Relief society", "RS"), HIGH_PRIEST(2L, "High priests", "HP"), ELDERS(1L, "Elders quorum", "EQ");
+	WARD(4L, "Ward", "D4"), RELIEF_SOCIETY(3L, "Relief Society", "RS"), HIGH_PRIEST(2L, "High priests", "HP"), ELDERS(1L, "Elders quorum", "EQ");
 
 	private final static Map<Long, Organization> ORGANIZATION = newHashMap();
 	static {

@@ -31,9 +31,11 @@ public class CompanionServiceImplHelper {
 		companion.setActive(true);
 		Set<PersonCompanion> companions = newHashSet();
 		for (PersonCompanion personCompanion : companion.getAutopopulatingPersonCompanions()) {
-			personCompanion.setActive(true);
-			personCompanion.setCompanion(companion);
-			companions.add(personCompanion);
+			if(personCompanion.getPersonId() != null){
+				personCompanion.setActive(true);
+				personCompanion.setCompanion(companion);
+				companions.add(personCompanion);
+			}
 		}
 		companion.setCompanions(companions);
 		repo.save(companion);

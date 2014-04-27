@@ -173,6 +173,21 @@ public class FamilyViewModel extends ActionViewModel {
 		}
 		return names;
 	}
+	
+
+
+	public String getMenHeadOfHousehold() {
+		String names = "";
+		for (PersonViewModel person : people) {
+			if (person.getHeadOfHousehold() && !person.getFemale()) {
+				if (!names.equals("")) {
+					names += " and ";
+				}
+				names += person.getFirstName();
+			}
+		}
+		return names;
+	}
 
 	public CompanionViewModel getHomeTeachingCompanions() {
 		return homeTeachingCompanions;
