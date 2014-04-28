@@ -20,6 +20,7 @@ import com.personalapp.hometeaching.repository.PersonRepository;
 import com.personalapp.hometeaching.security.PasswordUtils;
 import com.personalapp.hometeaching.security.SecurityUtils;
 import com.personalapp.hometeaching.service.HometeachingUserService;
+import com.personalapp.hometeaching.view.ActionViewModel;
 import com.personalapp.hometeaching.view.DatatableResponse;
 import com.personalapp.hometeaching.view.UserViewModel;
 
@@ -109,5 +110,12 @@ public class UserController {
 	@ResponseBody
 	public UserViewModel toggleEnabled(@RequestParam("id") Long id) {
 		return userService.toggleEnabled(id);
+	}
+
+	@RequestMapping("forgotPassword")
+	@ResponseBody()
+	public ActionViewModel forgotPassword(@RequestParam String username) {
+		logger.info("Anonymous user is trying to recover password for user with username {}", username);
+		return userService.forgotPassword(username);
 	}
 }

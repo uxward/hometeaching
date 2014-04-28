@@ -99,4 +99,10 @@ public class EmailServiceImpl implements EmailService {
 		model.setActionStatus(status);
 		return model;
 	}
+
+	@Override
+	public ActionViewModel sendForgotPasswordEmail(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

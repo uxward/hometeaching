@@ -31,7 +31,7 @@ public class CompanionServiceImplHelper {
 		companion.setActive(true);
 		Set<PersonCompanion> companions = newHashSet();
 		for (PersonCompanion personCompanion : companion.getAutopopulatingPersonCompanions()) {
-			if(personCompanion.getPersonId() != null){
+			if (personCompanion.getPersonId() != null) {
 				personCompanion.setActive(true);
 				personCompanion.setCompanion(companion);
 				companions.add(personCompanion);
@@ -49,7 +49,9 @@ public class CompanionServiceImplHelper {
 		doCreateNewCompanion(companion);
 
 		for (Assignment assignment : oldCompanion.getAssignments()) {
-			saveAssignment(companion, assignment.getFamilyId());
+			if (assignment.getActive()) {
+				saveAssignment(companion, assignment.getFamilyId());
+			}
 		}
 
 		// mark old companion inactive

@@ -17,7 +17,7 @@ public interface CompanionService {
 
 	ActionViewModel removeCompanion(Long companionId);
 
-	CompanionViewModel editAssignment(Companion viewModel);
+	CompanionViewModel editCompanion(Companion viewModel);
 
 	List<CompanionViewModel> getViewModelAllCompanionsAndActiveFamiliesByOrganization(Organization organization);
 

@@ -44,7 +44,7 @@ public class CompanionServiceImpl implements CompanionService {
 	}
 
 	@Override
-	public CompanionViewModel editAssignment(Companion companion) {
+	public CompanionViewModel editCompanion(Companion companion) {
 		// setup new companion with same families
 		ActionStatus status = tryEditCompanion(companion);
 		return new CompanionViewModel(repo.findDetailedById(companion.getId()), true, status);

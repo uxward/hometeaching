@@ -26,6 +26,7 @@ import com.personalapp.hometeaching.repository.HometeachingUserRepository;
 import com.personalapp.hometeaching.security.PasswordUtils;
 import com.personalapp.hometeaching.security.SecurityUtils;
 import com.personalapp.hometeaching.service.HometeachingUserService;
+import com.personalapp.hometeaching.view.ActionViewModel;
 import com.personalapp.hometeaching.view.UserViewModel;
 
 @Service
@@ -77,6 +78,11 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 	}
 
 	@Override
+	public HometeachingUser findDetailedByUsername(String username) {
+		return repo.findDetailedByUsername(username);
+	}
+
+	@Override
 	public UserViewModel getUserViewModel(Long userId) {
 		return new UserViewModel(repo.findDetailedById(userId));
 	}
@@ -113,6 +119,14 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 
 		model.setActionStatus(status);
 		return model;
+	}
+
+	@Override
+	public ActionViewModel forgotPassword(String username) {
+		// TODO Auto-generated method stub
+		// User helper to roll back changes if exception resetting password or
+		// sending email
+		return null;
 	}
 
 	private HometeachingUser doUpdate(HometeachingUser updatedUser) {

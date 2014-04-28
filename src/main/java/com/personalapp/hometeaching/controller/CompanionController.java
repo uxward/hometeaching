@@ -117,7 +117,7 @@ public class CompanionController {
 	@RequestMapping(value = "/edit")
 	@ResponseBody
 	public CompanionViewModel edit(Companion companion) {
-		return service.editAssignment(companion);
+		return service.editCompanion(companion);
 	}
 
 	@RequestMapping(value = "/addAssignment")

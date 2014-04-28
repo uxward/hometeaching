@@ -14,15 +14,15 @@ import org.springframework.stereotype.Service;
 
 import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.model.PersonCompanion;
-import com.personalapp.hometeaching.repository.HometeachingUserRepository;
 import com.personalapp.hometeaching.repository.PersonCompanionRepository;
+import com.personalapp.hometeaching.service.HometeachingUserService;
 
 @Service
 public class HometeachingUserDetailsService implements UserDetailsService {
 	private final Logger logger = getLogger(getClass());
 
 	@Autowired
-	public HometeachingUserRepository repo;
+	public HometeachingUserService service;
 
 	@Autowired
 	public PersonCompanionRepository personCompanionRepo;
@@ -30,7 +30,7 @@ public class HometeachingUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		logger.info("User is trying to log in with username {}", username);
-		HometeachingUser hometeachingUser = repo.findDetailedByUsername(username);
+		HometeachingUser hometeachingUser = service.findDetailedByUsername(username);
 
 		if (hometeachingUser == null || !hometeachingUser.getEnabled()) {
 			logger.info("No users exist with username {}", username);
@@ -40,7 +40,7 @@ public class HometeachingUserDetailsService implements UserDetailsService {
 		logger.info("User {} has successfully logged in", hometeachingUser.getPerson().getFullName());
 
 		hometeachingUser.setLastLogin(new Date());
-		repo.update(hometeachingUser);
+		service.update(hometeachingUser);
 		List<PersonCompanion> personCompanions = personCompanionRepo.getDetailedByPersonId(hometeachingUser.getPersonId());
 		hometeachingUser.getPerson().setPersonCompanion(personCompanions);
 

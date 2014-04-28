@@ -27,6 +27,7 @@ import com.github.jknack.handlebars.Options;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
+import com.google.common.collect.Lists;
 import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.model.Organization;
@@ -47,17 +48,17 @@ public class EmailClient {
 
 	public void sendNewUserEmail(HometeachingUser user) throws EmailException, IOException {
 		HtmlEmail email = setupNewUserEmail(user);
-		email.send();
+		addUsersAndSendEmail(email, Lists.newArrayList(user));
 	}
 
 	public void sendUpdatedAssignmentEmail(Companion companion, List<HometeachingUser> users) throws EmailException, IOException {
 		HtmlEmail email = setupUpdatedAssignmentEmail(companion, users);
-		email.send();
+		addUsersAndSendEmail(email, users);
 	}
 
 	public void sendReportTeachingEmail(Companion companion, List<HometeachingUser> users) throws EmailException, IOException {
 		HtmlEmail email = setupReportTeachingEmail(companion, users);
-		email.send();
+		addUsersAndSendEmail(email, users);
 	}
 
 	private HtmlEmail setupNewUserEmail(HometeachingUser user) throws EmailException, IOException {
@@ -66,7 +67,6 @@ public class EmailClient {
 		email.setSubject("Dallas 4th Ward home and visiting teaching website invite");
 		UserEmailTemplate userEmailTemplate = new UserEmailTemplate(user, organization);
 		email.setHtmlMsg(getHtml("newUser.mustache", userEmailTemplate));
-		addUserToEmail(email, user);
 		return email;
 	}
 
@@ -76,9 +76,6 @@ public class EmailClient {
 		email.setSubject(format("Updated %s teaching assignment", isVisitingTeaching(organization) ? "visiting" : "home"));
 		AssignmentEmailTemplate assignmentEmailTemplate = new AssignmentEmailTemplate(companion);
 		email.setHtmlMsg(getHtml("updatedAssignment.mustache", assignmentEmailTemplate));
-		for (HometeachingUser user : users) {
-			addUserToEmail(email, user);
-		}
 		return email;
 	}
 
@@ -91,18 +88,30 @@ public class EmailClient {
 		email.setSubject(format("%s %s teaching", month, isVisitingTeaching(organization) ? "visiting" : "home"));
 		ReportEmailTemplate reportEmailTemplate = new ReportEmailTemplate(companion, month);
 		email.setHtmlMsg(getHtml("reportTeaching.mustache", reportEmailTemplate));
-		for (HometeachingUser user : users) {
-			addUserToEmail(email, user);
-		}
 		return email;
 	}
 
-	private void addUserToEmail(HtmlEmail email, HometeachingUser user) throws EmailException {
-		if (isNotEmpty(user.getEmail())) {
-			email.addTo(user.getEmail(), user.getPerson().getFullName());
-		} else if (isNotEmpty(user.getPerson().getEmail())) {
-			email.addTo(user.getPerson().getEmail(), user.getPerson().getFullName());
+	private void addUsersAndSendEmail(HtmlEmail email, List<HometeachingUser> users) throws EmailException {
+		boolean usersAdded = false;
+		for (HometeachingUser user : users) {
+			if (addUserToEmail(email, user)) {
+				usersAdded = true;
+			}
 		}
+		if (usersAdded) {
+			email.send();
+		} else {
+			logger.info("There were no user email addresses added to the email, the email won't be sent.");
+		}
+	}
+
+	private boolean addUserToEmail(HtmlEmail email, HometeachingUser user) throws EmailException {
+		boolean usersAdded = false;
+		if (isNotEmpty(user.getEmail())) {
+			usersAdded = true;
+			email.addTo(user.getEmail(), user.getPerson().getFullName());
+		}
+		return usersAdded;
 	}
 
 	private Organization getUserOrganization(HometeachingUser user) {
