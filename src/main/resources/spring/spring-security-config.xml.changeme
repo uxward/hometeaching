@@ -33,7 +33,7 @@
 		<sec:expression-handler ref="defaultWebSecurityExpressionHandler" />
 		
 		<!-- remember me configuration -->
-		<sec:remember-me key="APP_KEY_CHANGE_ME" />
+		<sec:remember-me key="APP_KEY_CHANGE_ME" token-validity-seconds="CHANGE_ME" />
 	</sec:http>
 
 	<sec:authentication-manager>

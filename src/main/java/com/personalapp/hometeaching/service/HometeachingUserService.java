@@ -11,7 +11,7 @@ public interface HometeachingUserService {
 	UserViewModel save(HometeachingUser user);
 
 	HometeachingUser getUserDetails(Long userId);
-	
+
 	HometeachingUser findDetailedByUsername(String username);
 
 	UserViewModel getUserViewModel(Long userId);
@@ -19,6 +19,8 @@ public interface HometeachingUserService {
 	UserViewModel toggleEnabled(Long id);
 
 	UserViewModel update(HometeachingUser user);
+
+	void loginUpdate(HometeachingUser user);
 
 	List<UserViewModel> getAllUsers();
 

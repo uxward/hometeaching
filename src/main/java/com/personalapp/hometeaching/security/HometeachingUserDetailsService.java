@@ -40,7 +40,7 @@ public class HometeachingUserDetailsService implements UserDetailsService {
 		logger.info("User {} has successfully logged in", hometeachingUser.getPerson().getFullName());
 
 		hometeachingUser.setLastLogin(new Date());
-		service.update(hometeachingUser);
+		service.loginUpdate(hometeachingUser);
 		List<PersonCompanion> personCompanions = personCompanionRepo.getDetailedByPersonId(hometeachingUser.getPersonId());
 		hometeachingUser.getPerson().setPersonCompanion(personCompanions);
 

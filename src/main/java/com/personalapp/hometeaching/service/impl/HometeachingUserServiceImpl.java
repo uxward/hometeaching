@@ -122,6 +122,15 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 	}
 
 	@Override
+	public void loginUpdate(HometeachingUser user) {
+		try {
+			repo.update(user);
+		} catch (Exception e) {
+			logger.error("An unexpected error occurred while trying to update the user from login: {}", e);
+		}
+	}
+
+	@Override
 	public ActionViewModel forgotPassword(String username) {
 		// TODO Auto-generated method stub
 		// User helper to roll back changes if exception resetting password or
