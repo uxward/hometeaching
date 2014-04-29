@@ -204,6 +204,19 @@
 
 		$(document).ready(function() {
 			setupBaseEventBinding();
+			
+			//warn away from internet explorer
+			if(BrowserDetect.browser == 'MSIE' || !!navigator.userAgent.match(/Trident.*rv\:11\./)){
+				showNotificationError('<p>The <b>Department of Homeland Security</b> has warned everyone to <b>stop using Internet Explorer</b> because it has a bug that allows hackers to install malicious software without the user knowing it.  <b>This issue effects all versions of Internet Explorer</b>.</p>'
+										+ '<p>- <a href="http://www.npr.org/blogs/thetwo-way/2014/04/28/307763583/u-s-tells-users-to-stop-using-internet-explorer-for-now" target="_blank">NPR:  U.S. tells users to stop using Internet Explorer for now </a></p>'
+										+ '<p>- <a href="http://www.cnet.com/news/new-zero-day-vulnerability-identified-in-all-versions-of-ie/" target="_blank">CNET: New zero-day vulnerability identified in all versions of IE</a></p>'
+										+ '<p>- <a href="http://krebsonsecurity.com/2014/04/microsoft-warns-of-attacks-on-ie-zero-day/" target="_blank">Krebs  on Security:  Microsoft warns of attacks on IE zero-day</a></p>'
+										+ '<p>- <a href="http://money.cnn.com/2014/04/28/technology/security/internet-explorer-bug/" target="_blank">CNN:  Internet Explorer bug lets hacker control your PC</a></p>'
+										
+										
+				);
+				
+			}
 		});
 
 		function setupBaseEventBinding() {

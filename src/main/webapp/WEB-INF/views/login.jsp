@@ -27,11 +27,11 @@
 				</div>
 			</c:if>
 			
-			<!--[if lte IE 8]>
+			<!--[if lte IE 9]>
 				<div class="row">
 					<div class="alert alert-danger">
 						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-						This application is not supported in Internet Explorer versions 8 or lower.  Please use a different browser or update Internet Explorer to version 9 or higher.
+						This application is not supported in Internet Explorer versions 9 or lower.  Please use a different browser or update Internet Explorer to version 10 or higher.
 					</div>
 				</div>
 			<![endif]-->
