@@ -26,15 +26,6 @@
 					</div>
 				</div>
 			</c:if>
-			
-			<!--[if lte IE 9]>
-				<div class="row">
-					<div class="alert alert-danger">
-						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-						This application is not supported in Internet Explorer versions 9 or lower.  Please use a different browser or update Internet Explorer to version 10 or higher.
-					</div>
-				</div>
-			<![endif]-->
 
 			<div class="row">
 				<div class="col-md-3 col-sm-4 visible-sm visible-md visible-lg">
