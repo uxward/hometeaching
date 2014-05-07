@@ -209,6 +209,24 @@ public class Family extends BaseEntity {
 		return headOfHousehold;
 	}
 
+	public Set<Person> getWomenHeadOfHousehold() {
+		return getHeadOfHousehold(true);
+	}
+
+	public Set<Person> getMenHeadOfHousehold() {
+		return getHeadOfHousehold(false);
+	}
+
+	public Set<Person> getHeadOfHousehold(boolean female) {
+		Set<Person> headOfHousehold = newHashSet();
+		for (Person person : people) {
+			if (person.getHeadOfHousehold() && person.getFemale() == female) {
+				headOfHousehold.add(person);
+			}
+		}
+		return headOfHousehold;
+	}
+
 	public Set<Person> getChildren() {
 		Set<Person> children = newHashSet();
 		for (Person person : people) {

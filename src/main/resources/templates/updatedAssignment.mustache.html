@@ -15,7 +15,7 @@
 		<br/>
 		
 		<fieldset style="padding: 0;margin: 0;border: 0;">
-			<legend style="display: block;width: 100%;padding: 0;margin-bottom: 20px;font-size: 21px;line-height: inherit;color: #333;border: 0;border-bottom: 1px solid #e5e5e5;">Assigned Families</legend>
+			<legend style="display: block;width: 100%;padding: 0;margin-bottom: 20px;font-size: 21px;line-height: inherit;color: #333;border: 0;border-bottom: 1px solid #e5e5e5;">Assigned {{#if visitingTeaching}} Sisters{{else}} Families{{/if}}</legend>
 		</fieldset>
 		
 		<br/>
@@ -23,8 +23,10 @@
 		<table style="border: 1px solid #ddd; background-color: transparent; border-collapse: collapse; border-spacing: 0; width:100%">
 			<thead style="display: table-header-group; vertical-align: middle; border-color: inherit;">
 				<tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
-					<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Family</th>
+					{{#unless visitingTeaching}}<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Family</th>{{/unless}}
+					{{#if visitingTeaching}}<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Sister</th>{{/if}}
 					<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Status</th>
+					{{#if visitingTeaching}}<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Husband</th>{{/if}}
 					<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Children</th>
 					<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Address</th>
 					<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Phone Numbers</th>
@@ -33,8 +35,10 @@
 			<tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
 				{{#assignments}} {{#if active}}{{#with family}}
 				<tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
-					<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{familyName}}, {{#headOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/headOfHousehold}}</td>
+					{{#unless visitingTeaching}}<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{familyName}}, {{#headOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/headOfHousehold}}</td>{{/unless}}
+					{{#if visitingTeaching}}<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#womenHeadOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/womenHeadOfHousehold}}</td>{{/if}}
 					<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{familyStatus.status}}</td>
+					{{#if visitingTeaching}}<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#menHeadOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/menHeadOfHousehold}}</td>{{/if}}
 					<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#children}}{{firstNoComma @index}}{{firstName}}{{/children}}</td>
 					<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}"><a href="http://maps.google.com/maps?daddr={{address}}" target="_blank">{{address}}</a></td>
 					<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}"><span style="float: left !important;">

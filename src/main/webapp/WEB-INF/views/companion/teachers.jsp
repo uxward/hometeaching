@@ -29,7 +29,10 @@
 			<i class="glyphicon glyphicon-envelope"></i> Email All Assignments
 		</a>
 		<a href="#" class="btn" id="emailReportUpdate">
-			<i class="glyphicon glyphicon-envelope"></i> Request Monthly Update
+			<i class="glyphicon glyphicon-envelope"></i> Request Previous Month Update
+		</a>
+		<a href="#" class="btn" id="emailVisitReminder">
+			<i class="glyphicon glyphicon-envelope"></i> Email Visit Reminder
 		</a>
 
 		<!-- Add companion modal -->
@@ -167,6 +170,12 @@
 					emailReportUpdate();
 				}
 			});
+			
+			$('#emailVisitReminder').click(function(){
+				if (confirm('Are you sure you want to email all assignments?')) {
+					emailVisitReminder();
+				}
+			});
 		}
 		
 		/*
@@ -191,19 +200,6 @@
 				if(companionId != '' && companionId != null){
 					companionIds.push(companionId);
 				}
-				
-// 				if ($(this).val() == null || $(this).val() == '') {
-// 					valid = false;
-// 					showModalError('You must select both companions to save this assignment.');
-// 				}
-// 				if (valid) {
-// 					if (companionIds.indexOf($(this).val()) > -1) {
-// 						valid = false;
-// 						showModalError('You cannot select the same person twice for the companionship.');
-// 					} else {
-// 						companionIds.push($(this).val());
-// 					}
-// 				}
 			});
 			
 			if(companionIds.length < 1){
@@ -415,6 +411,20 @@
 				success : function(data) {
 					if(data.success){
 						showNotificationSuccess('An email requesting a teaching report was successfully sent to all companionships.');
+					} else {
+						showNotificationError('There was an unexpected error while emailing at least one companionship.  Please verify that their email addresses are valid.  If the problem continues please contact the leader of your organization.');
+					}
+				}
+			});
+		}
+
+		function emailVisitReminder() {
+			$.ajax({
+				type : 'POST',
+				url : '<spring:url value="/email/visitReminder"/>/${organization.id}',
+				success : function(data) {
+					if(data.success){
+						showNotificationSuccess('A visit reminder email was successfully sent to all companionships.');
 					} else {
 						showNotificationError('There was an unexpected error while emailing at least one companionship.  Please verify that their email addresses are valid.  If the problem continues please contact the leader of your organization.');
 					}

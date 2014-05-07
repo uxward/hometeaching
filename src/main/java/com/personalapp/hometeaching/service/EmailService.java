@@ -14,4 +14,10 @@ public interface EmailService {
 	ActionViewModel sendTeachingReportEmailToAllCompanions(Organization organization);
 
 	ActionViewModel sendForgotPasswordEmail(String username);
+
+	ActionViewModel sendTeachingReportEmailToCompanion(Long companionId);
+
+	ActionViewModel sendVisitReminderEmailToAllCompanions(Organization fromId);
+
+	ActionViewModel sendVisitReminderEmailToCompanion(Long companionId);
 }

@@ -53,7 +53,7 @@
 	</div>
 
 	<fieldset>
-		<legend> Assigned ${visitingTeaching ? 'Women' : 'Families'} </legend>
+		<legend> Assigned ${visitingTeaching ? 'Sisters' : 'Families'} </legend>
 	</fieldset>
 
 	<!--  Family Assignment Table
@@ -67,6 +67,12 @@
 		<a href="#addFamily" class="btn btn-primary" data-toggle="modal">Add Assignment</a>
 		<a href="#" class="btn" id="emailAssignments">
 			<i class="glyphicon glyphicon-envelope"></i> Email Assignments
+		</a>
+		<a href="#" class="btn" id="emailReportUpdate">
+			<i class="glyphicon glyphicon-envelope"></i> Request Previous Month Update
+		</a>
+		<a href="#" class="btn" id="emailVisitReminder">
+			<i class="glyphicon glyphicon-envelope"></i> Email Visit Reminder
 		</a>
 
 		<!--  Add Family Modal
@@ -265,6 +271,18 @@
 					emailAssignments();
 				}
 			});
+
+			$('#emailReportUpdate').click(function() {
+				if (confirm('Are you sure you want to email a report update request?')) {
+					emailReportUpdate();
+				}
+			});
+			
+			$('#emailVisitReminder').click(function(){
+				if (confirm('Are you sure you want to email a visit reminder?')) {
+					emailVisitReminder();
+				}
+			});
 		}
 		
 		function showEditVisit($this){
@@ -433,7 +451,7 @@
 									'mData' : 'familyName',
 									'mRender' : setupFamilyName
 								}, {
-									'sTitle' : 'Woman',
+									'sTitle' : 'Sister',
 									'bVisible' : ${visitingTeaching},
 									'mData' : 'womenHeadOfHousehold',
 									'mRender' : setupWomenName
@@ -580,6 +598,40 @@
 				success : function(data) {
 					if(data.success){
 						showNotificationSuccess('An updated assignment email was successfully sent to this companionship.');
+					} else {
+						showNotificationError('There was an unexpected error while emailing this companionship.  Please verify that their email addresses are valid.  If the problem continues please contact the leader of your organization.');
+					}
+				}
+			});
+		}
+		
+		function emailVisitReminder() {
+			$.ajax({
+				type : 'POST',
+				url : '<spring:url value="/email/visitReminder"/>',
+				data : {
+					'companionId' : '${companion.id}'
+				},
+				success : function(data) {
+					if(data.success){
+						showNotificationSuccess('A visit reminder email was successfully sent to this companionships.');
+					} else {
+						showNotificationError('There was an unexpected error while emailing this companionship.  Please verify that their email addresses are valid.  If the problem continues please contact the leader of your organization.');
+					}
+				}
+			});
+		}
+
+		function emailReportUpdate() {
+			$.ajax({
+				type : 'POST',
+				url : '<spring:url value="/email/reportUpdate"/>/',
+				data : {
+					'companionId' : '${companion.id}'
+				},
+				success : function(data) {
+					if(data.success){
+						showNotificationSuccess('An email requesting a teaching report was successfully sent to this companionships.');
 					} else {
 						showNotificationError('There was an unexpected error while emailing this companionship.  Please verify that their email addresses are valid.  If the problem continues please contact the leader of your organization.');
 					}

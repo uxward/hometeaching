@@ -64,6 +64,20 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	@Override
+	public ActionViewModel sendTeachingReportEmailToCompanion(Long companionId) {
+		ActionStatus status = SUCCESS;
+		try {
+			Companion companion = companionService.getCompanionAndActiveFamilies(companionId);
+			List<HometeachingUser> users = userService.getCompanionsToEmail(companionId);
+			emailClient.sendReportTeachingEmail(companion, users);
+		} catch (Exception e) {
+			status = ERROR;
+			logger.error(format("Unexpected exception occured while trying to email companion with id %s: ", companionId), e);
+		}
+		return getViewModelFromStatus(status);
+	}
+
+	@Override
 	public ActionViewModel sendTeachingReportEmailToAllCompanions(Organization organization) {
 		ActionStatus status = SUCCESS;
 		for (Companion companion : companionService.getAllCompanionsAndActiveFamilies(organization)) {
@@ -104,5 +118,38 @@ public class EmailServiceImpl implements EmailService {
 	public ActionViewModel sendForgotPasswordEmail(String username) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public ActionViewModel sendVisitReminderEmailToAllCompanions(Organization organization) {
+		ActionStatus status = SUCCESS;
+		for (Companion companion : companionService.getAllCompanionsAndActiveFamilies(organization)) {
+			if (companion.getAssignments().size() > 0) {
+				try {
+					List<HometeachingUser> users = userService.getCompanionsToEmail(companion.getId());
+					emailClient.sendVisitReminderEmail(companion, users);
+				} catch (Exception e) {
+					status = ERROR;
+					logger.error(format("Unexpected exception occured while trying to email companion with id %s: ", companion.getId()), e);
+				}
+			} else {
+				status = ActionStatus.ERROR;
+			}
+		}
+		return getViewModelFromStatus(status);
+	}
+
+	@Override
+	public ActionViewModel sendVisitReminderEmailToCompanion(Long companionId) {
+		ActionStatus status = SUCCESS;
+		try {
+			Companion companion = companionService.getCompanionAndActiveFamilies(companionId);
+			List<HometeachingUser> users = userService.getCompanionsToEmail(companionId);
+			emailClient.sendVisitReminderEmail(companion, users);
+		} catch (Exception e) {
+			status = ERROR;
+			logger.error(format("Unexpected exception occured while trying to email companion with id %s: ", companionId), e);
+		}
+		return getViewModelFromStatus(status);
 	}
 }

@@ -3,8 +3,7 @@
 <body style="font-family: ' HelveticaNeue ', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.428571429; color: #333;">
 	{{#with companion}}
 	<p>
-		{{#companions}}{{firstNoAnd @index}}{{person.firstName}}{{/companions}}, <br /> <br /> I hope that both of you are doing well. I'm following up on {{month}} {{#if visitingTeaching}}
-		visiting {{else}} home {{/if}} teaching - can you let me know how your assigned {{#if visitingTeaching}} sisters {{else}} families {{/if}} are doing and if you were able to visit with them in {{month}} or not? Feel free to email, text, call, or use the
+		{{#companions}}{{firstNoAnd @index}}{{person.firstName}}{{/companions}}, <br /> <br /> I hope you're doing well. This is a quick reminder to visit with your assigned {{#if visitingTeaching}} sisters{{else}} families{{/if}} this month if you haven't already.  After your visits, please let me know how they are doing by email, text, a phone call, or using the
 		<a href="http://hometeaching.elasticbeanstalk.com/companion/you/{{visitingTeaching}}">{{#if visitingTeaching}} visiting {{else}} home {{/if}} teaching website</a>.
 	</p>
 

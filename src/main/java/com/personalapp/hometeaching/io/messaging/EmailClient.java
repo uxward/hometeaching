@@ -61,6 +61,11 @@ public class EmailClient {
 		addUsersAndSendEmail(email, users);
 	}
 
+	public void sendVisitReminderEmail(Companion companion, List<HometeachingUser> users) throws EmailException, IOException {
+		HtmlEmail email = setupVisitReminderEmail(companion, users);
+		addUsersAndSendEmail(email, users);
+	}
+
 	private HtmlEmail setupNewUserEmail(HometeachingUser user) throws EmailException, IOException {
 		Organization organization = getUserOrganization(user);
 		HtmlEmail email = emailConfig.getEmailForOrganization(organization);
@@ -88,6 +93,18 @@ public class EmailClient {
 		email.setSubject(format("%s %s teaching", month, isVisitingTeaching(organization) ? "visiting" : "home"));
 		ReportEmailTemplate reportEmailTemplate = new ReportEmailTemplate(companion, month);
 		email.setHtmlMsg(getHtml("reportTeaching.mustache", reportEmailTemplate));
+		return email;
+	}
+
+	private HtmlEmail setupVisitReminderEmail(Companion companion, List<HometeachingUser> users) throws EmailException, IOException {
+		LocalDate date = LocalDate.now();
+		String month = date.monthOfYear().getAsText();
+		
+		Organization organization = companion.getOrganization();
+		HtmlEmail email = emailConfig.getEmailForOrganization(organization);
+		email.setSubject(format("%s %s teaching reminder", month, isVisitingTeaching(organization) ? "visiting" : "home"));
+		VisitReminderEmailTemplate visitReminderEmailTemplate = new VisitReminderEmailTemplate(companion, month);
+		email.setHtmlMsg(getHtml("visitReminder.mustache", visitReminderEmailTemplate));
 		return email;
 	}
 

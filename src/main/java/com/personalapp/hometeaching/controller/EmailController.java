@@ -26,22 +26,29 @@ public class EmailController {
 	@RequestMapping("updatedAssignment/{organizationId}")
 	@ResponseBody()
 	public ActionViewModel sendEmailForUpdatedAssignment(@PathVariable Long organizationId) {
-		logger.info("User {} is trying to send an email to all companions in their organizations", getCurrentUser().getPerson().getFullName());
+		logger.info("User {} is trying to send an updated assignment email to all companions in organization with id {}", getCurrentUser().getPerson().getFullName(), organizationId);
 		return service.sendUpdatedAssignmentEmailToAllCompanions(fromId(organizationId));
 	}
 
 	@RequestMapping("updatedAssignment")
 	@ResponseBody()
 	public ActionViewModel sendEmailForUpdatedAssignmentByCompanion(@RequestParam Long companionId) {
-		logger.info("User {} is trying to send an email to the companion with id {}", getCurrentUser().getPerson().getFullName(), companionId);
+		logger.info("User {} is trying to send an updated assignment email to the companion with id {}", getCurrentUser().getPerson().getFullName(), companionId);
 		return service.sendUpdatedAssignmentEmailToCompanion(companionId);
 	}
 
 	@RequestMapping("reportUpdate/{organizationId}")
 	@ResponseBody()
-	public ActionViewModel sendEmailForTeachingReport(@PathVariable Long organizationId) {
-		logger.info("User {} is trying to send an email to all companions in their organizations", getCurrentUser().getPerson().getFullName());
+	public ActionViewModel sendEmailForReportUpdate(@PathVariable Long organizationId) {
+		logger.info("User {} is trying to send a report update email to all companions in organization with id {}", getCurrentUser().getPerson().getFullName(), organizationId);
 		return service.sendTeachingReportEmailToAllCompanions(fromId(organizationId));
+	}
+
+	@RequestMapping("reportUpdate")
+	@ResponseBody()
+	public ActionViewModel sendEmailForReportUpdateByCompanion(@RequestParam Long companionId) {
+		logger.info("User {} is trying to send a report update email to companion  with id {}", getCurrentUser().getPerson().getFullName(), companionId);
+		return service.sendTeachingReportEmailToCompanion(companionId);
 	}
 
 	@RequestMapping("newUser")
@@ -49,5 +56,19 @@ public class EmailController {
 	public ActionViewModel sendEmailForNewUser(@RequestParam Long userId) {
 		logger.info("User {} is trying to send an email to new user with id {}", getCurrentUser().getPerson().getFullName(), userId);
 		return service.sendEmailToNewUser(userId);
+	}
+
+	@RequestMapping("visitReminder/{organizationId}")
+	@ResponseBody()
+	public ActionViewModel sendEmailForVisitReminder(@PathVariable Long organizationId) {
+		logger.info("User {} is trying to send a visit reminder email to all companions for organization with id {}", getCurrentUser().getPerson().getFullName(), organizationId);
+		return service.sendVisitReminderEmailToAllCompanions(fromId(organizationId));
+	}
+
+	@RequestMapping("visitReminder")
+	@ResponseBody()
+	public ActionViewModel sendEmailForVisitReminderByCompanion(@RequestParam Long companionId) {
+		logger.info("User {} is trying to send a visit reminder email to companion with id {}", getCurrentUser().getPerson().getFullName(), companionId);
+		return service.sendVisitReminderEmailToCompanion(companionId);
 	}
 }
