@@ -1,5 +1,6 @@
 package com.personalapp.hometeaching.io.messaging;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.personalapp.hometeaching.model.Organization.ELDERS;
 import static com.personalapp.hometeaching.model.Organization.HIGH_PRIEST;
 import static com.personalapp.hometeaching.model.Organization.RELIEF_SOCIETY;
@@ -48,7 +49,7 @@ public class EmailClient {
 
 	public void sendNewUserEmail(HometeachingUser user) throws EmailException, IOException {
 		HtmlEmail email = setupNewUserEmail(user);
-		addUsersAndSendEmail(email, Lists.newArrayList(user));
+		addUsersAndSendEmail(email, newArrayList(user));
 	}
 
 	public void sendUpdatedAssignmentEmail(Companion companion, List<HometeachingUser> users) throws EmailException, IOException {
@@ -66,10 +67,15 @@ public class EmailClient {
 		addUsersAndSendEmail(email, users);
 	}
 
+	public void sendForgotPasswordEmail(HometeachingUser user, String token) throws EmailException, IOException {
+		HtmlEmail email = setupForgotPasswordEmail(user, token);
+		addUsersAndSendEmail(email, newArrayList(user));
+	}
+
 	private HtmlEmail setupNewUserEmail(HometeachingUser user) throws EmailException, IOException {
 		Organization organization = getUserOrganization(user);
 		HtmlEmail email = emailConfig.getEmailForOrganization(organization);
-		email.setSubject("Dallas 4th Ward home and visiting teaching website invite");
+		email.setSubject(format("Dallas 4th ward %s teaching website invite", isVisitingTeaching(organization) ? "visiting" : "home"));
 		UserEmailTemplate userEmailTemplate = new UserEmailTemplate(user, organization);
 		email.setHtmlMsg(getHtml("newUser.mustache", userEmailTemplate));
 		return email;
@@ -99,12 +105,21 @@ public class EmailClient {
 	private HtmlEmail setupVisitReminderEmail(Companion companion, List<HometeachingUser> users) throws EmailException, IOException {
 		LocalDate date = LocalDate.now();
 		String month = date.monthOfYear().getAsText();
-		
+
 		Organization organization = companion.getOrganization();
 		HtmlEmail email = emailConfig.getEmailForOrganization(organization);
 		email.setSubject(format("%s %s teaching reminder", month, isVisitingTeaching(organization) ? "visiting" : "home"));
 		VisitReminderEmailTemplate visitReminderEmailTemplate = new VisitReminderEmailTemplate(companion, month);
 		email.setHtmlMsg(getHtml("visitReminder.mustache", visitReminderEmailTemplate));
+		return email;
+	}
+
+	private HtmlEmail setupForgotPasswordEmail(HometeachingUser user, String token) throws EmailException, IOException {
+		Organization organization = getUserOrganization(user);
+		HtmlEmail email = emailConfig.getEmailForOrganization(organization);
+		email.setSubject(format("Password reset for Dallas 4th ward %s teaching website", isVisitingTeaching(organization) ? "visiting" : "home"));
+		ForgotPasswordEmailTemplate userEmailTemplate = new ForgotPasswordEmailTemplate(user, organization, token);
+		email.setHtmlMsg(getHtml("forgotPassword.mustache", userEmailTemplate));
 		return email;
 	}
 

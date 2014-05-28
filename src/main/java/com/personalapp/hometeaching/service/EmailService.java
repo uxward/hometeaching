@@ -1,5 +1,6 @@
 package com.personalapp.hometeaching.service;
 
+import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.view.ActionViewModel;
 
@@ -13,7 +14,7 @@ public interface EmailService {
 
 	ActionViewModel sendTeachingReportEmailToAllCompanions(Organization organization);
 
-	ActionViewModel sendForgotPasswordEmail(String username);
+	ActionViewModel sendForgotPasswordEmail(HometeachingUser user, String token);
 
 	ActionViewModel sendTeachingReportEmailToCompanion(Long companionId);
 

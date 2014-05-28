@@ -54,15 +54,10 @@
 			<div class="navbar-header">
 				<sec:authorize access="isAuthenticated()">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 					</button>
 				</sec:authorize>
-				<a class="navbar-brand ${activeMenu ==  'home' ? 'active' : '' }" href="${home}">
-					<span class="glyphicon glyphicon-asterisk"></span>
-					<sec:authorize access="!isAuthenticated()">Dallas 4th Ward Home and Visiting Teaching</sec:authorize>
-					<c:if test="${reset}">D4 Home and Visiting Teaching</c:if>
+				<a class="navbar-brand ${activeMenu ==  'home' ? 'active' : '' }" href="${home}"> <span class="glyphicon glyphicon-asterisk"></span> <sec:authorize access="!isAuthenticated()">Dallas 4th Ward Home and Visiting Teaching</sec:authorize> <c:if test="${reset}">D4 Home and Visiting Teaching</c:if>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
@@ -72,19 +67,16 @@
 						<c:if test="${!reset}">
 
 							<sec:authorize access="hasRole('council')">
-								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-										Leaders <b class="caret"></b>
-									</a>
+								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> Leaders <b class="caret"></b>
+								</a>
 									<ul class="dropdown-menu">
 										<li class="${activeMenu ==  'users' ? 'active' : '' }"><a href="${user}/all">Users</a></li>
 										<c:forEach items="${userOrganizations}" var="organization">
-											<li class="${activeMenu ==  organization.name ? 'active' : '' }"><a href="${companion}/all/${organization.id}">
-													<c:choose>
+											<li class="${activeMenu ==  organization.name ? 'active' : '' }"><a href="${companion}/all/${organization.id}"> <c:choose>
 														<c:when test="${organization.id == 1 || organization.id == 2}">${organization.abbreviation} Home</c:when>
 														<c:otherwise>Visiting</c:otherwise>
-													</c:choose>
-													Teaching
-												</a></li>
+													</c:choose> Teaching
+											</a></li>
 										</c:forEach>
 										<li class="${activeMenu ==  'visitHistory' ? 'active' : '' }"><a href="${visit}/history/3">Visit History</a></li>
 										<li class="${activeMenu ==  'feedback' ? 'active' : '' }"><a href="${feedback}">Feedback</a></li>
@@ -94,9 +86,8 @@
 
 							<sec:authorize access="hasRole('membership')">
 
-								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-										Members <b class="caret"></b>
-									</a>
+								<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> Members <b class="caret"></b>
+								</a>
 									<ul class="dropdown-menu">
 										<li class="${activeMenu ==  'allFamilies' ? 'active' : '' }"><a href="${family}/all">All Families</a></li>
 										<li class="${activeMenu ==  'moved' ? 'active' : '' }"><a href="${family}/moved">Moved Families</a></li>
@@ -106,9 +97,8 @@
 
 							</sec:authorize>
 
-							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									Visualize <b class="caret"></b>
-								</a>
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> Visualize <b class="caret"></b>
+							</a>
 								<ul class="dropdown-menu">
 									<li class="${activeMenu ==  'visitPercentage' ? 'active' : '' }"><a href="${dashboard}/visitPercentage">Visit Percentage</a></li>
 									<%-- 									<li class="${activeMenu ==  'familyStatus' ? 'active' : '' }"><a href="${dashboard}/familyStatus">Family Status</a></li> --%>
@@ -130,16 +120,13 @@
 					</ul>
 
 					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<sec:authentication property="principal.person.fullName" />
-								<b class="caret"></b>
-							</a>
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <sec:authentication property="principal.person.fullName" /> <b class="caret"></b>
+						</a>
 							<ul class="dropdown-menu">
 								<li class="${activeMenu == 'user' ? 'active' : '' }"><a href="${user}/you">Your Account</a></li>
 								<li><a href="#leaveFeedback" data-toggle="modal"> Feedback</a></li>
-								<li><a href="<spring:url value="/logout"/>">
-										<i class="glyphicon glyphicon-log-out"></i> Logout
-									</a></li>
+								<li><a href="<spring:url value="/logout"/>"> <i class="glyphicon glyphicon-log-out"></i> Logout
+								</a></li>
 							</ul></li>
 					</ul>
 
@@ -207,23 +194,21 @@
 			console.log("From alert:  " + message);
 		}
 
-		$(document)
-				.ready(
-						function() {
-							setupBaseEventBinding();
-
-							//warn away from internet explorer
-							if (BrowserDetect.browser == 'MSIE' || BrowserDetect.browser == 'Explorer' || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
-								showNotificationError('<p>The <b>Department of Homeland Security</b> has warned everyone to <b>stop using Internet Explorer</b> because it has a bug that allows hackers to install malicious software without the user knowing it.  <b>This issue affects all versions of Internet Explorer</b>.</p>'
-										+ '<p><a href="http://www.npr.org/blogs/thetwo-way/2014/04/28/307763583/u-s-tells-users-to-stop-using-internet-explorer-for-now" target="_blank">NPR:  U.S. tells users to stop using Internet Explorer for now </a></p>'
-										+ '<p><a href="http://www.cnet.com/news/new-zero-day-vulnerability-identified-in-all-versions-of-ie/" target="_blank">CNET: New zero-day vulnerability identified in all versions of IE</a></p>'
-										+ '<p><a href="http://krebsonsecurity.com/2014/04/microsoft-warns-of-attacks-on-ie-zero-day/" target="_blank">Krebs  on Security:  Microsoft warns of attacks on IE zero-day</a></p>'
-										+ '<p><a href="http://money.cnn.com/2014/04/28/technology/security/internet-explorer-bug/" target="_blank">CNN:  Internet Explorer bug lets hacker control your PC</a></p>'
-
-								);
-
-							}
-						});
+		$(document).ready(function() {
+			setupBaseEventBinding();
+	
+			//warn away from internet explorer
+			if (BrowserDetect.browser == 'MSIE' || BrowserDetect.browser == 'Explorer' || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+				showNotificationError('<p>The <b>Department of Homeland Security</b> has warned everyone to <b>stop using Internet Explorer</b> because it has a bug that allows hackers to install malicious software without the user knowing it.  <b>This issue affects all versions of Internet Explorer</b>.</p>'
+						+ '<p><a href="http://www.npr.org/blogs/thetwo-way/2014/04/28/307763583/u-s-tells-users-to-stop-using-internet-explorer-for-now" target="_blank">NPR:  U.S. tells users to stop using Internet Explorer for now </a></p>'
+						+ '<p><a href="http://www.cnet.com/news/new-zero-day-vulnerability-identified-in-all-versions-of-ie/" target="_blank">CNET: New zero-day vulnerability identified in all versions of IE</a></p>'
+						+ '<p><a href="http://krebsonsecurity.com/2014/04/microsoft-warns-of-attacks-on-ie-zero-day/" target="_blank">Krebs  on Security:  Microsoft warns of attacks on IE zero-day</a></p>'
+						+ '<p><a href="http://money.cnn.com/2014/04/28/technology/security/internet-explorer-bug/" target="_blank">CNN:  Internet Explorer bug lets hacker control your PC</a></p>'
+	
+				);
+	
+			}
+		});
 
 		function setupBaseEventBinding() {
 			$('#submitFeedback').click(function() {

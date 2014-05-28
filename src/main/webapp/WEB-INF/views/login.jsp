@@ -29,14 +29,13 @@
 
 			<div class="row">
 				<div class="col-md-3 col-sm-4 visible-sm visible-md visible-lg">
-					<img src="<spring:url value="/resources/img" />/<spring:message code="${dayMod}.image" />.jpg" class="img-thumbnail base-popover" data-content="<spring:message code='${dayMod}.image.title' />"
-						data-trigger="hover" data-container="body" />
+					<img src="<spring:url value="/resources/img" />/<spring:message code="${dayMod}.image" />.jpg" class="img-thumbnail base-popover" data-content="<spring:message code='${dayMod}.image.title' />" data-trigger="hover" data-container="body" />
 				</div>
 
 				<div class="col-md-5 col-sm-8">
 					<br />
 
-					<form action="<spring:url value="/login-execute" />" method="POST" style="font-size:14px; line-height:1.428571429;">
+					<form action="<spring:url value="/login-execute" />" method="POST" style="font-size: 14px; line-height: 1.428571429;">
 						<div class="form-group">
 							<input type="text" class="form-control" placeholder="Username" name="j_username" maxlength="50" />
 						</div>
@@ -44,13 +43,13 @@
 							<input type="password" class="form-control" placeholder="Password" name="j_password" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<label class="checkbox">
-								<input type="checkbox" name="_spring_security_remember_me"> Remember me
+							<label class="checkbox"> <input type="checkbox" name="_spring_security_remember_me"> Remember me
 							</label>
 						</div>
 						<button type="submit" class="btn btn-primary">
 							<i class="glyphicon glyphicon-log-in"></i> Login
 						</button>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="<spring:url value="/recover" />">Forgot Password</a>
 					</form>
 				</div>
 			</div>

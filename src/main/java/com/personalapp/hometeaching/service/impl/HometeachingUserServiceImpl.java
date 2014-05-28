@@ -26,7 +26,6 @@ import com.personalapp.hometeaching.repository.HometeachingUserRepository;
 import com.personalapp.hometeaching.security.PasswordUtils;
 import com.personalapp.hometeaching.security.SecurityUtils;
 import com.personalapp.hometeaching.service.HometeachingUserService;
-import com.personalapp.hometeaching.view.ActionViewModel;
 import com.personalapp.hometeaching.view.UserViewModel;
 
 @Service
@@ -128,14 +127,6 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 		} catch (Exception e) {
 			logger.error("An unexpected error occurred while trying to update the user from login: {}", e);
 		}
-	}
-
-	@Override
-	public ActionViewModel forgotPassword(String username) {
-		// TODO Auto-generated method stub
-		// User helper to roll back changes if exception resetting password or
-		// sending email
-		return null;
 	}
 
 	private HometeachingUser doUpdate(HometeachingUser updatedUser) {

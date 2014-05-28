@@ -115,9 +115,15 @@ public class EmailServiceImpl implements EmailService {
 	}
 
 	@Override
-	public ActionViewModel sendForgotPasswordEmail(String username) {
-		// TODO Auto-generated method stub
-		return null;
+	public ActionViewModel sendForgotPasswordEmail(HometeachingUser user, String token) {
+		ActionStatus status = SUCCESS;
+		try {
+			emailClient.sendForgotPasswordEmail(user, token);
+		} catch (Exception e) {
+			status = ERROR;
+			logger.error(format("Unexpected exception occurred while trying to email new user with id %s", user.getId()), e);
+		}
+		return getViewModelFromStatus(status);
 	}
 
 	@Override

@@ -22,6 +22,7 @@
 		<sec:intercept-url pattern="/feedback/**" access="hasRole('hometeacher')" />
 
 		<sec:intercept-url pattern="/login*" access="permitAll" />
+		<sec:intercept-url pattern="/recover/**" access="permitAll" />
 		<sec:intercept-url pattern="/denied*" access="permitAll" />
 		<sec:intercept-url pattern="/resources/**" access="permitAll" />
 		<sec:intercept-url pattern="/**" access="hasRole('hometeacher')" />
