@@ -49,7 +49,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
 		ResetPassword reset = resetPasswordService.findByToken(token);
 		HometeachingUser user = reset.getUser();
 		user.setPassword(passwordUtils.getPassword(password));
-		
+		userService.update(user);
 		return null;
 	}
 }
