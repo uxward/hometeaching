@@ -12,6 +12,8 @@ public interface HometeachingUserService {
 	HometeachingUser getUserDetails(Long userId);
 
 	HometeachingUser findDetailedByUsername(String username);
+	
+	HometeachingUser findDetailedByEmail(String email);
 
 	UserViewModel getUserViewModel(Long userId);
 
@@ -24,4 +26,5 @@ public interface HometeachingUserService {
 	List<UserViewModel> getAllUsers();
 
 	List<HometeachingUser> getCompanionsToEmail(Long companionId);
+
 }

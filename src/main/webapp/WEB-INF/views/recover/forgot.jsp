@@ -25,6 +25,7 @@
 							<input id="confirmEmail" type="text" class="form-control" placeholder="Confirm Email" maxlength="50" />
 						</div>
 						<input type="button" class="btn btn-primary" id="resetPassword" value="Reset Password" />
+						<a href="<spring:url value="/" />" class="btn btn-default" >Cancel</a>
 					</form>
 				</div>
 			</div>

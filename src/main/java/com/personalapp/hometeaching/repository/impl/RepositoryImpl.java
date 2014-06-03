@@ -48,7 +48,7 @@ public abstract class RepositoryImpl<ENTITY, ID extends Serializable> implements
 
 	@Override
 	public void remove(ENTITY model) {
-		em.remove(model);
+		em.remove(em.merge(model));
 		em.flush();
 	}
 

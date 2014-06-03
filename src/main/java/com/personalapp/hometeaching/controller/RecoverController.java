@@ -16,7 +16,7 @@ import com.personalapp.hometeaching.view.ActionViewModel;
 
 @Controller
 @RequestMapping(value = "/recover")
-public class ForgotPasswordController {
+public class RecoverController {
 	private final Logger logger = getLogger(getClass());
 
 	@Autowired

@@ -5,7 +5,7 @@ import static com.google.common.collect.Maps.newHashMap;
 import java.util.Map;
 
 public enum ActionStatus {
-	SUCCESS(1L, "Success"), DUPLICATE(2L, "Duplicate"), ERROR(3L, "Error");
+	SUCCESS(1L, "Success"), DUPLICATE(2L, "Duplicate"), ERROR(3L, "Error"), NOT_FOUND(4L, "Not Found");
 
 	private final static Map<Long, ActionStatus> ACTION_STATUS = newHashMap();
 	static {

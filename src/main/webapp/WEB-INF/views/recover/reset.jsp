@@ -11,7 +11,8 @@
 
 			<div class="row">
 				<div class="col-md-3 col-sm-4 visible-sm visible-md visible-lg">
-					<img src="<spring:url value="/resources/img" />/<spring:message code="${dayMod}.image" />.jpg" class="img-thumbnail base-popover" data-content="<spring:message code='${dayMod}.image.title' />" data-trigger="hover" data-container="body" />
+					<img src="<spring:url value="/resources/img" />/<spring:message code="${dayMod}.image" />.jpg" class="img-thumbnail base-popover" data-content="<spring:message code='${dayMod}.image.title' />"
+						data-trigger="hover" data-container="body" />
 				</div>
 
 				<div class="col-md-5 col-sm-8">
@@ -19,12 +20,14 @@
 
 					<form style="font-size: 14px; line-height: 1.428571429;" id="updateForm">
 						<div class="form-group">
-							<input id="password" type="text" class="form-control" placeholder="New Password" name="password" maxlength="50" />
+							<input id="password" type="password" class="form-control" placeholder="New Password" name="password" maxlength="50" />
 						</div>
 						<div class="form-group">
-							<input id="confirmPassword" type="text" class="form-control" placeholder="Confirm Password" maxlength="50" />
+							<input id="confirmPassword" type="password" class="form-control" placeholder="Confirm Password" maxlength="50" />
 						</div>
-						<input type="button" class="btn btn-primary" id="resetPassword" value="Reset Password" /> <input type="hidden" name="token" value="${token}" />
+						<input type="button" class="btn btn-primary" id="resetPassword" value="Reset Password" />
+						<a href="<spring:url value="/" />" class="btn btn-default">Cancel</a>
+						<input type="hidden" name="token" value="${token}" />
 					</form>
 				</div>
 			</div>
@@ -73,7 +76,7 @@
 		}
 
 		function handleReset(data) {
-
+			window.url = '<spring:url value="/"/>';
 		}
 	</script>
 </t:base>

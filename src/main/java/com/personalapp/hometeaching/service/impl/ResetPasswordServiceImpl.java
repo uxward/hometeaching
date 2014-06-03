@@ -6,24 +6,29 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.personalapp.hometeaching.model.ResetPassword;
-import com.personalapp.hometeaching.repository.ResetPasswordRepository;
-import com.personalapp.hometeaching.service.ResetPasswordService;
+import com.personalapp.hometeaching.model.Recovery;
+import com.personalapp.hometeaching.repository.RecoveryRepository;
+import com.personalapp.hometeaching.service.RecoveryService;
 
 @Service
-public class ResetPasswordServiceImpl implements ResetPasswordService {
+public class ResetPasswordServiceImpl implements RecoveryService {
 	private final Logger logger = getLogger(getClass());
 
 	@Autowired
-	private ResetPasswordRepository resetPasswordRepo;
+	private RecoveryRepository recoveryRepo;
 
 	@Override
-	public ResetPassword findByToken(String token) {
-		return resetPasswordRepo.findByToken(token);
+	public Recovery findByToken(String token) {
+		return recoveryRepo.findByToken(token);
 	}
 
 	@Override
-	public void save(ResetPassword reset) {
-		resetPasswordRepo.save(reset);
+	public void save(Recovery reset) {
+		recoveryRepo.save(reset);
+	}
+
+	@Override
+	public void remove(Recovery reset) {
+		recoveryRepo.remove(reset);
 	}
 }

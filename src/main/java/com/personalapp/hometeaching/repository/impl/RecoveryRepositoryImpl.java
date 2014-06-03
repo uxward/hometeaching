@@ -8,19 +8,20 @@ import org.slf4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.mysema.query.jpa.impl.JPAQuery;
-import com.personalapp.hometeaching.model.QHometeachingUser;
-import com.personalapp.hometeaching.model.ResetPassword;
-import com.personalapp.hometeaching.repository.ResetPasswordRepository;
+import com.personalapp.hometeaching.model.Recovery;
+import com.personalapp.hometeaching.repository.RecoveryRepository;
 
 @Repository
-public class ResetPasswordRepositoryImpl extends RepositoryImpl<ResetPassword, Long> implements ResetPasswordRepository {
+public class RecoveryRepositoryImpl extends RepositoryImpl<Recovery, Long> implements RecoveryRepository {
 	private final Logger logger = getLogger(getClass());
 
 	@Override
-	public ResetPassword findByToken(String token) {
+	public Recovery findByToken(String token) {
 		logger.info("Entering the find recover by token method");
 		JPAQuery query = jpaFrom(resetPassword);
 		query.leftJoin(resetPassword.user, hometeachingUser).fetch();
+		query.leftJoin(hometeachingUser.userOrganizations).fetch();
+		query.leftJoin(hometeachingUser.userRoles).fetch();
 		query.where(resetPassword.token.eq(token));
 		return query.singleResult(resetPassword);
 	}

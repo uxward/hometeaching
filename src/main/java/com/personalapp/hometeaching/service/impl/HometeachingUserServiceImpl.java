@@ -82,6 +82,11 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 	}
 
 	@Override
+	public HometeachingUser findDetailedByEmail(String email) {
+		return repo.findDetailedByEmail(email);
+	}
+
+	@Override
 	public UserViewModel getUserViewModel(Long userId) {
 		return new UserViewModel(repo.findDetailedById(userId));
 	}
@@ -174,7 +179,7 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 			userRole.setHometeachingUser(user);
 			user.getUserRoles().add(userRole);
 		}
-		if (Objects.equals(getCurrentUser().getId(), user.getId())) {
+		if (getCurrentUser() != null && Objects.equals(getCurrentUser().getId(), user.getId())) {
 			getCurrentUser().getHometeachingUser().setUserRoles(user.getUserRoles());
 		}
 	}
@@ -187,7 +192,7 @@ public class HometeachingUserServiceImpl implements HometeachingUserService {
 			org.setOrganization(Organization.fromId(id));
 			user.getUserOrganizations().add(org);
 		}
-		if (Objects.equals(getCurrentUser().getId(), user.getId())) {
+		if (getCurrentUser() != null && Objects.equals(getCurrentUser().getId(), user.getId())) {
 			getCurrentUser().getHometeachingUser().setUserOrganizations(user.getUserOrganizations());
 		}
 	}

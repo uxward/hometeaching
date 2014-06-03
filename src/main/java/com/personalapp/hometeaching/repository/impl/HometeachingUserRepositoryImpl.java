@@ -32,9 +32,17 @@ public class HometeachingUserRepositoryImpl extends RepositoryImpl<HometeachingU
 	}
 
 	@Override
+	public HometeachingUser findDetailedByEmail(String email) {
+		logger.info("entering the find detailed user by email method with email {}", email);
+		JPAQuery query = getDetailedForLogin();
+		query.where(hometeachingUser.email.eq(email));
+		return query.singleResult(hometeachingUser);
+	}
+
+	@Override
 	public HometeachingUser findDetailedById(Long id) {
 		logger.info("entering the find detailed user by id method with id {}", id);
-		JPAQuery query = getDetailed();
+		JPAQuery query = getDetailedForLogin();
 		query.where(hometeachingUser.id.eq(id));
 		return query.singleResult(hometeachingUser);
 	}

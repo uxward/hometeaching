@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "recover")
-public class ResetPassword extends BaseEntity {
+public class Recovery extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "id")
@@ -28,6 +28,10 @@ public class ResetPassword extends BaseEntity {
 	@OneToOne(fetch = LAZY)
 	@JoinColumn(name = "userid")
 	private HometeachingUser user;
+	
+	public Long getId(){
+		return id;
+	}
 
 	public String getToken() {
 		return token;
