@@ -1,7 +1,7 @@
 package com.personalapp.hometeaching.repository.impl;
 
 import static com.personalapp.hometeaching.model.QHometeachingUser.hometeachingUser;
-import static com.personalapp.hometeaching.model.QResetPassword.resetPassword;
+import static com.personalapp.hometeaching.model.QRecovery.recovery;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import org.slf4j.Logger;
@@ -18,11 +18,11 @@ public class RecoveryRepositoryImpl extends RepositoryImpl<Recovery, Long> imple
 	@Override
 	public Recovery findByToken(String token) {
 		logger.info("Entering the find recover by token method");
-		JPAQuery query = jpaFrom(resetPassword);
-		query.leftJoin(resetPassword.user, hometeachingUser).fetch();
+		JPAQuery query = jpaFrom(recovery);
+		query.leftJoin(recovery.user, hometeachingUser).fetch();
 		query.leftJoin(hometeachingUser.userOrganizations).fetch();
 		query.leftJoin(hometeachingUser.userRoles).fetch();
-		query.where(resetPassword.token.eq(token));
-		return query.singleResult(resetPassword);
+		query.where(recovery.token.eq(token));
+		return query.singleResult(recovery);
 	}
 }
