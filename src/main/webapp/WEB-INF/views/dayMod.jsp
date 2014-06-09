@@ -6,5 +6,5 @@
 	<fmt:formatDate value="${now}" pattern="D" />
 </c:set>
 <c:set var="dayMod">
-	${day % 4}
+	${day % 5}
 </c:set>

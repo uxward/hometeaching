@@ -76,7 +76,7 @@
 		}
 
 		function handleReset(data) {
-			window.url = '<spring:url value="/"/>';
+			document.location = '<spring:url value="/login?reset=true"/>';
 		}
 	</script>
 </t:base>

@@ -27,6 +27,15 @@
 				</div>
 			</c:if>
 
+			<c:if test="${param.reset}">
+				<div class="row">
+					<div class="alert alert-success">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						Your password was successfully updated, please log in below.
+					</div>
+				</div>
+			</c:if>
+
 			<div class="row">
 				<div class="col-md-3 col-sm-4 visible-sm visible-md visible-lg">
 					<img src="<spring:url value="/resources/img" />/<spring:message code="${dayMod}.image" />.jpg" class="img-thumbnail base-popover" data-content="<spring:message code='${dayMod}.image.title' />" data-trigger="hover" data-container="body" />

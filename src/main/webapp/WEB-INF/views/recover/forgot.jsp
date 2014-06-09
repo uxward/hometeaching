@@ -74,7 +74,7 @@
 		}
 
 		function handleReset(data) {
-
+			showNotificationSuccess("An email was sent to you with instructions for resetting your password.");
 		}
 	</script>
 </t:base>

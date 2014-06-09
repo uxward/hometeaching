@@ -108,7 +108,7 @@ public class RecoveryServiceImpl extends ServiceImpl implements ForgotPasswordSe
 		}
 		user.setUserRoles(new HashSet<UserRole>());
 		for (UserOrganization org : user.getUserOrganizations()) {
-			user.getUserOrganizationIds().add(org.getId());
+			user.getUserOrganizationIds().add(org.getOrganizationId());
 		}
 		user.setUserOrganizations(new HashSet<UserOrganization>());
 
