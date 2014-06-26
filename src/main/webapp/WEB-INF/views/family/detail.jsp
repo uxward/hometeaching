@@ -5,52 +5,72 @@
 
 <t:mainPage activeMenu="yourFamily" pageTitle="Family Detail" pageHeader="${family.familyName}" pageSubheader="Family">
 
-	<div class="well" id="viewInfo">
-		<p id="viewAddress">
-			<strong>Address:</strong> ${family.address}
-		</p>
-		<p id="viewPhone">
-			<strong>Phone Number:</strong> ${family.phoneNumber}
-		</p>
-		<p id="viewStatus" class="<sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
-			<strong>Status:</strong> ${family.familyStatus}
-		</p>
-		<p id="viewOrganization">
-			<strong>Organization:</strong>
-			<c:forEach items="${family.organizations}" var="organization" varStatus="status">${organization.name}<c:if test="${!status.last}">, </c:if>
-			</c:forEach>
-		</p>
-		<p>
-			<strong>Home teachers:</strong>
-			<c:if test="${not empty family.homeTeachingCompanions}">
-				<c:forEach items="${family.homeTeachingCompanions.teachers}" var="person" varStatus="status">${person.firstName}&nbsp;${person.family.familyName}<c:if test="${!status.last}">, </c:if>
-				</c:forEach>
-			</c:if>
-		</p>
-		<p>
-			<strong>Visiting teachers:</strong>
-			<c:if test="${not empty family.visitingTeachingCompanions}">
-				<c:forEach items="${family.visitingTeachingCompanions.teachers}" var="person" varStatus="status">${person.firstName}&nbsp;${person.family.familyName}<c:if test="${!status.last}">, </c:if>
-				</c:forEach>
-			</c:if>
-		</p>
+	<div>
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#familyInformation" data-toggle="tab"><span class="visible-xs">Info</span><span class="hidden-xs">Family Information</span></a></li>
+			<li><a href="#personInformation" data-toggle="tab"><span class="visible-xs">Members</span><span class="hidden-xs">Family Members</span></a></li>
+			<li><a href="#noteInformation" data-toggle="tab"><span class="visible-xs">Notes</span><span class="hidden-xs">Family Notes</span></a></li>
+		</ul>
+		<div class="tab-content">
+			<!-- start view family information -->
+			<div class="tab-pane active" id="familyInformation">
+				<br />
+				<div class="well" id="viewInfo">
+					<p id="viewAddress">
+						<strong>Address:</strong> ${family.address}
+					</p>
+					<p id="viewPhone">
+						<strong>Phone Number:</strong> ${family.phoneNumber}
+					</p>
+					<p id="viewStatus" class="<sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
+						<strong>Status:</strong> ${family.familyStatus}
+					</p>
+					<p id="viewOrganization">
+						<strong>Organization:</strong>
+						<c:forEach items="${family.organizations}" var="organization" varStatus="status">${organization.name}<c:if test="${!status.last}">, </c:if>
+						</c:forEach>
+					</p>
+					<p>
+						<strong>Home teachers:</strong>
+						<c:if test="${not empty family.homeTeachingCompanions}">
+							<c:forEach items="${family.homeTeachingCompanions.teachers}" var="person" varStatus="status">${person.firstName}&nbsp;${person.family.familyName}<c:if test="${!status.last}">, </c:if>
+							</c:forEach>
+						</c:if>
+					</p>
+					<p>
+						<strong>Visiting teachers:</strong>
+						<c:if test="${not empty family.visitingTeachingCompanions}">
+							<c:forEach items="${family.visitingTeachingCompanions.teachers}" var="person" varStatus="status">${person.firstName}&nbsp;${person.family.familyName}<c:if test="${!status.last}">, </c:if>
+							</c:forEach>
+						</c:if>
+					</p>
+				</div>
+
+				<a href="#editFamilyModal" id="openFamilyModal" role="button" class="btn btn-primary" data-family-id="${family.id}" data-toggle="modal">Edit Family</a>
+			</div>
+			<!-- end view family information -->
+
+			<!-- start family member information -->
+			<div class="tab-pane" id="personInformation">
+				<br />
+				<table id="personTable" class="table table-striped table-hover table-bordered" width="100%">
+				</table>
+
+				<br /> <a href="#addPerson" role="button" class="btn btn-primary" data-toggle="modal">Add Family Member</a>
+			</div>
+			<!-- end family member information -->
+
+			<!-- start family member information -->
+			<div class="tab-pane" id="noteInformation">
+				<br />
+				<table id="noteTable" class="table table-striped table-hover table-bordered" width="100%">
+				</table>
+
+				<a href="#addNote" role="button" class="btn btn-primary" data-toggle="modal">Add Note</a>
+			</div>
+			<!-- end family member information -->
+		</div>
 	</div>
-
-	<a href="#editFamilyModal" id="openFamilyModal" role="button" class="btn btn-primary" data-family-id="${family.id}" data-toggle="modal">Edit Family</a>
-
-	<br />
-	<br />
-
-	<fieldset>
-		<legend>Family Members</legend>
-
-		<table id="personTable" class="table table-striped table-hover table-bordered" width="100%">
-		</table>
-
-		<br />
-		<a href="#addPerson" role="button" class="btn btn-primary" data-toggle="modal">Add Family Member</a>
-
-	</fieldset>
 
 	<!-- Add Person Modal -->
 	<div id="addPerson" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addPersonLabel" aria-hidden="true">
@@ -65,40 +85,32 @@
 				<div class="modal-body">
 					<form id="personForm">
 						<div class="form-group">
-							<label class="sr-only" for="firstName">First Name</label>
-							<input class="form-control" type="text" name="firstName" id="firstName" placeholder="First Name" maxlength="30" />
+							<label class="sr-only" for="firstName">First Name</label> <input class="form-control" type="text" name="firstName" id="firstName" placeholder="First Name" maxlength="30" />
 						</div>
 						<div class="form-group">
-							<label class="sr-only" for="firstName">Email</label>
-							<input class="form-control" type="text" name="email" id="email" placeholder="Email" maxlength="30" />
+							<label class="sr-only" for="firstName">Email</label> <input class="form-control" type="text" name="email" id="email" placeholder="Email" maxlength="30" />
 						</div>
 						<div class="form-group">
-							<label class="sr-only" for="firstName">Phone Number</label>
-							<input class="form-control" type="text" name="phoneNumber" id="phoneNumber" placeholder="Phone Number" maxlength="20" />
+							<label class="sr-only" for="firstName">Phone Number</label> <input class="form-control" type="text" name="phoneNumber" id="phoneNumber" placeholder="Phone Number" maxlength="20" />
 						</div>
 						<div class="form-group">
-							<label class="checkbox">
-								<input type="checkbox" name="female" id="female"> Female
+							<label class="checkbox"> <input type="checkbox" name="female" id="female"> Female
 							</label>
 						</div>
 						<div class="form-group">
-							<label class="checkbox">
-								<input type="checkbox" name="headOfHousehold" id="headOfHousehold"> Head of Household
+							<label class="checkbox"> <input type="checkbox" name="headOfHousehold" id="headOfHousehold"> Head of Household
 							</label>
 						</div>
 						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
-							<label class="checkbox">
-								<input type="checkbox" name="visitingTeacher" id="visitingTeacher"> Visiting Teacher
+							<label class="checkbox"> <input type="checkbox" name="visitingTeacher" id="visitingTeacher"> Visiting Teacher
 							</label>
 						</div>
 						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
-							<label class="checkbox">
-								<input type="checkbox" name="homeTeacher" id="homeTeacher"> Home Teacher
+							<label class="checkbox"> <input type="checkbox" name="homeTeacher" id="homeTeacher"> Home Teacher
 							</label>
 						</div>
 						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
-							<label class="checkbox">
-								<input type="checkbox" name="user" id="user"> User
+							<label class="checkbox"> <input type="checkbox" name="user" id="user"> User
 							</label>
 						</div>
 						<input type="hidden" value="${family.id}" name="familyId" /> <input type="hidden" id="personId" name="id" />
@@ -126,37 +138,30 @@
 				<div class="modal-body">
 					<form id="familyForm">
 						<div class="form-group">
-							<label class="sr-only" for="familyName">Family Name</label>
-							<input class="form-control" type="text" name="familyName" placeholder="Family Name" id="familyName" />
+							<label class="sr-only" for="familyName">Family Name</label> <input class="form-control" type="text" name="familyName" placeholder="Family Name" id="familyName" />
 						</div>
 						<div class="form-group">
-							<label class="sr-only" for="address">Address</label>
-							<input class="form-control" type="text" name="address" placeholder="Address" id="address" />
+							<label class="sr-only" for="address">Address</label> <input class="form-control" type="text" name="address" placeholder="Address" id="address" />
 						</div>
 						<div class="form-group">
-							<label class="sr-only" for="phoneNumber">Phone Number</label>
-							<input class="form-control" type="text" name="phoneNumber" placeholder="Phone Number" id="familyPhoneNumber" />
+							<label class="sr-only" for="phoneNumber">Phone Number</label> <input class="form-control" type="text" name="phoneNumber" placeholder="Phone Number" id="familyPhoneNumber" />
 						</div>
 						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
-							<label class="checkbox">
-								<input type="checkbox" name="familyMoved" id="familyMoved"> Family Moved
+							<label class="checkbox"> <input type="checkbox" name="familyMoved" id="familyMoved"> Family Moved
 							</label>
 						</div>
 
 						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize> <c:if test="${!family.familyMoved}">hidden</c:if>">
-							<label class="checkbox">
-								<input type="checkbox" name="recordsMoved" id="recordsMoved"> Records Moved
+							<label class="checkbox"> <input type="checkbox" name="recordsMoved" id="recordsMoved"> Records Moved
 							</label>
 						</div>
 						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
-							<label class="checkbox">
-								<input type="checkbox" name="partMember" id="partMember"> Part Member
+							<label class="checkbox"> <input type="checkbox" name="partMember" id="partMember"> Part Member
 							</label>
 						</div>
 
 						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
-							<label class="sr-only" for="familyStatus">Family Status</label>
-							<select name="familyStatusId" class="form-control" id="familyStatus">
+							<label class="sr-only" for="familyStatus">Family Status</label> <select name="familyStatusId" class="form-control" id="familyStatus">
 								<option value="">Select Status</option>
 								<c:forEach items="${statuses}" var="status">
 									<option value="${status.id}">${status.status}</option>
@@ -165,8 +170,7 @@
 						</div>
 
 						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
-							<label class="sr-only" for="organization">Organization</label>
-							<select name="familyOrganizationIds" class="form-control" id="familyOrganization" multiple="multiple">
+							<label class="sr-only" for="organization">Organization</label> <select name="familyOrganizationIds" class="form-control" id="familyOrganization" multiple="multiple">
 								<option value="">Select Organization</option>
 								<c:forEach items="${organizations}" var="organization">
 									<option value="${organization.id}">${organization.name}</option>
@@ -186,12 +190,50 @@
 		</div>
 	</div>
 
+	<!-- Add Note Modal -->
+	<div id="addNote" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addNoteLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h3 id="addNote">Add Note</h3>
+				</div>
+
+				<div class="modal-body">
+					<form id="noteForm">
+						<div class="form-group">
+							<label class="sr-only" for="firstName">First Name</label>
+							<textarea class="form-control" name="note" id="note" placeholder="Notes" maxlength="500"></textarea>
+						</div>
+						<div class="form-group">
+							<label class="sr-only" for="role">Role</label> <select name="visibleRole" class="form-control" id="role">
+								<option value="">Select Note Visibility</option>
+								<c:forEach items="${roles}" var="role">
+									<option value="${role.role}">${role.display}</option>
+								</c:forEach>
+							</select>
+						</div>
+						<input type="hidden" value="${family.id}" name="familyId" />
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+					<button type="button" class="btn btn-primary" id="saveNote" data-action="save">Save Note</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 
 			setupEventBinding();
 
 			setupPersonTable();
+
+			setupNoteTable();
 
 			setupModals();
 
@@ -211,55 +253,77 @@
 				}
 			});
 
+			$('#saveNote').click(function() {
+				if (canSaveNote()) {
+					saveNote($(this));
+				}
+			});
+
 			$('#personTable').on('click', '.firstName', function() {
 				editPerson($(this));
 			});
 		}
 
 		function setupPersonTable() {
-			$('#personTable').dataTable({
-				'sDom' : 't',
-				'sAjaxSource' : '<spring:url value="/person/getByFamily/${family.id}"/>',
-				'aaData' : [],
-				'aaSorting' : [ [ 8, 'desc' ], [ 1, 'asc' ] ],
-				'aoColumns' : [ {
-					'mData' : 'id',
-					'bVisible' : false
+			$('#personTable').DataTable({
+				'dom' : 't',
+				'ajax' : '<spring:url value="/person/getByFamily/${family.id}"/>',
+				'data' : [],
+				'order' : [ [ 6, 'desc'], [0, 'asc' ] ],
+				'columns' : [{
+					'title' : 'First Name',
+					'data' : 'firstName',
+					'render' : setupFirstNameLink
 				}, {
-					'sTitle' : 'First Name',
-					'mData' : 'firstName',
-					'mRender' : setupFirstNameLink
+					'title' : 'Email',
+					'data' : 'email'
 				}, {
-					'sTitle' : 'Email',
-					'mData' : 'email'
+					'title' : 'Phone Number',
+					'data' : 'phoneNumber',
+					'render' : getPhoneNumber
 				}, {
-					'sTitle' : 'Phone Number',
-					'mData' : 'phoneNumber',
-					'mRender' : getPhoneNumber
-				},{
-					'sTitle' : 'Gender',
-					'mData' : 'female',
-					'mRender' : maleFemale,
-					'sClass' : 'hidden-xs hidden-sm'
+					'title' : 'Gender',
+					'data' : 'female',
+					'render' : maleFemale,
+					'className' : 'hidden-xs hidden-sm'
 				}, {
-					'sTitle' : 'Home Teacher',
-					'mData' : 'homeTeacher',
-					'mRender' : setupTrueFalseAsYesNo,
-					'sClass' : 'hidden-xs'
+					'title' : 'Home Teacher',
+					'data' : 'homeTeacher',
+					'render' : setupTrueFalseAsYesNo,
+					'className' : 'hidden-xs'
 				}, {
-					'sTitle' : 'Visiting Teacher',
-					'mData' : 'visitingTeacher',
-					'mRender' : setupTrueFalseAsYesNo,
-					'sClass' : 'hidden-xs'
+					'title' : 'Visiting Teacher',
+					'data' : 'visitingTeacher',
+					'render' : setupTrueFalseAsYesNo,
+					'className' : 'hidden-xs'
 				}, {
-					'sTitle' : 'Head of Household',
-					'mData' : 'headOfHousehold',
-					'mRender' : setupTrueFalseAsYesNo,
-					'sClass' : 'hidden-xs  hidden-sm'
+					'title' : 'Head of Household',
+					'data' : 'headOfHousehold',
+					'render' : setupTrueFalseAsYesNo,
+					'className' : 'hidden-xs  hidden-sm'
 				} ],
-				'oLanguage' : {
-					'sInfoEmpty' : 'No people to show',
-					'sEmptyTable' : 'There are no people in this family yet.  Add a person by clicking the button below.'
+				'language' : {
+					'infoEmpty' : 'No people to show',
+					'emptyTable' : 'There are no people in this family yet.  Add a person by clicking the button below.'
+				}
+			});
+		}
+
+		function setupNoteTable() {
+			$('#noteTable').DataTable({
+				'ajax' : '<spring:url value="/note/getByFamily/${family.id}"/>',
+				'data' : [],
+				'order' : [ [ 0, 'asc' ] ],
+				'columns' : [ {
+					'title' : 'Note',
+					'data' : 'note'
+				}, {
+					'title' : 'Visible To',
+					'data' : 'role.display'
+				} ],
+				'language' : {
+					'infoEmpty' : 'No notes to show',
+					'emptyTable' : 'There are no notes for this family yet.  Add a note by clicking the button below.'
 				}
 			});
 		}
@@ -274,6 +338,11 @@
 				getFamilyInformation();
 			}).on('hidden.bs.modal', function() {
 				$('#familyForm')[0].reset();
+				$('.form-group').removeClass('has-error');
+			});
+
+			$('#addNote').on('show.bs.modal, hidden.bs.modal', function() {
+				$('#noteForm')[0].reset();
 				$('.form-group').removeClass('has-error');
 			});
 		}
@@ -330,6 +399,43 @@
 
 			$('#savePerson').data('action', 'edit').data('row', row);
 			$('#addPerson').modal('show');
+		}
+
+		function canSaveNote() {
+			var valid = true;
+
+			var $note = $('#note');
+			if ($.trim($note.val()).length < 1) {
+				valid = false;
+				$note.parent().addClass('has-error');
+			} else {
+				$note.parent().removeClass('has-error');
+			}
+
+			var $role = $('#role');
+			if (!($.trim($role.val()).length > 0)) {
+				valid = false;
+				$role.parent().addClass('has-error');
+			} else {
+				$role.parent().removeClass('has-error');
+			}
+
+			return valid;
+		}
+
+		function saveNote($this) {
+			$.ajax({
+				type : 'POST',
+				url : '<spring:url value="/note/save"/>',
+				data : $('#noteForm').serialize(),
+				success : function(data) {
+					//clear form and hide modal
+					$('#addNote').modal('hide');
+
+					//add note row to table
+					$('#noteTable').dataTable().fnAddData(data);
+				}
+			});
 		}
 
 		function canSavePerson() {

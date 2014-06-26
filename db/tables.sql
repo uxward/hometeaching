@@ -171,4 +171,35 @@ create table recover (
 	,updated datetime
 );
 
+##Family Note
+create table familynote (
+	id int auto_increment primary key
+	,familyid int
+	,note varchar(500)
+	,userid int
+	,created datetime
+	,updated datetime
+);
+
+##Person Note
+create table personnote (
+	id int auto_increment primary key
+	,personid int
+	,note varchar(500)
+	,userid int
+	,created datetime
+	,updated datetime
+);
+
+##Address Note
+create table addressnote (
+	id int auto_increment primary key
+	,familyid int
+	,note varchar(500)
+	,visiblerole varchar(50)
+	,userid int
+	,created datetime
+	,updated datetime
+);
+
 commit;

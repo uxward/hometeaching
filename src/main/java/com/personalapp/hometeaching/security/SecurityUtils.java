@@ -10,6 +10,7 @@ import static com.personalapp.hometeaching.model.Role.COUNCIL;
 import static com.personalapp.hometeaching.model.Role.HOMETEACHER;
 import static com.personalapp.hometeaching.model.Role.LEADER;
 import static com.personalapp.hometeaching.model.Role.MEMBERSHIP;
+import static com.personalapp.hometeaching.model.Role.fromRole;
 
 import java.util.List;
 
@@ -21,8 +22,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Objects;
+import com.personalapp.hometeaching.model.Assignment;
 import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.model.Family;
+import com.personalapp.hometeaching.model.FamilyNote;
 import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.model.Role;
@@ -41,48 +44,40 @@ public class SecurityUtils {
 	}
 
 	public static boolean currentUserHasRole(Role role) {
-		boolean hasRole = false;
-		for (GrantedAuthority grantedAuthority : getCurrentUser().getAuthorities()) {
-			if (grantedAuthority.getAuthority().equalsIgnoreCase(role.getRole())) {
-				hasRole = true;
-				break;
-			}
+		switch (role) {
+		case ADMIN:
+			return currentUserIsAdmin();
+		case LEADER:
+			return currentUserIsLeader();
+		case COUNCIL:
+			return currentUserIsCouncil();
+		case MEMBERSHIP:
+			return currentUserIsMembership();
+		case HOMETEACHER:
+			return currentUserIsHometeacher();
+		default:
+			return false;
 		}
-		return hasRole;
-	}
-
-	public static boolean currentUserIsAdmin() {
-		return currentUserHasRole(ADMIN);
-	}
-
-	public static boolean currentUserIsLeader() {
-		return currentUserHasRole(LEADER) || currentUserIsAdmin();
-	}
-
-	public static boolean currentUserIsCouncil() {
-		return currentUserHasRole(COUNCIL) || currentUserIsLeader();
-	}
-
-	public static boolean currentUserIsMembership() {
-		return currentUserHasRole(MEMBERSHIP) || currentUserIsCouncil();
-	}
-
-	public static boolean currentUserIsHometeacher() {
-		return currentUserHasRole(HOMETEACHER) || currentUserIsMembership();
 	}
 
 	public static List<Role> getCurrentUserAssignableRoles() {
 		List<Role> roles = newArrayList();
 		if (currentUserIsAdmin()) {
 			roles = newArrayList(ADMIN, LEADER, HOMETEACHER, MEMBERSHIP, COUNCIL);
+		} else if (currentUserIsCouncil()) {
+			roles = newArrayList(COUNCIL, LEADER, MEMBERSHIP, HOMETEACHER);
 		} else if (currentUserIsLeader()) {
 			roles = newArrayList(LEADER, HOMETEACHER);
+		} else if (currentUserIsMembership()) {
+			roles = newArrayList(MEMBERSHIP, HOMETEACHER);
+		} else {
+			roles = newArrayList(HOMETEACHER);
 		}
 		return roles;
 	}
 
 	public static boolean hasFamilyAccess(Family family) {
-		return currentUserIsMembership() || Objects.equal(family.getId(), getCurrentUser().getFamily().getId());
+		return currentUserIsMembership() || Objects.equal(family.getId(), getCurrentUser().getFamily().getId()) || currentUserIsTeacher(family);
 	}
 
 	public static boolean hasCompanionAccess(Companion companion) {
@@ -127,17 +122,62 @@ public class SecurityUtils {
 		return currentUserIsInCompanion(companion) || currentUserIsAdmin() || currentUserIsLeader() && companionInCurrentUserOrganizations(companion);
 	}
 
+	public static boolean canViewNote(FamilyNote note) {
+		return currentUserHasRole(fromRole(note.getVisibleRole()));
+	}
+
+	private static boolean currentUserIsTeacher(Family family) {
+		for (Companion companion : getCurrentUser().getActiveCompanions()) {
+			for (Assignment assignment : companion.getAssignments()) {
+				if (Objects.equal(family.getId(), assignment.getFamily().getId())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	private static boolean companionInCurrentUserOrganizations(Companion companion) {
 		return getCurrentUserOrganizationIds().contains(companion.getOrganization().getId());
 	}
 
 	private static boolean currentUserIsInCompanion(Companion companion) {
-		List<Companion> companions = getCurrentUser().getActiveCompanions();
-		for (Companion currentUserCompanion : companions) {
+		for (Companion currentUserCompanion : getCurrentUser().getActiveCompanions()) {
 			if (Objects.equal(currentUserCompanion.getId(), companion.getId())) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	private static boolean currentUserIsAdmin() {
+		return currentUserIsRole(ADMIN);
+	}
+
+	private static boolean currentUserIsLeader() {
+		return currentUserIsRole(LEADER) || currentUserIsAdmin();
+	}
+
+	private static boolean currentUserIsCouncil() {
+		return currentUserIsRole(COUNCIL) || currentUserIsLeader();
+	}
+
+	private static boolean currentUserIsMembership() {
+		return currentUserIsRole(MEMBERSHIP) || currentUserIsCouncil();
+	}
+
+	private static boolean currentUserIsHometeacher() {
+		return currentUserIsRole(HOMETEACHER) || currentUserIsMembership();
+	}
+
+	private static boolean currentUserIsRole(Role role) {
+		boolean hasRole = false;
+		for (GrantedAuthority grantedAuthority : getCurrentUser().getAuthorities()) {
+			if (grantedAuthority.getAuthority().equalsIgnoreCase(role.getRole())) {
+				hasRole = true;
+				break;
+			}
+		}
+		return hasRole;
 	}
 }

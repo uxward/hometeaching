@@ -33,14 +33,14 @@
 <link rel="shortcut icon" href="${image}/<spring:message code="${dayMod}.icon" />.png">
 
 <link rel="stylesheet" href="${resources}/css/bootstrap.min.css" />
-<link rel="stylesheet" href="${resources}/css/datatable.css" />
+<link rel="stylesheet" href="${resources}/css/bootstrap-datatables.css" />
 <link rel="stylesheet" href="${resources}/css/datepicker.css" />
 <link rel="stylesheet" href="${resources}/css/custom.css" />
 
 <script src="${resources}/js/jquery-2.0.3.min.js"></script>
 <script src="${resources}/js/bootstrap.min.js"></script>
-<script src="${resources}/js/jquery.dataTables.min.js"></script>
-<script src="${resources}/js/bootstrap-datatable.js"></script>
+<script src="${resources}/js/jquery.datatables.min.js"></script>
+<script src="${resources}/js/bootstrap-datatables.js"></script>
 <script src="${resources}/js/bootstrap-datepicker.js"></script>
 <script src="${resources}/js/dateformatter.js"></script>
 <script src="${resources}/js/custom.js"></script>

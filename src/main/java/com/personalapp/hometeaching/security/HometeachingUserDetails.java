@@ -16,6 +16,7 @@ import com.personalapp.hometeaching.model.UserRole;
 
 @SuppressWarnings("serial")
 public class HometeachingUserDetails implements UserDetails {
+
 	private HometeachingUser hometeachingUser;
 
 	public HometeachingUserDetails(HometeachingUser hometeachingUser) {
@@ -42,20 +43,11 @@ public class HometeachingUserDetails implements UserDetails {
 	public Family getFamily() {
 		return hometeachingUser.getPerson().getFamily();
 	}
-
-//	public List<Companion> getActiveHomeTeachingCompanions() {
-//		return hometeachingUser.getPerson().getActiveCompanions(false);
-//	}
-//
-//	public List<Companion> getActiveVisitingTeachingCompanions() {
-//		return hometeachingUser.getPerson().getActiveCompanions(true);
-//	}
-
 	public List<Companion> getActiveCompanions(boolean visitingTeaching) {
 		return hometeachingUser.getPerson().getActiveCompanions(visitingTeaching);
 	}
-	
-	public List<Companion> getActiveCompanions(){
+
+	public List<Companion> getActiveCompanions() {
 		return hometeachingUser.getPerson().getActiveCompanions();
 	}
 

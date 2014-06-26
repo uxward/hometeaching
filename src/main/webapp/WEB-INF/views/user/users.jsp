@@ -219,7 +219,8 @@
 				}, {
 					'sTitle' : 'Username',
 					'mData' : 'username',
-					'sWidth' : '16%'
+					'sWidth' : '16%',
+					'sClass' : 'hidden-xs hidden-sm'
 				}, {
 					'sTitle' : 'Role',
 					'mData' : 'roles',
@@ -283,7 +284,7 @@
 		function setupActions(data, type, full) {
 			return '<input type="button" class="btn btn-primary editUser" data-user-id="' + data + '" value="Edit"/>'
 				+ ' <input type="button" class="btn btn-primary toggleEnable" data-user-id="' + data + '" value="'+ (full.enabled ? 'Disable' : 'Enable') + '"/>'
-				+ ' <a href="#" class="btn emailInvitation " data-user-id="' + data + '"><i class="glyphicon glyphicon-envelope"></i> Email Invite</a>';
+				+ ' <a href="#" class="btn emailInvitation " data-user-id="' + data + '"><i class="glyphicon glyphicon-envelope"></i> Invite</a>';
 		}
 		
 		function canSaveUser() {

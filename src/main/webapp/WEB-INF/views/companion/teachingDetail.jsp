@@ -573,7 +573,7 @@
 		}
 		
 		function setupFamilyName(data, type, full){
-			return getFamilyAndHeadNames(data, full.people);
+			return '<a href="<spring:url value="/family/detail/"/>' + full.id + '">' + getFamilyAndHeadNames(data, full.people) + '</a>';
 		}
 		
 		function setupVisitActions(data, type, full){
@@ -585,7 +585,7 @@
 		}
 		
 		function setupWomenName(data, type, full){
-			return data + ' ' + full.familyName;
+			return '<a href="<spring:url value="/family/detail/"/>' + full.id + '">' + data + ' ' + full.familyName + '</a>';
 		}
 		
 		function emailAssignments() {

@@ -1,6 +1,7 @@
 package com.personalapp.hometeaching.controller;
 
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
+import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserAssignableRoles;
 import static com.personalapp.hometeaching.security.SecurityUtils.hasFamilyAccess;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -110,6 +111,7 @@ public class FamilyController {
 			view.addObject("statuses", FamilyStatus.values());
 			view.addObject("organizations", Organization.forDisplay());
 			view.addObject("family", service.getDetailedViewModelForFamily(family));
+			view.addObject("roles", getCurrentUserAssignableRoles());
 		} else {
 			view = new ModelAndView("denied");
 		}
