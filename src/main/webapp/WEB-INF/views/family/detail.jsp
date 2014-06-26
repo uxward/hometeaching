@@ -15,7 +15,7 @@
 			<!-- start view family information -->
 			<div class="tab-pane active" id="familyInformation">
 				<br />
-				<div class="well" id="viewInfo">
+				<div class="well">
 					<p id="viewAddress">
 						<strong>Address:</strong> ${family.address}
 					</p>
@@ -532,7 +532,7 @@
 
 			$('.page-header').find('h1').html(data.familyName + ' <small>Family</small>');
 			$('#viewAddress').html('<strong>Address: </strong>' + addressRender(data.address));
-			$('#viewPhone').html('<strong>Phone Number: </strong>' + (data.phoneNumber != null ? data.phoneNumber : ''));
+			$('#viewPhone').html('<strong>Phone Number: </strong>' + (data.phoneNumber != null ? getPhoneNumber(data.phoneNumber) : ''));
 			$('#viewStatus').html('<strong>Status: </strong>' + data.familyStatus);
 
 			var organizations = '';
