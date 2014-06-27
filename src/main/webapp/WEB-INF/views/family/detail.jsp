@@ -3,6 +3,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+<spring:url var="resources" value="/resources" />
+
 <t:mainPage activeMenu="yourFamily" pageTitle="Family Detail" pageHeader="${family.familyName}" pageSubheader="Family">
 
 	<div>
@@ -60,15 +62,17 @@
 			</div>
 			<!-- end family member information -->
 
-			<!-- start family member information -->
+			<!-- start note information -->
 			<div class="tab-pane" id="noteInformation">
 				<br />
-				<table id="noteTable" class="table table-striped table-hover table-bordered" width="100%">
-				</table>
-
-				<a href="#addNote" role="button" class="btn btn-primary" data-toggle="modal">Add Note</a>
+				<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+					<input class="form-control" type="text" name="note" placeholder="Add Note" id="note" />
+				</div>
+				<div class="clearfix"></div>
+				<br />
+				<div data-columns id="columns" class="notes"></div>
 			</div>
-			<!-- end family member information -->
+			<!-- end note information -->
 		</div>
 	</div>
 
@@ -226,6 +230,8 @@
 		</div>
 	</div>
 
+
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 
@@ -233,12 +239,25 @@
 
 			setupPersonTable();
 
-			setupNoteTable();
-
 			setupModals();
 
 			setupViewInfo();
 		});
+
+		function setupNotes() {
+			$.getJSON('<spring:url value="/note/getByFamily/${family.id}"/>', function(data) {
+				$(data).each(function(i, note) {
+					append(note.note, note.role.display);
+				});
+			});
+		}
+		function append(note, visibility) {
+			var grid = document.querySelector('#columns');
+			var item = document.createElement('div');
+			var h = '<div class="panel panel-default"><div class="panel-body">' + note + '</div><div class="panel-footer">Visible to: ' + visibility + '</div></div>';
+			salvattore['append_elements'](grid, [ item ]);
+			item.outerHTML = h;
+		}
 
 		function setupEventBinding() {
 			$('#savePerson').click(function() {
@@ -262,6 +281,15 @@
 			$('#personTable').on('click', '.firstName', function() {
 				editPerson($(this));
 			});
+
+			$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+				if ($('#columns').is(':visible') && !$('#columns').data('loaded')) {
+					$.getScript("${resources}/js/salvattore.min.js").done(function(script, textStatus) {
+						setupNotes();
+						$('#columns').data('loaded', true);
+					});
+				}
+			});
 		}
 
 		function setupPersonTable() {
@@ -269,8 +297,8 @@
 				'dom' : 't',
 				'ajax' : '<spring:url value="/person/getByFamily/${family.id}"/>',
 				'data' : [],
-				'order' : [ [ 6, 'desc'], [0, 'asc' ] ],
-				'columns' : [{
+				'order' : [ [ 6, 'desc' ], [ 0, 'asc' ] ],
+				'columns' : [ {
 					'title' : 'First Name',
 					'data' : 'firstName',
 					'render' : setupFirstNameLink
@@ -305,25 +333,6 @@
 				'language' : {
 					'infoEmpty' : 'No people to show',
 					'emptyTable' : 'There are no people in this family yet.  Add a person by clicking the button below.'
-				}
-			});
-		}
-
-		function setupNoteTable() {
-			$('#noteTable').DataTable({
-				'ajax' : '<spring:url value="/note/getByFamily/${family.id}"/>',
-				'data' : [],
-				'order' : [ [ 0, 'asc' ] ],
-				'columns' : [ {
-					'title' : 'Note',
-					'data' : 'note'
-				}, {
-					'title' : 'Visible To',
-					'data' : 'role.display'
-				} ],
-				'language' : {
-					'infoEmpty' : 'No notes to show',
-					'emptyTable' : 'There are no notes for this family yet.  Add a note by clicking the button below.'
 				}
 			});
 		}
@@ -433,7 +442,7 @@
 					$('#addNote').modal('hide');
 
 					//add note row to table
-					$('#noteTable').dataTable().fnAddData(data);
+					append(data.note, data.role.display);
 				}
 			});
 		}
@@ -588,4 +597,5 @@
 			});
 		}
 	</script>
+	<%-- 	<script src="${resources}/js/salvattore.min.js"></script> --%>
 </t:mainPage>

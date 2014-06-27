@@ -1,0 +1,36 @@
+@media screen and (max-width: 479px) {
+	.notes[data-columns]::before {
+		content: '1 .col-xs-12';
+	}
+}
+
+@media screen and (min-width: 480px) and (max-width: 767px) {
+	.notes[data-columns]::before {
+		content: '2 .col-xs-6';
+	}
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+	.notes[data-columns]::before {
+		content: '2 .col-sm-6';
+	}
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+	.notes[data-columns]::before {
+		content: '3 .col-md-4';
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	.notes[data-columns]::before {
+		content: '4 .col-lg-3';
+	}
+}
+
+[data-columns]::before {
+	position: absolute;
+	right: 9999em;
+	bottom: 9999em;
+	visibility: hidden;
+}
