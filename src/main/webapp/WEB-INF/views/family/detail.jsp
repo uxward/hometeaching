@@ -7,6 +7,23 @@
 
 <t:mainPage activeMenu="yourFamily" pageTitle="Family Detail" pageHeader="${family.familyName}" pageSubheader="Family">
 
+	<style type="text/css">
+.flat-input {
+	background: rgba(0, 0, 0, 0);
+	border: none;
+	outline-width: 0;
+}
+
+textarea {
+	resize: none;
+	overflow: hidden;
+}
+
+.note-actions div.pull-right {
+	margin: 5px;
+}
+</style>
+
 	<div>
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#familyInformation" data-toggle="tab"><span class="visible-xs">Info</span><span class="hidden-xs">Family Information</span></a></li>
@@ -66,7 +83,26 @@
 			<div class="tab-pane" id="noteInformation">
 				<br />
 				<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
-					<input class="form-control" type="text" name="note" placeholder="Add Note" id="note" />
+					<div class="panel panel-default note-panel">
+						<div class="panel-body">
+							<textarea class="flat-input note-text" style="width: 100%" placeholder="Add Note"></textarea>
+							<div class="hidden note-actions">
+								<div class="pull-right">
+									<input type="button" value="Save" class="btn save-note" />
+								</div>
+								<div class="dropdown pull-right note-visibility">
+									<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+										Visibility<span class="text"></span> <span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" role="menu">
+										<c:forEach items="${roles}" var="role">
+											<li role="presentation"><a role="menuitem" tabindex="-1" data-role="${role.role}" href="#">${role.display}</a></li>
+										</c:forEach>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="clearfix"></div>
 				<br />
@@ -194,43 +230,31 @@
 		</div>
 	</div>
 
-	<!-- Add Note Modal -->
-	<div id="addNote" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addNoteLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					<h3 id="addNote">Add Note</h3>
-				</div>
-
-				<div class="modal-body">
-					<form id="noteForm">
-						<div class="form-group">
-							<label class="sr-only" for="firstName">First Name</label>
-							<textarea class="form-control" name="note" id="note" placeholder="Notes" maxlength="500"></textarea>
-						</div>
-						<div class="form-group">
-							<label class="sr-only" for="role">Role</label> <select name="visibleRole" class="form-control" id="role">
-								<option value="">Select Note Visibility</option>
-								<c:forEach items="${roles}" var="role">
-									<option value="${role.role}">${role.display}</option>
-								</c:forEach>
-							</select>
-						</div>
-						<input type="hidden" value="${family.id}" name="familyId" />
-					</form>
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-					<button type="button" class="btn btn-primary" id="saveNote" data-action="save">Save Note</button>
+	<div class="hidden" id="note-cloner">
+		<div class="panel panel-default note-panel">
+			<div class="panel-heading">
+				Visibility<span class="text"></span>
+			</div>
+			<div class="panel-body">
+				<textarea class="flat-input note-text" style="width: 100%" placeholder="Add Note"></textarea>
+				<div class="hidden note-actions">
+					<div class="pull-right">
+						<input type="button" value="Save" class="btn save-note" />
+					</div>
+					<div class="dropdown pull-right note-visibility">
+						<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+							Visibility<span class="text"></span> <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<c:forEach items="${roles}" var="role">
+								<li role="presentation"><a role="menuitem" tabindex="-1" data-role="${role.role}" href="#">${role.display}</a></li>
+							</c:forEach>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -247,16 +271,19 @@
 		function setupNotes() {
 			$.getJSON('<spring:url value="/note/getByFamily/${family.id}"/>', function(data) {
 				$(data).each(function(i, note) {
-					append(note.note, note.role.display);
+					prepend(note.note, note.role);
 				});
 			});
 		}
-		function append(note, visibility) {
-			var grid = document.querySelector('#columns');
-			var item = document.createElement('div');
-			var h = '<div class="panel panel-default"><div class="panel-body">' + note + '</div><div class="panel-footer">Visible to: ' + visibility + '</div></div>';
-			salvattore['append_elements'](grid, [ item ]);
-			item.outerHTML = h;
+		function prepend(note, visibility) {
+			var $item = $('<div></div>');
+			salvattore['prepend_elements']($('#columns')[0], [ $item[0] ]);
+			var $clone = $('#note-cloner .note-panel').clone();
+			$clone.find('.note-text').val(note);
+			$clone.find('.note-visibility').data('role', visibility.role);
+			$clone.find('.text').text(': ' + visibility.display);
+			$clone.appendTo($item);
+			$('.flat-input').autogrow();
 		}
 
 		function setupEventBinding() {
@@ -272,21 +299,51 @@
 				}
 			});
 
-			$('#saveNote').click(function() {
-				if (canSaveNote()) {
-					saveNote($(this));
-				}
-			});
-
 			$('#personTable').on('click', '.firstName', function() {
 				editPerson($(this));
 			});
 
+			//get notes when display note panel
 			$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
 				if ($('#columns').is(':visible') && !$('#columns').data('loaded')) {
 					$.getScript("${resources}/js/salvattore.min.js").done(function(script, textStatus) {
 						setupNotes();
 						$('#columns').data('loaded', true);
+					});
+				}
+			});
+
+			//autogrow add note input
+			$('.flat-input').autogrow();
+
+			//hide/show note actions when click in/out of note panel
+			$('#noteInformation').on('click', '.note-panel', function(e) {
+				$(this).find('.note-actions').removeClass('hidden');
+				if (!$(e.target).parents('.note-actions').length) {
+					e.stopPropagation();
+				}
+			});
+
+			//display note visibility selection from dropdown select
+			$('#noteInformation').on('click', '.note-actions .dropdown-menu li a', function() {
+				var $this = $(this);
+				$this.parents('.note-visibility').data('role', $this.data('role'));
+				$this.parents('.note-panel').find('.text').text(': ' + $this.text());
+			});
+
+			//handle note save
+			$('#noteInformation').on('click', '.save-note', function() {
+				var $note = $(this).parents('.note-panel');
+				if (canSaveNote($note)) {
+					saveNote($note);
+				}
+			});
+
+			//hide/show note actions when click in/out of note panel
+			$(document).click(function(e) {
+				if (!$(e.target).parents('.note-actions').length) {
+					$('.note-panel').each(function() {
+						$(this).removeClass('panel-danger').find('.note-actions').addClass('hidden');
 					});
 				}
 			});
@@ -349,11 +406,6 @@
 				$('#familyForm')[0].reset();
 				$('.form-group').removeClass('has-error');
 			});
-
-			$('#addNote').on('show.bs.modal, hidden.bs.modal', function() {
-				$('#noteForm')[0].reset();
-				$('.form-group').removeClass('has-error');
-			});
 		}
 
 		function setupViewInfo() {
@@ -410,39 +462,48 @@
 			$('#addPerson').modal('show');
 		}
 
-		function canSaveNote() {
+		function canSaveNote($note) {
 			var valid = true;
 
-			var $note = $('#note');
-			if ($.trim($note.val()).length < 1) {
+			var $text = $note.find('.note-text');
+			if ($.trim($text.val()).length < 1) {
 				valid = false;
-				$note.parent().addClass('has-error');
-			} else {
-				$note.parent().removeClass('has-error');
 			}
 
-			var $role = $('#role');
-			if (!($.trim($role.val()).length > 0)) {
+			var $role = $note.find('.note-visibility');
+			if (!($.trim($role.data('role')).length > 0)) {
 				valid = false;
-				$role.parent().addClass('has-error');
+			}
+
+			if (valid) {
+				$note.removeClass('panel-danger');
 			} else {
-				$role.parent().removeClass('has-error');
+				$note.addClass('panel-danger');
 			}
 
 			return valid;
 		}
 
-		function saveNote($this) {
+		function saveNote($note) {
 			$.ajax({
 				type : 'POST',
 				url : '<spring:url value="/note/save"/>',
-				data : $('#noteForm').serialize(),
+				data : {
+					visibleRole : $note.find('.note-visibility').data('role'),
+					note : $note.find('.note-text').val(),
+					familyId : '${family.id}'
+					//noteId : $note
+				//TODO send note id for edit
+				},
 				success : function(data) {
-					//clear form and hide modal
-					$('#addNote').modal('hide');
+					if (!edit) {
+						//add note row to table
+						prepend(data.note, data.role.display);
 
-					//add note row to table
-					append(data.note, data.role.display);
+						//reset add note
+						$note.find('.note-visibility').data('role', '').find('.text').text('');
+						$note.find('.note-text').val('');
+					}
 				}
 			});
 		}
@@ -597,5 +658,4 @@
 			});
 		}
 	</script>
-	<%-- 	<script src="${resources}/js/salvattore.min.js"></script> --%>
 </t:mainPage>

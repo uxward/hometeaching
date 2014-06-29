@@ -51,7 +51,7 @@
 						<div class="form-group">
 							<input type="password" class="form-control" placeholder="Password" name="j_password" maxlength="50" />
 						</div>
-						<div class="form-group">
+						<div class="checkbox">
 							<label class="checkbox"> <input type="checkbox" name="_spring_security_remember_me"> Remember me
 							</label>
 						</div>
