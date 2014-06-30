@@ -121,7 +121,7 @@
 								<input class="form-control" type="password" id="editConfirmPassword" placeholder="Confirm Password" maxlength="100" />
 							</div>
 
-							<div class="form-group">
+							<div class="checkbox">
 								<label class="checkbox">
 									<input type="checkbox" name="reset" id="reset"> Require Password Reset
 								</label>
