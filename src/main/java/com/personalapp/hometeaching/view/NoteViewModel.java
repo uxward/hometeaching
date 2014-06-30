@@ -15,6 +15,7 @@ public class NoteViewModel {
 	private UserViewModel author;
 
 	public NoteViewModel(FamilyNote note) {
+		this.id = note.getId();
 		this.note = note.getNote();
 		this.role = new RoleViewModel(fromRole(note.getVisibleRole()));
 	}

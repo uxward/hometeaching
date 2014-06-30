@@ -26,7 +26,7 @@ public class NoteController {
 
 	@RequestMapping(value = "/save")
 	@ResponseBody
-	public NoteViewModel savePerson(FamilyNote note) {
+	public NoteViewModel saveNote(FamilyNote note) {
 		return service.save(note);
 	}
 

@@ -20,7 +20,11 @@ textarea {
 }
 
 .note-actions div.pull-right {
-	margin: 5px;
+	margin: 3px;
+}
+
+.note-panel .panel-body {
+	padding: 3px;
 }
 </style>
 
@@ -85,22 +89,25 @@ textarea {
 				<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
 					<div class="panel panel-default note-panel">
 						<div class="panel-body">
-							<textarea class="flat-input note-text" style="width: 100%" placeholder="Add Note"></textarea>
-							<div class="hidden note-actions">
-								<div class="pull-right">
-									<input type="button" value="Save" class="btn save-note" />
+							<form>
+								<textarea class="flat-input note-text" style="width: 100%" placeholder="Add Note" name="note"></textarea>
+								<input type="hidden" name="id" class="note-id" /> <input type="hidden" name="visibleRole" class="note-visibility" /><input type="hidden" name="familyId" value="${family.id}" />
+								<div class="hidden note-actions">
+									<div class="pull-right">
+										<input type="button" value="Save" class="btn save-note" />
+									</div>
+									<div class="dropdown pull-right">
+										<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+											Visibility<span class="text"></span> <span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<c:forEach items="${roles}" var="role">
+												<li role="presentation"><a role="menuitem" tabindex="-1" data-role="${role.role}" href="#">${role.display}</a></li>
+											</c:forEach>
+										</ul>
+									</div>
 								</div>
-								<div class="dropdown pull-right note-visibility">
-									<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-										Visibility<span class="text"></span> <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu">
-										<c:forEach items="${roles}" var="role">
-											<li role="presentation"><a role="menuitem" tabindex="-1" data-role="${role.role}" href="#">${role.display}</a></li>
-										</c:forEach>
-									</ul>
-								</div>
-							</div>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -236,22 +243,25 @@ textarea {
 				Visibility<span class="text"></span>
 			</div>
 			<div class="panel-body">
-				<textarea class="flat-input note-text" style="width: 100%" placeholder="Add Note"></textarea>
-				<div class="hidden note-actions">
-					<div class="pull-right">
-						<input type="button" value="Save" class="btn save-note" />
+				<form>
+					<textarea class="flat-input note-text" style="width: 100%" name="note" placeholder="Add Note"></textarea>
+					<input type="hidden" name="id" class="note-id" /> <input type="hidden" name="visibleRole" class="note-visibility" /><input type="hidden" name="familyId" value="${family.id}" />
+					<div class="hidden note-actions">
+						<div class="pull-right">
+							<input type="button" value="Save" class="btn save-note" />
+						</div>
+						<div class="dropdown pull-right">
+							<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+								Visibility<span class="text"></span> <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<c:forEach items="${roles}" var="role">
+									<li role="presentation"><a role="menuitem" tabindex="-1" data-role="${role.role}" href="#">${role.display}</a></li>
+								</c:forEach>
+							</ul>
+						</div>
 					</div>
-					<div class="dropdown pull-right note-visibility">
-						<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-							Visibility<span class="text"></span> <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" role="menu">
-							<c:forEach items="${roles}" var="role">
-								<li role="presentation"><a role="menuitem" tabindex="-1" data-role="${role.role}" href="#">${role.display}</a></li>
-							</c:forEach>
-						</ul>
-					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>
@@ -271,17 +281,18 @@ textarea {
 		function setupNotes() {
 			$.getJSON('<spring:url value="/note/getByFamily/${family.id}"/>', function(data) {
 				$(data).each(function(i, note) {
-					prepend(note.note, note.role);
+					prepend(note);
 				});
 			});
 		}
-		function prepend(note, visibility) {
+		function prepend(note) {
 			var $item = $('<div></div>');
 			salvattore['prepend_elements']($('#columns')[0], [ $item[0] ]);
 			var $clone = $('#note-cloner .note-panel').clone();
-			$clone.find('.note-text').val(note);
-			$clone.find('.note-visibility').data('role', visibility.role);
-			$clone.find('.text').text(': ' + visibility.display);
+			$clone.find('.note-text').val(note.note);
+			$clone.find('.note-visibility').val(note.role.role);
+			$clone.find('.note-id').val(note.id);
+			$clone.find('.text').text(': ' + note.role.display);
 			$clone.appendTo($item);
 			$('.flat-input').autogrow();
 		}
@@ -318,6 +329,12 @@ textarea {
 
 			//hide/show note actions when click in/out of note panel
 			$('#noteInformation').on('click', '.note-panel', function(e) {
+				var $thisPanel = $(this);
+				$('.note-panel').each(function() {
+					if ($thisPanel != $(this)) {
+						$(this).removeClass('panel-danger').find('.note-actions').addClass('hidden');
+					}
+				});
 				$(this).find('.note-actions').removeClass('hidden');
 				if (!$(e.target).parents('.note-actions').length) {
 					e.stopPropagation();
@@ -327,7 +344,7 @@ textarea {
 			//display note visibility selection from dropdown select
 			$('#noteInformation').on('click', '.note-actions .dropdown-menu li a', function() {
 				var $this = $(this);
-				$this.parents('.note-visibility').data('role', $this.data('role'));
+				$this.parents('form').find('.note-visibility').val($this.data('role'));
 				$this.parents('.note-panel').find('.text').text(': ' + $this.text());
 			});
 
@@ -471,7 +488,7 @@ textarea {
 			}
 
 			var $role = $note.find('.note-visibility');
-			if (!($.trim($role.data('role')).length > 0)) {
+			if (!($.trim($role.val()).length > 0)) {
 				valid = false;
 			}
 
@@ -488,22 +505,21 @@ textarea {
 			$.ajax({
 				type : 'POST',
 				url : '<spring:url value="/note/save"/>',
-				data : {
-					visibleRole : $note.find('.note-visibility').data('role'),
-					note : $note.find('.note-text').val(),
-					familyId : '${family.id}'
-					//noteId : $note
-				//TODO send note id for edit
-				},
+				data : $note.find('form').serialize(),
 				success : function(data) {
-					if (!edit) {
+					if ($.trim($note.find('.note-id').val()).length < 1) {
 						//add note row to table
-						prepend(data.note, data.role.display);
+						prepend(data);
 
 						//reset add note
 						$note.find('.note-visibility').data('role', '').find('.text').text('');
 						$note.find('.note-text').val('');
+
 					}
+
+					$('.note-panel').each(function() {
+						$(this).removeClass('panel-danger').find('.note-actions').addClass('hidden');
+					});
 				}
 			});
 		}

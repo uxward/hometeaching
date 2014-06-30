@@ -24,7 +24,11 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	public NoteViewModel save(FamilyNote note) {
-		repo.save(note);
+		if (note.getId() == null) {
+			repo.save(note);
+		} else {
+			repo.update(note);
+		}
 		return new NoteViewModel(note);
 	}
 
@@ -32,7 +36,7 @@ public class NoteServiceImpl implements NoteService {
 	public List<NoteViewModel> getByFamily(Long familyId) {
 		List<NoteViewModel> notes = newArrayList();
 		for (FamilyNote note : repo.getByFamilyId(familyId)) {
-			if(SecurityUtils.canViewNote(note)){
+			if (SecurityUtils.canViewNote(note)) {
 				notes.add(new NoteViewModel(note));
 			}
 		}
