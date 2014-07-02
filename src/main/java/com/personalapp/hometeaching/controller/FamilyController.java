@@ -1,5 +1,6 @@
 package com.personalapp.hometeaching.controller;
 
+import static com.personalapp.hometeaching.model.Organization.forDisplay;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserAssignableRoles;
 import static com.personalapp.hometeaching.security.SecurityUtils.hasFamilyAccess;
@@ -34,7 +35,7 @@ public class FamilyController {
 		logger.info("User {} is viewing the all families page", getCurrentUser().getPerson().getFullName());
 		ModelAndView view = new ModelAndView("family/families");
 		view.addObject("statuses", FamilyStatus.values());
-		view.addObject("organizations", Organization.forDisplay());
+		view.addObject("organizations", forDisplay());
 		return view;
 	}
 
@@ -94,7 +95,7 @@ public class FamilyController {
 	@RequestMapping(value = "/unknown")
 	public ModelAndView unknown() {
 		logger.info("User {} is viewing the unknown families page", getCurrentUser().getPerson().getFullName());
-		return new ModelAndView("family/unknown");
+		return new ModelAndView("family/unknown").addObject("roles", getCurrentUserAssignableRoles());
 	}
 
 	@RequestMapping(value = "/getAllUnknownFamilies")

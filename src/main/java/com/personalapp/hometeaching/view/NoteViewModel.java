@@ -11,13 +11,16 @@ public class NoteViewModel {
 	private String note;
 
 	private RoleViewModel role;
-	
+
+	private Long familyId;
+
 	private UserViewModel author;
 
 	public NoteViewModel(FamilyNote note) {
 		this.id = note.getId();
 		this.note = note.getNote();
 		this.role = new RoleViewModel(fromRole(note.getVisibleRole()));
+		this.familyId = note.getFamilyId();
 	}
 
 	public NoteViewModel() {
@@ -34,5 +37,9 @@ public class NoteViewModel {
 
 	public RoleViewModel getRole() {
 		return role;
+	}
+
+	public Long getFamilyId() {
+		return familyId;
 	}
 }

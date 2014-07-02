@@ -34,3 +34,22 @@
 	bottom: 9999em;
 	visibility: hidden;
 }
+
+.flat-input {
+	background: rgba(0, 0, 0, 0);
+	border: none;
+	outline-width: 0;
+}
+
+textarea {
+	resize: none;
+	overflow: hidden;
+}
+
+.note-actions div.pull-right {
+	margin: 3px;
+}
+
+.note-panel .panel-body {
+	padding: 3px;
+}
