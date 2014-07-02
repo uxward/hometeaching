@@ -7,7 +7,7 @@ import static com.personalapp.hometeaching.model.Organization.RELIEF_SOCIETY;
 import static com.personalapp.hometeaching.model.Organization.WARD;
 import static com.personalapp.hometeaching.model.Role.ADMIN;
 import static com.personalapp.hometeaching.model.Role.COUNCIL;
-import static com.personalapp.hometeaching.model.Role.HOMETEACHER;
+import static com.personalapp.hometeaching.model.Role.TEACHER;
 import static com.personalapp.hometeaching.model.Role.LEADER;
 import static com.personalapp.hometeaching.model.Role.MEMBERSHIP;
 import static com.personalapp.hometeaching.model.Role.fromRole;
@@ -53,7 +53,7 @@ public class SecurityUtils {
 			return currentUserIsCouncil();
 		case MEMBERSHIP:
 			return currentUserIsMembership();
-		case HOMETEACHER:
+		case TEACHER:
 			return currentUserIsHometeacher();
 		default:
 			return false;
@@ -63,15 +63,15 @@ public class SecurityUtils {
 	public static List<Role> getCurrentUserAssignableRoles() {
 		List<Role> roles = newArrayList();
 		if (currentUserIsAdmin()) {
-			roles = newArrayList(ADMIN, LEADER, HOMETEACHER, MEMBERSHIP, COUNCIL);
+			roles = newArrayList(ADMIN, LEADER, TEACHER, MEMBERSHIP, COUNCIL);
 		} else if (currentUserIsCouncil()) {
-			roles = newArrayList(COUNCIL, LEADER, MEMBERSHIP, HOMETEACHER);
+			roles = newArrayList(COUNCIL, LEADER, MEMBERSHIP, TEACHER);
 		} else if (currentUserIsLeader()) {
-			roles = newArrayList(LEADER, HOMETEACHER);
+			roles = newArrayList(LEADER, TEACHER);
 		} else if (currentUserIsMembership()) {
-			roles = newArrayList(MEMBERSHIP, HOMETEACHER);
+			roles = newArrayList(MEMBERSHIP, TEACHER);
 		} else {
-			roles = newArrayList(HOMETEACHER);
+			roles = newArrayList(TEACHER);
 		}
 		return roles;
 	}
@@ -167,7 +167,7 @@ public class SecurityUtils {
 	}
 
 	private static boolean currentUserIsHometeacher() {
-		return currentUserIsRole(HOMETEACHER) || currentUserIsMembership();
+		return currentUserIsRole(TEACHER) || currentUserIsMembership();
 	}
 
 	private static boolean currentUserIsRole(Role role) {

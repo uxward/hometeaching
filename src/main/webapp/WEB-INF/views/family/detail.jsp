@@ -11,7 +11,7 @@
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#familyInformation" data-toggle="tab"><span class="visible-xs">Info</span><span class="hidden-xs">Family Information</span></a></li>
 			<li><a href="#personInformation" data-toggle="tab"><span class="visible-xs">Members</span><span class="hidden-xs">Family Members</span></a></li>
-			<li><a href="#noteInformation" data-toggle="tab"><span class="visible-xs">Notes</span><span class="hidden-xs">Family Notes</span></a></li>
+			<li><a href="#noteInformation${family.id}" data-toggle="tab"><span class="visible-xs">Notes</span><span class="hidden-xs">Family Notes</span></a></li>
 		</ul>
 		<div class="tab-content">
 			<!-- start view family information -->
@@ -63,11 +63,11 @@
 			<!-- end family member information -->
 
 			<!-- start note information -->
-			<div class="tab-pane" id="noteInformation">
+			<div class="tab-pane" id="noteInformation${family.id}">
 				<br />
-				<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1" id="addNoteContainer"></div>
+				<div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1" id="addNoteContainer${family.id}"></div>
 				<div class="clearfix"></div>
-				<div data-columns id="columns" class="notes"></div>
+				<div data-columns id="columns${family.id}" class="notes"></div>
 			</div>
 			<!-- end note information -->
 		</div>
@@ -222,9 +222,9 @@
 
 			//get notes when display note panel
 			$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-				if ($('#columns').is(':visible') && !$('#columns').data('loaded')) {					
-					initNotes($('#columns'), $('#addNoteContainer'), $('#noteInformation'), '${family.id}');
-					$('#columns').data('loaded', true);
+				if ($('#columns${family.id}').is(':visible') && !$('#columns${family.id}').data('loaded')) {					
+					initNotes($('#columns${family.id}'), $('#addNoteContainer${family.id}'), $('#noteInformation${family.id}'), '${family.id}');
+					$('#columns${family.id}').data('loaded', true);
 				}
 			});
 		}
