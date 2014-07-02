@@ -32,12 +32,12 @@
 							<label class="sr-only" for="phoneNumber">Phone Number</label>
 							<input class="form-control" type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" maxlength="20" />
 						</div>
-						<div class="form-group">
+						<div class="checkbox">
 							<label class="checkbox">
 								<input type="checkbox" name="moved" id="moved"> Moved
 							</label>
 						</div>
-						<div class="form-group">
+						<div class="checkbox">
 							<label class="checkbox">
 								<input type="checkbox" name="partMember" id="partMember"> Part Member
 							</label>

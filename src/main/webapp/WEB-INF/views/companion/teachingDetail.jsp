@@ -198,7 +198,7 @@
 						<div class="form-group">
 							<input type="text" class="form-control" id="datepicker"> <input type="hidden" name="visitDate" id="visitDate" />
 						</div>
-						<div class="form-group">
+						<div class="checkbox">
 							<label class="checkbox">
 								<input type="checkbox" name="visited" id="visited"> Visited
 							</label>

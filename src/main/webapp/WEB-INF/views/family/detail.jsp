@@ -94,23 +94,23 @@
 						<div class="form-group">
 							<label class="sr-only" for="firstName">Phone Number</label> <input class="form-control" type="text" name="phoneNumber" id="phoneNumber" placeholder="Phone Number" maxlength="20" />
 						</div>
-						<div class="form-group">
+						<div class="checkbox">
 							<label class="checkbox"> <input type="checkbox" name="female" id="female"> Female
 							</label>
 						</div>
-						<div class="form-group">
+						<div class="checkbox">
 							<label class="checkbox"> <input type="checkbox" name="headOfHousehold" id="headOfHousehold"> Head of Household
 							</label>
 						</div>
-						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
+						<div class="checkbox <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
 							<label class="checkbox"> <input type="checkbox" name="visitingTeacher" id="visitingTeacher"> Visiting Teacher
 							</label>
 						</div>
-						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
+						<div class="checkbox <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
 							<label class="checkbox"> <input type="checkbox" name="homeTeacher" id="homeTeacher"> Home Teacher
 							</label>
 						</div>
-						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
+						<div class="checkbox <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
 							<label class="checkbox"> <input type="checkbox" name="user" id="user"> User
 							</label>
 						</div>
@@ -147,16 +147,16 @@
 						<div class="form-group">
 							<label class="sr-only" for="phoneNumber">Phone Number</label> <input class="form-control" type="text" name="phoneNumber" placeholder="Phone Number" id="familyPhoneNumber" />
 						</div>
-						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
+						<div class="checkbox <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
 							<label class="checkbox"> <input type="checkbox" name="familyMoved" id="familyMoved"> Family Moved
 							</label>
 						</div>
 
-						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize> <c:if test="${!family.familyMoved}">hidden</c:if>">
+						<div class="checkbox <sec:authorize access="!hasRole('council')">hidden</sec:authorize> <c:if test="${!family.familyMoved}">hidden</c:if>">
 							<label class="checkbox"> <input type="checkbox" name="recordsMoved" id="recordsMoved"> Records Moved
 							</label>
 						</div>
-						<div class="form-group <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
+						<div class="checkbox <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
 							<label class="checkbox"> <input type="checkbox" name="partMember" id="partMember"> Part Member
 							</label>
 						</div>
