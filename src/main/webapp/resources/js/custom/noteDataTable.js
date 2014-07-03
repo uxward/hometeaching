@@ -2,9 +2,6 @@
 	var settings;
 
 	$.fn.noteDataTable = function(options) {
-
-		
-		
 		settings = updateTableOptions(options);// $.extend({color: "#556b2f", backgroundColor: "white"}, options);
 		setupEventBinding(this);
 		initTable(this, settings);
