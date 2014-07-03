@@ -37,8 +37,6 @@
 <link rel="stylesheet" href="${resources}/css/datepicker.css" />
 <link rel="stylesheet" href="${resources}/css/custom.css" />
 
-<%-- <script data-main="scripts/main" src="${resources}/js/require.js"></script> --%>
-
 <script src="${resources}/js/jquery.min.js"></script>
 <script src="${resources}/js/bootstrap.min.js"></script>
 <script src="${resources}/js/jquery.datatables.min.js"></script>
@@ -49,6 +47,7 @@
 <script src="${resources}/js/browser-detect.js"></script>
 <script src="${resources}/js/autogrow.min.js"></script>
 <script src="${resources}/js/google-analytics.js"></script>
+<script type="text/javascript" src="${resources}/js/custom/noteDataTable.js"></script>
 </head>
 
 <body>

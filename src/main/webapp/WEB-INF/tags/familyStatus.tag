@@ -10,7 +10,7 @@
 
 <spring:url var="resources" value="/resources" />
 
-<t:mainPage activeMenu="${activeMenu}" pageTitle="${pageTitle}"
+<t:notePage activeMenu="${activeMenu}" pageTitle="${pageTitle}"
 	pageHeader="${pageHeader}" pageSubheader="${pageSubheader}">
 
 	<div id="familyStatusPie" class="row"></div>
@@ -118,4 +118,4 @@
 			});
 		}
 	</script>
-</t:mainPage>
+</t:notePage>

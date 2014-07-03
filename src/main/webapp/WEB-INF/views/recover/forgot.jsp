@@ -24,8 +24,7 @@
 						<div class="form-group">
 							<input id="confirmEmail" type="text" class="form-control" placeholder="Confirm Email" maxlength="50" />
 						</div>
-						<input type="button" class="btn btn-primary" id="resetPassword" value="Reset Password" />
-						<a href="<spring:url value="/" />" class="btn btn-default" >Cancel</a>
+						<input type="button" class="btn btn-primary" id="resetPassword" value="Reset Password" /> <a href="<spring:url value="/" />" class="btn btn-default">Cancel</a>
 					</form>
 				</div>
 			</div>
@@ -74,7 +73,14 @@
 		}
 
 		function handleReset(data) {
-			showNotificationSuccess("An email was sent to you with instructions for resetting your password.");
+			if (data.success) {
+				showNotificationSuccess('An email was sent to you with instructions for resetting your password.');
+			} else if (data.notFound) {
+				showNotificationError('No users could be found with this email address.  Please contact your organization leader to get help recovering your login information.');
+			} else if (data.error) {
+				showNotificationError('An unexpected error occurred.  If the problem continues please contact your organization leader.');
+			}
+
 		}
 	</script>
 </t:base>

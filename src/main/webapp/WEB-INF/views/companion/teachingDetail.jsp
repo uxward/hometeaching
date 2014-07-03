@@ -4,6 +4,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+<spring:url var="resources" value="/resources" />
+
 <jsp:useBean id="now" class="java.util.Date" />
 <c:set var="currentMonthYear">
 	<fmt:formatDate value="${now}" type="both" pattern="MM-yyyy" />
@@ -35,7 +37,7 @@
 
 <spring:url var="dashboard" value="/dashboard" />
 
-<t:mainPage activeMenu="${teachingActive}" pageTitle="${teachingType} Detail" pageHeader="${companionship}" pageSubheader="${teachingType}">
+<t:notePage activeMenu="${teachingActive}" pageTitle="${teachingType} Detail" pageHeader="${companionship}" pageSubheader="${teachingType}">
 	<div class="row">
 		<div class="alert alert-info">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -65,14 +67,11 @@
 
 	<sec:authorize access="hasRole('leader')">
 		<a href="#addFamily" class="btn btn-primary" data-toggle="modal">Add Assignment</a>
-		<a href="#" class="btn" id="emailAssignments">
-			<i class="glyphicon glyphicon-envelope"></i> Email Assignments
+		<a href="#" class="btn" id="emailAssignments"> <i class="glyphicon glyphicon-envelope"></i> Email Assignments
 		</a>
-		<a href="#" class="btn" id="emailReportUpdate">
-			<i class="glyphicon glyphicon-envelope"></i> Request Previous Month Update
+		<a href="#" class="btn" id="emailReportUpdate"> <i class="glyphicon glyphicon-envelope"></i> Request Previous Month Update
 		</a>
-		<a href="#" class="btn" id="emailVisitReminder">
-			<i class="glyphicon glyphicon-envelope"></i> Email Visit Reminder
+		<a href="#" class="btn" id="emailVisitReminder"> <i class="glyphicon glyphicon-envelope"></i> Email Visit Reminder
 		</a>
 
 		<!--  Add Family Modal
@@ -151,8 +150,7 @@
 					<table class="table table-striped table-hover table-bordered visitHistory" data-family-id="${family.id}" width="100%">
 					</table>
 					<c:if test="${canAction}">
-						<a href="#recordVisit" role="button" class="btn btn-primary recordVisit" data-assignment-id="${family.assignmentId}" data-family-id="${family.id}" data-toggle="modal">
-							<c:choose>
+						<a href="#recordVisit" role="button" class="btn btn-primary recordVisit" data-assignment-id="${family.assignmentId}" data-family-id="${family.id}" data-toggle="modal"> <c:choose>
 								<c:when test="${visitingTeaching}">
 									Record visit with ${family.womenHeadOfHousehold}&nbsp;${family.familyName }
 								</c:when>
@@ -199,16 +197,15 @@
 							<input type="text" class="form-control" id="datepicker"> <input type="hidden" name="visitDate" id="visitDate" />
 						</div>
 						<div class="checkbox">
-							<label class="checkbox">
-								<input type="checkbox" name="visited" id="visited"> Visited
+							<label class="checkbox"> <input type="checkbox" name="visited" id="visited"> Visited
 							</label>
 						</div>
 						<div class="form-group">
 							<textarea class="form-control" name="notes" id="notes" placeholder="Notes" maxlength="400"></textarea>
 						</div>
 						<div>
-							<input type="hidden" name="visitingTeaching" value="${visitingTeaching}" /><input type="hidden" name="id" id="visitId" /> <input type="hidden" name="assignmentId" id="assignmentId" /><input type="hidden"
-								name="familyId" id="familyId" /><input type="hidden" value="${companion.organization.id}" name="organizationId" />
+							<input type="hidden" name="visitingTeaching" value="${visitingTeaching}" /><input type="hidden" name="id" id="visitId" /> <input type="hidden" name="assignmentId" id="assignmentId" /><input type="hidden" name="familyId" id="familyId" /><input type="hidden"
+								value="${companion.organization.id}" name="organizationId" />
 						</div>
 					</form>
 				</div>
@@ -221,6 +218,7 @@
 			</div>
 		</div>
 	</div>
+
 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -439,56 +437,55 @@
 		}
 
 		function setupAssignmentTable() {
-			$('#assignmentTable')
-					.dataTable(
-							{
-								'sDom' : 't',
-								'sAjaxSource' : '<spring:url value="/companion/getAssignments/"/>?companionId=' + $('#assignmentTable').data('companionId'),
-								'aaData' : [],
-								'aoColumns' : [{
-									'sTitle' : 'Family',
-									'bVisible' : ${!visitingTeaching},
-									'mData' : 'familyName',
-									'mRender' : setupFamilyName
-								}, {
-									'sTitle' : 'Sister',
-									'bVisible' : ${visitingTeaching},
-									'mData' : 'womenHeadOfHousehold',
-									'mRender' : setupWomenName
-								}, {
-									'sTitle' : 'Status',
-									'sClass' : 'hidden-xs hidden-sm',
-									'mData' : 'familyStatus'
-								}, {
-									'sTitle' : 'Husband',
-									'bVisible' : ${visitingTeaching},
-									'mData' : 'menHeadOfHousehold'
-								}, {
-									'sTitle' : 'Children',
-									'mData' : 'people'
-									,'mRender' : getChildrenNames
-								}, {
-									'sTitle' : 'Address',
-									'mData' : 'address',
-									'mRender' : addressRender
-								}, {
-									'sTitle' : 'Phone Numbers',
-									'mData' : 'phoneNumbers',
-									'mRender' : setupPhoneNumbers
-								}
-								<sec:authorize access="hasRole('leader')">
-								, {
-									'sTitle' : 'Actions',
-									'mData' : 'id'
-									,'mRender' : setupActions
-								} 
-								</sec:authorize>
-								],
-								'oLanguage' : {
-									'sInfoEmpty' : 'No assignments to show',
-									'sEmptyTable' : 'There are no assignments yet.  Add an assignment by clicking the button below.'
-								}
-							});
+			
+			$('#assignmentTable').noteDataTable({ tableOptions : {
+				'dom' : 't',
+				'ajax' : '<spring:url value="/companion/getAssignments/"/>?companionId=' + $('#assignmentTable').data('companionId'),
+				'data' : [],
+				'columns' : [ {
+					'title' : 'Family',
+					'visible' : ${!visitingTeaching},
+					'data' : 'familyName',
+					'render' : setupFamilyName
+				}, {
+					'title' : 'Sister',
+					'visible' : ${visitingTeaching},
+					'data' : 'womenHeadOfHousehold',
+					'render' : setupWomenName
+				}, {
+					'title' : 'Status',
+					'sClass' : 'hidden-xs hidden-sm',
+					'data' : 'familyStatus'
+				}, {
+					'title' : 'Husband',
+					'visible' : ${visitingTeaching},
+					'data' : 'menHeadOfHousehold'
+				}, {
+					'title' : 'Children',
+					'data' : 'people'
+					,'render' : getChildrenNames
+				}, {
+					'title' : 'Address',
+					'data' : 'address',
+					'render' : addressRender
+				}, {
+					'title' : 'Phone Numbers',
+					'data' : 'phoneNumbers',
+					'render' : setupPhoneNumbers
+				}
+				<sec:authorize access="hasRole('leader')">
+				, {
+					'title' : 'Actions',
+					'data' : 'id'
+					,'render' : setupActions
+				} 
+				</sec:authorize>
+				],
+				'language' : {
+					'infoEmpty' : 'No assignments to show',
+					'emptyTable' : 'There are no assignments yet.  Add an assignment by clicking the button below.'
+				}
+			}});
 		}
 
 		function setupModal() {
@@ -639,4 +636,4 @@
 			});
 		}
 	</script>
-</t:mainPage>
+</t:notePage>

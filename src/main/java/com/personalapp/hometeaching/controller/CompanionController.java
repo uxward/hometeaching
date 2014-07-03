@@ -4,6 +4,7 @@ import static com.personalapp.hometeaching.model.Organization.fromId;
 import static com.personalapp.hometeaching.model.Organization.isVisitingTeaching;
 import static com.personalapp.hometeaching.security.SecurityUtils.canActionCompanion;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
+import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUserAssignableRoles;
 import static com.personalapp.hometeaching.security.SecurityUtils.hasCompanionAccess;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.model.Organization;
+import com.personalapp.hometeaching.security.SecurityUtils;
 import com.personalapp.hometeaching.service.CompanionService;
 import com.personalapp.hometeaching.service.FamilyService;
 import com.personalapp.hometeaching.service.PersonService;
@@ -138,6 +140,7 @@ public class CompanionController {
 		view.addObject("companion", service.getDetailedViewModelForCompanion(companion));
 		view.addObject("canAction", canActionCompanion(companion));
 		view.addObject("visitingTeaching", companion.isVisitingTeaching());
+		view.addObject("roles", getCurrentUserAssignableRoles());
 		return view;
 	}
 

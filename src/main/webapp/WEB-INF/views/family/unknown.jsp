@@ -42,61 +42,20 @@
 	<table id="familyTable" class="table table-striped table-hover table-bordered" width="100%"></table>
 
 	<script type="text/javascript">
-		$(document).ready(function() {
 
-			setupEventBinding();
+		$(document).ready(function() {
 
 			setupFamilyTable();
 
 		});
 
-		function setupEventBinding() {
-			// Add event listener for opening and closing details
-			$('#familyTable').on('click', 'td.details-control', function() {
-				var $tr = $(this).closest('tr');
-				var $row = $('#familyTable').DataTable().row($tr);
-				var familyId = $(this).find('.family-id').data('familyId');
-
-				if ($row.child.isShown()) {
-					$(this).html('<i class="glyphicon glyphicon-chevron-down family-id" data-family-id="' + familyId + '"></i>');
-					// This row is already open - close it
-					$row.child.hide();
-					$tr.removeClass('shown');
-				} else {
-					// close all other rows
-					$('tr.shown').each(function() {
-						var $tempTr = $(this).closest('tr');
-						$(this).find('.family-id').toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
-						var $tempRow = $('#familyTable').DataTable().row($tempTr);
-						$tempRow.child.hide();
-						$tempTr.removeClass('shown');
-					});
-
-					// Open this row
-					$row.child(createNoteRow(familyId)).show();
-					$tr.addClass('shown');
-					initNotes($('#columns' + familyId), $('#addNoteContainer' + familyId), $('#noteWrapper' + +familyId), familyId);
-					$(this).html('<i class="glyphicon glyphicon-chevron-up family-id" data-family-id="' + familyId + '"></i>');
-				}
-			});
-		}
-
-		function createNoteRow(familyId) {
-			return '<div id="noteWrapper' + familyId + '"><div class="col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1" id="addNoteContainer' + familyId + '"></div><div class="clearfix"></div><div data-columns id="columns' + familyId + '" class="notes"></div></div>';
-		}
-
 		function setupFamilyTable() {
 
-			$('#familyTable').DataTable({
+			$('#familyTable').noteDataTable({ tableOptions : {
 				'ajax' : '<spring:url value="/family/getAllUnknownFamilies/"/>',
 				'order' : [ [ 1, 'asc' ] ],
 				'data' : [],
 				'columns' : [ {
-					'class' : 'details-control',
-					'orderable' : false,
-					'data' : 'id',
-					'render' : collapseIconRender
-				}, {
 					'title' : 'Family Name',
 					'data' : 'familyName',
 					'width' : '15%',
@@ -133,7 +92,7 @@
 					'infoEmpty' : 'No families to show',
 					'emptyTable' : 'There are no moved families yet.'
 				}
-			});
+			}});
 		}
 
 		function familyNameRender(data, type, full) {
@@ -146,10 +105,6 @@
 				html = '<a href="<spring:url value="/companion/detail/"/>' + data.id + '">' + data.allTeachers + '</a>';
 			}
 			return html;
-		}
-
-		function collapseIconRender(data, type, full) {
-			return '<i class="glyphicon glyphicon-chevron-down family-id" data-family-id="' + data + '"></i>'
 		}
 	</script>
 </t:notePage>

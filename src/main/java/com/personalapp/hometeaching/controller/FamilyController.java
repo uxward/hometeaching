@@ -36,6 +36,7 @@ public class FamilyController {
 		ModelAndView view = new ModelAndView("family/families");
 		view.addObject("statuses", FamilyStatus.values());
 		view.addObject("organizations", forDisplay());
+		view.addObject("roles", getCurrentUserAssignableRoles());
 		return view;
 	}
 
@@ -82,7 +83,7 @@ public class FamilyController {
 	@RequestMapping(value = "/moved")
 	public ModelAndView moved() {
 		logger.info("User {} is viewing the moved families page", getCurrentUser().getPerson().getFullName());
-		return new ModelAndView("family/moved");
+		return new ModelAndView("family/moved").addObject("roles", getCurrentUserAssignableRoles());
 	}
 
 	@RequestMapping(value = "/getAllMovedFamilies")

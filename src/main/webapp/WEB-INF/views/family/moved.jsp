@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<t:mainPage activeMenu="moved" pageTitle="Moved Families" pageHeader="Moved" pageSubheader="Families">
+<t:notePage activeMenu="moved" pageTitle="Moved Families" pageHeader="Moved" pageSubheader="Families">
 
 	<table id="familyTable" class="table table-striped table-hover table-bordered" width="100%"></table>
 
@@ -15,52 +15,52 @@
 
 		function setupFamilyTable() {
 
-			$('#familyTable').dataTable({
-				'sAjaxSource' : '<spring:url value="/family/getAllMovedFamilies/"/>',
-				'aaSorting' : [ [ 1, 'asc' ] ],
-				'aaData' : [],
-				'aoColumns' : [ {
-					'sTitle' : 'Family Name',
-					'mData' : 'familyName',
-					'sWidth' : '20%',
-					'mRender' : familyNameRender
+			$('#familyTable').noteDataTable({tableOptions : {
+				'ajax' : '<spring:url value="/family/getAllMovedFamilies/"/>',
+				'order' : [ [ 2, 'asc' ], [1, 'asc'] ],
+				'data' : [],
+				'columns' : [ {
+					'title' : 'Family Name',
+					'data' : 'familyName',
+					'width' : '20%',
+					'render' : familyNameRender
 				}, {
-					'sTitle' : 'Records Moved',
-					'mData' : 'recordsMoved',
-					'mRender' : setupTrueFalseAsYesNo,
-					'sWidth' : '5%'
+					'title' : 'Records Moved',
+					'data' : 'recordsMoved',
+					'render' : setupTrueFalseAsYesNo,
+					'width' : '5%'
 				}, {
-					'sTitle' : 'Status',
-					'mData' : 'familyStatus',
-					'sWidth' : '10%'
+					'title' : 'Status',
+					'data' : 'familyStatus',
+					'width' : '10%'
 				}, {
-					'sTitle' : 'Organizations',
-					'mData' : 'organizations',
-					'mRender' : setupOrganizations,
-					'sWidth' : '10%'
+					'title' : 'Organizations',
+					'data' : 'organizations',
+					'render' : setupOrganizations,
+					'width' : '10%'
 				}, {
-					'sTitle' : 'Address',
-					'mData' : 'address',
-					'sWidth' : '20%',
-					'mRender' : addressRender,
-					'sClass' : 'hidden-xs'
+					'title' : 'Address',
+					'data' : 'address',
+					'width' : '20%',
+					'render' : addressRender,
+					'class' : 'hidden-xs'
 				}, {
-					'sTitle' : 'Phone Numbers',
-					'mData' : 'phoneNumbers',
-					'sWidth' : '20%',
-					'sClass' : 'hidden-xs hidden-sm',
-					'mRender' : setupPhoneNumbers
+					'title' : 'Phone Numbers',
+					'data' : 'phoneNumbers',
+					'width' : '20%',
+					'class' : 'hidden-xs hidden-sm',
+					'render' : setupPhoneNumbers
 				}, {
-					'sTitle' : 'Companions',
-					'mData' : 'companions',
-					'sWidth' : '15%',
-					'mRender' : setupCompanions
+					'title' : 'Companions',
+					'data' : 'companions',
+					'width' : '15%',
+					'render' : setupCompanions
 				} ],
-				'oLanguage' : {
-					'sInfoEmpty' : 'No families to show',
-					'sEmptyTable' : 'There are no moved families yet.'
+				'language' : {
+					'infoEmpty' : 'No families to show',
+					'emptyTable' : 'There are no moved families yet.'
 				}
-			});
+			}});
 		}
 
 		function familyNameRender(data, type, full) {
@@ -75,4 +75,4 @@
 			return html;
 		}
 	</script>
-</t:mainPage>
+</t:notePage>

@@ -90,53 +90,53 @@
 
 		function setupFamilyTable() {
 
-			$('#familyTable').dataTable({
-				'sAjaxSource' : '<spring:url value="/family/getAllFamilies/"/>',
-				'aaSorting' : [ [ 0, 'asc' ] ],
-				'aaData' : [],
-				'aLengthMenu' : [ [ 10, 25, 50, 100, -1 ], [ 10, 25, 50, 100, 'All' ] ],
-				'aoColumns' : [ {
-					'sTitle' : 'Family Name',
-					'mData' : 'familyName',
-					'sWidth' : '16%',
-					'mRender' : familyNameRender
+			$('#familyTable').noteDataTable({tableOptions : {
+				'ajax' : '<spring:url value="/family/getAllFamilies/"/>',
+				'order' : [ [ 1, 'asc' ] ],
+				'data' : [],
+				'lengthMenu' : [ [ 10, 25, 50, 100, -1 ], [ 10, 25, 50, 100, 'All' ] ],
+				'columns' : [ {
+					'title' : 'Family Name',
+					'data' : 'familyName',
+					'width' : '16%',
+					'render' : familyNameRender
 				}, {
-					'sTitle' : 'Status',
-					'mData' : 'familyStatus',
-					'sWidth' : '12%'
+					'title' : 'Status',
+					'data' : 'familyStatus',
+					'width' : '12%'
 				}, {
-					'sTitle' : 'Organization',
-					'mData' : 'organizations',
-					'mRender' : setupOrganizations,
-					'sWidth' : '15%'
+					'title' : 'Organization',
+					'data' : 'organizations',
+					'render' : setupOrganizations,
+					'width' : '15%'
 				}, {
-					'sTitle' : 'Address',
-					'mData' : 'address',
-					'sWidth' : '15%',
-					'mRender' : addressRender,
-					'sClass' : 'hidden-xs'
+					'title' : 'Address',
+					'data' : 'address',
+					'width' : '15%',
+					'render' : addressRender,
+					'class' : 'hidden-xs'
 				}, {
-					'sTitle' : 'Phone Numbers',
-					'mData' : 'phoneNumbers',
-					'sWidth' : '16%',
-					'sClass' : 'hidden-xs hidden-sm',
-					'mRender' : setupPhoneNumbers
+					'title' : 'Phone Numbers',
+					'data' : 'phoneNumbers',
+					'width' : '16%',
+					'class' : 'hidden-xs hidden-sm',
+					'render' : setupPhoneNumbers
 				}, {
-					'sTitle' : 'Home Teachers',
-					'mData' : 'homeTeachingCompanions',
-					'sWidth' : '13%',
-					'mRender' : setupTeachers
+					'title' : 'Home Teachers',
+					'data' : 'homeTeachingCompanions',
+					'width' : '13%',
+					'render' : setupTeachers
 				}, {
-					'sTitle' : 'Visiting Teachers',
-					'mData' : 'visitingTeachingCompanions',
-					'sWidth' : '13%',
-					'mRender' : setupTeachers
+					'title' : 'Visiting Teachers',
+					'data' : 'visitingTeachingCompanions',
+					'width' : '13%',
+					'render' : setupTeachers
 				} ],
-				'oLanguage' : {
-					'sInfoEmpty' : 'No families to show',
-					'sEmptyTable' : 'There are no families yet.  Add a family by clicking the button below.'
+				'language' : {
+					'infoEmpty' : 'No families to show',
+					'emptyTable' : 'There are no families yet.  Add a family by clicking the button below.'
 				}
-			});
+			}});
 		}
 
 		function familyNameRender(data, type, full) {
