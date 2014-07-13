@@ -22,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.model.Organization;
-import com.personalapp.hometeaching.security.SecurityUtils;
 import com.personalapp.hometeaching.service.CompanionService;
 import com.personalapp.hometeaching.service.FamilyService;
 import com.personalapp.hometeaching.service.PersonService;

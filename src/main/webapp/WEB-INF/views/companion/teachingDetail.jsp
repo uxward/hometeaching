@@ -60,7 +60,7 @@
 
 	<!--  Family Assignment Table
 	---------------------------------------------------->
-	<table id="assignmentTable" class="table table-striped table-hover table-bordered" data-companion-id="${companion.id}" width="100%">
+	<table id="assignmentTable" class="table table-striped table-hover" data-companion-id="${companion.id}" width="100%">
 	</table>
 
 	<br />
@@ -147,7 +147,7 @@
 				<div class="tab-pane ${status.first ? 'active' : ''}" id="${family.id}-tab">
 					<br />
 
-					<table class="table table-striped table-hover table-bordered visitHistory" data-family-id="${family.id}" width="100%">
+					<table class="table table-striped table-hover visitHistory" data-family-id="${family.id}" width="100%">
 					</table>
 					<c:if test="${canAction}">
 						<a href="#recordVisit" role="button" class="btn btn-primary recordVisit" data-assignment-id="${family.assignmentId}" data-family-id="${family.id}" data-toggle="modal"> <c:choose>
@@ -462,6 +462,7 @@
 					'data' : 'menHeadOfHousehold'
 				}, {
 					'title' : 'Children',
+					'sClass' : 'hidden-xs hidden-sm',
 					'data' : 'people'
 					,'render' : getChildrenNames
 				}, {

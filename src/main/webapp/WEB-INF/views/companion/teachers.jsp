@@ -19,7 +19,7 @@
 
 <t:mainPage activeMenu="${organization.name}" pageTitle="${teacherPrefix}${teacherType}s" pageHeader="All" pageSubheader="${teacherPrefix}${teacherType}s">
 
-	<table id="companionTable" class="table table-striped table-hover table-bordered" width="100%">
+	<table id="companionTable" class="table table-striped table-hover" width="100%">
 	</table>
 
 	<sec:authorize access="hasRole('leader')">

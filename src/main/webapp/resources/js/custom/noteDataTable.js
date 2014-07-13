@@ -16,7 +16,6 @@
 			'data' : 'id',
 			'render' : collapseIconRender
 		});
-		console.log(options)
 		return options;
 	}
 

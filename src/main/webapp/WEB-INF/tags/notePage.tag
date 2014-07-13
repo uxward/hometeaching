@@ -24,7 +24,7 @@
 						<input type="hidden" name="id" class="note-id" /> <input type="hidden" name="visibleRole" class="note-visibility" /><input type="hidden" name="familyId" class="family-id" />
 						<div class="hidden note-actions">
 							<div class="pull-right">
-								<input type="button" value="Save" class="btn save-note" />
+								<input type="button" value="Save" class="btn btn-primary save-note" />
 							</div>
 							<div class="dropdown pull-right">
 								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
@@ -54,7 +54,7 @@
 					<input type="hidden" name="id" class="note-id" /> <input type="hidden" name="visibleRole" class="note-visibility" /><input type="hidden" name="familyId" class="family-id" />
 					<div class="hidden note-actions">
 						<div class="pull-right">
-							<input type="button" value="Save" class="btn save-note" />
+							<input type="button" value="Save" class="btn btn-primary save-note" />
 						</div>
 						<div class="dropdown pull-right">
 							<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">

@@ -1,31 +1,6 @@
-/* Random css fixes
--------------------------------------------------- */
-
-/* Fix bootstrap css for hovering on td with active tr class */
-.table-hover>tbody>tr>td.active:hover,.table-hover>tbody>tr>th.active:hover,.table-hover>tbody>tr.active:hover>td
-	{
-	background-color: #e8e8e8;
-}
-
-/* Fix bootstrap css for td with info tr class */
-.table-hover>tbody>tr>td.info:hover,.table-hover>tbody>tr>th.info:hover,.table-hover>tbody>tr.info:hover>td
-	{
-	background-color: #c4e3f3;
-}
-
-/* Fix bootstrap css for hovering on td with info tr class */
-.table>thead>tr>td.info,.table>tbody>tr>td.info,.table>tfoot>tr>td.info,.table>thead>tr>th.info,.table>tbody>tr>th.info,.table>tfoot>tr>th.info,.table>thead>tr.info>td,.table>tbody>tr.info>td,.table>tfoot>tr.info>td,.table>thead>tr.info>th,.table>tbody>tr.info>th,.table>tfoot>tr.info>th
-	{
-	background-color: #d9edf7;
-}
-
-/* Make bootstrap navbar padding smaller between items */
-.nav>li>a {
-/* 	padding-right: 6px; */
-/* 	padding-left: 6px; */
-}
-
-/* Utility class for hiding elements */
+/*
+*Setup basic site styling
+*/
 .hidden {
 	display: none;
 }
@@ -35,21 +10,9 @@
 	z-index: 1151 !important;
 }
 
-/* Fix active class for home link in navbar*/
-.navbar-brand.active {
-	color: #fff;
-}
-
 /* Set max widths for inputs inside of forms */
 .form-group {
 	max-width: 250px;
-}
-
-/* Center elements */
-.center {
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
 }
 
 .button-medium {
@@ -59,4 +22,77 @@
 /* notification navbar */
 .notification-navbar {
 	margin-top: 60px;
+}
+
+/*
+* Making changes to bootstrap - create custom theme later
+*/
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover,
+	.pagination>.active>span:hover, .pagination>.active>a:focus,
+	.pagination>.active>span:focus {
+	z-index: 2;
+	color: #fff;
+	cursor: default;
+	background-color: #65c6c3;
+	border-color: #65c6c3;
+}
+
+.pagination>li>a:hover, .pagination>li>span:hover, .pagination>li>a:focus,
+	.pagination>li>span:focus {
+	color: #65c6c3;
+	background-color: #eee;
+	border-color: #ddd;
+}
+
+.pagination>li>a, .pagination>li>span {
+	position: relative;
+	float: left;
+	padding: 6px 12px;
+	margin-left: -1px;
+	line-height: 1.42857143;
+	color: #65c6c3;
+	text-decoration: none;
+	background-color: #fff;
+	border: 1px solid #ddd;
+}
+
+.navbar-brand {
+	color: #65c6c3 !important;
+}
+
+/*.navbar-brand.active {
+	color: #f7504f !important;
+}*/
+.btn-primary:hover {
+	color: #fff !important;
+/* 	background-color: #65c6c3 !important; */
+/* 	border-color: #65c6c3 !important; */
+	background-color: #f7504f !important;
+	border-color: #f7504f !important;
+}
+
+.btn-primary {
+	background-color: #fff !important;
+	/* 	color: #65c6c3 !important; */
+	/* 	border-color: #65c6c3 !important; */
+	color: #f7504f !important;
+	border-color: #f7504f !important;
+}
+
+.alert-info {
+	color: #777;
+	background-color: #EBFFFE;
+	border-color: #65c6c3;
+}
+
+a.btn:hover {
+	color: #119995;
+}
+
+a {
+	color: #65c6c3;
+}
+
+a:hover {
+	color: #119995;
 }

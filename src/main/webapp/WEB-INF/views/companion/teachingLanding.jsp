@@ -37,7 +37,7 @@
 
 	<!--  Family Assignment Table
 	---------------------------------------------------->
-	<table id="assignmentTable" class="table table-striped table-hover table-bordered" data-person-id="${person.id}" width="100%">
+	<table id="assignmentTable" class="table table-striped table-hover" data-person-id="${person.id}" width="100%">
 	</table>
 
 

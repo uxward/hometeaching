@@ -24,6 +24,11 @@
 	</sec:authorize>
 </c:set>
 
+<sec:authorize access="isAuthenticated()">
+	<sec:authentication property="principal.person.homeTeacher" var="homeTeacher" />
+	<sec:authentication property="principal.person.visitingTeacher" var="visitingTeacher" />
+</sec:authorize>
+
 <%@ include file="../views/dayMod.jsp"%>
 
 <head>
@@ -51,21 +56,29 @@
 </head>
 
 <body>
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
+	<div class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
 			<div class="navbar-header">
 				<sec:authorize access="isAuthenticated()">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 					</button>
 				</sec:authorize>
-				<a class="navbar-brand ${activeMenu ==  'home' ? 'active' : '' }" href="${home}"> <span class="glyphicon glyphicon-asterisk"></span> <sec:authorize access="!isAuthenticated()">Dallas 4th Ward Home and Visiting Teaching</sec:authorize> <c:if test="${reset}">D4 Home and Visiting Teaching</c:if>
+				<a class="navbar-brand ${activeMenu ==  'home' ? 'active' : '' }" href="${home}">
+					<sec:authorize access="isAuthenticated()">
+						<span class="visible-lg visible-md pull-left">Dallas 4th Ward&nbsp;</span><span class="visible-xs visible-sm pull-left">D4&nbsp;</span>
+					</sec:authorize>
+					<c:choose>
+						<c:when test="${homeTeacher}">Home Teaching</c:when>
+						<c:when test="${visitingTeacher}">Visiting Teaching</c:when>
+						<c:otherwise><span class="visible-lg visible-md visible-sm">Dallas 4th Ward Home and Visiting Teaching</span><span class="visible-xs">D4 Home and Visiting Teaching</span></c:otherwise>
+					</c:choose>
 				</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<sec:authorize access="isAuthenticated()">
 
-					<ul class="nav navbar-nav">
+					<ul class="nav navbar-nav navbar-right">
 						<c:if test="${!reset}">
 
 							<sec:authorize access="hasRole('council')">
@@ -99,30 +112,25 @@
 
 							</sec:authorize>
 
-							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> Visualize <b class="caret"></b>
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> Visuals <b class="caret"></b>
 							</a>
 								<ul class="dropdown-menu">
 									<li class="${activeMenu ==  'visitPercentage' ? 'active' : '' }"><a href="${dashboard}/visitPercentage">Visit Percentage</a></li>
-									<%-- 									<li class="${activeMenu ==  'familyStatus' ? 'active' : '' }"><a href="${dashboard}/familyStatus">Family Status</a></li> --%>
 								</ul></li>
 
 							<li class="${activeMenu ==  'yourFamily' ? 'active' : '' }"><a href="${family}/you">Family</a></li>
 
-							<sec:authentication property="principal.person.homeTeacher" var="homeTeacher" />
 							<c:if test="${homeTeacher}">
 								<li class="${activeMenu ==  'homeTeachingDetail' ? 'active' : '' }"><a href="${companion}/you/false">Home Teaching</a></li>
 							</c:if>
 
-							<sec:authentication property="principal.person.visitingTeacher" var="visitingTeacher" />
 							<c:if test="${visitingTeacher}">
 								<li class="${activeMenu ==  'visitingTeachingDetail' ? 'active' : '' }"><a href="${companion}/you/true">Visiting Teaching</a></li>
 							</c:if>
 
 						</c:if>
-					</ul>
 
-					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <sec:authentication property="principal.person.fullName" /> <b class="caret"></b>
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> You<!--<sec:authentication property="principal.person.fullName" />--> <b class="caret"></b>
 						</a>
 							<ul class="dropdown-menu">
 								<li class="${activeMenu == 'user' ? 'active' : '' }"><a href="${user}/you">Your Account</a></li>

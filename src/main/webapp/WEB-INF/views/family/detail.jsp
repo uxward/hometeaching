@@ -55,7 +55,7 @@
 			<!-- start family member information -->
 			<div class="tab-pane" id="personInformation">
 				<br />
-				<table id="personTable" class="table table-striped table-hover table-bordered" width="100%">
+				<table id="personTable" class="table table-striped table-hover" width="100%">
 				</table>
 
 				<br /> <a href="#addPerson" role="button" class="btn btn-primary" data-toggle="modal">Add Family Member</a>

@@ -8,7 +8,7 @@
 
 <t:mainPage activeMenu="users" pageTitle="Users" pageHeader="All" pageSubheader="Users">
 
-	<table id="userTable" class="table table-striped table-hover table-bordered" width="100%">
+	<table id="userTable" class="table table-striped table-hover" width="100%">
 	</table>
 
 	<sec:authorize access="hasRole('leader')">
@@ -208,7 +208,7 @@
 		}
 
 		function setupUserTable() {
-			$('#userTable').dataTable({
+			var $table = $('#userTable').dataTable({
 				'sAjaxSource' : '<spring:url value="/user/getAllUsers/"/>',
 				'aaData' : [],
 				'aaSorting' : [ [ 4, 'desc' ] ],

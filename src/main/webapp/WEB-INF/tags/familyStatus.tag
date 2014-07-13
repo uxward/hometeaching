@@ -54,7 +54,7 @@
 				'Do Not Contact' : '#999'
 			};
 
-			var svg = d3.select('#familyStatusPie').append('svg').data([ data ]).attr('width', width).attr('height', height).attr('class', 'center col-md-3 col-sm-6 ' + (display != 'Ward' && numOrgs > 1 ? 'hidden-xs' : ''));
+			var svg = d3.select('#familyStatusPie').append('svg').data([ data ]).attr('width', width).attr('height', height).attr('class', 'center-block col-md-3 col-sm-6 ' + (display != 'Ward' && numOrgs > 1 ? 'hidden-xs' : ''));
 
 			var vis = svg.append('g').attr('transform', 'translate(' + width / 2 + ',' + (height / 2 + margin.y) + ')');
 
@@ -74,8 +74,8 @@
 				$('.pie-header').attr('style', 'font-size:16px;');
 				$(this).closest('svg').find('.pie-header').attr('style', 'font-size:20px;font-weight:bold;');
 				var status = d.data.familyStatus;
-				$('#familyTable').dataTable().fnFilter(status, 1, false, true, true, false);
-				$('#familyTable').dataTable().fnFilter((display == 'Ward' ? '' : display), 2, false, true, true, false);
+				$('#familyTable').dataTable().fnFilter(status, 2, false, true, true, false);
+				$('#familyTable').dataTable().fnFilter((display == 'Ward' ? '' : display), 3, false, true, true, false);
 			});
 
 			arcs.append('path').attr('fill', function(d, i) {
@@ -103,10 +103,10 @@
 			}).on('click', function(d) {
 				//show all records again
 				d3.selectAll('.slice').select('path').transition().duration(500).attr('d', arc);
-				$('#familyTable').dataTable().fnFilter('', 1);
 				$('#familyTable').dataTable().fnFilter('', 2);
+				$('#familyTable').dataTable().fnFilter('', 3);
 				$('#familyTable').dataTable().fnFilter('');
-				$('#familyTable').dataTable().fnFilter((display == 'Ward' ? '' : display), 2, false, true, true, false);
+				$('#familyTable').dataTable().fnFilter((display == 'Ward' ? '' : display), 3, false, true, true, false);
 				$('.pie-header').attr('style', 'font-size:16px;');
 				$(this).find('.pie-header').attr('style', 'font-size:20px;font-weight:bold;');
 				$(this).parent().find('.slice').each(function() {

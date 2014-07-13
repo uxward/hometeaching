@@ -16,6 +16,8 @@ public class UserViewModel extends ActionViewModel {
 	private Long id;
 
 	private Long personId;
+	
+	private Long companionId;
 
 	private String name;
 

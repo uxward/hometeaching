@@ -6,7 +6,7 @@
 
 <t:mainPage activeMenu="feedback" pageTitle="Feedback" pageHeader="Feedback" pageSubheader="Current">
 
-	<table id="feedbackTable" class="table table-striped table-hover table-bordered" width="100%"></table>
+	<table id="feedbackTable" class="table table-striped table-hover" width="100%"></table>
 
 	<script type="text/javascript">
 		$(document).ready(function() {

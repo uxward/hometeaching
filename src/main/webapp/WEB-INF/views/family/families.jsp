@@ -4,7 +4,7 @@
 
 <t:familyStatus activeMenu="allFamilies" pageTitle="Families" pageHeader="All" pageSubheader="Families">
 
-	<table id="familyTable" class="table table-striped table-hover table-bordered" width="100%"></table>
+	<table id="familyTable" class="table table-striped table-hover" width="100%"></table>
 
 	<a href="#addFamily" class="btn btn-primary" data-toggle="modal">Add Family</a>
 

@@ -39,7 +39,7 @@
 }
 </style>
 
-	<table id="familyTable" class="table table-striped table-hover table-bordered" width="100%"></table>
+	<table id="familyTable" class="table table-striped table-hover" width="100%"></table>
 
 	<script type="text/javascript">
 

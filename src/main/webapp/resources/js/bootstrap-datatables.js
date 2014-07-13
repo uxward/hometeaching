@@ -4,8 +4,10 @@ $.extend( true, $.fn.dataTable.defaults, {
 		"<'row'<'col-xs-6'l><'col-xs-6'f>r>"+
 		"t"+
 		"<'row'<'col-xs-6'i><'col-xs-6'p>>",
+	stateSave: true,
 	"oLanguage": {
-		"sLengthMenu": "_MENU_ records per page"
+		"sLengthMenu": "_MENU_ records per page",
+		"sSearch": ""
 	}
 } );
 

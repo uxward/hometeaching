@@ -5,7 +5,7 @@
 
 <t:mainPage activeMenu="visitHistory" pageTitle="Visit History" pageHeader="${fn:length(months)} Month" pageSubheader="Visit  History">
 
-	<table id="historyTable" class="table table-striped table-hover table-bordered" width="100%"></table>
+	<table id="historyTable" class="table table-striped table-hover" width="100%"></table>
 
 
 	<label id="monthSelect" style="margin-left: 10px;">
@@ -69,7 +69,7 @@
 		}
 		
 		function setupFamilyName(data, type, full){
-			return data.familyName + ', ' + data.headOfHousehold;
+			return '<a href="<spring:url value="/family/detail/"/>' + data.id + '">' + data.familyName + ', ' + data.headOfHousehold + '</a>';
 		}
 		
 		function setupVisit(data, type, full){
