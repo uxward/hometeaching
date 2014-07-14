@@ -4,7 +4,7 @@
 	{{#with companion}}
 	<p>
 		{{#companions}}{{firstNoAnd @index}}{{person.firstName}}{{/companions}}, <br /> <br /> I hope you're doing well. This is a quick reminder to visit with your assigned {{#if visitingTeaching}} sisters{{else}} families{{/if}} this month if you haven't already.  After your visits, please let me know how they are doing by email, text, a phone call, or using the
-		<a href="http://hometeaching.elasticbeanstalk.com/companion/you/{{visitingTeaching}}">{{#if visitingTeaching}} visiting {{else}} home {{/if}} teaching website</a>.
+		<a style="color:#65c6c3" href="http://hometeaching.elasticbeanstalk.com/companion/you/{{visitingTeaching}}">{{#if visitingTeaching}} visiting {{else}} home {{/if}} teaching website</a>.
 	</p>
 
 	<fieldset style="padding: 0; margin: 0; border: 0;">
@@ -14,34 +14,34 @@
 
 	<br />
 
-	<table style="border: 1px solid #ddd; background-color: transparent; border-collapse: collapse; border-spacing: 0; width: 100%">
+	<table style="background-color: transparent; border-collapse: collapse; border-spacing: 0; width: 100%">
 		<thead style="display: table-header-group; vertical-align: middle; border-color: inherit;">
 			<tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
-				{{#unless visitingTeaching}}<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Family</th>{{/unless}}
-				{{#if visitingTeaching}}<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Sister</th>{{/if}}
-				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Status</th>
-				{{#if visitingTeaching}}<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Husband</th>{{/if}}
-				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Children</th>
-				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Address</th>
-				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border: 1px solid #ddd; border-bottom: 2px solid #ddd;">Phone Numbers</th>
+				{{#unless visitingTeaching}}<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Family</th>{{/unless}}
+				{{#if visitingTeaching}}<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Sister</th>{{/if}}
+				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Status</th>
+				{{#if visitingTeaching}}<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Husband</th>{{/if}}
+				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Children</th>
+				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Address</th>
+				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Phone Numbers</th>
 			</tr>
 		</thead>
 		<tbody style="display: table-row-group; vertical-align: middle; border-color: inherit;">
 			{{#assignments}} {{#if active}}{{#with family}}
 			<tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
-				{{#unless visitingTeaching}}<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{familyName}}, {{#headOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/headOfHousehold}}</td>{{/unless}}
-				{{#if visitingTeaching}}<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#womenHeadOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/womenHeadOfHousehold}}</td>{{/if}}
-				<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{familyStatus.status}}</td>
-				{{#if visitingTeaching}}<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#menHeadOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/menHeadOfHousehold}}</td>{{/if}}
-				<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#children}}{{firstNoComma @index}}{{firstName}}{{/children}}</td>
-				<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}"><a href="http://maps.google.com/maps?daddr={{address}}" target="_blank">{{address}}</a></td>
-				<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}"><span style="float: left !important;">
+				{{#unless visitingTeaching}}<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{familyName}}, {{#headOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/headOfHousehold}}</td>{{/unless}}
+				{{#if visitingTeaching}}<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#womenHeadOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/womenHeadOfHousehold}}</td>{{/if}}
+				<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{familyStatus.status}}</td>
+				{{#if visitingTeaching}}<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#menHeadOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/menHeadOfHousehold}}</td>{{/if}}
+				<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#children}}{{firstNoComma @index}}{{firstName}}{{/children}}</td>
+				<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}"><a style="color:#65c6c3" href="http://maps.google.com/maps?daddr={{address}}" target="_blank">{{address}}</a></td>
+				<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}"><span style="float: left !important;">
 						{{#if phoneNumber}} Home:
-						<a href="tel:{{phoneNumber}}">{{phoneNumber}}</a>
+						<a style="color:#65c6c3" href="tel:{{phoneNumber}}">{{phoneNumber}}</a>
 						&nbsp;&nbsp; {{/if}}
 					</span> {{#headOfHousehold}} <span style="float: left !important;">
 						{{#if phoneNumber}}{{firstName}}:
-						<a href="tel:{{phoneNumber}}">{{phoneNumber}}</a>
+						<a style="color:#65c6c3" href="tel:{{phoneNumber}}">{{phoneNumber}}</a>
 						&nbsp;&nbsp; {{/if}}
 					</span> {{/headOfHousehold}}</td>
 			</tr>
@@ -53,7 +53,7 @@
 	<br />
 	<p>
 		Thanks for all you do to help out, please let me know if you have any questions or concerns.<br /> <br />{{fromName}}<br />
-		<a href="tel:{{fromNumber}}">{{fromNumber}}</a>
+		<a style="color:#65c6c3" href="tel:{{fromNumber}}">{{fromNumber}}</a>
 	</p>
 </body>
 </html>
