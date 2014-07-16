@@ -147,11 +147,11 @@
 							</label>
 						</div>
 
-						<div class="checkbox <sec:authorize access="!hasRole('council')">hidden</sec:authorize> <c:if test="${!family.familyMoved}">hidden</c:if>">
+						<div class="checkbox <sec:authorize access="!hasRole('membership')">hidden</sec:authorize> <c:if test="${!family.familyMoved}">hidden</c:if>">
 							<label class="checkbox"> <input type="checkbox" name="recordsMoved" id="recordsMoved"> Records Moved
 							</label>
 						</div>
-						<div class="checkbox <sec:authorize access="!hasRole('council')">hidden</sec:authorize>">
+						<div class="checkbox <sec:authorize access="!hasRole('membership')">hidden</sec:authorize>">
 							<label class="checkbox"> <input type="checkbox" name="partMember" id="partMember"> Part Member
 							</label>
 						</div>

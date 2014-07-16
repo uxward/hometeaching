@@ -1,22 +1,22 @@
 /* Set the defaults for DataTables initialisation */
 $.extend( true, $.fn.dataTable.defaults, {
-	"sDom":
+	'sDom':
 		"<'row'<'col-xs-6'l><'col-xs-6'f>r>"+
 		"t"+
 		"<'row'<'col-xs-6'i><'col-xs-6'p>>",
 	stateSave: true,
-	"language": {
-		"lengthMenu": "_MENU_",
-		"search": ""
+	'language': {
+		'lengthMenu': '_MENU_',
+		'search': ''
 	}
 } );
 
 
 /* Default class modification */
 $.extend( $.fn.dataTableExt.oStdClasses, {
-	"sWrapper": "dataTables_wrapper form-inline",
-	"sFilterInput": "form-control input-sm",
-	"sLengthSelect": "form-control input-sm"
+	'sWrapper': 'dataTables_wrapper form-inline',
+	'sFilterInput': 'form-control input-sm',
+	'sLengthSelect': 'form-control input-sm'
 } );
 
 // In 1.10 we use the pagination renderers to draw the Bootstrap paging,
@@ -123,22 +123,22 @@ else {
 	$.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings )
 	{
 		return {
-			"iStart":         oSettings._iDisplayStart,
-			"iEnd":           oSettings.fnDisplayEnd(),
-			"iLength":        oSettings._iDisplayLength,
-			"iTotal":         oSettings.fnRecordsTotal(),
-			"iFilteredTotal": oSettings.fnRecordsDisplay(),
-			"iPage":          oSettings._iDisplayLength === -1 ?
+			'iStart':         oSettings._iDisplayStart,
+			'iEnd':           oSettings.fnDisplayEnd(),
+			'iLength':        oSettings._iDisplayLength,
+			'iTotal':         oSettings.fnRecordsTotal(),
+			'iFilteredTotal': oSettings.fnRecordsDisplay(),
+			'iPage':          oSettings._iDisplayLength === -1 ?
 				0 : Math.ceil( oSettings._iDisplayStart / oSettings._iDisplayLength ),
-			"iTotalPages":    oSettings._iDisplayLength === -1 ?
+			'iTotalPages':    oSettings._iDisplayLength === -1 ?
 				0 : Math.ceil( oSettings.fnRecordsDisplay() / oSettings._iDisplayLength )
 		};
 	};
 
 	/* Bootstrap style pagination control */
 	$.extend( $.fn.dataTableExt.oPagination, {
-		"bootstrap": {
-			"fnInit": function( oSettings, nPaging, fnDraw ) {
+		'bootstrap': {
+			'fnInit': function( oSettings, nPaging, fnDraw ) {
 				var oLang = oSettings.oLanguage.oPaginate;
 				var fnClickHandler = function ( e ) {
 					e.preventDefault();
@@ -154,11 +154,11 @@ else {
 					'</ul>'
 				);
 				var els = $('a', nPaging);
-				$(els[0]).bind( 'click.DT', { action: "previous" }, fnClickHandler );
-				$(els[1]).bind( 'click.DT', { action: "next" }, fnClickHandler );
+				$(els[0]).bind( 'click.DT', { action: 'previous' }, fnClickHandler );
+				$(els[1]).bind( 'click.DT', { action: 'next' }, fnClickHandler );
 			},
 
-			"fnUpdate": function ( oSettings, fnDraw ) {
+			'fnUpdate': function ( oSettings, fnDraw ) {
 				var iListLength = 5;
 				var oPaging = oSettings.oInstance.fnPagingInfo();
 				var an = oSettings.aanFeatures.p;
@@ -221,32 +221,32 @@ else {
 if ( $.fn.DataTable.TableTools ) {
 	// Set the classes that TableTools uses to something suitable for Bootstrap
 	$.extend( true, $.fn.DataTable.TableTools.classes, {
-		"container": "DTTT btn-group",
-		"buttons": {
-			"normal": "btn btn-default",
-			"disabled": "disabled"
+		'container': 'DTTT btn-group',
+		'buttons': {
+			'normal': 'btn btn-default',
+			'disabled': 'disabled'
 		},
-		"collection": {
-			"container": "DTTT_dropdown dropdown-menu",
-			"buttons": {
-				"normal": "",
-				"disabled": "disabled"
+		'collection': {
+			'container': 'DTTT_dropdown dropdown-menu',
+			'buttons': {
+				'normal': '',
+				'disabled': 'disabled'
 			}
 		},
-		"print": {
-			"info": "DTTT_print_info modal"
+		'print': {
+			'info': 'DTTT_print_info modal'
 		},
-		"select": {
-			"row": "active"
+		'select': {
+			'row': 'active'
 		}
 	} );
 
 	// Have the collection use a bootstrap compatible dropdown
 	$.extend( true, $.fn.DataTable.TableTools.DEFAULTS.oTags, {
-		"collection": {
-			"container": "ul",
-			"button": "li",
-			"liner": "a"
+		'collection': {
+			'container': 'ul',
+			'button': 'li',
+			'liner': 'a'
 		}
 	} );
 }

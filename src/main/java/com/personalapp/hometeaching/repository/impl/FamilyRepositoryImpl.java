@@ -99,6 +99,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 	@Override
 	public List<Family> getAllFamiliesAndVisits() {
 		JPAQuery query = getFamilyQuery(getAllOrganizationIds());
+		query.where(family.familyMoved.isFalse());
 		query.leftJoin(family.visits).fetch();
 		return query.list(family);
 	}
@@ -135,7 +136,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 
 	private JPAQuery getMovedFamilyQuery() {
 		JPAQuery query = getFamilyQuery(getAllOrganizationIds());
-		query.where(family.familyMoved.isNotNull().and(family.familyMoved.isTrue()));
+		query.where(family.familyMoved.isNotNull().and(family.familyMoved.isTrue()).and(family.recordsMoved.isFalse()));
 		return query;
 	}
 
