@@ -8,7 +8,10 @@
 <t:mainPage activeMenu="visitPercentage" pageTitle="Visit Percentage" pageHeader="Visit Percentage" pageSubheader="Visualized">
 
 	<style>
-.axis path,.axis line {
+/*
+	* SVG STYLING
+	*/
+.axis path, .axis line {
 	fill: none;
 	stroke: #000;
 	shape-rendering: crispEdges;
@@ -30,35 +33,86 @@
 }
 
 .line-highpriests {
-	stroke: orange;
+	stroke: #eab25b;
 }
 
 .point-highpriests {
-	fill: orange;
-}
-
-.line-eldersquorum {
-	stroke: black;
-}
-
-.point-eldersquorum {
-	fill: black;
+	fill: #eab25b;
 }
 
 .line-reliefsociety {
-	stroke: pink;
+	stroke: #f7504f;
 }
 
 .point-reliefsociety {
-	fill: pink;
+	fill: #f7504f;
+}
+
+.line-eldersquorum {
+	stroke: #2271B2;
+}
+
+.point-eldersquorum {
+	fill: #2271B2;
+}
+
+/*
+* Legend styling
+*/
+.btn-reliefsociety:hover {
+	color: #fff !important;
+	background-color: #f7504f !important;
+	border-color: #f7504f !important;
+}
+
+.btn-reliefsociety {
+	background-color: #fff !important;
+	color: #f7504f !important;
+	border-color: #f7504f !important;
+}
+
+.btn-eldersquorum:hover {
+	color: #fff !important;
+	background-color: #2271B2 !important;
+	border-color: #2271B2 !important;
+}
+
+.btn-eldersquorum {
+	background-color: #fff !important;
+	color: #2271B2 !important;
+	border-color: #2271B2 !important;
+}
+
+.btn-highpriests:hover {
+	color: #fff !important;
+	background-color: #eab25b !important;
+	border-color: #eab25b !important;
+}
+
+.btn-highpriests {
+	background-color: #fff !important;
+	color: #eab25b !important;
+	border-color: #eab25b !important;
 }
 </style>
 
 	<div class="row">
 		<div class="alert alert-info">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			<strong>Welcome to the visit percentage page!</strong><br /> This graph shows the home teaching visit percentage trends over past several months. If you click on the data point for a particular
-			month you can see how well we did for the different family groupings - active, inactive, recent convert, unknown, and do not contact. Go ahead - give it a try!
+			<strong>Welcome to the visit percentage page!</strong><br /> This graph shows the home teaching visit percentage trends over past several months. If you click on the data point for a particular month you can see how well we did for the different family groupings - active,
+			inactive, recent convert, unknown, and do not contact. Go ahead - give it a try!
+		</div>
+	</div>
+
+	<div style="text-align: center;" class="center-block">
+		<div class=" btn btn-reliefsociety btn-lg toggle-expand" data-org="reliefsociety">
+			<span class="glyphicon glyphicon-resize-full"></span> Relief Society
+		</div>
+		<div class=" btn btn-highpriests btn-lg toggle-expand" data-org="highpriests">
+			<span class="glyphicon glyphicon-resize-full"></span> High Priests
+		</div>
+		<div class=" btn btn-eldersquorum btn-lg toggle-expand" data-org="eldersquorum">
+			<span class="glyphicon glyphicon-resize-full"></span> Elders
 		</div>
 	</div>
 
@@ -68,10 +122,37 @@
 	<script src="${resources}/js/d3.min.js"></script>
 	<script type="text/javascript">
 		var svg, x, y, color;
+
+		//setup custom manual click call for d3
+		jQuery.fn.d3Click = function() {
+			this.each(function(i, e) {
+				var evt = document.createEvent("MouseEvents");
+				evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+				e.dispatchEvent(evt);
+			});
+		};
+
 		$(document).ready(function() {
+			setupEventBinding();
 			setupGraph();
 			getDashboard();
 		});
+
+		function setupEventBinding() {
+			$('.toggle-expand').click(function() {
+				var org = $(this).data('org');
+				var $span = $(this).find('span');
+				if ($span.hasClass('glyphicon-resize-full')) {
+					$('.point-' + org).each(function() {
+						$(this).d3Click();
+					});
+				} else {
+					svg.selectAll('.wrapper.' + org).remove();
+				}
+
+				$span.toggleClass('glyphicon-resize-full glyphicon-resize-small');
+			});
+		}
 
 		function setupGraph() {
 			margin = {
@@ -144,7 +225,10 @@
 				});
 
 				var organization = dataset[0].organization.name.replace(' ', '');
-				svg.append('path').datum(data).attr('class', 'line line-' + organization.toLowerCase()).attr('d', line);
+				svg.append('path').datum(data).attr('class', 'line line-' + organization.toLowerCase()).attr('data-legend', function(d) {
+					console.log(d);
+					return d[0].organization.name;
+				}).attr('d', line);
 
 				var points = svg.selectAll('.point-').data(data).enter().append('svg:circle').attr('class', 'point point-' + organization.toLowerCase()).attr('cx', function(d, i) {
 					return x(d.date);
@@ -156,6 +240,12 @@
 					getDetails(d);
 				});
 			}
+		}
+
+		function getAllDetails(d) {
+			$('.point-' + d.organization.name).each(function() {
+				$(this).d3Click();
+			});
 		}
 
 		function getDetails(d) {
@@ -174,7 +264,7 @@
 		}
 
 		function setupDetails(d3data, dataset) {
-			svg.selectAll('.wrapper').remove();
+			var org = d3data.organization.name.toLowerCase().replace(' ', '');
 
 			var totalFamilies = 0;
 
@@ -189,9 +279,7 @@
 				};
 			});
 
-			console.log(d3data);
-
-			var wrappers = svg.selectAll('.detail-point').data(data).enter().append('g').attr('class', 'wrapper');
+			var wrappers = svg.selectAll('.detail-point').data(data).enter().append('g').attr('class', 'wrapper ' + org);
 
 			wrappers.append('circle').attr('cx', function(d) {
 				return x(d3data.date);
@@ -219,11 +307,11 @@
 			//TODO move if in same space as another circle - move left/right
 
 			wrappers.append('text').attr('x', function(d) {
-				return x(d.date) - 50;
+				return x(d.date) - 35;
 			}).attr('y', function(d) {
 				return y(d.percent);
 			}).text(function(d) {
-				return d.status + ': ' + d.visited + ' of ' + d.families + ', ' + getPercentage(d.percent);
+				return d.visited + '/' + d.families + ', ' + getPercentage(d.percent);
 			}).attr('class', 'circle-label').attr('display', 'none');
 		}
 	</script>

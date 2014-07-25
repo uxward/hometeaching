@@ -52,7 +52,7 @@
 								<select name="autopopulatingPersonCompanions[0].personId" class="companionSelect form-control" id="companion0">
 									<option value="">Select ${teacherType}</option>
 									<c:forEach items="${teachers}" var="teacher">
-										<option value="${teacher.id}">${teacher.firstName}&nbsp;${teacher.family.familyName}&nbsp;-&nbsp;${teacher.family.familyStatus}</option>
+										<option value="${teacher.id}">${teacher.family.familyName},&nbsp;${teacher.firstName}&nbsp;</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -61,7 +61,7 @@
 								<select name="autopopulatingPersonCompanions[1].personId" class="companionSelect form-control" id="companion1">
 									<option value="">Select ${teacherType}</option>
 									<c:forEach items="${teachers}" var="teacher">
-										<option value="${teacher.id}">${teacher.firstName}&nbsp;${teacher.family.familyName}&nbsp;-&nbsp;${teacher.family.familyStatus}</option>
+										<option value="${teacher.id}">${teacher.family.familyName},&nbsp;${teacher.firstName}&nbsp;</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -95,7 +95,7 @@
 								<select name="autopopulatingPersonCompanions[0].personId" class="companionSelect form-control" id="editFirstCompanion">
 									<option value="">Select ${teacherType}</option>
 									<c:forEach items="${teachers}" var="teacher">
-										<option value="${teacher.id}">${teacher.firstName}&nbsp;${teacher.family.familyName}&nbsp;-&nbsp;${teacher.family.familyStatus}</option>
+										<option value="${teacher.id}">${teacher.family.familyName},&nbsp;${teacher.firstName}&nbsp;</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -104,7 +104,7 @@
 								<select name="autopopulatingPersonCompanions[1].personId" class="companionSelect form-control" id="editSecondCompanion">
 									<option value="">Select ${teacherType}</option>
 									<c:forEach items="${teachers}" var="teacher">
-										<option value="${teacher.id}">${teacher.firstName}&nbsp;${teacher.family.familyName}&nbsp;-&nbsp;${teacher.family.familyStatus}</option>
+										<option value="${teacher.id}">${teacher.family.familyName},&nbsp;${teacher.firstName}&nbsp;</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -367,7 +367,7 @@
 				if (i != 0) {
 					html += '; ';
 				}
-				html += data[i].familyName + ', ' + data[i].headOfHousehold;
+				html += data[i].familyName + ', ' + (${visitingTeaching} ? data[i].womenHeadOfHousehold : data[i].headOfHousehold);
 			}
 			return html;
 		}

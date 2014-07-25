@@ -92,7 +92,9 @@
 									<c:forEach items="${families}" var="family">
 										<c:choose>
 											<c:when test="${visitingTeaching}">
-												<option value="${family.id}">${family.familyName},&nbsp;${family.womenHeadOfHousehold}&nbsp;</option>
+												<c:if test="${not empty family.womenHeadOfHousehold}">
+													<option value="${family.id}">${family.familyName},&nbsp;${family.womenHeadOfHousehold}&nbsp;</option>
+												</c:if>
 											</c:when>
 											<c:otherwise>
 												<option value="${family.id}">${family.familyName},&nbsp;${family.headOfHousehold}&nbsp;</option>
@@ -396,11 +398,7 @@
 					,'sAjaxSource' : '<spring:url value="/visit/getVisits/${visitingTeaching}"/>?familyId=' + $(this).data('familyId')
 					,'aaData' : []
 					,'aaSorting': [[ 1, 'desc' ]]
-					,'aoColumns' : [ {
-						'sTitle' : 'ID',
-						'mData' : 'id',
-						'bVisible' : false
-					}, {
+					,'aoColumns' : [{
 						'sTitle' : 'Visit Date',
 						'mData' : 'monthYear',
 						'bVisible' : false

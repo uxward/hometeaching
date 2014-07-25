@@ -59,22 +59,14 @@
 .navbar-brand {
 	color: #65c6c3 !important;
 }
-
-/*.navbar-brand.active {
-	color: #f7504f !important;
-}*/
 .btn-primary:hover {
 	color: #fff !important;
-/* 	background-color: #65c6c3 !important; */
-/* 	border-color: #65c6c3 !important; */
 	background-color: #f7504f !important;
 	border-color: #f7504f !important;
 }
 
 .btn-primary {
 	background-color: #fff !important;
-	/* 	color: #65c6c3 !important; */
-	/* 	border-color: #65c6c3 !important; */
 	color: #f7504f !important;
 	border-color: #f7504f !important;
 }
