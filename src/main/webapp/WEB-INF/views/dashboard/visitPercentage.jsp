@@ -132,6 +132,8 @@
 			});
 		};
 
+		jQuery.fn.reverse = [].reverse;
+
 		$(document).ready(function() {
 			setupEventBinding();
 			setupGraph();
@@ -143,11 +145,19 @@
 				var org = $(this).data('org');
 				var $span = $(this).find('span');
 				if ($span.hasClass('glyphicon-resize-full')) {
-					$('.point-' + org).each(function() {
-						$(this).d3Click();
+					$('.point-' + org).reverse().each(function(i) {
+						$(this).delay(10 * i).queue(function(nxt) {
+							$(this).d3Click();
+							nxt();
+						});
 					});
 				} else {
-					svg.selectAll('.wrapper.' + org).remove();
+					$('.wrapper.' + org).reverse().each(function(i) {
+						$(this).delay(10 * i).queue(function(nxt) {
+							$(this).d3Click();
+							nxt();
+						});
+					});
 				}
 
 				$span.toggleClass('glyphicon-resize-full glyphicon-resize-small');
@@ -225,10 +235,7 @@
 				});
 
 				var organization = dataset[0].organization.name.replace(' ', '');
-				svg.append('path').datum(data).attr('class', 'line line-' + organization.toLowerCase()).attr('data-legend', function(d) {
-					console.log(d);
-					return d[0].organization.name;
-				}).attr('d', line);
+				svg.append('path').datum(data).attr('class', 'line line-' + organization.toLowerCase()).attr('d', line);
 
 				var points = svg.selectAll('.point-').data(data).enter().append('svg:circle').attr('class', 'point point-' + organization.toLowerCase()).attr('cx', function(d, i) {
 					return x(d.date);
@@ -240,12 +247,6 @@
 					getDetails(d);
 				});
 			}
-		}
-
-		function getAllDetails(d) {
-			$('.point-' + d.organization.name).each(function() {
-				$(this).d3Click();
-			});
 		}
 
 		function getDetails(d) {
@@ -279,7 +280,16 @@
 				};
 			});
 
-			var wrappers = svg.selectAll('.detail-point').data(data).enter().append('g').attr('class', 'wrapper ' + org);
+			var wrappers = svg.selectAll('.detail-point').data(data).enter().append('g').attr('class', 'wrapper ' + org).attr('id', function(d) {
+				return d.status.replace(/ /g, '') + org + d.date.getTime();
+			}).on('click', function(d) {
+				var $wrapper = svg.selectAll('#' + d.status.replace(/ /g, '') + org + d.date.getTime());
+				$wrapper.select('.circle-label').remove();
+				var $point = $wrapper.select('circle');
+				$point.transition().duration(500).attr('cy', function(d) {
+					return y(d3data.visitPercent);
+				}).remove();
+			});
 
 			wrappers.append('circle').attr('cx', function(d) {
 				return x(d3data.date);
@@ -296,9 +306,7 @@
 				return 30;
 			}).attr('stroke-opacity', function(d, i) {
 				return 0;
-			}).attr('class', 'expanded-circle').transition().duration(500).attr('cx', function(d) {
-				return x(d.date);
-			}).attr('cy', function(d) {
+			}).attr('class', 'expanded-circle').transition().duration(500).attr('cy', function(d) {
 				return y(d.percent);
 			}).each('end', function() {
 				$('.circle-label').show();
