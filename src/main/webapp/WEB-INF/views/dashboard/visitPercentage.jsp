@@ -94,30 +94,54 @@
 	color: #eab25b !important;
 	border-color: #eab25b !important;
 }
+
+.btn-neutral {
+	color: #fff;
+	background-color: #999;
+	border-color: #999;
+}
+
+.btn-neutral:hover {
+	color: #fff;
+	background-color: #7F7F7F;
+	border-color: #7F7F7F;
+}
 </style>
 
 	<div class="row">
 		<div class="alert alert-info">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			<strong>Welcome to the visit percentage page!</strong><br /> This graph shows the home teaching visit percentage trends over past several months. If you click on the data point for a particular month you can see how well we did for the different family groupings - active,
-			inactive, recent convert, unknown, and do not contact. Go ahead - give it a try!
+			<strong>Welcome to the visit percentage page!</strong><br /> This graph shows the home teaching visit percentage trends over past several months. If you click on an organization's button or graph point for a particular month you can see how well we did for the different
+			family groupings - active, inactive, recent convert, and unknown. Go ahead - give it a try!
 		</div>
 	</div>
 
 	<div style="text-align: center;" class="center-block">
-		<div class=" btn btn-reliefsociety btn-lg toggle-expand" data-org="reliefsociety">
+		<div class="btn btn-reliefsociety btn-lg toggle-expand" data-org="reliefsociety">
 			<span class="glyphicon glyphicon-resize-full"></span> Relief Society
 		</div>
-		<div class=" btn btn-highpriests btn-lg toggle-expand" data-org="highpriests">
+		<div class="btn btn-highpriests btn-lg toggle-expand" data-org="highpriests">
 			<span class="glyphicon glyphicon-resize-full"></span> High Priests
 		</div>
-		<div class=" btn btn-eldersquorum btn-lg toggle-expand" data-org="eldersquorum">
+		<div class="btn btn-eldersquorum btn-lg toggle-expand" data-org="eldersquorum">
 			<span class="glyphicon glyphicon-resize-full"></span> Elders
 		</div>
 	</div>
 
 	<div class="d3"></div>
 
+	<div style="text-align: center;">
+		<div class="center-block">
+			<h4>Family Status Legend</h4>
+		</div>
+		<div class="center-block">
+			<div class="btn btn-success">Active</div>
+			<div class="btn btn-danger">Inactive</div>
+			<div class="btn btn-info">Unknown</div>
+			<div class="btn btn-warning">Recent Convert</div>
+			<div class="btn btn-neutral">Do Not Contact</div>
+		</div>
+	</div>
 
 	<script src="${resources}/js/d3.min.js"></script>
 	<script type="text/javascript">
@@ -166,10 +190,10 @@
 
 		function setupGraph() {
 			margin = {
-				top : 50,
-				right : 200,
-				bottom : 50,
-				left : 50
+				left : 50,
+				right : 0,
+				top : 40,
+				bottom : 20
 			}, width = 1200 - margin.left - margin.right, height = 600 - margin.top - margin.bottom;
 
 			svg = d3.select('.d3').append('svg').attr('width', width + margin.left + margin.right).attr('height', height + margin.top + margin.bottom).append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
@@ -179,8 +203,7 @@
 				'Recent Convert' : '#f0ad4e',
 				'Inactive' : '#d9534f',
 				'Unknown' : '#5bc0de',
-				'Moved' : '#999',
-				'Do Not Contact' : '#333'
+				'Do Not Contact' : '#999'
 			};
 
 			var today = new Date();
@@ -188,9 +211,9 @@
 			var sixMonthsLater = today.getMonth() + 6;
 			var oneYearAgo = new Date(yearAgo, sixMonthsLater, today.getDay());
 
-			x = d3.time.scale().range([ 0, width ]).domain([ oneYearAgo, today ]);
+			x = d3.time.scale().range([ margin.left, width ]).domain([ oneYearAgo, today ]);
 
-			y = d3.scale.linear().range([ height, 0 ]).domain([ 0, 1 ]);
+			y = d3.scale.linear().range([ height - margin.bottom, 0 ]).domain([ 0, 1 ]);
 
 			xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(d3.time.months, 1);
 
