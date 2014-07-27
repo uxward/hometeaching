@@ -18,4 +18,6 @@ public interface PersonService {
 	List<PersonViewModel> getByFamilyId(Long id);
 
 	List<PersonViewModel> getAllNotMovedTeachers(boolean visitingTeaching);
+	
+	List<PersonViewModel> getAllUnassignedTeachers(Long organizationId);
 }

@@ -32,7 +32,7 @@
 								</button>
 								<ul class="dropdown-menu" role="menu">
 									<c:forEach items="${roles}" var="role">
-										<li role="presentation"><a role="menuitem" tabindex="-1" data-role="${role.role}" href="#">${role.display}</a></li>
+										<li role="presentation"><a role="menuitem" tabindex="-1" data-role="${role.role}" href="javascript:;">${role.display}</a></li>
 									</c:forEach>
 								</ul>
 							</div>
@@ -201,7 +201,6 @@
 							//reset add note
 							$note.find('.note-visibility').data('role', '').find('.text').text('');
 							$note.find('.note-text').val('');
-
 						}
 
 						$('.note-panel').each(function() {

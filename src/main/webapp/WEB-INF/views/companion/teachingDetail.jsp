@@ -134,34 +134,46 @@
 			<c:forEach var="family" items="${companion.assignments}" varStatus="status">
 				<li class="${status.first ? 'active' : ''}" id="${family.id}-tab-link"><c:choose>
 						<c:when test="${visitingTeaching}">
-							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-xs">${family.womenHeadOfHousehold}&nbsp;${family.familyName}</a>
-							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-sm hidden-md hidden-lg">${family.womenHeadOfHousehold}</a>
+							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-xs hidden-sm">${family.womenHeadOfHousehold}&nbsp;${family.familyName}</a>
+							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-md hidden-lg">${family.womenHeadOfHousehold}</a>
 						</c:when>
 						<c:otherwise>
-							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-xs">${family.familyName},&nbsp;${family.headOfHousehold}</a>
-							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-sm hidden-md hidden-lg">${family.familyName}</a>
+							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-xs hidden-sm">${family.familyName},&nbsp;${family.headOfHousehold}</a>
+							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-md hidden-lg">${family.familyName}</a>
 						</c:otherwise>
 					</c:choose></li>
 			</c:forEach>
 		</ul>
 		<div class="tab-content">
 			<c:forEach var="family" items="${companion.assignments}" varStatus="status">
+				<c:set var="visitee">
+					<c:choose>
+						<c:when test="${visitingTeaching}">
+							${family.womenHeadOfHousehold}&nbsp;${family.familyName}
+						</c:when>
+						<c:otherwise>
+							${family.familyName} family
+						</c:otherwise>
+					</c:choose>
+				</c:set>
 				<div class="tab-pane ${status.first ? 'active' : ''}" id="${family.id}-tab">
 					<br />
-
-					<table class="table table-striped table-hover visitHistory" data-family-id="${family.id}" width="100%">
-					</table>
 					<c:if test="${canAction}">
-						<a href="#recordVisit" role="button" class="btn btn-primary recordVisit" data-assignment-id="${family.assignmentId}" data-family-id="${family.id}" data-toggle="modal"> <c:choose>
+						<br />
+						<a href="#recordVisit" role="button" class="btn btn-primary recordVisit" data-assignment-id="${family.assignmentId}" data-family-id="${family.id}" data-header="${visitee} visit" data-toggle="modal"> <c:choose>
 								<c:when test="${visitingTeaching}">
-									Record visit with ${family.womenHeadOfHousehold}&nbsp;${family.familyName }
+									Record visit with ${visitee}
 								</c:when>
 								<c:otherwise>
-									Record visit with the ${family.familyName} family
+									Record visit with the ${visitee}
 								</c:otherwise>
 							</c:choose>
 						</a>
+						<br />
+						<br />
 					</c:if>
+					<table class="table table-striped table-hover visitHistory" data-family-id="${family.id}" width="100%">
+					</table>
 				</div>
 			</c:forEach>
 		</div>
@@ -170,33 +182,18 @@
 	<!--  Record Visit Modal
 	---------------------------------------------------->
 	<div id="recordVisit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="recordVisitLabel" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					<h3 id="recordVisitLabel">Record Visit</h3>
+					<h4 id="recordVisitLabel">Record Visit</h4>
 				</div>
 
 				<div class="modal-body">
 					<form id="visitForm">
 						<div class="form-group">
-							<select name="familyId" id="visitFamilySelect" class="form-control" disabled>
-								<option value="">Select Family</option>
-								<c:forEach var="family" items="${companion.assignments}">
-									<c:choose>
-										<c:when test="${visitingTeaching}">
-											<option value="${family.id}">${family.womenHeadOfHousehold}&nbsp;${family.familyName}</option>
-										</c:when>
-										<c:otherwise>
-											<option value="${family.id}">${family.familyName}&nbsp;${family.headOfHousehold}</option>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-							</select>
-						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" id="datepicker"> <input type="hidden" name="visitDate" id="visitDate" />
+							<input type="text" class="form-control" id="datepicker" placeholder="Month"> <input type="hidden" name="visitDate" id="visitDate" />
 						</div>
 						<div class="checkbox">
 							<label class="checkbox"> <input type="checkbox" name="visited" id="visited"> Visited
@@ -214,7 +211,7 @@
 
 				<div class="modal-footer">
 					<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-					<button class="btn btn-primary" id="saveVisit">Record Visit</button>
+					<button class="btn btn-primary" id="saveVisit">Save</button>
 				</div>
 
 			</div>
@@ -250,7 +247,7 @@
 			});
 
 			$('.recordVisit').click(function() {
-				$('#visitFamilySelect').val($(this).data('familyId'));
+				$('#recordVisitLabel').text($(this).data('header'));
 				$('#familyId').val($(this).data('familyId'));
 				$('#assignmentId').val($(this).data('assignmentId'));
 				$('#saveVisit').data('familyId',$(this).data('familyId')).data('action', 'save');
@@ -287,9 +284,9 @@
 		
 		function showEditVisit($this){
 			$('#visitId').val($this.data('visitId'));
+			$('#recordVisitLabel').text($(this).data('header'));
 			$('#saveVisit').data('familyId', $this.data('familyId')).data('action', 'edit').data('editRow', $this.closest('tr')[0]);
 			$('#saveVisit').data('action', 'edit').data('editRow', $this.closest('tr')[0]);
-			$('#visitFamilySelect').val($this.data('familyId'));
 			$('#familyId').val($(this).data('familyId'));
 			$('#assignmentId').val($this.data('assignmentId'));
 			$('#notes').val($this.data('notes'));
@@ -311,14 +308,6 @@
 				$visitDate.parent().addClass('has-error');
 			} else {
 				$visitDate.parent().removeClass('has-error');
-			}
-
-			var $family = $('#visitFamilySelect');
-			if ($family.val() == null || $family.val() == '') {
-				valid = false;
-				$family.parent().addClass('has-error');
-			} else {
-				$family.parent().removeClass('has-error');
 			}
 
 			var $notes = $('#notes');
@@ -531,8 +520,6 @@
 
 			//add family row to table
 			$('#assignmentTable').dataTable().fnAddData(data);
-			//add family to visit dropdown
-			$('#visitFamilySelect').append(new Option(data.familyName, data.id));
 			
 			//TODO add family to visit section
 		}

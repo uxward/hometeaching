@@ -108,13 +108,13 @@
 }
 </style>
 
-	<div class="row">
+	<!-- <div class="row">
 		<div class="alert alert-info">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			<strong>Welcome to the visit percentage page!</strong><br /> This graph shows the home teaching visit percentage trends over past several months. If you click on an organization's button or graph point for a particular month you can see how well we did for the different
 			family groupings - active, inactive, recent convert, and unknown. Go ahead - give it a try!
 		</div>
-	</div>
+	</div> -->
 
 	<div style="text-align: center;" class="center-block">
 		<div class="btn btn-reliefsociety btn-lg toggle-expand" data-org="reliefsociety">
@@ -170,17 +170,11 @@
 				var $span = $(this).find('span');
 				if ($span.hasClass('glyphicon-resize-full')) {
 					$('.point-' + org).reverse().each(function(i) {
-						$(this).delay(10 * i).queue(function(nxt) {
-							$(this).d3Click();
-							nxt();
-						});
+						$(this).d3Click();
 					});
 				} else {
 					$('.wrapper.' + org).reverse().each(function(i) {
-						$(this).delay(10 * i).queue(function(nxt) {
-							$(this).d3Click();
-							nxt();
-						});
+						$(this).d3Click();
 					});
 				}
 

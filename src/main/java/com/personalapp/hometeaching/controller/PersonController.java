@@ -41,4 +41,10 @@ public class PersonController {
 	public DatatableResponse<PersonViewModel> getByFamily(@PathVariable Long id) {
 		return new DatatableResponse<PersonViewModel>(personService.getByFamilyId(id));
 	}
+
+	@RequestMapping(value = "/getUnassignedTeachers/{organizationId}")
+	@ResponseBody
+	public DatatableResponse<PersonViewModel> getUnassignedTeachers(@PathVariable Long organizationId) {
+		return new DatatableResponse<PersonViewModel>(personService.getAllUnassignedTeachers(organizationId));
+	}
 }

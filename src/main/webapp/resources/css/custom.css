@@ -56,9 +56,15 @@
 	border: 1px solid #ddd;
 }
 
+.dropdown-menu>.active>a, .dropdown-menu>.active>a:hover, .dropdown-menu>.active>a:focus
+	{
+	background-color: #65c6c3;
+}
+
 .navbar-brand {
 	color: #65c6c3 !important;
 }
+
 .btn-primary:hover {
 	color: #fff !important;
 	background-color: #f7504f !important;
@@ -75,6 +81,16 @@
 	color: #777;
 	background-color: #EBFFFE;
 	border-color: #65c6c3;
+}
+
+.alert-success {
+	color: #65c6c3;
+	background-color: #F8F8F8;
+	border-color: #65c6c3;
+}
+
+.alert {
+	background-color: #F8F8F8;
 }
 
 a.btn:hover {

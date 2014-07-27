@@ -1,6 +1,8 @@
 package com.personalapp.hometeaching.repository.impl;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.personalapp.hometeaching.model.Organization.fromId;
+import static com.personalapp.hometeaching.model.Organization.isVisitingTeaching;
 import static com.personalapp.hometeaching.model.QCompanion.companion;
 import static com.personalapp.hometeaching.model.QFamily.family;
 import static com.personalapp.hometeaching.model.QHometeachingUser.hometeachingUser;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mysema.query.jpa.impl.JPAQuery;
 import com.personalapp.hometeaching.model.HometeachingUser;
+import com.personalapp.hometeaching.model.Organization;
 import com.personalapp.hometeaching.model.Person;
 import com.personalapp.hometeaching.repository.PersonRepository;
 
@@ -47,7 +50,7 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 		} else {
 			query.where(person.homeTeacher.isTrue());
 		}
-		query.orderBy(person.firstName.asc(), family.familyName.asc());
+		query.orderBy(family.familyName.asc(), person.firstName.asc());
 		return query.list(person);
 	}
 
@@ -57,7 +60,7 @@ public class PersonRepositoryImpl extends RepositoryImpl<Person, Long> implement
 		JPAQuery query = getPersonNotMovedQuery();
 		query.where(person.user.isTrue());
 		query.where(person.notIn(getCreatedUsers()));
-		query.orderBy(family.familyName.asc());
+		query.orderBy(family.familyName.asc(), person.firstName.asc());
 		return query.list(person);
 	}
 

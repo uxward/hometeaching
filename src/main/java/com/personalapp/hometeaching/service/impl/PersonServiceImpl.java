@@ -1,8 +1,9 @@
 package com.personalapp.hometeaching.service.impl;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.personalapp.hometeaching.model.Organization.fromId;
+import static com.personalapp.hometeaching.model.Organization.isVisitingTeaching;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,17 @@ public class PersonServiceImpl implements PersonService {
 		List<PersonViewModel> teachers = newArrayList();
 		for (Person person : repo.getAllNotMovedTeachers(visitingTeaching)) {
 			teachers.add(new PersonViewModel(person, true, true));
+		}
+		return teachers;
+	}
+
+	@Override
+	public List<PersonViewModel> getAllUnassignedTeachers(Long organizationId) {
+		List<PersonViewModel> teachers = newArrayList();
+		for (Person person : repo.getAllNotMovedTeachers(isVisitingTeaching(fromId(organizationId)))) {
+			if (person.getActiveCompanions().size() < 1) {
+				teachers.add(new PersonViewModel(person, true, true));
+			}
 		}
 		return teachers;
 	}

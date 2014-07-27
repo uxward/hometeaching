@@ -17,111 +17,141 @@
 	</c:choose>
 </c:set>
 
+<c:set var="assignmentType">
+	<c:choose>
+		<c:when test="${visitingTeaching}">Sisters</c:when>
+		<c:otherwise>Families</c:otherwise>
+	</c:choose>
+</c:set>
+
 <t:mainPage activeMenu="${organization.name}" pageTitle="${teacherPrefix}${teacherType}s" pageHeader="All" pageSubheader="${teacherPrefix}${teacherType}s">
 
-	<table id="companionTable" class="table table-striped table-hover" width="100%">
-	</table>
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#assignments" data-toggle="tab">Assignments</a></li>
+		<li><a href="#unassignedTeachers" data-toggle="tab">Unassigned Teachers</a></li>
+		<li><a href="#unassignedFamilies" data-toggle="tab">Unassigned ${assignmentType}</a></li>
+	</ul>
 
-	<sec:authorize access="hasRole('leader')">
+	<div class="tab-content">
+		<!-- start view assignments -->
+		<div class="tab-pane active" id="assignments">
+			<br />
+			<table id="companionTable" class="table table-striped table-hover" width="100%">
+			</table>
 
-		<a href="#addCompanion" role="button" class="btn btn-primary" data-toggle="modal">Add Companion</a>
-		<a href="#" class="btn" id="emailAssignments">
-			<i class="glyphicon glyphicon-envelope"></i> Email All Assignments
-		</a>
-		<a href="#" class="btn" id="emailReportUpdate">
-			<i class="glyphicon glyphicon-envelope"></i> Request Previous Month Update
-		</a>
-		<a href="#" class="btn" id="emailVisitReminder">
-			<i class="glyphicon glyphicon-envelope"></i> Email Visit Reminder
-		</a>
+			<sec:authorize access="hasRole('leader')">
 
-		<!-- Add companion modal -->
-		<div id="addCompanion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addFamilyLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
+				<a href="#addCompanion" role="button" class="btn btn-primary" data-toggle="modal">Add Companion</a>
+				<a href="#" class="btn" id="emailAssignments"> <i class="glyphicon glyphicon-envelope"></i> Email All Assignments
+				</a>
+				<a href="#" class="btn" id="emailReportUpdate"> <i class="glyphicon glyphicon-envelope"></i> Request Previous Month Update
+				</a>
+				<a href="#" class="btn" id="emailVisitReminder"> <i class="glyphicon glyphicon-envelope"></i> Email Visit Reminder
+				</a>
+			</sec:authorize>
+		</div>
+		<!-- end view assignments -->
 
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h3 id="addFamilyLabel">Add Companion</h3>
-					</div>
+		<!-- start view unassigned teachers -->
+		<div class="tab-pane" id="unassignedTeachers">
+			<br />
+			<table id="unassignedTeacherTable" class="table table-striped table-hover" width="100%">
+			</table>
+		</div>
+		<!-- end view unassigned teachers -->
 
-					<div class="modal-body">
-						<form id="companionForm">
-							<div class="form-group">
-								<label class="sr-only" for="companion0">1st Companion</label>
-								<select name="autopopulatingPersonCompanions[0].personId" class="companionSelect form-control" id="companion0">
-									<option value="">Select ${teacherType}</option>
-									<c:forEach items="${teachers}" var="teacher">
-										<option value="${teacher.id}">${teacher.family.familyName},&nbsp;${teacher.firstName}&nbsp;</option>
-									</c:forEach>
-								</select>
-							</div>
-							<div class="form-group">
-								<label class="sr-only" for="companion1">2nd Companion</label>
-								<select name="autopopulatingPersonCompanions[1].personId" class="companionSelect form-control" id="companion1">
-									<option value="">Select ${teacherType}</option>
-									<c:forEach items="${teachers}" var="teacher">
-										<option value="${teacher.id}">${teacher.family.familyName},&nbsp;${teacher.firstName}&nbsp;</option>
-									</c:forEach>
-								</select>
-							</div>
-							<input type="hidden" name="organizationId" value="${organization.id}" />
-						</form>
-					</div>
+		<!-- start view unassigned families -->
+		<div class="tab-pane" id="unassignedFamilies">
+			<br />
+			<table id="unassignedFamilyTable" class="table table-striped table-hover" width="100%">
+			</table>
+		</div>
+		<!-- end view unassigned families -->
+	</div>
 
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-						<button type="button" class="btn btn-primary" id="saveCompanion" data-loading-text="Saving...">Save Companion</button>
-					</div>
 
+
+	<!-- Add companion modal -->
+	<div id="addCompanion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addFamilyLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h3 id="addFamilyLabel">Add Companion</h3>
 				</div>
+
+				<div class="modal-body">
+					<form id="companionForm">
+						<div class="form-group">
+							<label class="sr-only" for="companion0">1st Companion</label> <select name="autopopulatingPersonCompanions[0].personId" class="companionSelect form-control" id="companion0">
+								<option value="">Select ${teacherType}</option>
+								<c:forEach items="${teachers}" var="teacher">
+									<option value="${teacher.id}">${teacher.family.familyName},&nbsp;${teacher.firstName}&nbsp;</option>
+								</c:forEach>
+							</select>
+						</div>
+						<div class="form-group">
+							<label class="sr-only" for="companion1">2nd Companion</label> <select name="autopopulatingPersonCompanions[1].personId" class="companionSelect form-control" id="companion1">
+								<option value="">Select ${teacherType}</option>
+								<c:forEach items="${teachers}" var="teacher">
+									<option value="${teacher.id}">${teacher.family.familyName},&nbsp;${teacher.firstName}&nbsp;</option>
+								</c:forEach>
+							</select>
+						</div>
+						<input type="hidden" name="organizationId" value="${organization.id}" />
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+					<button type="button" class="btn btn-primary" id="saveCompanion" data-loading-text="Saving...">Save Companion</button>
+				</div>
+
 			</div>
 		</div>
+	</div>
 
-		<!-- Edit companion modal -->
-		<div id="editCompanionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editCompanionLabel" aria-hidden="true" data-show="false">
-			<div class="modal-dialog">
-				<div class="modal-content">
+	<!-- Edit companion modal -->
+	<div id="editCompanionModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editCompanionLabel" aria-hidden="true" data-show="false">
+		<div class="modal-dialog">
+			<div class="modal-content">
 
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h3 id="editCompanionLabel">Edit Companion</h3>
-					</div>
-
-					<div class="modal-body">
-						<form id="editCompanionForm">
-							<div class="form-group">
-								<label class="sr-only" for="editFirstCompanion">1st Companion</label>
-								<select name="autopopulatingPersonCompanions[0].personId" class="companionSelect form-control" id="editFirstCompanion">
-									<option value="">Select ${teacherType}</option>
-									<c:forEach items="${teachers}" var="teacher">
-										<option value="${teacher.id}">${teacher.family.familyName},&nbsp;${teacher.firstName}&nbsp;</option>
-									</c:forEach>
-								</select>
-							</div>
-							<div class="form-group">
-								<label class="sr-only" for="editSecondCompanion">2nd Companion</label>
-								<select name="autopopulatingPersonCompanions[1].personId" class="companionSelect form-control" id="editSecondCompanion">
-									<option value="">Select ${teacherType}</option>
-									<c:forEach items="${teachers}" var="teacher">
-										<option value="${teacher.id}">${teacher.family.familyName},&nbsp;${teacher.firstName}&nbsp;</option>
-									</c:forEach>
-								</select>
-							</div>
-							<input type="hidden" name="organizationId" value="${organization.id}" /> <input type="hidden" name="id" id="editCompanionId" />
-						</form>
-					</div>
-
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-						<button type="button" class="btn btn-primary" id="editCompanion">Edit Companion</button>
-					</div>
-
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h3 id="editCompanionLabel">Edit Companion</h3>
 				</div>
+
+				<div class="modal-body">
+					<form id="editCompanionForm">
+						<div class="form-group">
+							<label class="sr-only" for="editFirstCompanion">1st Companion</label> <select name="autopopulatingPersonCompanions[0].personId" class="companionSelect form-control" id="editFirstCompanion">
+								<option value="">Select ${teacherType}</option>
+								<c:forEach items="${teachers}" var="teacher">
+									<option value="${teacher.id}">${teacher.family.familyName},&nbsp;${teacher.firstName}&nbsp;</option>
+								</c:forEach>
+							</select>
+						</div>
+						<div class="form-group">
+							<label class="sr-only" for="editSecondCompanion">2nd Companion</label> <select name="autopopulatingPersonCompanions[1].personId" class="companionSelect form-control" id="editSecondCompanion">
+								<option value="">Select ${teacherType}</option>
+								<c:forEach items="${teachers}" var="teacher">
+									<option value="${teacher.id}">${teacher.family.familyName},&nbsp;${teacher.firstName}&nbsp;</option>
+								</c:forEach>
+							</select>
+						</div>
+						<input type="hidden" name="organizationId" value="${organization.id}" /> <input type="hidden" name="id" id="editCompanionId" />
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+					<button type="button" class="btn btn-primary" id="editCompanion">Edit Companion</button>
+				</div>
+
 			</div>
 		</div>
-
-	</sec:authorize>
+	</div>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -175,6 +205,58 @@
 				if (confirm('Are you sure you want to email all assignments?')) {
 					emailVisitReminder();
 				}
+			});
+			
+			//load tables when display tab
+			$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+				if ($('#unassignedTeachers').is(':visible') && !$('#unassignedTeachers').data('loaded')) {
+					setupUnassignedTeachersTable();
+					$('#unassignedTeachers').data('loaded', true);
+				} else if ($('#unassignedFamilies').is(':visible') && !$('#unassignedFamilies').data('loaded')){
+					setupUnassignedFamiliesTable();
+					$('#unassignedFamilies').data('loaded', true);
+				}
+			});
+		}
+		
+		function setupUnassignedTeachersTable(){
+			$('#unassignedTeacherTable').dataTable({
+				'ajax' : '<spring:url value="/person/getUnassignedTeachers"/>/${organization.id}',
+				'data' : [],
+				'sorting' : [ [ 0, 'asc' ] ],
+				'columns' : [ {
+					'title' : 'Name',
+					'data' : 'fullName'
+				}, {
+					'title' : 'Address',
+					'data' : 'family.address',
+					'render' : addressRender
+				}, {
+					'title' : 'Phone Number',
+					'data' : 'phoneNumber',
+					'render' : getPhoneNumber
+				}]
+			});
+		}
+		
+		function setupUnassignedFamiliesTable(){
+			$('#unassignedFamilyTable').dataTable({
+				'ajax' : '<spring:url value="/family/getUnassignedFamilies"/>/${organization.id}',
+				'data' : [],
+				'sorting' : [ [ 0, 'asc' ] ],
+				'columns' : [ {
+					'title' : 'Family',
+					'data' : 'teachers',
+					'render' : setupTeachers
+				}, {
+					'title' : 'Status',
+					'data' : 'assignments',
+					'render' : setupNumFamilies
+				}, {
+					'title' : 'Address',
+					'data' : 'assignments',
+					'render' : setupAssignments
+				}]
 			});
 		}
 		
@@ -317,7 +399,6 @@
 		*/
 
 		function setupCompanionTable() {
-
 			$('#companionTable').dataTable({
 				'sAjaxSource' : '<spring:url value="/companion/getAll"/>/${organization.id}',
 				'aaData' : [],
@@ -328,15 +409,15 @@
 					'mData' : 'teachers',
 					'mRender' : setupTeachers
 				}, {
-					'sTitle' : '# Families',
-					'sWidth' : '10%',
-					'mData' : 'assignments',
-					'mRender' : setupNumFamilies
-				}, {
 					'sTitle' : 'Assigned Families',
 					'sWidth' : '45%',
 					'mData' : 'assignments',
 					'mRender' : setupAssignments
+				}, {
+					'sTitle' : '# Fams.',
+					'sWidth' : '10%',
+					'mData' : 'assignments',
+					'mRender' : setupNumFamilies
 				}
 				<sec:authorize access="hasRole('leader')">
 					, {
