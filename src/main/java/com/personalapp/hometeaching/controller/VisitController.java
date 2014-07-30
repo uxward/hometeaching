@@ -5,6 +5,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +45,8 @@ public class VisitController {
 	@RequestMapping("getHistory")
 	@ResponseBody
 	public DatatableResponse<VisitHistoryModel> getHistory(@RequestParam("n") Integer n) {
-		return new DatatableResponse<VisitHistoryModel>(visitService.getHistory(n));
+		DateTime dateTime = new DateTime();
+		return new DatatableResponse<VisitHistoryModel>(visitService.getHistory(n, dateTime.getMonthOfYear()));
 	}
 
 	@RequestMapping(value = "/saveVisit")

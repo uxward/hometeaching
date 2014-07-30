@@ -9,7 +9,7 @@
 
 
 	<label id="monthSelect" style="margin-left: 10px;">
-		and <select size="1" class="form-control input-sm" style="width: 75px;" id="numberOfMonths">
+		<select size="1" class="form-control input-sm" style="width: 75px;" id="numberOfMonths">
 			<c:forEach var="n" begin="1" end="12" step="1">
 				<option value="${n}" ${n == fn:length(months) ? 'selected' : ''}>${n}</option>
 			</c:forEach>

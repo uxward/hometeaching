@@ -12,7 +12,6 @@ import static java.util.Locale.ENGLISH;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,6 +19,7 @@ import java.util.Set;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -121,8 +121,10 @@ public class VisitServiceImpl implements VisitService {
 		return visits;
 	}
 
+	//TODO setup ehcache instead of jdk cache, evict cache when new integer month comes in
 	@Override
-	public List<VisitHistoryModel> getHistory(Integer n) {
+	@Cacheable("visitHistory")
+	public List<VisitHistoryModel> getHistory(Integer n, Integer month) {
 		logger.info("Entering the get home teaching history method, will get last {} visits", n);
 		List<VisitHistoryModel> visitHistory = newArrayList();
 		for (Family family : familyRepo.getAllFamiliesAndVisits()) {

@@ -12,7 +12,7 @@ public interface VisitService {
 
 	List<VisitViewModel> getVisitsByFamilyId(Long familyId, boolean visitingTeaching);
 
-	List<VisitHistoryModel> getHistory(Integer n);
+	List<VisitHistoryModel> getHistory(Integer n, Integer month);
 
 	List<String> getLastNMonths(Integer n);
 }

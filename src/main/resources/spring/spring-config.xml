@@ -17,5 +17,6 @@
 	<import resource="app-props-config.xml" />
 	<import resource="db/db-config.xml" />
 	<import resource="spring-security-config.xml" />
+	<import resource="cache-config.xml"/>
 
 </beans>
