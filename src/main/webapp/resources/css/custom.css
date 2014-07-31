@@ -24,6 +24,13 @@
 	margin-top: 60px;
 }
 
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control
+	{
+	cursor: auto;
+	background-color: white;
+	opacity: 1;
+}
+
 /*
 * Making changes to bootstrap - create custom theme later
 */

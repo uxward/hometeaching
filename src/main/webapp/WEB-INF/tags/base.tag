@@ -44,7 +44,7 @@
 
 <script src="${resources}/js/jquery.min.js"></script>
 <script src="${resources}/js/bootstrap.min.js"></script>
-<script src="${resources}/js/jquery.dataTables.min.js"></script>
+<script src="${resources}/js/jquery.datatables.min.js"></script>
 <script src="${resources}/js/bootstrap-datatables.js"></script>
 <script src="${resources}/js/bootstrap-datepicker.js"></script>
 <script src="${resources}/js/dateformatter.js"></script>

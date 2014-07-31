@@ -193,7 +193,7 @@
 				<div class="modal-body">
 					<form id="visitForm">
 						<div class="form-group">
-							<input type="text" class="form-control" id="datepicker" placeholder="Month"> <input type="hidden" name="visitDate" id="visitDate" />
+							<input type="text" class="form-control" id="datepicker" placeholder="Visit Date" readonly> <input type="hidden" name="visitDate" id="visitDate" />
 						</div>
 						<div class="checkbox">
 							<label class="checkbox"> <input type="checkbox" name="visited" id="visited"> Visited
