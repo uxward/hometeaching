@@ -50,6 +50,7 @@
 <script src="${resources}/js/dateformatter.js"></script>
 <script src="${resources}/js/custom.js"></script>
 <script src="${resources}/js/browser-detect.js"></script>
+<script src="${resources}/js/modernizr.min.js"></script>
 <script src="${resources}/js/autogrow.min.js"></script>
 <script src="${resources}/js/google-analytics.js"></script>
 <script type="text/javascript" src="${resources}/js/custom/noteDataTable.js"></script>

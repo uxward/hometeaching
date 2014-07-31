@@ -193,6 +193,7 @@
 				<div class="modal-body">
 					<form id="visitForm">
 						<div class="form-group">
+						<!-- TODO set input type="month" for mobile -->
 							<input type="text" class="form-control" id="datepicker" placeholder="Visit Date" readonly> <input type="hidden" name="visitDate" id="visitDate" />
 						</div>
 						<div class="checkbox">
@@ -367,6 +368,13 @@
 		}
 
 		function setupDatePicker() {
+// 			if(!Modernizr.touch){
+// 				$('#datepicker').attr('type', 'text').attr('readonly', true).datepicker({
+// 					format : 'MM yyyy',
+// 					minViewMode : 'months',
+// 					autoclose : true
+// 				});
+// 			}
 			$("#datepicker").datepicker({
 				format : 'MM yyyy',
 				minViewMode : 'months',
