@@ -73,7 +73,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 		// TODO make this not bad and ugly
 		List<Long> assignedFamilyIds = getAllFamilyIdsWithCompanion(visitingTeaching);
 		if (!assignedFamilyIds.isEmpty()) {
-			query.where(family.assignment.isEmpty().or(family.id.notIn(assignedFamilyIds)));
+			query.where(family.assignments.isEmpty().or(family.id.notIn(assignedFamilyIds)));
 		}
 		query.distinct();
 		query.orderBy(family.familyName.asc());
@@ -110,7 +110,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 	private List<Long> getAllFamilyIdsWithCompanion(boolean visitingTeaching) {
 		logger.info("entering the get all families with a companion method");
 		JPAQuery query = jpaFrom(family);
-		query.leftJoin(family.assignment, assignment);
+		query.leftJoin(family.assignments, assignment);
 		query.leftJoin(assignment.companion, companion);
 		if (visitingTeaching) {
 			query.where(assignment.isNotNull(), assignment.active.isTrue(), companion.active.isTrue(), companion.organizationId.in(newArrayList(RELIEF_SOCIETY.getId())));
@@ -138,7 +138,7 @@ public class FamilyRepositoryImpl extends RepositoryImpl<Family, Long> implement
 		QPerson compPerson = QPerson.person;
 		query.leftJoin(family.people, person).fetch();
 		query.leftJoin(family.familyOrganizations, familyOrganization).fetch();
-		query.leftJoin(family.assignment, assignment).fetch();
+		query.leftJoin(family.assignments, assignment).fetch();
 		query.leftJoin(assignment.companion, companion).fetch();
 		query.leftJoin(companion.companions, personCompanion).fetch();
 		query.leftJoin(personCompanion.person, compPerson).fetch();

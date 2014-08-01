@@ -179,7 +179,7 @@ public class Family extends BaseEntity {
 		Assignment assignment = new Assignment();
 		for (Assignment ass : this.assignments) {
 			if (ass.getActive()) {
-				Companion companion = assignment.getCompanion();
+				Companion companion = ass.getCompanion();
 				if (companion.isVisitingTeaching() == visitingTeaching) {
 					assignment = ass;
 					break;
