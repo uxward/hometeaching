@@ -56,7 +56,7 @@ public class Family extends BaseEntity {
 	private Set<Person> people = newHashSet();
 
 	@OneToMany(fetch = LAZY, mappedBy = "family")
-	private List<Assignment> assignment = newArrayList();
+	private List<Assignment> assignments = newArrayList();
 
 	@OneToMany(fetch = LAZY, mappedBy = "family")
 	private Set<Visit> visits = newHashSet();
@@ -126,11 +126,11 @@ public class Family extends BaseEntity {
 	}
 
 	public List<Assignment> getAssignment() {
-		return assignment;
+		return assignments;
 	}
 
 	public void setAssignment(List<Assignment> assignment) {
-		this.assignment = assignment;
+		this.assignments = assignment;
 	}
 
 	public void setFamilyStatus(FamilyStatus status) {
@@ -153,7 +153,8 @@ public class Family extends BaseEntity {
 		return familyOrganizations;
 	}
 
-	public void setFamilyOrganizations(Set<FamilyOrganization> familyOrganizations) {
+	public void setFamilyOrganizations(
+			Set<FamilyOrganization> familyOrganizations) {
 		this.familyOrganizations = familyOrganizations;
 	}
 
@@ -167,16 +168,25 @@ public class Family extends BaseEntity {
 
 	public Companion getActiveCompanion(boolean visitingTeaching) {
 		Companion active = new Companion();
-		for (Assignment assignment : this.assignment) {
-			if (assignment.getActive()) {
+		Assignment assignment = getActiveAssignment(visitingTeaching);
+		if (assignment.getCompanion() != null) {
+			active = assignment.getCompanion();
+		}
+		return active;
+	}
+
+	public Assignment getActiveAssignment(boolean visitingTeaching) {
+		Assignment assignment = new Assignment();
+		for (Assignment ass : this.assignments) {
+			if (ass.getActive()) {
 				Companion companion = assignment.getCompanion();
 				if (companion.isVisitingTeaching() == visitingTeaching) {
-					active = companion;
+					assignment = ass;
 					break;
 				}
 			}
 		}
-		return active;
+		return assignment;
 	}
 
 	public Set<Visit> getHomeTeachingVisits() {

@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <spring:url var="resources" value="/resources" />
 
@@ -26,7 +27,8 @@
 </c:set>
 
 <c:set var="companionship">
-	<c:forEach var="teacher" items="${companion.teachers}" varStatus="status">
+	<c:forEach var="teacher" items="${companion.teachers}"
+		varStatus="status">
 		<span class="pull-left">${teacher.firstName}&nbsp;</span>
 		<span class="hidden-sm hidden-xs pull-left">${teacher.family.familyName}&nbsp;</span>
 		<c:if test="${!status.last}">
@@ -37,14 +39,18 @@
 
 <spring:url var="dashboard" value="/dashboard" />
 
-<t:notePage activeMenu="${teachingActive}" pageTitle="${teachingType} Detail" pageHeader="${companionship}" pageSubheader="${teachingType}">
+<t:notePage activeMenu="${teachingActive}"
+	pageTitle="${teachingType} Detail" pageHeader="${companionship}"
+	pageSubheader="${teachingType}">
 	<div class="row">
 		<div class="alert alert-info">
-			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			<button type="button" class="close" data-dismiss="alert"
+				aria-hidden="true">&times;</button>
 			<fieldset>
 				<legend> Companion Contact Information </legend>
 			</fieldset>
-			<c:forEach var="teacher" items="${companion.teachers}" varStatus="status">
+			<c:forEach var="teacher" items="${companion.teachers}"
+				varStatus="status">
 				<strong>${teacher.firstName} phone number:</strong>
 				<span class="phone-number">${teacher.phoneNumber}</span>
 				<c:if test="${!status.last}">
@@ -55,39 +61,49 @@
 	</div>
 
 	<fieldset>
-		<legend> Assigned ${visitingTeaching ? 'Sisters' : 'Families'} </legend>
+		<legend> Assigned ${visitingTeaching ? 'Sisters' : 'Families'}
+		</legend>
 	</fieldset>
 
 	<!--  Family Assignment Table
 	---------------------------------------------------->
-	<table id="assignmentTable" class="table table-striped table-hover" data-companion-id="${companion.id}" width="100%">
+	<table id="assignmentTable" class="table table-striped table-hover"
+		data-companion-id="${companion.id}" width="100%">
 	</table>
 
 	<br />
 
 	<sec:authorize access="hasRole('leader')">
-		<a href="#addFamily" class="btn btn-primary" data-toggle="modal">Add Assignment</a>
-		<a href="#" class="btn" id="emailAssignments"> <i class="glyphicon glyphicon-envelope"></i> Email Assignments
+		<a href="#addFamily" class="btn btn-primary" data-toggle="modal">Add
+			Assignment</a>
+		<a href="#" class="btn" id="emailAssignments"> <i
+			class="glyphicon glyphicon-envelope"></i> Email Assignments
 		</a>
-		<a href="#" class="btn" id="emailReportUpdate"> <i class="glyphicon glyphicon-envelope"></i> Request Previous Month Update
+		<a href="#" class="btn" id="emailReportUpdate"> <i
+			class="glyphicon glyphicon-envelope"></i> Request Previous Month
+			Update
 		</a>
-		<a href="#" class="btn" id="emailVisitReminder"> <i class="glyphicon glyphicon-envelope"></i> Email Visit Reminder
+		<a href="#" class="btn" id="emailVisitReminder"> <i
+			class="glyphicon glyphicon-envelope"></i> Email Visit Reminder
 		</a>
 
 		<!--  Add Family Modal
 	---------------------------------------------------->
-		<div id="addFamily" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addFamilyLabel" aria-hidden="true">
+		<div id="addFamily" class="modal fade" tabindex="-1" role="dialog"
+			aria-labelledby="addFamilyLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
 						<h3 id="addFamilyLabel">Add Assignment</h3>
 					</div>
 
 					<div class="modal-body">
 						<form id="familyForm">
 							<div class="form-group">
-								<select name="autopopulatingAssignments[0].familyId" id="familySelect" class="form-control">
+								<select name="autopopulatingAssignments[0].familyId"
+									id="familySelect" class="form-control">
 									<option value="">Select Family</option>
 									<c:forEach items="${families}" var="family">
 										<c:choose>
@@ -103,13 +119,17 @@
 									</c:forEach>
 								</select>
 							</div>
-							<input type="hidden" value="${companion.id}" name="id" /> <input type="hidden" name="visitingTeaching" value="${visitingTeaching}" />
+							<input type="hidden" value="${companion.id}" name="id" /> <input
+								type="hidden" name="visitingTeaching"
+								value="${visitingTeaching}" />
 						</form>
 					</div>
 
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
-						<button type="button" class="btn btn-primary" id="saveAssignment" data-action="save">Save Assignment</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal"
+							aria-hidden="true">Cancel</button>
+						<button type="button" class="btn btn-primary" id="saveAssignment"
+							data-action="save">Save Assignment</button>
 					</div>
 				</div>
 			</div>
@@ -131,21 +151,28 @@
 	---------------------------------------------------->
 	<div id="visitHistory">
 		<ul class="nav nav-tabs">
-			<c:forEach var="family" items="${companion.assignments}" varStatus="status">
-				<li class="${status.first ? 'active' : ''}" id="${family.id}-tab-link"><c:choose>
+			<c:forEach var="family" items="${companion.assignments}"
+				varStatus="status">
+				<li class="${status.first ? 'active' : ''}"
+					id="${family.id}-tab-link"><c:choose>
 						<c:when test="${visitingTeaching}">
-							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-xs hidden-sm">${family.womenHeadOfHousehold}&nbsp;${family.familyName}</a>
-							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-md hidden-lg">${family.womenHeadOfHousehold}</a>
+							<a href="#${family.id}-tab" data-toggle="tab"
+								class="hidden-xs hidden-sm">${family.womenHeadOfHousehold}&nbsp;${family.familyName}</a>
+							<a href="#${family.id}-tab" data-toggle="tab"
+								class="hidden-md hidden-lg">${family.womenHeadOfHousehold}</a>
 						</c:when>
 						<c:otherwise>
-							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-xs hidden-sm">${family.familyName},&nbsp;${family.headOfHousehold}</a>
-							<a href="#${family.id}-tab" data-toggle="tab" class="hidden-md hidden-lg">${family.familyName}</a>
+							<a href="#${family.id}-tab" data-toggle="tab"
+								class="hidden-xs hidden-sm">${family.familyName},&nbsp;${family.headOfHousehold}</a>
+							<a href="#${family.id}-tab" data-toggle="tab"
+								class="hidden-md hidden-lg">${family.familyName}</a>
 						</c:otherwise>
 					</c:choose></li>
 			</c:forEach>
 		</ul>
 		<div class="tab-content">
-			<c:forEach var="family" items="${companion.assignments}" varStatus="status">
+			<c:forEach var="family" items="${companion.assignments}"
+				varStatus="status">
 				<c:set var="visitee">
 					<c:choose>
 						<c:when test="${visitingTeaching}">
@@ -156,23 +183,11 @@
 						</c:otherwise>
 					</c:choose>
 				</c:set>
-				<div class="tab-pane ${status.first ? 'active' : ''}" id="${family.id}-tab">
+				<div class="tab-pane ${status.first ? 'active' : ''}"
+					id="${family.id}-tab">
 					<br />
-					<c:if test="${canAction}">
-						<br />
-						<a href="#recordVisit" role="button" class="btn btn-primary recordVisit" data-assignment-id="${family.assignmentId}" data-family-id="${family.id}" data-header="${visitee} visit" data-toggle="modal"> <c:choose>
-								<c:when test="${visitingTeaching}">
-									Record visit with ${visitee}
-								</c:when>
-								<c:otherwise>
-									Record visit with the ${visitee}
-								</c:otherwise>
-							</c:choose>
-						</a>
-						<br />
-						<br />
-					</c:if>
-					<table class="table table-striped table-hover visitHistory" data-family-id="${family.id}" width="100%">
+					<table class="table table-striped table-hover visitHistory"
+						data-family-id="${family.id}" width="100%">
 					</table>
 				</div>
 			</c:forEach>
@@ -181,37 +196,48 @@
 
 	<!--  Record Visit Modal
 	---------------------------------------------------->
-	<div id="recordVisit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="recordVisitLabel" aria-hidden="true">
+	<div id="recordVisit" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="recordVisitLabel" aria-hidden="true">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
 					<h4 id="recordVisitLabel">Record Visit</h4>
 				</div>
 
 				<div class="modal-body">
 					<form id="visitForm">
 						<div class="form-group">
-						<!-- TODO set input type="month" for mobile -->
-							<input type="text" class="form-control" id="datepicker" placeholder="Visit Date" readonly> <input type="hidden" name="visitDate" id="visitDate" />
+							<!-- TODO set input type="month" for mobile -->
+							<input type="text" class="form-control" id="datepicker"
+								placeholder="Visit Date" readonly> <input type="hidden"
+								name="visitDate" id="visitDate" />
 						</div>
 						<div class="checkbox">
-							<label class="checkbox"> <input type="checkbox" name="visited" id="visited"> Visited
+							<label class="checkbox"> <input type="checkbox"
+								name="visited" id="visited"> Visited
 							</label>
 						</div>
 						<div class="form-group">
-							<textarea class="form-control" name="notes" id="notes" placeholder="Notes" maxlength="400"></textarea>
+							<textarea class="form-control" name="notes" id="notes"
+								placeholder="Notes" maxlength="400"></textarea>
 						</div>
 						<div>
-							<input type="hidden" name="visitingTeaching" value="${visitingTeaching}" /><input type="hidden" name="id" id="visitId" /> <input type="hidden" name="assignmentId" id="assignmentId" /><input type="hidden" name="familyId" id="familyId" /><input type="hidden"
+							<input type="hidden" name="visitingTeaching"
+								value="${visitingTeaching}" /><input type="hidden" name="id"
+								id="visitId" /> <input type="hidden" name="assignmentId"
+								id="assignmentId" /><input type="hidden" name="familyId"
+								id="familyId" /><input type="hidden"
 								value="${companion.organization.id}" name="organizationId" />
 						</div>
 					</form>
 				</div>
 
 				<div class="modal-footer">
-					<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Cancel</button>
+					<button class="btn btn-default" data-dismiss="modal"
+						aria-hidden="true">Cancel</button>
 					<button class="btn btn-primary" id="saveVisit">Save</button>
 				</div>
 
@@ -247,7 +273,7 @@
 				}
 			});
 
-			$('.recordVisit').click(function() {
+			$('#assignmentTable').on('click', '.recordVisit', function() {
 				$('#recordVisitLabel').text($(this).data('header'));
 				$('#familyId').val($(this).data('familyId'));
 				$('#assignmentId').val($(this).data('assignmentId'));
@@ -440,43 +466,40 @@
 				'columns' : [ {
 					'title' : 'Family',
 					'visible' : ${!visitingTeaching},
-					'data' : 'familyName',
+					'data' : 'family.familyName',
 					'render' : setupFamilyName
 				}, {
 					'title' : 'Sister',
 					'visible' : ${visitingTeaching},
-					'data' : 'womenHeadOfHousehold',
+					'data' : 'family.womenHeadOfHousehold',
 					'render' : setupWomenName
 				}, {
 					'title' : 'Status',
 					'sClass' : 'hidden-xs hidden-sm',
-					'data' : 'familyStatus'
+					'data' : 'family.familyStatus'
 				}, {
 					'title' : 'Husband',
+					'sClass' : 'hidden-xs',
 					'visible' : ${visitingTeaching},
-					'data' : 'menHeadOfHousehold'
+					'data' : 'family.menHeadOfHousehold'
 				}, {
 					'title' : 'Children',
 					'sClass' : 'hidden-xs hidden-sm',
-					'data' : 'people'
+					'data' : 'family.people'
 					,'render' : getChildrenNames
 				}, {
 					'title' : 'Address',
-					'data' : 'address',
+					'data' : 'family.address',
 					'render' : addressRender
 				}, {
 					'title' : 'Phone Numbers',
-					'data' : 'phoneNumbers',
+					'data' : 'family.phoneNumbers',
 					'render' : setupPhoneNumbers
-				}
-				<sec:authorize access="hasRole('leader')">
-				, {
+				}, {
 					'title' : 'Actions',
-					'data' : 'id'
+					'data' : 'family.id'
 					,'render' : setupActions
-				} 
-				</sec:authorize>
-				],
+				}],
 				'language' : {
 					'infoEmpty' : 'No assignments to show',
 					'emptyTable' : 'There are no assignments yet.  Add an assignment by clicking the button below.'
@@ -564,7 +587,7 @@
 		}
 		
 		function setupFamilyName(data, type, full){
-			return '<a href="<spring:url value="/family/detail/"/>' + full.id + '">' + getFamilyAndHeadNames(data, full.people) + '</a>';
+			return '<a href="<spring:url value="/family/detail/"/>' + full.id + '">' + getFamilyAndHeadNames(data, full.family.people) + '</a>';
 		}
 		
 		function setupVisitActions(data, type, full){
@@ -572,11 +595,16 @@
 		}
 		
 		function setupActions(data, type, full){
-			return '<input type="button" class="btn btn-primary removeFamily" value="Remove" data-companion-id="' + '${companion.id}' + '" data-family-id="' + data + '" />';
+			var html = ''
+				+ '<a href="#recordVisit" role="button" class="btn btn-primary recordVisit" data-assignment-id="' + full.id + '" data-family-id="' + data + '" data-header="${visitee} visit" data-toggle="modal">Record Visit</a>'
+				<sec:authorize access="hasRole('leader')">
+					+ '<input type="button" class="btn btn-primary removeFamily" value="Remove" data-companion-id="${companion.id}" data-family-id="' + data + '" />';
+				</sec:authorize>
+			return html;
 		}
 		
 		function setupWomenName(data, type, full){
-			return '<a href="<spring:url value="/family/detail/"/>' + full.id + '">' + data + ' ' + full.familyName + '</a>';
+			return '<a href="<spring:url value="/family/detail/"/>' + full.family.id + '">' + data + ' ' + full.family.familyName + '</a>';
 		}
 		
 		function emailAssignments() {

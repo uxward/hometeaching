@@ -81,15 +81,6 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
-	public List<FamilyViewModel> getByCompanionId(Long companionId) {
-		List<FamilyViewModel> families = newArrayList();
-		for (Family family : repo.getByCompanionId(companionId)) {
-			families.add(new FamilyViewModel(family, true, false, true));
-		}
-		return families;
-	}
-
-	@Override
 	public List<FamilyViewModel> getAllFamiliesWithoutCompanion(boolean visitingTeaching) {
 		List<FamilyViewModel> families = newArrayList();
 		for (Family family : repo.getAllFamiliesWithoutCompanion(visitingTeaching)) {

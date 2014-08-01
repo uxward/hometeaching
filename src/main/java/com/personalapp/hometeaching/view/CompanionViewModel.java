@@ -47,7 +47,7 @@ public class CompanionViewModel extends ActionViewModel {
 				for (Assignment assignment : companion.getAssignments()) {
 					if (assignment.getActive()) {
 						FamilyViewModel family = new FamilyViewModel(assignment.getFamily(), true, false, true);
-						family.setAssignmentId(assignment.getId());
+						//family.setAssignmentId(assignment.getId());
 						assignments.add(family);
 					}
 				}

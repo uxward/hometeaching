@@ -19,8 +19,6 @@ public interface FamilyService {
 
 	FamilyViewModel getDetailedViewModelForFamily(Family family);
 
-	List<FamilyViewModel> getByCompanionId(Long companionId);
-
 	List<FamilyViewModel> getAllFamiliesWithoutCompanion(boolean visitingTeaching);
 
 	List<FamilyViewModel> getAllMovedFamilies();

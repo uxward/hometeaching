@@ -18,8 +18,6 @@ public interface FamilyRepository extends Repository<Family, Long> {
 
 	List<Tuple> getFamilyStatusPercentage(List<Long> organizationIds);
 
-	List<Family> getByCompanionId(Long companionId);
-
 	List<Family> getAllFamiliesAndVisits();
 
 	List<Tuple> getVisitPercentageDetails(Integer month, Integer year, Long organizationId);

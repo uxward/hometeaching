@@ -12,8 +12,6 @@ import com.personalapp.hometeaching.model.Person;
 public class FamilyViewModel extends ActionViewModel {
 	private Long id;
 
-	private Long assignmentId;
-
 	private String familyName;
 
 	private String address;
@@ -93,10 +91,6 @@ public class FamilyViewModel extends ActionViewModel {
 		return id;
 	}
 
-	public Long getAssignmentId() {
-		return assignmentId;
-	}
-
 	public String getFamilyName() {
 		return familyName;
 	}
@@ -173,8 +167,6 @@ public class FamilyViewModel extends ActionViewModel {
 		}
 		return names;
 	}
-	
-
 
 	public String getMenHeadOfHousehold() {
 		String names = "";
@@ -195,9 +187,5 @@ public class FamilyViewModel extends ActionViewModel {
 
 	public CompanionViewModel getVisitingTeachingCompanions() {
 		return visitingTeachingCompanions;
-	}
-
-	public void setAssignmentId(Long assignmentId) {
-		this.assignmentId = assignmentId;
 	}
 }

@@ -22,10 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.model.Organization;
+import com.personalapp.hometeaching.service.AssignmentService;
 import com.personalapp.hometeaching.service.CompanionService;
 import com.personalapp.hometeaching.service.FamilyService;
 import com.personalapp.hometeaching.service.PersonService;
 import com.personalapp.hometeaching.view.ActionViewModel;
+import com.personalapp.hometeaching.view.AssignmentViewModel;
 import com.personalapp.hometeaching.view.CompanionViewModel;
 import com.personalapp.hometeaching.view.DatatableResponse;
 import com.personalapp.hometeaching.view.FamilyViewModel;
@@ -43,6 +45,9 @@ public class CompanionController {
 
 	@Autowired
 	private PersonService personService;
+
+	@Autowired
+	private AssignmentService assignmentService;
 
 	@RequestMapping("all/{organizationId}")
 	public ModelAndView viewAllCompanionsByOrganization(@PathVariable Long organizationId) {
@@ -93,8 +98,8 @@ public class CompanionController {
 
 	@RequestMapping(value = "getAssignments")
 	@ResponseBody
-	public DatatableResponse<FamilyViewModel> getAssignments(@RequestParam("companionId") Long companionId) {
-		return new DatatableResponse<FamilyViewModel>(familyService.getByCompanionId(companionId));
+	public DatatableResponse<AssignmentViewModel> getAssignments(@RequestParam("companionId") Long companionId) {
+		return new DatatableResponse<AssignmentViewModel>(assignmentService.findActiveByCompanion(companionId));
 	}
 
 	@RequestMapping(value = "getByPerson/{visitingTeaching}")
