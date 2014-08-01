@@ -19,6 +19,10 @@
 	min-width: 78px;
 }
 
+.button-large {
+	min-width: 102px;
+}
+
 /* notification navbar */
 .notification-navbar {
 	margin-top: 60px;

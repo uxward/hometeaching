@@ -473,11 +473,15 @@
 					'visible' : ${visitingTeaching},
 					'data' : 'family.womenHeadOfHousehold',
 					'render' : setupWomenName
-				}, {
+				},
+				<sec:authorize access="hasRole('council')">
+				{
 					'title' : 'Status',
 					'sClass' : 'hidden-xs hidden-sm',
 					'data' : 'family.familyStatus'
-				}, {
+				},
+				</sec:authorize>
+				{
 					'title' : 'Husband',
 					'sClass' : 'hidden-xs',
 					'visible' : ${visitingTeaching},
@@ -596,9 +600,9 @@
 		
 		function setupActions(data, type, full){
 			var html = ''
-				+ '<a href="#recordVisit" role="button" class="btn btn-primary recordVisit" data-assignment-id="' + full.id + '" data-family-id="' + data + '" data-header="${visitee} visit" data-toggle="modal">Record Visit</a>'
+				+ '<a href="#recordVisit" role="button" class="btn btn-primary button-large recordVisit" data-assignment-id="' + full.id + '" data-family-id="' + data + '" data-header="${visitee} visit" data-toggle="modal">Record Visit</a>'
 				<sec:authorize access="hasRole('leader')">
-					+ '<input type="button" class="btn btn-primary removeFamily" value="Remove" data-companion-id="${companion.id}" data-family-id="' + data + '" />';
+					+ '<input type="button" class="btn btn-primary button-large removeFamily" value="Remove" data-companion-id="${companion.id}" data-family-id="' + data + '" />';
 				</sec:authorize>
 			return html;
 		}
