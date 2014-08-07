@@ -19,6 +19,7 @@ import java.util.Set;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,7 @@ public class VisitServiceImpl implements VisitService {
 	@Autowired
 	private FamilyRepository familyRepo;
 
+	@CacheEvict(value = "visitHistory", allEntries = true)
 	@Override
 	public VisitViewModel save(Visit visit) {
 		logger.info("entering the save visit method");
@@ -67,7 +69,6 @@ public class VisitServiceImpl implements VisitService {
 				logger.error("An unexpected error occurred while trying to save a visit: {}", e);
 				status = ERROR;
 			}
-
 		}
 		return status;
 	}
@@ -121,7 +122,8 @@ public class VisitServiceImpl implements VisitService {
 		return visits;
 	}
 
-	//TODO setup ehcache instead of jdk cache, evict cache when new integer month comes in
+	// TODO setup ehcache instead of jdk cache, evict cache when new integer
+	// month comes in
 	@Override
 	@Cacheable("visitHistory")
 	public List<VisitHistoryModel> getHistory(Integer n, Integer month) {

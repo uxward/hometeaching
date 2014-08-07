@@ -173,16 +173,6 @@
 		<div class="tab-content">
 			<c:forEach var="family" items="${companion.assignments}"
 				varStatus="status">
-				<c:set var="visitee">
-					<c:choose>
-						<c:when test="${visitingTeaching}">
-							${family.womenHeadOfHousehold}&nbsp;${family.familyName}
-						</c:when>
-						<c:otherwise>
-							${family.familyName} family
-						</c:otherwise>
-					</c:choose>
-				</c:set>
 				<div class="tab-pane ${status.first ? 'active' : ''}"
 					id="${family.id}-tab">
 					<br />
@@ -555,8 +545,6 @@
 
 			//add family row to table
 			$('#assignmentTable').dataTable().fnAddData(data);
-			
-			//TODO add family to visit section
 		}
 
 		function removeAssignment($this) {
@@ -599,8 +587,12 @@
 		}
 		
 		function setupActions(data, type, full){
+			var visitee = full.family.familyName + ' family';
+			if(${visitingTeaching}){
+				visitee = full.family.womenHeadOfHousehold + ' ' + full.family.familyName;
+			}
 			var html = ''
-				+ '<a href="#recordVisit" role="button" class="btn btn-primary button-large recordVisit" data-assignment-id="' + full.id + '" data-family-id="' + data + '" data-header="${visitee} visit" data-toggle="modal">Record Visit</a>'
+				+ '<a href="#recordVisit" role="button" class="btn btn-primary button-large recordVisit" data-assignment-id="' + full.id + '" data-family-id="' + data + '" data-header="' + visitee + ' visit" data-toggle="modal">Record Visit</a>'
 				<sec:authorize access="hasRole('leader')">
 					+ '<input type="button" class="btn btn-primary button-large removeFamily" value="Remove" data-companion-id="${companion.id}" data-family-id="' + data + '" />';
 				</sec:authorize>
