@@ -17,12 +17,12 @@ import com.personalapp.hometeaching.model.ActionStatus;
 import com.personalapp.hometeaching.model.Assignment;
 import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.model.Organization;
+import com.personalapp.hometeaching.repository.AssignmentRepository;
 import com.personalapp.hometeaching.repository.CompanionRepository;
 import com.personalapp.hometeaching.repository.FamilyRepository;
 import com.personalapp.hometeaching.service.CompanionService;
 import com.personalapp.hometeaching.view.ActionViewModel;
 import com.personalapp.hometeaching.view.CompanionViewModel;
-import com.personalapp.hometeaching.view.FamilyViewModel;
 
 @Service
 public class CompanionServiceImpl implements CompanionService {
@@ -37,6 +37,9 @@ public class CompanionServiceImpl implements CompanionService {
 	@Autowired
 	private CompanionServiceImplHelper companionServiceImplHelper;
 
+	@Autowired
+	private AssignmentRepository assignmentRepo;
+
 	@Override
 	public CompanionViewModel addCompanion(Companion companion) {
 		ActionStatus status = tryCreateNewCompanion(companion);
@@ -48,20 +51,6 @@ public class CompanionServiceImpl implements CompanionService {
 		// setup new companion with same families
 		ActionStatus status = tryEditCompanion(companion);
 		return new CompanionViewModel(repo.findDetailedById(companion.getId()), true, status);
-	}
-
-	@Override
-	public FamilyViewModel addAssignment(Companion companion) {
-		ActionStatus actionStatus = tryAddAssignment(companion);
-		return new FamilyViewModel(familyRepo.findDetailedById(companion.getAutopopulatingAssignments().get(0).getFamilyId()), true, false, true, actionStatus);
-	}
-
-	@Override
-	public ActionViewModel removeAssignment(Long companionId, Long familyId) {
-		ActionStatus actionStatus = tryRemoveAssignment(companionId, familyId);
-		ActionViewModel actionViewModel = new ActionViewModel();
-		actionViewModel.setActionStatus(actionStatus);
-		return actionViewModel;
 	}
 
 	@Override
@@ -147,28 +136,6 @@ public class CompanionServiceImpl implements CompanionService {
 			status = ERROR;
 		}
 		return status;
-	}
-
-	private ActionStatus tryRemoveAssignment(Long companionId, Long familyId) {
-		ActionStatus actionStatus = SUCCESS;
-		try {
-			companionServiceImplHelper.doRemoveAssignment(companionId, familyId);
-		} catch (Exception e) {
-			logger.error("An unexpected error occurred while trying to remove the assignment: {}", e);
-			actionStatus = ERROR;
-		}
-		return actionStatus;
-	}
-
-	private ActionStatus tryAddAssignment(Companion companion) {
-		ActionStatus actionStatus = SUCCESS;
-		try {
-			companionServiceImplHelper.doAddAssignment(companion);
-		} catch (Exception e) {
-			logger.error("An unexpected exception occurred while adding the assignment: {}", e);
-			actionStatus = ERROR;
-		}
-		return actionStatus;
 	}
 
 	private ActionStatus tryRemoveCompanion(Long companionId) {

@@ -22,15 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.model.HometeachingUser;
 import com.personalapp.hometeaching.model.Organization;
-import com.personalapp.hometeaching.service.AssignmentService;
 import com.personalapp.hometeaching.service.CompanionService;
 import com.personalapp.hometeaching.service.FamilyService;
 import com.personalapp.hometeaching.service.PersonService;
 import com.personalapp.hometeaching.view.ActionViewModel;
-import com.personalapp.hometeaching.view.AssignmentViewModel;
 import com.personalapp.hometeaching.view.CompanionViewModel;
 import com.personalapp.hometeaching.view.DatatableResponse;
-import com.personalapp.hometeaching.view.FamilyViewModel;
 
 @Controller
 @RequestMapping(value = "/companion")
@@ -45,9 +42,6 @@ public class CompanionController {
 
 	@Autowired
 	private PersonService personService;
-
-	@Autowired
-	private AssignmentService assignmentService;
 
 	@RequestMapping("all/{organizationId}")
 	public ModelAndView viewAllCompanionsByOrganization(@PathVariable Long organizationId) {
@@ -96,12 +90,6 @@ public class CompanionController {
 		return view;
 	}
 
-	@RequestMapping(value = "getAssignments")
-	@ResponseBody
-	public DatatableResponse<AssignmentViewModel> getAssignments(@RequestParam("companionId") Long companionId) {
-		return new DatatableResponse<AssignmentViewModel>(assignmentService.findActiveByCompanion(companionId));
-	}
-
 	@RequestMapping(value = "getByPerson/{visitingTeaching}")
 	@ResponseBody
 	public DatatableResponse<CompanionViewModel> getusersCompanions(@RequestParam("personId") Long personId, @PathVariable boolean visitingTeaching) {
@@ -124,18 +112,6 @@ public class CompanionController {
 	@ResponseBody
 	public CompanionViewModel edit(Companion companion) {
 		return service.editCompanion(companion);
-	}
-
-	@RequestMapping(value = "/addAssignment")
-	@ResponseBody
-	public FamilyViewModel addAssignment(Companion companion) {
-		return service.addAssignment(companion);
-	}
-
-	@RequestMapping(value = "/removeAssignment")
-	@ResponseBody
-	public ActionViewModel removeAssignment(Long companionId, Long familyId) {
-		return service.removeAssignment(companionId, familyId);
 	}
 
 	private ModelAndView getDetailModelAndView(Companion companion) {

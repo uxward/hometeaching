@@ -17,7 +17,7 @@ public class CompanionViewModel extends ActionViewModel {
 
 	private List<PersonViewModel> teachers = newArrayList();
 
-	private List<FamilyViewModel> assignments = newArrayList();
+	private List<AssignmentViewModel> assignments = newArrayList();
 
 	public CompanionViewModel() {
 
@@ -46,9 +46,11 @@ public class CompanionViewModel extends ActionViewModel {
 			if (populateAssignments) {
 				for (Assignment assignment : companion.getAssignments()) {
 					if (assignment.getActive()) {
-						FamilyViewModel family = new FamilyViewModel(assignment.getFamily(), true, false, true);
-						//family.setAssignmentId(assignment.getId());
-						assignments.add(family);
+						// FamilyViewModel family = new
+						// FamilyViewModel(assignment.getFamily(), true, false,
+						// true);
+						// family.setAssignmentId(assignment.getId());
+						assignments.add(new AssignmentViewModel(assignment));
 					}
 				}
 			}
@@ -67,7 +69,7 @@ public class CompanionViewModel extends ActionViewModel {
 		return teachers;
 	}
 
-	public List<FamilyViewModel> getAssignments() {
+	public List<AssignmentViewModel> getAssignments() {
 		return assignments;
 	}
 
@@ -87,11 +89,11 @@ public class CompanionViewModel extends ActionViewModel {
 
 	public String getAllAssignments() {
 		String assignments = "";
-		for (FamilyViewModel family : this.assignments) {
+		for (AssignmentViewModel assignment : this.assignments) {
 			if (assignments.equals("")) {
-				assignments += family.getFamilyName();
+				assignments += assignment.getFamily().getFamilyName();
 			} else {
-				assignments += " and " + family.getFamilyName();
+				assignments += " and " + assignment.getFamily().getFamilyName();
 			}
 		}
 		return assignments;

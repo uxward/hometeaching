@@ -6,7 +6,6 @@ import static com.personalapp.hometeaching.model.Priority.HIGH;
 import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
 import static org.slf4j.LoggerFactory.getLogger;
 
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;

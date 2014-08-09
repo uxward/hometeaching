@@ -1,6 +1,9 @@
 package com.personalapp.hometeaching.model;
 
+import static com.personalapp.hometeaching.security.SecurityUtils.getCurrentUser;
 import static javax.persistence.GenerationType.IDENTITY;
+
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,12 +11,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+
+import com.personalapp.hometeaching.security.SecurityUtils;
 
 @Entity
 @Table(name = "familynote")
 public class FamilyNote extends BaseEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "id")
@@ -27,6 +34,24 @@ public class FamilyNote extends BaseEntity {
 
 	@Column(name = "visibleRole")
 	private String visibleRole;
+
+	// TODO add these columns to baseentity
+	// @Column(name = "createdby")
+	// private Long createdBy;
+	//
+	// @PrePersist
+	// public void setupCreateInformation() {
+	// this.createdBy = getCurrentUser().getId();
+	// }
+
+	// TODO add these columns to baseentity
+	// @Column(name = "updatedby")
+	// private Long updatedBy;
+	//
+	// @PreUpdate
+	// public void setupUpdateInformation() {
+	// this.updatedBy = getCurrentUser().getId();
+	// }
 
 	@ManyToOne
 	@JoinColumn(name = "familyid", insertable = false, updatable = false)

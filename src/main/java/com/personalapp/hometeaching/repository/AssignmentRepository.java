@@ -10,4 +10,6 @@ public interface AssignmentRepository extends Repository<Assignment, Long> {
 
 	List<Assignment> findActiveByCompanion(Long companionId);
 
+	Assignment findDetailedById(Long id);
+
 }

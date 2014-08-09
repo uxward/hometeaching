@@ -34,4 +34,15 @@ public class AssignmentRepositoryImpl extends RepositoryImpl<Assignment, Long> i
 		query.where(assignment.active.isTrue(), assignment.companionId.eq(companionId)).distinct();
 		return query.list(assignment);
 	}
+
+	@Override
+	public Assignment findDetailedById(Long id) {
+		logger.info("Entering the find by detailed companion by id method");
+		JPAQuery query = jpaFrom(assignment);
+		query.where(assignment.active.isTrue()).where(assignment.id.eq(id));
+		query.leftJoin(assignment.family, family).fetch();
+		query.leftJoin(family.people).fetch();
+		query.leftJoin(assignment.companion).fetch();
+		return query.singleResult(assignment);
+	}
 }

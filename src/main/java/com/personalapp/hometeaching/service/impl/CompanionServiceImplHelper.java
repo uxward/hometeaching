@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.personalapp.hometeaching.model.Assignment;
 import com.personalapp.hometeaching.model.Companion;
 import com.personalapp.hometeaching.model.PersonCompanion;
-import com.personalapp.hometeaching.repository.AssignmentRepository;
 import com.personalapp.hometeaching.repository.CompanionRepository;
+import com.personalapp.hometeaching.service.AssignmentService;
 
 @Service
 public class CompanionServiceImplHelper {
@@ -24,7 +24,7 @@ public class CompanionServiceImplHelper {
 	private CompanionRepository repo;
 
 	@Autowired
-	private AssignmentRepository assignmentRepo;
+	private AssignmentService assignmentService;
 
 	@Transactional(rollbackFor = Exception.class)
 	public void doCreateNewCompanion(Companion companion) {
@@ -50,7 +50,11 @@ public class CompanionServiceImplHelper {
 
 		for (Assignment assignment : oldCompanion.getAssignments()) {
 			if (assignment.getActive()) {
-				saveAssignment(companion, assignment.getFamilyId());
+				Assignment newAssignment = new Assignment();
+				newAssignment.setActive(true);
+				newAssignment.setFamilyId(assignment.getFamilyId());
+				newAssignment.setCompanionId(assignment.getCompanionId());
+				assignmentService.add(newAssignment);
 			}
 		}
 
@@ -64,18 +68,6 @@ public class CompanionServiceImplHelper {
 		markAllInactive(companion);
 	}
 
-	@Transactional(rollbackFor = Exception.class)
-	public void doAddAssignment(Companion companion) {
-		saveAssignment(companion, companion.getAutopopulatingAssignments().get(0).getFamilyId());
-	}
-
-	@Transactional(rollbackFor = Exception.class)
-	public void doRemoveAssignment(Long companionId, Long familyId) {
-		Assignment assignment = assignmentRepo.findByCompanionIdAndFamilyId(companionId, familyId);
-		assignment.setActive(false);
-		assignmentRepo.update(assignment);
-	}
-
 	private void markAllInactive(Companion companion) {
 		companion.setActive(false);
 		for (PersonCompanion personCompanion : companion.getCompanions()) {
@@ -85,13 +77,5 @@ public class CompanionServiceImplHelper {
 			assignment.setActive(false);
 		}
 		repo.update(companion);
-	}
-
-	private void saveAssignment(Companion companion, Long familyId) {
-		Assignment assignment = new Assignment();
-		assignment.setCompanionId(companion.getId());
-		assignment.setFamilyId(familyId);
-		assignment.setActive(true);
-		assignmentRepo.save(assignment);
 	}
 }

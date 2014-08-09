@@ -32,7 +32,7 @@
 								<select name="personId" class="form-control" id="person">
 									<option value="">Select Person</option>
 									<c:forEach items="${unassigned}" var="person">
-										<option value="${person.id}">${person.firstName }&nbsp;${person.family.familyName}</option>
+										<option value="${person.family.familyName},&nbsp;${person.id}">${person.firstName }</option>
 									</c:forEach>
 								</select>
 							</div>

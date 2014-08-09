@@ -100,10 +100,9 @@
 					</div>
 
 					<div class="modal-body">
-						<form id="familyForm">
+						<form id="assignmentForm">
 							<div class="form-group">
-								<select name="autopopulatingAssignments[0].familyId"
-									id="familySelect" class="form-control">
+								<select name="familyId" id="familySelect" class="form-control">
 									<option value="">Select Family</option>
 									<c:forEach items="${families}" var="family">
 										<c:choose>
@@ -119,8 +118,8 @@
 									</c:forEach>
 								</select>
 							</div>
-							<input type="hidden" value="${companion.id}" name="id" /> <input
-								type="hidden" name="visitingTeaching"
+							<input type="hidden" value="${companion.id}" name="companionId" />
+							<input type="hidden" name="visitingTeaching"
 								value="${visitingTeaching}" />
 						</form>
 					</div>
@@ -151,33 +150,33 @@
 	---------------------------------------------------->
 	<div id="visitHistory">
 		<ul class="nav nav-tabs">
-			<c:forEach var="family" items="${companion.assignments}"
+			<c:forEach var="assignment" items="${companion.assignments}"
 				varStatus="status">
 				<li class="${status.first ? 'active' : ''}"
-					id="${family.id}-tab-link"><c:choose>
+					id="${assignment.id}-tab-link"><c:choose>
 						<c:when test="${visitingTeaching}">
-							<a href="#${family.id}-tab" data-toggle="tab"
-								class="hidden-xs hidden-sm">${family.womenHeadOfHousehold}&nbsp;${family.familyName}</a>
-							<a href="#${family.id}-tab" data-toggle="tab"
-								class="hidden-md hidden-lg">${family.womenHeadOfHousehold}</a>
+							<a href="#${assignment.id}-tab" data-toggle="tab"
+								class="hidden-xs hidden-sm">${assignment.family.womenHeadOfHousehold}&nbsp;${assignment.family.familyName}</a>
+							<a href="#${assignment.id}-tab" data-toggle="tab"
+								class="hidden-md hidden-lg">${assignment.family.womenHeadOfHousehold}</a>
 						</c:when>
 						<c:otherwise>
-							<a href="#${family.id}-tab" data-toggle="tab"
-								class="hidden-xs hidden-sm">${family.familyName},&nbsp;${family.headOfHousehold}</a>
-							<a href="#${family.id}-tab" data-toggle="tab"
-								class="hidden-md hidden-lg">${family.familyName}</a>
+							<a href="#${assignment.id}-tab" data-toggle="tab"
+								class="hidden-xs hidden-sm">${assignment.family.familyName},&nbsp;${assignment.family.headOfHousehold}</a>
+							<a href="#${assignment.id}-tab" data-toggle="tab"
+								class="hidden-md hidden-lg">${assignment.family.familyName}</a>
 						</c:otherwise>
 					</c:choose></li>
 			</c:forEach>
 		</ul>
 		<div class="tab-content">
-			<c:forEach var="family" items="${companion.assignments}"
+			<c:forEach var="assignment" items="${companion.assignments}"
 				varStatus="status">
 				<div class="tab-pane ${status.first ? 'active' : ''}"
-					id="${family.id}-tab">
+					id="${assignment.id}-tab">
 					<br />
 					<table class="table table-striped table-hover visitHistory"
-						data-family-id="${family.id}" width="100%">
+						data-family-id="${assignment.family.id}" width="100%">
 					</table>
 				</div>
 			</c:forEach>
@@ -267,7 +266,7 @@
 				$('#recordVisitLabel').text($(this).data('header'));
 				$('#familyId').val($(this).data('familyId'));
 				$('#assignmentId').val($(this).data('assignmentId'));
-				$('#saveVisit').data('familyId',$(this).data('familyId')).data('action', 'save');
+				$('#saveVisit').data('familyId',$(this).data('familyId')).data('assignmentId', $(this).data('assignmentId')).data('action', 'save');
 			});
 
 			$('#assignmentTable').on('click', '.removeFamily', function() {
@@ -303,6 +302,7 @@
 			$('#visitId').val($this.data('visitId'));
 			$('#recordVisitLabel').text($(this).data('header'));
 			$('#saveVisit').data('familyId', $this.data('familyId')).data('action', 'edit').data('editRow', $this.closest('tr')[0]);
+			$('#saveVisit').data('assignmentId', $this.data('assignmentId'));
 			$('#saveVisit').data('action', 'edit').data('editRow', $this.closest('tr')[0]);
 			$('#familyId').val($(this).data('familyId'));
 			$('#assignmentId').val($this.data('assignmentId'));
@@ -369,12 +369,11 @@
 
 		function handleVisitSuccess(data) {
 			var $saveVisit = $('#saveVisit');
-			
-			var familyId = $saveVisit.data('familyId');
+			var assignmentId = $saveVisit.data('assignmentId');
 			if($saveVisit.data('action') == 'save'){
-				$('#' + familyId + '-tab').find('.visitHistory').dataTable().fnAddData(data);
+				$('#' + assignmentId + '-tab').find('.visitHistory').dataTable().fnAddData(data);
 			} else {
-				$('#' + familyId + '-tab').find('.visitHistory').dataTable().fnUpdate(data, $saveVisit.data('editRow'));
+				$('#' + assignmentId + '-tab').find('.visitHistory').dataTable().fnUpdate(data, $saveVisit.data('editRow'));
 			}
 			
 			
@@ -451,12 +450,12 @@
 			
 			$('#assignmentTable').noteDataTable({ tableOptions : {
 				'dom' : 't',
-				'ajax' : '<spring:url value="/companion/getAssignments/"/>?companionId=' + $('#assignmentTable').data('companionId'),
+				'ajax' : '<spring:url value="/assignment/getAssignments/${companion.id}"/>',
 				'data' : [],
 				'columns' : [ {
 					'title' : 'Family',
 					'visible' : ${!visitingTeaching},
-					'data' : 'family.familyName',
+					'data' : 'family',
 					'render' : setupFamilyName
 				}, {
 					'title' : 'Sister',
@@ -491,7 +490,7 @@
 					'render' : setupPhoneNumbers
 				}, {
 					'title' : 'Actions',
-					'data' : 'family.id'
+					'data' : 'family'
 					,'render' : setupActions
 				}],
 				'language' : {
@@ -503,7 +502,7 @@
 
 		function setupModal() {
 			$('#addFamily').on('hidden.bs.modal', function() {
-				$('#familyForm')[0].reset();
+				$('#assignmentForm')[0].reset();
 				$('.form-group').removeClass('has-error');
 			});
 
@@ -516,8 +515,8 @@
 		function saveAssignment() {
 			$.ajax({
 				type : 'POST',
-				url : '<spring:url value="/companion/addAssignment"/>',
-				data : $('#familyForm').serialize(),
+				url : '<spring:url value="/assignment/add"/>',
+				data : $('#assignmentForm').serialize(),
 				success : function(data) {
 					handleSaveAssignment(data);
 				}
@@ -550,11 +549,7 @@
 		function removeAssignment($this) {
 			$.ajax({
 				type : 'POST',
-				url : '<spring:url value="/companion/removeAssignment"/>',
-				data : {
-					'companionId' : $this.data('companionId'),
-					'familyId' : $this.data('familyId')
-				},
+				url : '<spring:url value="/assignment/remove/"/>' + $this.data('assignmentId'),
 				success : function(data) {
 					handleRemoveAssignment(data, $this);
 				}
@@ -571,30 +566,30 @@
 		}
 		
 		function handleRemoveAssignmentSuccess($this){
-			$('#' + $this.data('familyId') + '-tab-link').remove();
-			$('#' + $this.data('familyId') + '-tab').remove();
+			$('#' + $this.data('assignmentId') + '-tab-link').remove();
+			$('#' + $this.data('assignmentId') + '-tab').remove();
 			var tr = $this.closest('tr')[0];
 			//remove companion row from table
 			$('#assignmentTable').dataTable().fnDeleteRow(tr);
 		}
 		
-		function setupFamilyName(data, type, full){
-			return '<a href="<spring:url value="/family/detail/"/>' + full.id + '">' + getFamilyAndHeadNames(data, full.family.people) + '</a>';
+		function setupFamilyName(family, type, full){
+			return '<a href="<spring:url value="/family/detail/"/>' + family.id + '">' + getFamilyAndHeadNames(family.familyName, family.people) + '</a>';
 		}
 		
 		function setupVisitActions(data, type, full){
 			return '<input type="button" class="btn btn-primary editVisit" value="Edit" data-family-id="' + full.familyId + '" data-visit-id="' + data + '" data-assignment-id="' + full.assignmentId + '" data-visited="' + full.visited + '" data-visit-date="' + full.monthYear + '" data-notes="' + full.notes + '"/>';
 		}
 		
-		function setupActions(data, type, full){
-			var visitee = full.family.familyName + ' family';
+		function setupActions(family, type, full){
+			var visitee = family.familyName + ' family';
 			if(${visitingTeaching}){
-				visitee = full.family.womenHeadOfHousehold + ' ' + full.family.familyName;
+				visitee = family.womenHeadOfHousehold + ' ' + family.familyName;
 			}
 			var html = ''
-				+ '<a href="#recordVisit" role="button" class="btn btn-primary button-large recordVisit" data-assignment-id="' + full.id + '" data-family-id="' + data + '" data-header="' + visitee + ' visit" data-toggle="modal">Record Visit</a>'
+				+ '<a href="#recordVisit" role="button" class="btn btn-primary button-large recordVisit" data-assignment-id="' + full.id + '" data-family-id="' + family.id + '" data-header="' + visitee + ' visit" data-toggle="modal">Record Visit</a>'
 				<sec:authorize access="hasRole('leader')">
-					+ '<input type="button" class="btn btn-primary button-large removeFamily" value="Remove" data-companion-id="${companion.id}" data-family-id="' + data + '" />';
+					+ '<input type="button" class="btn btn-primary button-large removeFamily" value="Remove" data-assignment-id="' + full.id + '" />';
 				</sec:authorize>
 			return html;
 		}

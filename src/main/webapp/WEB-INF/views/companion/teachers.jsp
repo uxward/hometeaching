@@ -445,10 +445,11 @@
 		function setupAssignments(data, type, full) {
 			var html = '';
 			for (var i = 0; i < data.length; i++) {
+				var family = data[i].family;
 				if (i != 0) {
 					html += '; ';
 				}
-				html += data[i].familyName + ', ' + (${visitingTeaching} ? data[i].womenHeadOfHousehold : data[i].headOfHousehold);
+				html += family.familyName + ', ' + (${visitingTeaching} ? family.womenHeadOfHousehold : family.headOfHousehold);
 			}
 			return html;
 		}
