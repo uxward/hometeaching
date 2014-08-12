@@ -121,7 +121,7 @@ public class CompanionServiceImpl implements CompanionService {
 		try {
 			companionServiceImplHelper.doCreateNewCompanion(companion);
 		} catch (Exception e) {
-			logger.error("An unexpected error occurred while trying to create a new companion: {}", e);
+			logger.error("An unexpected error occurred while trying to create a new companion: ", e);
 			status = ERROR;
 		}
 		return status;
@@ -132,7 +132,7 @@ public class CompanionServiceImpl implements CompanionService {
 		try {
 			companionServiceImplHelper.doEditCompanion(companion);
 		} catch (Exception e) {
-			logger.error("An unexpected error occurred while trying to edit a companion: {}", e);
+			logger.error("An unexpected error occurred while trying to edit a companion: ", e);
 			status = ERROR;
 		}
 		return status;

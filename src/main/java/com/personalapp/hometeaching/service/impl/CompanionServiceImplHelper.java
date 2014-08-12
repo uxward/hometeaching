@@ -53,8 +53,8 @@ public class CompanionServiceImplHelper {
 				Assignment newAssignment = new Assignment();
 				newAssignment.setActive(true);
 				newAssignment.setFamilyId(assignment.getFamilyId());
-				newAssignment.setCompanionId(assignment.getCompanionId());
-				assignmentService.add(newAssignment);
+				newAssignment.setCompanionId(companion.getId());
+				assignmentService.doAdd(newAssignment);
 			}
 		}
 

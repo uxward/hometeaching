@@ -13,4 +13,6 @@ public interface AssignmentService {
 	AssignmentViewModel add(Assignment assignment);
 
 	ActionViewModel remove(Long id);
+
+	void doAdd(Assignment assignment);
 }

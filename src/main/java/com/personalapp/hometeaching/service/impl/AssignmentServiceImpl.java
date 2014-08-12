@@ -40,8 +40,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 	public AssignmentViewModel add(Assignment assignment) {
 		ActionStatus status = SUCCESS;
 		try {
-			assignment.setActive(true);
-			repo.save(assignment);
+			doAdd(assignment);
 		} catch (Exception e) {
 			logger.error("An unexpected error occurred while trying to add the assignment: {}", e);
 			status = ERROR;
@@ -64,5 +63,12 @@ public class AssignmentServiceImpl implements AssignmentService {
 		ActionViewModel actionViewModel = new ActionViewModel();
 		actionViewModel.setActionStatus(status);
 		return actionViewModel;
+	}
+
+	@CacheEvict(value = "visitHistory", allEntries = true)
+	@Override
+	public void doAdd(Assignment assignment) {
+		assignment.setActive(true);
+		repo.save(assignment);
 	}
 }
