@@ -4,7 +4,7 @@
 	{{#with companion}}
 	<p>
 		{{#companions}}{{firstNoAnd @index}}{{person.firstName}}{{/companions}}, <br /> <br /> I hope you're doing well. This is a quick reminder to visit with your assigned {{#if visitingTeaching}} sisters{{else}} families{{/if}} this month if you haven't already.  After your visits, please let me know how they are doing by email, text, a phone call, or using the
-		<a style="color:#65c6c3" href="http://hometeaching.elasticbeanstalk.com/companion/you/{{visitingTeaching}}">{{#if visitingTeaching}} visiting {{else}} home {{/if}} teaching website</a>.
+		<a style="color:#65c6c3" href="http://hometeaching.elasticbeanstalk.com">{{#if visitingTeaching}} visiting {{else}} home {{/if}} teaching website</a>.
 	</p>
 
 	<fieldset style="padding: 0; margin: 0; border: 0;">
@@ -19,7 +19,7 @@
 			<tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
 				{{#unless visitingTeaching}}<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Family</th>{{/unless}}
 				{{#if visitingTeaching}}<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Sister</th>{{/if}}
-				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Status</th>
+				<!-- <th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Status</th> -->
 				{{#if visitingTeaching}}<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Husband</th>{{/if}}
 				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Children</th>
 				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Address</th>
@@ -31,7 +31,7 @@
 			<tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
 				{{#unless visitingTeaching}}<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{familyName}}, {{#headOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/headOfHousehold}}</td>{{/unless}}
 				{{#if visitingTeaching}}<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#womenHeadOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/womenHeadOfHousehold}}</td>{{/if}}
-				<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{familyStatus.status}}</td>
+				<!-- <td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{familyStatus.status}}</td> -->
 				{{#if visitingTeaching}}<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#menHeadOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/menHeadOfHousehold}}</td>{{/if}}
 				<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#children}}{{firstNoComma @index}}{{firstName}}{{/children}}</td>
 				<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}"><a style="color:#65c6c3" href="http://maps.google.com/maps?daddr={{address}}" target="_blank">{{address}}</a></td>

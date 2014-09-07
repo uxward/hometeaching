@@ -5,7 +5,7 @@
 	<p>
 		{{#companions}}{{firstNoAnd @index}}{{person.firstName}}{{/companions}}, <br /> <br /> I hope that both of you are doing well. I'm following up on {{month}} {{#if visitingTeaching}}
 		visiting {{else}} home {{/if}} teaching - can you let me know how your assigned {{#if visitingTeaching}} sisters {{else}} families {{/if}} are doing and if you were able to visit with them in {{month}} or not? Feel free to email, text, call, or use the
-		<a style="color:#65c6c3" href="http://hometeaching.elasticbeanstalk.com/companion/you/{{visitingTeaching}}">{{#if visitingTeaching}} visiting {{else}} home {{/if}} teaching website</a>.
+		<a style="color:#65c6c3" href="http://hometeaching.elasticbeanstalk.com">{{#if visitingTeaching}} visiting {{else}} home {{/if}} teaching website</a>.
 	</p>
 
 	<fieldset style="padding: 0; margin: 0; border: 0;">
@@ -20,7 +20,7 @@
 			<tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
 				{{#unless visitingTeaching}}<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Family</th>{{/unless}}
 				{{#if visitingTeaching}}<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Sister</th>{{/if}}
-				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Status</th>
+				<!-- <th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Status</th> -->
 				{{#if visitingTeaching}}<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Husband</th>{{/if}}
 				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Children</th>
 				<th style="vertical-align: bottom; padding: 8px; line-height: 1.428571429; text-align: left; border-bottom: 2px solid #ddd;">Address</th>
@@ -32,7 +32,7 @@
 			<tr style="display: table-row; vertical-align: inherit; border-color: inherit;">
 				{{#unless visitingTeaching}}<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{familyName}}, {{#headOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/headOfHousehold}}</td>{{/unless}}
 				{{#if visitingTeaching}}<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#womenHeadOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/womenHeadOfHousehold}}</td>{{/if}}
-				<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{familyStatus.status}}</td>
+				<!-- <td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{familyStatus.status}}</td> -->
 				{{#if visitingTeaching}}<td style="border: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#menHeadOfHousehold}}{{firstNoAnd @index}}{{firstName}}{{/menHeadOfHousehold}}</td>{{/if}}
 				<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}">{{#children}}{{firstNoComma @index}}{{firstName}}{{/children}}</td>
 				<td style="border-top: 1px solid #ddd; padding: 8px; vertical-align: top; {{stripeRows @index}}"><a style="color:#65c6c3" href="http://maps.google.com/maps?daddr={{address}}" target="_blank">{{address}}</a></td>
